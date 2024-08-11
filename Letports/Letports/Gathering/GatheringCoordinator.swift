@@ -16,7 +16,8 @@ class GatheringCoordinator: Coordinator {
     }
 
     func start() {
-        let gatheringVC = GatheringVC()
+//        let gatheringVC = GatheringVC()
+		let gatheringVC = GatheringDetailVC()
         gatheringVC.coordinator = self
         navigationController.setViewControllers([gatheringVC], animated: false)
     }
