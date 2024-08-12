@@ -28,6 +28,7 @@ class GatheringDetailProfileCVC: UICollectionViewCell {
 		userImage.layer.borderColor = UIColor.black.cgColor
 		userImage.widthAnchor.constraint(equalToConstant: 45).isActive = true
 		userImage.heightAnchor.constraint(equalToConstant: 45).isActive = true
+		userImage.addTarget(self, action: #selector(imageTab), for: .touchUpInside)
 		
 		userNickName.textAlignment = .center
 		userNickName.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -48,5 +49,10 @@ class GatheringDetailProfileCVC: UICollectionViewCell {
 	func configure(profile: Profile) {
 		userImage.setImage(UIImage(named: profile.userImage), for: .normal)
 		userNickName.text = profile.userNickName
+	}
+	
+	@objc private func imageTab() {
+		// 이미지 버튼 클릭 시 동작 정의
+		print("이미지 버튼이 클릭되었습니다.")
 	}
 }

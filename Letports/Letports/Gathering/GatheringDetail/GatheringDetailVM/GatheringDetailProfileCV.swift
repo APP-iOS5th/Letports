@@ -30,7 +30,6 @@ class GatheringDetailProfileCV: UICollectionView {
 		showsHorizontalScrollIndicator = false
 		backgroundColor = UIColor(white: 0.95, alpha: 1.0)
 		dataSource = self
-		delegate = self
 		register(GatheringDetailProfileCVC.self, forCellWithReuseIdentifier: "Cell")
 	}
 }
@@ -47,8 +46,4 @@ extension GatheringDetailProfileCV: UICollectionViewDataSource {
 	}
 }
 
-extension GatheringDetailProfileCV: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		// 셀 클릭 시 동작 정의
-	}
-}
+
