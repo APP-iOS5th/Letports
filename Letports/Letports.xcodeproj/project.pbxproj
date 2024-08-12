@@ -20,8 +20,8 @@
 		BF062DCE2C69ADE3006D6663 /* NoticeBoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DCD2C69ADE3006D6663 /* NoticeBoardTV.swift */; };
 		BF062DD02C69ADF9006D6663 /* FreeBoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DCF2C69ADF9006D6663 /* FreeBoardTV.swift */; };
 		BF062DD22C69AE11006D6663 /* AllBoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DD12C69AE11006D6663 /* AllBoardTV.swift */; };
-		BF062DD42C69C8CD006D6663 /* ProfileSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DD32C69C8CD006D6663 /* ProfileSV.swift */; };
-		BF062DD82C69DC6A006D6663 /* GatheringInfoSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DD72C69DC6A006D6663 /* GatheringInfoSV.swift */; };
+		BF062DDE2C69FB3F006D6663 /* GatheringDetailProfileCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */; };
+		BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */; };
 		BF56299F2C68ECD300B42875 /* GatheringDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56299E2C68ECD300B42875 /* GatheringDetailModels.swift */; };
 		BF5629A32C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */; };
 		BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454D2C65F63900816794 /* Extension+Color.swift */; };
@@ -68,8 +68,8 @@
 		BF062DCD2C69ADE3006D6663 /* NoticeBoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardTV.swift; sourceTree = "<group>"; };
 		BF062DCF2C69ADF9006D6663 /* FreeBoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeBoardTV.swift; sourceTree = "<group>"; };
 		BF062DD12C69AE11006D6663 /* AllBoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBoardTV.swift; sourceTree = "<group>"; };
-		BF062DD32C69C8CD006D6663 /* ProfileSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSV.swift; sourceTree = "<group>"; };
-		BF062DD72C69DC6A006D6663 /* GatheringInfoSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringInfoSV.swift; sourceTree = "<group>"; };
+		BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCV.swift; sourceTree = "<group>"; };
+		BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVC.swift; sourceTree = "<group>"; };
 		BF56299E2C68ECD300B42875 /* GatheringDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailModels.swift; sourceTree = "<group>"; };
 		BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GatheringDetailVC.swift 22-06-19-648.swift"; path = "../../../../../../../.Trash/GatheringDetailVC.swift 22-06-19-648.swift"; sourceTree = "<group>"; };
 		BFFA454D2C65F63900816794 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
@@ -163,6 +163,7 @@
 		BF5629A02C68ED3C00B42875 /* GatheringDetailVM */ = {
 			isa = PBXGroup;
 			children = (
+				BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */,
 			);
 			path = GatheringDetailVM;
 			sourceTree = "<group>";
@@ -198,8 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */,
-				BF062DD72C69DC6A006D6663 /* GatheringInfoSV.swift */,
-				BF062DD32C69C8CD006D6663 /* ProfileSV.swift */,
+				BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */,
 			);
 			path = GatheringDetailView;
 			sourceTree = "<group>";
@@ -396,13 +396,13 @@
 			files = (
 				BF5629A32C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift in Sources */,
 				BF062DCE2C69ADE3006D6663 /* NoticeBoardTV.swift in Sources */,
-				BF062DD82C69DC6A006D6663 /* GatheringInfoSV.swift in Sources */,
 				BF56299F2C68ECD300B42875 /* GatheringDetailModels.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				BF062DD02C69ADF9006D6663 /* FreeBoardTV.swift in Sources */,
 				D8201FB62C606934004DF06C /* BoardViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				BF062DD22C69AE11006D6663 /* AllBoardTV.swift in Sources */,
+				BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVC.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
@@ -411,7 +411,7 @@
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				BFFA45532C65F63900816794 /* CustomNavigationView.swift in Sources */,
-				BF062DD42C69C8CD006D6663 /* ProfileSV.swift in Sources */,
+				BF062DDE2C69FB3F006D6663 /* GatheringDetailProfileCV.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
