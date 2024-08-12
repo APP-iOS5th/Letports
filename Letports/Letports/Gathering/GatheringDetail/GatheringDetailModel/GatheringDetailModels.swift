@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 프로필
 struct Profile {
 	let userImage: String
 	let userNickName: String
@@ -27,3 +28,4 @@ let profiles = [
 	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
 	Profile(userImage: "profile3", userNickName: "성덕럭현석")
 ]
+

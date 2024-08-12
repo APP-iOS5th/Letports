@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BoardViewController: UIViewController {
     
     private lazy var navigationView: CustomNavigationView = {
         
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: CustomNavigationDelegate {
+extension BoardViewController: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
         
     }
