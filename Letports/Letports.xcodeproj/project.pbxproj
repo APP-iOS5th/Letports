@@ -22,8 +22,9 @@
 		BF062DD22C69AE11006D6663 /* AllBoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DD12C69AE11006D6663 /* AllBoardTV.swift */; };
 		BF062DDE2C69FB3F006D6663 /* GatheringDetailProfileCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */; };
 		BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */; };
+		BF14DB1E2C6A50A800AD3B71 /* GatheringBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF14DB1D2C6A50A800AD3B71 /* GatheringBoardVC.swift */; };
+		BF14DB202C6A57EC00AD3B71 /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */; };
 		BF56299F2C68ECD300B42875 /* GatheringDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56299E2C68ECD300B42875 /* GatheringDetailModels.swift */; };
-		BF5629A32C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */; };
 		BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454D2C65F63900816794 /* Extension+Color.swift */; };
 		BFFA45532C65F63900816794 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454E2C65F63900816794 /* CustomNavigationView.swift */; };
 		BFFA45542C65F63900816794 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA45502C65F63900816794 /* Extension+UIImage.swift */; };
@@ -70,8 +71,9 @@
 		BF062DD12C69AE11006D6663 /* AllBoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBoardTV.swift; sourceTree = "<group>"; };
 		BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCV.swift; sourceTree = "<group>"; };
 		BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVC.swift; sourceTree = "<group>"; };
+		BF14DB1D2C6A50A800AD3B71 /* GatheringBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardVC.swift; sourceTree = "<group>"; };
+		BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF56299E2C68ECD300B42875 /* GatheringDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailModels.swift; sourceTree = "<group>"; };
-		BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GatheringDetailVC.swift 22-06-19-648.swift"; path = "../../../../../../../.Trash/GatheringDetailVC.swift 22-06-19-648.swift"; sourceTree = "<group>"; };
 		BFFA454D2C65F63900816794 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		BFFA454E2C65F63900816794 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		BFFA45502C65F63900816794 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
@@ -198,8 +200,9 @@
 		BFFA45562C65F6FA00816794 /* GatheringDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				BF5629A22C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift */,
 				BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVC.swift */,
+				BF14DB1D2C6A50A800AD3B71 /* GatheringBoardVC.swift */,
+				BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */,
 			);
 			path = GatheringDetailView;
 			sourceTree = "<group>";
@@ -394,7 +397,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF5629A32C68EF0400B42875 /* GatheringDetailVC.swift 22-06-19-648.swift in Sources */,
 				BF062DCE2C69ADE3006D6663 /* NoticeBoardTV.swift in Sources */,
 				BF56299F2C68ECD300B42875 /* GatheringDetailModels.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
@@ -402,9 +404,11 @@
 				D8201FB62C606934004DF06C /* BoardViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				BF062DD22C69AE11006D6663 /* AllBoardTV.swift in Sources */,
+				BF14DB202C6A57EC00AD3B71 /* GatheringDetailVC.swift in Sources */,
 				BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVC.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
+				BF14DB1E2C6A50A800AD3B71 /* GatheringBoardVC.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
 				BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
