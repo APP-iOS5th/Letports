@@ -8,22 +8,22 @@
 import Foundation
 
 struct Profile {
-	let imageName: String
-	let name: String
+	let userImage: String
+	let userNickName: String
 }
 
 let profiles = [
-	Profile(imageName: "profile1", name: "수호신대장"),
-	Profile(imageName: "profile2", name: "서울이"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석"),
-	Profile(imageName: "profile3", name: "성덕럭현석")
+	Profile(userImage: "profile1", userNickName: "수호신대장"),
+	Profile(userImage: "profile2", userNickName: "서울이"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석"),
+	Profile(userImage: "profile3", userNickName: "성덕럭현석")
 ]
