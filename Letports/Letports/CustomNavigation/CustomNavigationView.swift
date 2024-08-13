@@ -366,6 +366,10 @@ class CustomNavigationView: UIView {
         self.delegate?.backButtonDidTap()
     }
     
+    func rightButtonIsEnable(_ isEnable: Bool) {
+        rightFirstButton.isEnabled = isEnable
+        rightFirstButton.setTitleColor(rightFirstButton.isEnabled ? .lpBlack : .lpGray, for: .normal)
+    }
 }
 
 
