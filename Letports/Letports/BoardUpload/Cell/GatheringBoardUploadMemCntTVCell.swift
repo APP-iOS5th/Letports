@@ -19,7 +19,7 @@ class GatheringBoardUploadMemCntTVCell: UITableViewCell {
     
     private let memStepperView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor("#D9D9D9", alpha: 1.0)
+        view.backgroundColor = .lp_lightGray
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

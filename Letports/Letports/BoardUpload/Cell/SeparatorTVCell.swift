@@ -11,7 +11,7 @@ class SeparatorTVCell: UITableViewCell {
 
     private(set) lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lp_gray
+        view.backgroundColor = .lp_separator
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

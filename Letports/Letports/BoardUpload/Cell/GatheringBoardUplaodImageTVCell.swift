@@ -20,7 +20,7 @@ class GatheringBoardUplaodImageTVCell: UITableViewCell {
     private(set) var uploadImageView: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 20
-        iv.backgroundColor = .lp_gray
+        iv.backgroundColor = .lp_lightGray
         iv.isUserInteractionEnabled = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -29,6 +29,8 @@ class GatheringBoardUplaodImageTVCell: UITableViewCell {
     private(set) lazy var imageUploadButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(didTapUploadImage), for: .touchUpInside)
+        button.tintColor = .lp_black
+        button.setTitleColor(UIColor.lp_black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
