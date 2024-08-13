@@ -1,5 +1,5 @@
 //
-//  GatheringDetailModels.swift
+//  GatheringDetailModel.swift
 //  Letports
 //
 //  Created by Yachae on 8/11/24.

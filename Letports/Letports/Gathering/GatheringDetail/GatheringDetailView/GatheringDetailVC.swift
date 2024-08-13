@@ -20,6 +20,8 @@ class GatheringDetailVC: UIViewController {
 		isLargeNavi: .small,
 		screenType: .smallGathering(gatheringName: "수호단", btnName: .gear))
 	
+	let boardTV = UITableView()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.view.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
@@ -27,6 +29,7 @@ class GatheringDetailVC: UIViewController {
 		setupScrollView()
 		setupContents()
 		gatheringDescript.layoutIfNeeded()
+		boardTV.layoutIfNeeded()
 		adjustBackgroundViewHeight()
 	}
 	
@@ -141,6 +144,7 @@ class GatheringDetailVC: UIViewController {
 			button.backgroundColor = .systemBlue
 			button.setTitleColor(.white, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
+			button.addTarget(self, action: #selector(allBoardButtonTap), for: .touchUpInside)
 			return button
 		}()
 		
@@ -150,6 +154,7 @@ class GatheringDetailVC: UIViewController {
 			button.backgroundColor = .systemGreen
 			button.setTitleColor(.white, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
+			button.addTarget(self, action: #selector(noticeButtonTap), for: .touchUpInside)
 			return button
 		}()
 		
@@ -159,6 +164,7 @@ class GatheringDetailVC: UIViewController {
 			button.backgroundColor = .systemRed
 			button.setTitleColor(.white, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
+			button.addTarget(self, action: #selector(freeBoardButtonTap), for: .touchUpInside)
 			return button
 		}()
 		
@@ -179,6 +185,12 @@ class GatheringDetailVC: UIViewController {
 			return line
 		}()
 		
+		let boardTV: UITableView = {
+			let tableView = UITableView()
+			tableView.translatesAutoresizingMaskIntoConstraints = false
+			return tableView
+		}()
+		
 		contentView.addSubview(gatheringImage)
 		contentView.addSubview(titleSV)
 		contentView.addSubview(titleLine)
@@ -189,6 +201,7 @@ class GatheringDetailVC: UIViewController {
 		contentView.addSubview(profileLine)
 		contentView.addSubview(boardButtonSV)
 		contentView.addSubview(boardLine)
+		contentView.addSubview(boardTV)
 		
 		// MARK: - 컨텐츠 오토레이아웃
 		NSLayoutConstraint.activate([
@@ -236,7 +249,12 @@ class GatheringDetailVC: UIViewController {
 			boardLine.topAnchor.constraint(equalTo: boardButtonSV.bottomAnchor, constant: 10),
 			boardLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			boardLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-			boardLine.heightAnchor.constraint(equalToConstant: 1)
+			boardLine.heightAnchor.constraint(equalToConstant: 1),
+			
+			boardTV.topAnchor.constraint(equalTo: boardLine.bottomAnchor, constant: 4),
+			boardTV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			boardTV.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+			boardTV.heightAnchor.constraint(equalToConstant: 1000)
 		])
 		
 		backgroundViewHeightConstraint = gatheringDescript.heightAnchor.constraint(equalToConstant: textHeight)
@@ -271,17 +289,16 @@ class GatheringDetailVC: UIViewController {
 		textHeight = gatheringDescript.sizeThatFits(
 			CGSize(width: gatheringDescript.bounds.width,
 				   height: CGFloat.greatestFiniteMagnitude)).height
-		print(textHeight)
 		backgroundViewHeightConstraint.constant = textHeight
 	}
 	
+	// MARK: - 버튼 동작
 	// 모임소개 접기 버튼
 	@objc func toggleGatheringInfo() {
 		isExpanded.toggle()
 		textHeight = gatheringDescript.sizeThatFits(
 			CGSize(width: gatheringDescript.bounds.width,
 				   height: CGFloat.greatestFiniteMagnitude)).height
-		print("여기서 \(textHeight)")
 		backgroundViewHeightConstraint.constant = isExpanded ? textHeight : 100
 		
 		toggleButton.setTitle(isExpanded ? "▲" : "▼", for: .normal)
@@ -289,6 +306,18 @@ class GatheringDetailVC: UIViewController {
 		UIView.animate(withDuration: 0.3) {
 			self.view.layoutIfNeeded()
 		}
+	}
+	
+	@objc func allBoardButtonTap() {
+		
+	}
+	
+	@objc func noticeButtonTap() {
+		
+	}
+	
+	@objc func freeBoardButtonTap() {
+		
 	}
 }
 
