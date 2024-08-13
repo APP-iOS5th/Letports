@@ -9,6 +9,20 @@
 /* Begin PBXBuildFile section */
 		411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E512C6337AE00B07D84 /* UserManager.swift */; };
 		411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E532C635A8B00B07D84 /* Extension+Color.swift */; };
+		413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */; };
+		413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */; };
+		413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */; };
+		413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */; };
+		413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */; };
+		413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */; };
+		413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */; };
+		413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */; };
+		413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */; };
+		413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
+		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
+		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
+		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
+		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
 		B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713C2C647FAF0067BD09 /* GatheringVC.swift */; };
 		B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713E2C647FBB0067BD09 /* ProfileVC.swift */; };
@@ -17,19 +31,9 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471462C6499650067BD09 /* ProfileCoordinator.swift */; };
 		B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471482C64F81E0067BD09 /* Coordinator.swift */; };
-		BF062DDE2C69FB3F006D6663 /* GatheringDetailProfileCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */; };
-		BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVCell.swift */; };
-		BF14DB202C6A57EC00AD3B71 /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */; };
-		BF56299F2C68ECD300B42875 /* GatheringDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56299E2C68ECD300B42875 /* GatheringDetailModel.swift */; };
-		BFE5B5622C6ADD3D00C0103F /* GatheringBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5612C6ADD3D00C0103F /* GatheringBoardModel.swift */; };
-		BFE5B5642C6AE8C400C0103F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5632C6AE8C400C0103F /* BoardTVCell.swift */; };
-		BFE5B5702C6B372A00C0103F /* GatheringDetailBoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B56F2C6B372A00C0103F /* GatheringDetailBoardTV.swift */; };
-		BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454D2C65F63900816794 /* Extension+Color.swift */; };
-		BFFA45532C65F63900816794 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454E2C65F63900816794 /* CustomNavigationView.swift */; };
-		BFFA45542C65F63900816794 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA45502C65F63900816794 /* Extension+UIImage.swift */; };
 		D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
 		D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
-		D8201FB62C606934004DF06C /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB52C606934004DF06C /* BoardViewController.swift */; };
+		D8201FB62C606934004DF06C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB52C606934004DF06C /* ViewController.swift */; };
 		D8201FB82C606935004DF06C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8201FB72C606935004DF06C /* Assets.xcassets */; };
 		D8201FBB2C606935004DF06C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D8201FBA2C606935004DF06C /* Base */; };
 		D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FC52C606935004DF06C /* LetportsTests.swift */; };
@@ -57,6 +61,20 @@
 /* Begin PBXFileReference section */
 		411D4E512C6337AE00B07D84 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		411D4E532C635A8B00B07D84 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
+		413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVC.swift; sourceTree = "<group>"; };
+		413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVM.swift; sourceTree = "<group>"; };
+		413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadCoordinator.swift; sourceTree = "<group>"; };
+		413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
+		413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMainTVCell.swift; sourceTree = "<group>"; };
+		413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTVCell.swift; sourceTree = "<group>"; };
+		413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodImageTVCell.swift; sourceTree = "<group>"; };
+		413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodTitleTVCell.swift; sourceTree = "<group>"; };
+		413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadQuestionTVCell.swift; sourceTree = "<group>"; };
+		413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadInfoTVCell.swift; sourceTree = "<group>"; };
+		413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMemCntTVCell.swift; sourceTree = "<group>"; };
+		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
+		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		B824713C2C647FAF0067BD09 /* GatheringVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVC.swift; sourceTree = "<group>"; };
 		B824713E2C647FBB0067BD09 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -65,20 +83,10 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B82471462C6499650067BD09 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		B82471482C64F81E0067BD09 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCV.swift; sourceTree = "<group>"; };
-		BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
-		BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
-		BF56299E2C68ECD300B42875 /* GatheringDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailModel.swift; sourceTree = "<group>"; };
-		BFE5B5612C6ADD3D00C0103F /* GatheringBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardModel.swift; sourceTree = "<group>"; };
-		BFE5B5632C6AE8C400C0103F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
-		BFE5B56F2C6B372A00C0103F /* GatheringDetailBoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTV.swift; sourceTree = "<group>"; };
-		BFFA454D2C65F63900816794 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
-		BFFA454E2C65F63900816794 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
-		BFFA45502C65F63900816794 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D8201FB52C606934004DF06C /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		D8201FB52C606934004DF06C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8201FBA2C606935004DF06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -114,6 +122,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		413BE63F2C65EA050070D6F9 /* GatherUpload */ = {
+			isa = PBXGroup;
+			children = (
+				413BE6532C65F8640070D6F9 /* Cell */,
+				413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */,
+				413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */,
+				413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */,
+			);
+			path = GatherUpload;
+			sourceTree = "<group>";
+		};
+		413BE64A2C65F0FC0070D6F9 /* CustomNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */,
+			);
+			path = CustomNavigation;
+			sourceTree = "<group>";
+		};
+		413BE64D2C65F1990070D6F9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
+				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		413BE6532C65F8640070D6F9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */,
+				413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */,
+				413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */,
+				413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */,
+				413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */,
+				413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */,
+				413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B82471372C647F560067BD09 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,7 +176,6 @@
 		B82471382C647F600067BD09 /* Gathering */ = {
 			isa = PBXGroup;
 			children = (
-				BFFA45552C65F6DA00816794 /* GatheringDetail */,
 				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
 				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
 			);
@@ -140,60 +189,6 @@
 				B82471462C6499650067BD09 /* ProfileCoordinator.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		BF56299D2C68ECAB00B42875 /* GatheringDetailModel */ = {
-			isa = PBXGroup;
-			children = (
-				BFE5B5612C6ADD3D00C0103F /* GatheringBoardModel.swift */,
-				BF56299E2C68ECD300B42875 /* GatheringDetailModel.swift */,
-			);
-			path = GatheringDetailModel;
-			sourceTree = "<group>";
-		};
-		BF5629A02C68ED3C00B42875 /* GatheringDetailVM */ = {
-			isa = PBXGroup;
-			children = (
-				BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */,
-				BFE5B56F2C6B372A00C0103F /* GatheringDetailBoardTV.swift */,
-			);
-			path = GatheringDetailVM;
-			sourceTree = "<group>";
-		};
-		BFFA454F2C65F63900816794 /* CustomNavigation */ = {
-			isa = PBXGroup;
-			children = (
-				BFFA454E2C65F63900816794 /* CustomNavigationView.swift */,
-			);
-			path = CustomNavigation;
-			sourceTree = "<group>";
-		};
-		BFFA45512C65F63900816794 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				BFFA45502C65F63900816794 /* Extension+UIImage.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		BFFA45552C65F6DA00816794 /* GatheringDetail */ = {
-			isa = PBXGroup;
-			children = (
-				BF56299D2C68ECAB00B42875 /* GatheringDetailModel */,
-				BF5629A02C68ED3C00B42875 /* GatheringDetailVM */,
-				BFFA45562C65F6FA00816794 /* GatheringDetailView */,
-			);
-			path = GatheringDetail;
-			sourceTree = "<group>";
-		};
-		BFFA45562C65F6FA00816794 /* GatheringDetailView */ = {
-			isa = PBXGroup;
-			children = (
-				BF14DB1F2C6A57EC00AD3B71 /* GatheringDetailVC.swift */,
-				BF062DDF2C69FD42006D6663 /* GatheringDetailProfileCVCell.swift */,
-				BFE5B5632C6AE8C400C0103F /* BoardTVCell.swift */,
-			);
-			path = GatheringDetailView;
 			sourceTree = "<group>";
 		};
 		D8201FA52C606934004DF06C = {
@@ -219,17 +214,17 @@
 		D8201FB02C606934004DF06C /* Letports */ = {
 			isa = PBXGroup;
 			children = (
+				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
-				D8201FB52C606934004DF06C /* BoardViewController.swift */,
+				D8201FB52C606934004DF06C /* ViewController.swift */,
 				B82471482C64F81E0067BD09 /* Coordinator.swift */,
 				B82471402C6497EF0067BD09 /* TabBarCoordinator.swift */,
-				BFFA454F2C65F63900816794 /* CustomNavigation */,
-				BFFA45512C65F63900816794 /* Extension */,
-				BFFA454D2C65F63900816794 /* Extension+Color.swift */,
+				413BE64A2C65F0FC0070D6F9 /* CustomNavigation */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
 				B82471392C647F720067BD09 /* Profile */,
+				413BE64D2C65F1990070D6F9 /* Extension */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
@@ -243,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				D8201FC52C606935004DF06C /* LetportsTests.swift */,
+				41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */,
 			);
 			path = LetportsTests;
 			sourceTree = "<group>";
@@ -386,28 +382,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF56299F2C68ECD300B42875 /* GatheringDetailModel.swift in Sources */,
+				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
+				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
+				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
-				D8201FB62C606934004DF06C /* BoardViewController.swift in Sources */,
+				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
+				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
+				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
-				BF14DB202C6A57EC00AD3B71 /* GatheringDetailVC.swift in Sources */,
-				BFE5B5642C6AE8C400C0103F /* BoardTVCell.swift in Sources */,
-				BF062DE02C69FD42006D6663 /* GatheringDetailProfileCVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
+				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
-				BFE5B5702C6B372A00C0103F /* GatheringDetailBoardTV.swift in Sources */,
+				413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */,
+				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
+				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
-				BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
+				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
-				BFFA45532C65F63900816794 /* CustomNavigationView.swift in Sources */,
-				BF062DDE2C69FB3F006D6663 /* GatheringDetailProfileCV.swift in Sources */,
+				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
+				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
+				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
-				BFE5B5622C6ADD3D00C0103F /* GatheringBoardModel.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
-				BFFA45542C65F63900816794 /* Extension+UIImage.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */,
+				41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
