@@ -9,18 +9,18 @@
 /* Begin PBXBuildFile section */
 		411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E512C6337AE00B07D84 /* UserManager.swift */; };
 		411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E532C635A8B00B07D84 /* Extension+Color.swift */; };
-		413BE6432C65EA4E0070D6F9 /* GatheringBoardUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringBoardUploadVC.swift */; };
-		413BE6452C65EA540070D6F9 /* GatheringBoardUploadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6442C65EA540070D6F9 /* GatheringBoardUploadVM.swift */; };
-		413BE6472C65EA670070D6F9 /* GatheringBoardUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6462C65EA670070D6F9 /* GatheringBoardUploadCoordinator.swift */; };
+		413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */; };
+		413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */; };
+		413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */; };
 		413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */; };
 		413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */; };
-		413BE6552C65FAC60070D6F9 /* GatheringBoardUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringBoardUploadMainTVCell.swift */; };
+		413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */; };
 		413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */; };
-		413BE6592C6607FB0070D6F9 /* GatheringBoardUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringBoardUplaodImageTVCell.swift */; };
-		413BE65B2C660E320070D6F9 /* GatheringBoardUplaodTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65A2C660E320070D6F9 /* GatheringBoardUplaodTitleTVCell.swift */; };
-		413BE65D2C662FF20070D6F9 /* GatheringBoardUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringBoardUploadQuestionTVCell.swift */; };
-		413BE65F2C6632880070D6F9 /* GatheringBoardUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringBoardUploadInfoTVCell.swift */; };
-		413BE6612C6633070070D6F9 /* GatheringBoardUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringBoardUploadMemCntTVCell.swift */; };
+		413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */; };
+		413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */; };
+		413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
+		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
+		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
 		B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713C2C647FAF0067BD09 /* GatheringVC.swift */; };
@@ -60,18 +60,18 @@
 /* Begin PBXFileReference section */
 		411D4E512C6337AE00B07D84 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		411D4E532C635A8B00B07D84 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
-		413BE6422C65EA4E0070D6F9 /* GatheringBoardUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadVC.swift; sourceTree = "<group>"; };
-		413BE6442C65EA540070D6F9 /* GatheringBoardUploadVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadVM.swift; sourceTree = "<group>"; };
-		413BE6462C65EA670070D6F9 /* GatheringBoardUploadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadCoordinator.swift; sourceTree = "<group>"; };
+		413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVC.swift; sourceTree = "<group>"; };
+		413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVM.swift; sourceTree = "<group>"; };
+		413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadCoordinator.swift; sourceTree = "<group>"; };
 		413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
-		413BE6542C65FAC60070D6F9 /* GatheringBoardUploadMainTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadMainTVCell.swift; sourceTree = "<group>"; };
+		413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMainTVCell.swift; sourceTree = "<group>"; };
 		413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTVCell.swift; sourceTree = "<group>"; };
-		413BE6582C6607FB0070D6F9 /* GatheringBoardUplaodImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUplaodImageTVCell.swift; sourceTree = "<group>"; };
-		413BE65A2C660E320070D6F9 /* GatheringBoardUplaodTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUplaodTitleTVCell.swift; sourceTree = "<group>"; };
-		413BE65C2C662FF20070D6F9 /* GatheringBoardUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadQuestionTVCell.swift; sourceTree = "<group>"; };
-		413BE65E2C6632880070D6F9 /* GatheringBoardUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadInfoTVCell.swift; sourceTree = "<group>"; };
-		413BE6602C6633070070D6F9 /* GatheringBoardUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardUploadMemCntTVCell.swift; sourceTree = "<group>"; };
+		413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodImageTVCell.swift; sourceTree = "<group>"; };
+		413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodTitleTVCell.swift; sourceTree = "<group>"; };
+		413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadQuestionTVCell.swift; sourceTree = "<group>"; };
+		413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadInfoTVCell.swift; sourceTree = "<group>"; };
+		413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMemCntTVCell.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		B824713C2C647FAF0067BD09 /* GatheringVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVC.swift; sourceTree = "<group>"; };
@@ -120,15 +120,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		413BE63F2C65EA050070D6F9 /* BoardUpload */ = {
+		413BE63F2C65EA050070D6F9 /* GatherUpload */ = {
 			isa = PBXGroup;
 			children = (
 				413BE6532C65F8640070D6F9 /* Cell */,
-				413BE6422C65EA4E0070D6F9 /* GatheringBoardUploadVC.swift */,
-				413BE6442C65EA540070D6F9 /* GatheringBoardUploadVM.swift */,
-				413BE6462C65EA670070D6F9 /* GatheringBoardUploadCoordinator.swift */,
+				413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */,
+				413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */,
+				413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */,
 			);
-			path = BoardUpload;
+			path = GatherUpload;
 			sourceTree = "<group>";
 		};
 		413BE64A2C65F0FC0070D6F9 /* CustomNavigation */ = {
@@ -151,13 +151,13 @@
 		413BE6532C65F8640070D6F9 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				413BE6542C65FAC60070D6F9 /* GatheringBoardUploadMainTVCell.swift */,
+				413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */,
 				413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */,
-				413BE6582C6607FB0070D6F9 /* GatheringBoardUplaodImageTVCell.swift */,
-				413BE65A2C660E320070D6F9 /* GatheringBoardUplaodTitleTVCell.swift */,
-				413BE65C2C662FF20070D6F9 /* GatheringBoardUploadQuestionTVCell.swift */,
-				413BE65E2C6632880070D6F9 /* GatheringBoardUploadInfoTVCell.swift */,
-				413BE6602C6633070070D6F9 /* GatheringBoardUploadMemCntTVCell.swift */,
+				413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */,
+				413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */,
+				413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */,
+				413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */,
+				413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -212,7 +212,7 @@
 		D8201FB02C606934004DF06C /* Letports */ = {
 			isa = PBXGroup;
 			children = (
-				413BE63F2C65EA050070D6F9 /* BoardUpload */,
+				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
 				D8201FB52C606934004DF06C /* ViewController.swift */,
@@ -379,27 +379,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				413BE6452C65EA540070D6F9 /* GatheringBoardUploadVM.swift in Sources */,
-				413BE6432C65EA4E0070D6F9 /* GatheringBoardUploadVC.swift in Sources */,
-				413BE6612C6633070070D6F9 /* GatheringBoardUploadMemCntTVCell.swift in Sources */,
+				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
+				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
+				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
-				413BE65B2C660E320070D6F9 /* GatheringBoardUplaodTitleTVCell.swift in Sources */,
+				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
-				413BE6592C6607FB0070D6F9 /* GatheringBoardUplaodImageTVCell.swift in Sources */,
-				413BE65F2C6632880070D6F9 /* GatheringBoardUploadInfoTVCell.swift in Sources */,
+				413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */,
+				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
-				413BE6552C65FAC60070D6F9 /* GatheringBoardUploadMainTVCell.swift in Sources */,
+				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
-				413BE6472C65EA670070D6F9 /* GatheringBoardUploadCoordinator.swift in Sources */,
-				413BE65D2C662FF20070D6F9 /* GatheringBoardUploadQuestionTVCell.swift in Sources */,
+				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
+				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,

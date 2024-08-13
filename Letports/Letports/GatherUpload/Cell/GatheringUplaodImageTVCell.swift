@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringBoardUplaodImageTVCell: UITableViewCell {
+class GatheringUplaodImageTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -35,7 +35,7 @@ class GatheringBoardUplaodImageTVCell: UITableViewCell {
         return button
     }()
     
-    weak var delegate: GatheringBoardUploadDelegate?
+    weak var delegate: GatheringUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringBoardUploadMemCntTVCell: UITableViewCell {
+class GatheringUploadMemCntTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -66,7 +66,7 @@ class GatheringBoardUploadMemCntTVCell: UITableViewCell {
         }
     }
     private let memMaxCount: Int = 10
-    weak var delegate: GatheringBoardUploadDelegate?
+    weak var delegate: GatheringUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -136,6 +136,6 @@ class GatheringBoardUploadMemCntTVCell: UITableViewCell {
 }
 
 #Preview {
-    GatheringBoardUploadVC(viewModel: GatheringBoarduploadVM())
+    GatheringBoardUploadVC(viewModel: GatheringUploadVM())
 }
 

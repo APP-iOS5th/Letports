@@ -1,5 +1,5 @@
 //
-//  GatheringBoardUploadInfoTVCell.swift
+//  GatheringBoardUploadQuestionTVCell.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/9/24.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class GatheringBoardUploadInfoTVCell: UITableViewCell {
+class GatheringUploadQuestionTVCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.text = "모임 소개"
+        label.text = "사전질문"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -21,8 +21,8 @@ class GatheringBoardUploadInfoTVCell: UITableViewCell {
         tv.backgroundColor = .lp_white
         tv.layer.cornerRadius = 10
         tv.isScrollEnabled = true
-        tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
         tv.delegate = self
+        tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -36,7 +36,7 @@ class GatheringBoardUploadInfoTVCell: UITableViewCell {
         return label
     }()
     
-    weak var delegate: GatheringBoardUploadDelegate?
+    weak var delegate: GatheringUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -71,15 +71,14 @@ class GatheringBoardUploadInfoTVCell: UITableViewCell {
         ])
         
     }
-    
-    
-    
+   
 }
 
-extension GatheringBoardUploadInfoTVCell: UITextViewDelegate {
+
+extension GatheringUploadQuestionTVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         textCountLabel.text = "\(textView.text.count)/1000"
-        self.delegate?.sendGatehrInfo(content: contentTextView.text)
+        delegate?.sendGatherQuestion(content: contentTextView.text)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -135,3 +134,4 @@ extension GatheringBoardUploadInfoTVCell: UITextViewDelegate {
         return (0x314F...0x3163 ~= unicodeScalarValue) || unicodeScalarValue == 0x318D
     }
 }
+

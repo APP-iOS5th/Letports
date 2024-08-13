@@ -1,5 +1,5 @@
 //
-//  GatheringBoardUploadVC.swift
+//  GatheringUploadVC.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/9/24.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-protocol GatheringBoardUploadDelegate: AnyObject {
+protocol GatheringUploadDelegate: AnyObject {
     func didTapUploadImage()
     func checkMemberCount(count: Int)
     func sendGatherName(content: String)
@@ -17,7 +17,7 @@ protocol GatheringBoardUploadDelegate: AnyObject {
 }
 
 
-class GatheringBoardUploadVC: UIViewController {
+class GatheringUploadVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
         let cnv = CustomNavigationView(isLargeNavi: .small,
@@ -33,13 +33,13 @@ class GatheringBoardUploadVC: UIViewController {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.rsgistersCell(cellClasses: GatheringBoardUploadMainTVCell.self,
+        tv.rsgistersCell(cellClasses: GatheringUploadMainTVCell.self,
                          SeparatorTVCell.self,
-                         GatheringBoardUplaodImageTVCell.self,
-                         GatheringBoardUplaodTitleTVCell.self,
-                         GatheringBoardUploadMemCntTVCell.self,
-                         GatheringBoardUploadInfoTVCell.self,
-                         GatheringBoardUploadQuestionTVCell.self)
+                         GatheringUplaodImageTVCell.self,
+                         GatheringUplaodTitleTVCell.self,
+                         GatheringUploadMemCntTVCell.self,
+                         GatheringUploadInfoTVCell.self,
+                         GatheringUploadQuestionTVCell.self)
         tv.separatorStyle = .none
         tv.backgroundColor = .lp_background_white
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -48,11 +48,11 @@ class GatheringBoardUploadVC: UIViewController {
     
     let imagePickerController = UIImagePickerController()
     
-    private var viewModel: GatheringBoarduploadVM
+    private var viewModel: GatheringUploadVM
     private var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: GatheringBoarduploadVM) {
-        self.viewModel = GatheringBoarduploadVM()
+    init(viewModel: GatheringUploadVM) {
+        self.viewModel = GatheringUploadVM()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -156,7 +156,7 @@ class GatheringBoardUploadVC: UIViewController {
     
 }
 
-extension GatheringBoardUploadVC: CustomNavigationDelegate {
+extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
         print("samll")
     }
@@ -170,7 +170,7 @@ extension GatheringBoardUploadVC: CustomNavigationDelegate {
     }
 }
 
-extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
+extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.getCellCount()
     }
@@ -178,7 +178,7 @@ extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .main:
-            if let cell: GatheringBoardUploadMainTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUploadMainTVCell  = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
         case .separator:
@@ -187,28 +187,28 @@ extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .uploadImage:
-            if let cell: GatheringBoardUplaodImageTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUplaodImageTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 cell.configureCell(image: viewModel.selectedImage)
                 return cell
             }
         case .gatherName:
-            if let cell: GatheringBoardUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 return cell
             }
         case .gatherMemberCount:
-            if let cell: GatheringBoardUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 return cell
             }
         case .gatherInfo:
-            if let cell: GatheringBoardUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self 
                 return cell
             }
         case .gatherQuestion:
-            if let cell: GatheringBoardUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 return cell
             }
@@ -217,7 +217,7 @@ extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension GatheringBoardUploadVC: GatheringBoardUploadDelegate {
+extension GatheringUploadVC: GatheringUploadDelegate {
     func didTapUploadImage() {
         self.imagePickerController.sourceType = .photoLibrary
         self.present(imagePickerController, animated: true)
@@ -240,7 +240,7 @@ extension GatheringBoardUploadVC: GatheringBoardUploadDelegate {
     }
 }
 
-extension GatheringBoardUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension GatheringUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         

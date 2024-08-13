@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringBoardUplaodTitleTVCell: UITableViewCell {
+class GatheringUplaodTitleTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +42,7 @@ class GatheringBoardUplaodTitleTVCell: UITableViewCell {
         return label
     }()
     
-    weak var delegate: GatheringBoardUploadDelegate?
+    weak var delegate: GatheringUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -89,7 +89,7 @@ class GatheringBoardUplaodTitleTVCell: UITableViewCell {
     }
 }
 
-extension GatheringBoardUplaodTitleTVCell: UITextFieldDelegate {
+extension GatheringUplaodTitleTVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {

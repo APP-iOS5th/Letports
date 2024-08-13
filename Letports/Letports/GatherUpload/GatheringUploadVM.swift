@@ -1,5 +1,5 @@
 //
-//  GatheringBoardUploadVM.swift
+//  GatheringUploadVM.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/9/24.
@@ -20,7 +20,7 @@ enum BoardUploadCellType {
 }
 
 
-class GatheringBoarduploadVM {
+class GatheringUploadVM {
     
     @Published var selectedImage: UIImage?
     @Published var addButtonEnable: Bool = true

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringBoardUploadMainTVCell: UITableViewCell {
+class GatheringUploadMainTVCell: UITableViewCell {
     private(set) var teamLogo: UIImageView = {
         let iv = UIImageView(frame: .init())
         iv.layer.cornerRadius = 45
