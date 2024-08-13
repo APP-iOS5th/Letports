@@ -21,6 +21,7 @@
 		413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
 		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
 		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
+		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
 		B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713C2C647FAF0067BD09 /* GatheringVC.swift */; };
@@ -72,6 +73,7 @@
 		413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadQuestionTVCell.swift; sourceTree = "<group>"; };
 		413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadInfoTVCell.swift; sourceTree = "<group>"; };
 		413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMemCntTVCell.swift; sourceTree = "<group>"; };
+		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		B824713C2C647FAF0067BD09 /* GatheringVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVC.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				D8201FC52C606935004DF06C /* LetportsTests.swift */,
+				41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */,
 			);
 			path = LetportsTests;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */,
+				41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
