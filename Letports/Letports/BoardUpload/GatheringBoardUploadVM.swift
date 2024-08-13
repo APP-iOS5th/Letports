@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import UIKit
+import Combine
 
 enum BoardUploadCellType {
     case main
@@ -15,12 +16,20 @@ enum BoardUploadCellType {
     case gatherMemberCount
     case gatherInfo
     case gatherQuestion
-
     case separator
 }
 
 
 class GatheringBoarduploadVM {
+    
+    @Published var selectedImage: UIImage?
+    @Published var addButtonEnable: Bool = true
+    @Published var gatehrInfoText: String?
+    @Published var gatehrQuestionText: String?
+    @Published var gatehrNameText: String?
+    
+    private var memNowCount: Int = 1
+    private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardUploadCellType] {
         var cellTypes: [BoardUploadCellType] = []
@@ -40,6 +49,19 @@ class GatheringBoarduploadVM {
     }
     
     
+    init() {
+         Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
+             .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
+                 return selectedImage != nil
+                 && gatehrInfoText != nil
+                 && gatehrQuestionText != nil
+                 && gatehrNameText != nil
+             }
+             .assign(to: \.addButtonEnable, on: self)
+             .store(in: &cancellables)
+     }
+    
+    
     func getCellTypes() -> [BoardUploadCellType] {
         return self.cellType
     }
@@ -48,6 +70,19 @@ class GatheringBoarduploadVM {
         return self.cellType.count
     }
     
+    func checkMemeberCount(count: Int) {
+        self.memNowCount = count
+    }
     
+    func writeGatherInfo(content: String) {
+        self.gatehrInfoText = content
+    }
     
+    func writeGatherQuestion(content: String) {
+        self.gatehrQuestionText = content
+    }
+    
+    func writeGatehrName(content: String) {
+        self.gatehrNameText = content
+    }
 }

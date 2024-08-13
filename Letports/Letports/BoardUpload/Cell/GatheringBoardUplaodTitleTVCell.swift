@@ -24,6 +24,7 @@ class GatheringBoardUplaodTitleTVCell: UITableViewCell {
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor.lp_gray.cgColor
         tf.layer.cornerRadius = 10
+        tf.delegate = self
         tf.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10, height: 0.0))
         tf.leftViewMode = .always
         tf.font = .systemFont(ofSize: 12)
@@ -40,6 +41,8 @@ class GatheringBoardUplaodTitleTVCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    weak var delegate: GatheringBoardUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,11 +80,30 @@ class GatheringBoardUplaodTitleTVCell: UITableViewCell {
     
     
     @objc func textFieldDidChange() {
-        if let textCount = titleTextField.text?.count {
+        if let text = titleTextField.text {
             DispatchQueue.main.async { [weak self] in
-                self?.textCountLabel.text = "\(textCount)/100"
+                self?.textCountLabel.text = "\(text.count)/100"
             }
+            self.delegate?.sendGatherName(content: text)
         }
     }
-    
+}
+
+extension GatheringBoardUplaodTitleTVCell: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
+        }
+
+        guard let text = textField.text else { return false }
+        if text.count >= 100 {
+            return false
+        }
+
+        return true
+    }
 }

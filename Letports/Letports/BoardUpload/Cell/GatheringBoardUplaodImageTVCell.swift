@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol UploadImageDelegate: AnyObject {
-    func didTapUploadImage()
-}
-
 class GatheringBoardUplaodImageTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
@@ -32,14 +28,12 @@ class GatheringBoardUplaodImageTVCell: UITableViewCell {
     
     private(set) lazy var imageUploadButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("앨범에서 사진 선택", for: .normal)
-        button.setImage(UIImage(systemName: "camera"), for: .normal)
         button.addTarget(self, action: #selector(didTapUploadImage), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    weak var delegate: UploadImageDelegate?
+    weak var delegate: GatheringBoardUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -78,9 +72,25 @@ class GatheringBoardUplaodImageTVCell: UITableViewCell {
             imageUploadButton.leadingAnchor.constraint(equalTo: uploadImageView.leadingAnchor),
             imageUploadButton.trailingAnchor.constraint(equalTo: uploadImageView.trailingAnchor),
             imageUploadButton.bottomAnchor.constraint(equalTo: uploadImageView.bottomAnchor)
-            
         ])
     }
+    
+    func configureCell(image: UIImage?) {
+        if image != nil {
+            if let selectedImage = image {
+                uploadImageView.image = selectedImage
+            }
+        } else {
+            uploadImageView.image = nil
+        }
+        setupButton(image: image)
+    }
+    
+    private func setupButton(image: UIImage?) {
+        imageUploadButton.setTitle(image != nil ? nil : "앨범에서 선택", for: .normal)
+        imageUploadButton.setImage(image != nil ? nil : UIImage(systemName: "camera"), for: .normal)
+    }
+    
     
     @objc func didTapUploadImage() {
         self.delegate?.didTapUploadImage()

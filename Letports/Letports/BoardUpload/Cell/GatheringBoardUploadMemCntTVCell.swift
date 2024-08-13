@@ -37,6 +37,7 @@ class GatheringBoardUploadMemCntTVCell: UITableViewCell {
     private lazy var minusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.tintColor = .lpBlack
         button.addTarget(self, action: #selector(didTapMinusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -52,18 +53,20 @@ class GatheringBoardUploadMemCntTVCell: UITableViewCell {
     private lazy var plusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .lpBlack
         button.addTarget(self, action: #selector(didTapPlusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private var memNowCount: Int = 1 {
+    private lazy var memNowCount: Int = 1 {
         didSet {
+            delegate?.checkMemberCount(count: memNowCount)
             countLabel.text = "\(memNowCount)"
         }
     }
     private let memMaxCount: Int = 10
-    
+    weak var delegate: GatheringBoardUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

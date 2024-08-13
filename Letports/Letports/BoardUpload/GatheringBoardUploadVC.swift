@@ -6,6 +6,15 @@
 //
 
 import UIKit
+import Combine
+
+protocol GatheringBoardUploadDelegate: AnyObject {
+    func didTapUploadImage()
+    func checkMemberCount(count: Int)
+    func sendGatherName(content: String)
+    func sendGatehrInfo(content: String)
+    func sendGatherQuestion(content: String)
+}
 
 
 class GatheringBoardUploadVC: UIViewController {
@@ -24,21 +33,23 @@ class GatheringBoardUploadVC: UIViewController {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.register(GatheringBoardUploadMainTVCell.self, forCellReuseIdentifier: "GatheringBoardUploadMainTVCell")
-        tv.register(SeparatorTVCell.self, forCellReuseIdentifier: "SeparatorTVCell")
-        tv.register(GatheringBoardUplaodImageTVCell.self, forCellReuseIdentifier: "GatheringBoardUplaodImageTVCell")
-        tv.register(GatheringBoardUplaodTitleTVCell.self, forCellReuseIdentifier: "GatheringBoardUplaodTitleTVCell")
-        tv.register(GatheringBoardUploadMemCntTVCell.self, forCellReuseIdentifier: "GatheringBoardUploadMemCntTVCell")
-        tv.register(GatheringBoardUploadInfoTVCell.self, forCellReuseIdentifier: "GatheringBoardUploadInfoTVCell")
-        tv.register(GatheringBoardUploadQuestionTVCell.self, forCellReuseIdentifier: "GatheringBoardUploadQuestionTVCell")
+        tv.rsgistersCell(cellClasses: GatheringBoardUploadMainTVCell.self,
+                         SeparatorTVCell.self,
+                         GatheringBoardUplaodImageTVCell.self,
+                         GatheringBoardUplaodTitleTVCell.self,
+                         GatheringBoardUploadMemCntTVCell.self,
+                         GatheringBoardUploadInfoTVCell.self,
+                         GatheringBoardUploadQuestionTVCell.self)
         tv.separatorStyle = .none
         tv.backgroundColor = .lp_background_white
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
     
-    private var viewModel: GatheringBoarduploadVM
+    let imagePickerController = UIImagePickerController()
     
+    private var viewModel: GatheringBoarduploadVM
+    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: GatheringBoarduploadVM) {
         self.viewModel = GatheringBoarduploadVM()
@@ -53,9 +64,22 @@ class GatheringBoardUploadVC: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        bindViewModel()
         setupTapGesture()
+        setupDelegate()
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     //MARK: - Setup
     private func setupUI() {
@@ -77,21 +101,64 @@ class GatheringBoardUploadVC: UIViewController {
         ])
     }
     
+    private func bindViewModel() {
+        viewModel.$selectedImage
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$addButtonEnable
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] enable in
+                self?.navigationView.rightButtonIsEnable(enable)
+            }
+            .store(in: &cancellables)
+    }
+    
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
     
+    private func setupDelegate() {
+        imagePickerController.delegate = self
+    }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    
+    @objc func keyboardUp(notification:NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            UIView.animate(
+                withDuration: 0.3,
+                animations: {
+                    self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardRectangle.height, right: 0)
+                    self.tableView.scrollIndicatorInsets = self.tableView.contentInset
+                }
+            )
+        }
+    }
+    
+    @objc func keyboardDown() {
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.tableView.contentInset = .zero
+                self.tableView.scrollIndicatorInsets = .zero
+            }
+        )
     }
     
 }
 
 extension GatheringBoardUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        
+        print("samll")
     }
     
     func sportsSelectButtonDidTap() {
@@ -110,37 +177,39 @@ extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
-            
         case .main:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUploadMainTVCell", for: indexPath) as? GatheringBoardUploadMainTVCell {
+            if let cell: GatheringBoardUploadMainTVCell  = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
         case .separator:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTVCell", for: indexPath) as? SeparatorTVCell {
+            if let cell: SeparatorTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configureCell(height: 3)
                 return cell
             }
         case .uploadImage:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUplaodImageTVCell", for: indexPath) as? GatheringBoardUplaodImageTVCell {
-                
+            if let cell: GatheringBoardUplaodImageTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(image: viewModel.selectedImage)
                 return cell
             }
         case .gatherName:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUplaodTitleTVCell", for: indexPath) as? GatheringBoardUplaodTitleTVCell {
+            if let cell: GatheringBoardUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
                 return cell
             }
         case .gatherMemberCount:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUploadMemCntTVCell", for: indexPath) as? GatheringBoardUploadMemCntTVCell {
+            if let cell: GatheringBoardUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
                 return cell
             }
         case .gatherInfo:
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUploadInfoTVCell", for: indexPath) as? GatheringBoardUploadInfoTVCell {
+            if let cell: GatheringBoardUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self 
                 return cell
             }
         case .gatherQuestion:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardUploadQuestionTVCell", for: indexPath) as? GatheringBoardUploadQuestionTVCell {
+            if let cell: GatheringBoardUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
                 return cell
             }
         }
@@ -148,9 +217,35 @@ extension GatheringBoardUploadVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
-extension GatheringBoardUploadVC: UploadImageDelegate {
+extension GatheringBoardUploadVC: GatheringBoardUploadDelegate {
     func didTapUploadImage() {
-        print("did Tap Upload Image")
+        self.imagePickerController.sourceType = .photoLibrary
+        self.present(imagePickerController, animated: true)
+    }
+    
+    func checkMemberCount(count: Int) {
+        viewModel.checkMemeberCount(count: count)
+    }
+    
+    func sendGatehrInfo(content: String) {
+        viewModel.writeGatherInfo(content: content)
+    }
+    
+    func sendGatherQuestion(content: String) {
+        viewModel.writeGatherQuestion(content: content)
+    }
+    
+    func sendGatherName(content: String) {
+        viewModel.writeGatehrName(content: content)
+    }
+}
+
+extension GatheringBoardUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        if let selectedImage = info[.originalImage] as? UIImage {
+            viewModel.selectedImage = selectedImage
+        }
     }
 }
