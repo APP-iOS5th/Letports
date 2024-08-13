@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringDetailProfileCVC: UICollectionViewCell {
+class GatheringDetailProfileCVCell: UICollectionViewCell {
 	private let userImage = UIButton()
 	private let userNickName = UILabel()
 	
@@ -28,10 +28,10 @@ class GatheringDetailProfileCVC: UICollectionViewCell {
 		userImage.layer.borderColor = UIColor.black.cgColor
 		userImage.widthAnchor.constraint(equalToConstant: 45).isActive = true
 		userImage.heightAnchor.constraint(equalToConstant: 45).isActive = true
-		userImage.addTarget(self, action: #selector(imageTab), for: .touchUpInside)
+		userImage.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 		
 		userNickName.textAlignment = .center
-		userNickName.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		userNickName.font = UIFont.systemFont(ofSize: 10, weight: .medium)
 		
 		let verticalStack = UIStackView(arrangedSubviews: [userImage, userNickName])
 		verticalStack.axis = .vertical
@@ -51,7 +51,7 @@ class GatheringDetailProfileCVC: UICollectionViewCell {
 		userNickName.text = profile.userNickName
 	}
 	
-	@objc private func imageTab() {
+	@objc private func imageTap() {
 		// 이미지 버튼 클릭 시 동작 정의
 		print("이미지 버튼이 클릭되었습니다.")
 	}

@@ -30,7 +30,7 @@ class GatheringDetailProfileCV: UICollectionView {
 		showsHorizontalScrollIndicator = false
 		backgroundColor = UIColor(white: 0.95, alpha: 1.0)
 		dataSource = self
-		register(GatheringDetailProfileCVC.self, forCellWithReuseIdentifier: "Cell")
+		register(GatheringDetailProfileCVCell.self, forCellWithReuseIdentifier: "Cell")
 	}
 }
 
@@ -40,7 +40,9 @@ extension GatheringDetailProfileCV: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! GatheringDetailProfileCVC
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? GatheringDetailProfileCVCell else {
+			return UICollectionViewCell()
+		}
 		cell.configure(profile: profiles[indexPath.item])
 		return cell
 	}

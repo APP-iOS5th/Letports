@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoardTVC: UITableViewCell {
+class BoardTVCell: UITableViewCell {
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -89,6 +89,11 @@ class BoardTVC: UITableViewCell {
 			dateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
 			dateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4)
 		])
+	}
+	func configure(board: Board) {
+		boardTypeLabel.text = board.boardType
+		titleLabel.text = board.title
+		dateLabel.text = board.createDate
 	}
 }
 

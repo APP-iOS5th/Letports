@@ -11,50 +11,20 @@ struct Board {
 	let boardType: String
 	let title: String
 	let createDate : String // 임시로 String
-	let contents: String
 }
 
 let allBoard = [
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
+	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19"),
 ]
 
-let noticeBoard = [
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2052/09/19", contents: "내용"),
-	Board(boardType: "공지", title: "인원방출", createDate: "2022/09/19", contents: "내용")
-]
 
-let freeBoard = [
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다."),
-	Board(boardType: "자유", title: "ㅁㄴㅇㅁㄴㅇ", createDate: "2024/03/15", contents: "내용입니다.")
-]
 
 // 파이어베이스에서 날짜 가져오기
 //import Foundation

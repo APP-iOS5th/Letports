@@ -29,7 +29,6 @@ class GatheringDetailVC: UIViewController {
 		setupScrollView()
 		setupContents()
 		gatheringDescript.layoutIfNeeded()
-		boardTV.layoutIfNeeded()
 		adjustBackgroundViewHeight()
 	}
 	
@@ -66,7 +65,7 @@ class GatheringDetailVC: UIViewController {
 			contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
 		])
 	}
-	
+
 	// MARK: - 컨텐츠 stackView
 	
 	func setupContents() {
@@ -142,7 +141,7 @@ class GatheringDetailVC: UIViewController {
 			let button = UIButton(type: .system)
 			button.setTitle("전체", for: .normal)
 			button.backgroundColor = .systemBlue
-			button.setTitleColor(.white, for: .normal)
+			button.setTitleColor(.black, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
 			button.addTarget(self, action: #selector(allBoardButtonTap), for: .touchUpInside)
 			return button
@@ -152,7 +151,7 @@ class GatheringDetailVC: UIViewController {
 			let button = UIButton(type: .system)
 			button.setTitle("공지", for: .normal)
 			button.backgroundColor = .systemGreen
-			button.setTitleColor(.white, for: .normal)
+			button.setTitleColor(.black, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
 			button.addTarget(self, action: #selector(noticeButtonTap), for: .touchUpInside)
 			return button
@@ -162,13 +161,13 @@ class GatheringDetailVC: UIViewController {
 			let button = UIButton(type: .system)
 			button.setTitle("자유게시판", for: .normal)
 			button.backgroundColor = .systemRed
-			button.setTitleColor(.white, for: .normal)
+			button.setTitleColor(.black, for: .normal)
 			button.translatesAutoresizingMaskIntoConstraints = false
 			button.addTarget(self, action: #selector(freeBoardButtonTap), for: .touchUpInside)
 			return button
 		}()
 		
-		// 스택 뷰 생성 및 설정
+		// 게시판 버튼 스택 뷰
 		let boardButtonSV: UIStackView = {
 			let stackView = UIStackView(arrangedSubviews: [allBoardButton, noticeBoardButton, freeBoardButton])
 			stackView.axis = .horizontal
@@ -185,11 +184,7 @@ class GatheringDetailVC: UIViewController {
 			return line
 		}()
 		
-		let boardTV: UITableView = {
-			let tableView = UITableView()
-			tableView.translatesAutoresizingMaskIntoConstraints = false
-			return tableView
-		}()
+		let boardTV = GatheringDetailBoardTV(board: allBoard)
 		
 		contentView.addSubview(gatheringImage)
 		contentView.addSubview(titleSV)
@@ -245,16 +240,17 @@ class GatheringDetailVC: UIViewController {
 			
 			boardButtonSV.topAnchor.constraint(equalTo: profileLine.bottomAnchor, constant: 10),
 			boardButtonSV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+			boardButtonSV.heightAnchor.constraint(equalToConstant: 30),
 			
 			boardLine.topAnchor.constraint(equalTo: boardButtonSV.bottomAnchor, constant: 10),
 			boardLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			boardLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 			boardLine.heightAnchor.constraint(equalToConstant: 1),
 			
-			boardTV.topAnchor.constraint(equalTo: boardLine.bottomAnchor, constant: 4),
+			boardTV.topAnchor.constraint(equalTo: boardLine.bottomAnchor, constant: 10),
 			boardTV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			boardTV.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-			boardTV.heightAnchor.constraint(equalToConstant: 1000)
+			boardTV.heightAnchor.constraint(equalToConstant: 400)
 		])
 		
 		backgroundViewHeightConstraint = gatheringDescript.heightAnchor.constraint(equalToConstant: textHeight)
@@ -309,15 +305,15 @@ class GatheringDetailVC: UIViewController {
 	}
 	
 	@objc func allBoardButtonTap() {
-		
+		print("전체버튼이 눌렸습니다.")
 	}
 	
 	@objc func noticeButtonTap() {
-		
+		print("공지버튼이 눌렸습니다.")
 	}
 	
 	@objc func freeBoardButtonTap() {
-		
+		print("자유게시판버튼이 눌렸습니다.")
 	}
 }
 
