@@ -9,12 +9,51 @@ import UIKit
 
 class BoardTVC: UITableViewCell {
 	
-	private let containerView = UIView()
-	private let boardTypeLabel = UILabel()
-	private let titleLabel = UILabel()
-	private let dateLabel = UILabel()
-	private let contentsLabel = UILabel()
-	private let boardSV = UIStackView()
+	private let containerView: UIView = {
+		let view = UIView()
+		view.layer.cornerRadius = 10
+		view.layer.borderWidth = 1
+		view.layer.borderColor = UIColor.lightGray.cgColor
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	
+	private let boardTypeLabel: UILabel = {
+		let label = UILabel()
+		label.backgroundColor = .systemRed
+		label.textColor = .white
+		label.font = UIFont.boldSystemFont(ofSize: 12)
+		label.textAlignment = .center
+		label.layer.cornerRadius = 10
+		label.clipsToBounds = true
+		label.translatesAutoresizingMaskIntoConstraints = false
+		return label
+	}()
+	
+	private let titleLabel: UILabel = {
+		let label = UILabel()
+		label.font = UIFont.systemFont(ofSize: 14)
+		label.textAlignment = .left
+		label.translatesAutoresizingMaskIntoConstraints = false
+		return label
+	}()
+	
+	private let dateLabel: UILabel = {
+		let label = UILabel()
+		label.font = UIFont.systemFont(ofSize: 12)
+		label.textColor = .gray
+		label.translatesAutoresizingMaskIntoConstraints = false
+		return label
+	}()
+	
+	private let boardSV: UIStackView = {
+		let sv = UIStackView()
+		sv.axis = .horizontal
+		sv.spacing = 8
+		sv.alignment = .center
+		sv.translatesAutoresizingMaskIntoConstraints = false
+		return sv
+	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,41 +65,30 @@ class BoardTVC: UITableViewCell {
 	}
 	
 	func setupLayout() {
-		containerView.layer.cornerRadius = 10
-		containerView.layer.borderWidth = 1
-		containerView.layer.borderColor = UIColor.lightGray.cgColor
-		containerView.translatesAutoresizingMaskIntoConstraints = false
-		containerView.widthAnchor.constraint(equalToConstant: 375).isActive = true
-		containerView.heightAnchor.constraint(equalToConstant: 49).isActive = true
-	
-		boardTypeLabel.backgroundColor = .systemRed
-		boardTypeLabel.textColor = .black
-		boardTypeLabel.font = UIFont.boldSystemFont(ofSize: 12)
-		boardTypeLabel.layer.borderWidth = 0.5
-		boardTypeLabel.textAlignment = .center
-		boardTypeLabel.layer.cornerRadius = 10
-		boardTypeLabel.clipsToBounds = true
-		boardTypeLabel.translatesAutoresizingMaskIntoConstraints = false
-		boardTypeLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
-		boardTypeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+		contentView.addSubview(containerView)
+		containerView.addSubview(boardSV)
+		containerView.addSubview(dateLabel)
 		
-		titleLabel.font = UIFont.systemFont(ofSize: 10)
-		titleLabel.textAlignment = .left
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		boardTypeLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
-		boardTypeLabel.heightAnchor.constraint(equalToConstant: 21).isActive = true
+		boardSV.addArrangedSubview(boardTypeLabel)
+		boardSV.addArrangedSubview(titleLabel)
 		
-		dateLabel.font = UIFont.systemFont(ofSize: 8)
-		dateLabel.textColor = .gray
-		dateLabel.translatesAutoresizingMaskIntoConstraints = false
-		boardTypeLabel.widthAnchor.constraint(equalToConstant: 44).isActive = true
-		boardTypeLabel.heightAnchor.constraint(equalToConstant: 6).isActive = true
-		
-	}
-	
-	func configure(type: String, title: String, date: String) {
-		boardTypeLabel.text = type
-		titleLabel.text = title
-		dateLabel.text = date
+		NSLayoutConstraint.activate([
+			containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+			containerView.heightAnchor.constraint(equalToConstant: 49),
+			containerView.widthAnchor.constraint(equalToConstant: 375),
+			
+			boardTypeLabel.widthAnchor.constraint(equalToConstant: 50),
+			boardTypeLabel.heightAnchor.constraint(equalToConstant: 20),
+			
+			boardSV.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+			boardSV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+			boardSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -4),
+			
+			dateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+			dateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4)
+		])
 	}
 }
+

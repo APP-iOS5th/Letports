@@ -24,7 +24,6 @@
 		BFE5B5622C6ADD3D00C0103F /* GatheringBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5612C6ADD3D00C0103F /* GatheringBoardModel.swift */; };
 		BFE5B5642C6AE8C400C0103F /* BoardTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5632C6AE8C400C0103F /* BoardTVC.swift */; };
 		BFE5B5662C6AEC1300C0103F /* NoticeTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5652C6AEC1300C0103F /* NoticeTV.swift */; };
-		BFE5B56A2C6AFE6800C0103F /* BoardTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5B5692C6AFE6800C0103F /* BoardTV.swift */; };
 		BFFA45522C65F63900816794 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454D2C65F63900816794 /* Extension+Color.swift */; };
 		BFFA45532C65F63900816794 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA454E2C65F63900816794 /* CustomNavigationView.swift */; };
 		BFFA45542C65F63900816794 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA45502C65F63900816794 /* Extension+UIImage.swift */; };
@@ -73,7 +72,6 @@
 		BFE5B5612C6ADD3D00C0103F /* GatheringBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardModel.swift; sourceTree = "<group>"; };
 		BFE5B5632C6AE8C400C0103F /* BoardTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVC.swift; sourceTree = "<group>"; };
 		BFE5B5652C6AEC1300C0103F /* NoticeTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTV.swift; sourceTree = "<group>"; };
-		BFE5B5692C6AFE6800C0103F /* BoardTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTV.swift; sourceTree = "<group>"; };
 		BFFA454D2C65F63900816794 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		BFFA454E2C65F63900816794 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		BFFA45502C65F63900816794 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				BF062DDD2C69FB3F006D6663 /* GatheringDetailProfileCV.swift */,
-				BFE5B5692C6AFE6800C0103F /* BoardTV.swift */,
 			);
 			path = GatheringDetailVM;
 			sourceTree = "<group>";
@@ -399,7 +396,6 @@
 			files = (
 				BF56299F2C68ECD300B42875 /* GatheringDetailModel.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
-				BFE5B56A2C6AFE6800C0103F /* BoardTV.swift in Sources */,
 				BFE5B5662C6AEC1300C0103F /* NoticeTV.swift in Sources */,
 				D8201FB62C606934004DF06C /* BoardViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
