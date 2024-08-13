@@ -135,7 +135,4 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     }
 }
 
-#Preview {
-    GatheringBoardUploadVC(viewModel: GatheringUploadVM())
-}
 
