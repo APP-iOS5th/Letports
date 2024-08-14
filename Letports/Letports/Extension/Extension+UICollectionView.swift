@@ -15,7 +15,7 @@ extension UICollectionView {
         self.register(cellClass, forCellWithReuseIdentifier: className)
     }
     
-    func resgistersCell(cellClasses: AnyClass...) {
+    func registersCell(cellClasses: AnyClass...) {
         cellClasses.forEach { cellClass in
             self.register(cellClass: cellClass)
         }
