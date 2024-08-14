@@ -15,7 +15,7 @@
 		413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */; };
 		413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */; };
 		413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */; };
-		413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */; };
+		413BE6572C6605B00070D6F9 /* SeperatorLineTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */; };
 		413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */; };
 		413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */; };
 		413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
@@ -31,9 +31,16 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471462C6499650067BD09 /* ProfileCoordinator.swift */; };
 		B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471482C64F81E0067BD09 /* Coordinator.swift */; };
+		BF3882582C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */; };
+		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
+		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
+		BF7BBE292C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */; };
+		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
+		BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */; };
+		BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */; };
+		BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF52D282C6C3A4900AC72C8 /* ViewController.swift */; };
 		D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
 		D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
-		D8201FB62C606934004DF06C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB52C606934004DF06C /* ViewController.swift */; };
 		D8201FB82C606935004DF06C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8201FB72C606935004DF06C /* Assets.xcassets */; };
 		D8201FBB2C606935004DF06C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D8201FBA2C606935004DF06C /* Base */; };
 		D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FC52C606935004DF06C /* LetportsTests.swift */; };
@@ -67,7 +74,7 @@
 		413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMainTVCell.swift; sourceTree = "<group>"; };
-		413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTVCell.swift; sourceTree = "<group>"; };
+		413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeperatorLineTVCell.swift; sourceTree = "<group>"; };
 		413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodImageTVCell.swift; sourceTree = "<group>"; };
 		413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUplaodTitleTVCell.swift; sourceTree = "<group>"; };
 		413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadQuestionTVCell.swift; sourceTree = "<group>"; };
@@ -83,10 +90,17 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B82471462C6499650067BD09 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		B82471482C64F81E0067BD09 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
+		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
+		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
+		BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailImageTVCell.swift; sourceTree = "<group>"; };
+		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
+		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
+		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
+		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D8201FB52C606934004DF06C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8201FBA2C606935004DF06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,7 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */,
-				413BE6562C6605B00070D6F9 /* SeparatorTVCell.swift */,
+				413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */,
 				413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */,
 				413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */,
 				413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */,
@@ -176,6 +190,7 @@
 		B82471382C647F600067BD09 /* Gathering */ = {
 			isa = PBXGroup;
 			children = (
+				BFE5B5722C6B7ECB00C0103F /* GatheringDetail */,
 				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
 				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
 			);
@@ -189,6 +204,28 @@
 				B82471462C6499650067BD09 /* ProfileCoordinator.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		BF7BBE272C6B7F360094C29C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */,
+				BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */,
+				BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */,
+				BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */,
+				BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		BFE5B5722C6B7ECB00C0103F /* GatheringDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BF7BBE272C6B7F360094C29C /* Cell */,
+				BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */,
+				BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */,
+			);
+			path = GatheringDetail;
 			sourceTree = "<group>";
 		};
 		D8201FA52C606934004DF06C = {
@@ -216,8 +253,8 @@
 			children = (
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
+				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
-				D8201FB52C606934004DF06C /* ViewController.swift */,
 				B82471482C64F81E0067BD09 /* Coordinator.swift */,
 				B82471402C6497EF0067BD09 /* TabBarCoordinator.swift */,
 				413BE64A2C65F0FC0070D6F9 /* CustomNavigation */,
@@ -388,14 +425,16 @@
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
-				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
+				BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */,
+				BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
 				413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */,
 				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
+				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
@@ -403,11 +442,16 @@
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
-				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
+				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,
+				413BE6572C6605B00070D6F9 /* SeperatorLineTVCell.swift in Sources */,
+				BF7BBE292C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
+				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
+				BF3882582C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
+				BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

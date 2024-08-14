@@ -34,7 +34,7 @@ class GatheringUploadVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.rsgistersCell(cellClasses: GatheringUploadMainTVCell.self,
-                         SeparatorTVCell.self,
+                         SeperatorLineTVCell.self,
                          GatheringUplaodImageTVCell.self,
                          GatheringUplaodTitleTVCell.self,
                          GatheringUploadMemCntTVCell.self,
@@ -182,7 +182,7 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .separator:
-            if let cell: SeparatorTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: SeperatorLineTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configureCell(height: 3)
                 return cell
             }
