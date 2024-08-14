@@ -48,7 +48,7 @@ enum ScreenType {
     /// Gathering Detail  Screen
     case smallGathering(gatheringName: String, btnName: NaviButtonType)
     /// Profile Detail  Screen
-    case samllProfile
+    case smallProfile
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
     /// Create Gathering Screen
@@ -68,7 +68,7 @@ enum ScreenType {
         case .smallGathering(let gatheringName, _):
             //모임명으로 바뀌어야함
             return gatheringName
-        case .samllProfile:
+        case .smallProfile:
             return "프로필"
         case .smallGatheringSetting:
             return "소모임 설정"

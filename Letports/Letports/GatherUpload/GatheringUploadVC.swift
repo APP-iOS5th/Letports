@@ -158,7 +158,7 @@ class GatheringUploadVC: UIViewController {
 
 extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        print("samll")
+        print("small")
     }
     
     func sportsSelectButtonDidTap() {
