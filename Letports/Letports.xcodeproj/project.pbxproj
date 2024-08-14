@@ -31,6 +31,7 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471462C6499650067BD09 /* ProfileCoordinator.swift */; };
 		B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471482C64F81E0067BD09 /* Coordinator.swift */; };
+		B824714C2C6C34520067BD09 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824714B2C6C34520067BD09 /* LoginVC.swift */; };
 		D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
 		D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
 		D8201FB62C606934004DF06C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB52C606934004DF06C /* ViewController.swift */; };
@@ -83,6 +84,7 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B82471462C6499650067BD09 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		B82471482C64F81E0067BD09 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		B824714B2C6C34520067BD09 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +193,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		B824714A2C6C34360067BD09 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				B824714B2C6C34520067BD09 /* LoginVC.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		D8201FA52C606934004DF06C = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +230,7 @@
 				D8201FB52C606934004DF06C /* ViewController.swift */,
 				B82471482C64F81E0067BD09 /* Coordinator.swift */,
 				B82471402C6497EF0067BD09 /* TabBarCoordinator.swift */,
+				B824714A2C6C34360067BD09 /* Login */,
 				413BE64A2C65F0FC0070D6F9 /* CustomNavigation */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
@@ -405,6 +416,7 @@
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
+				B824714C2C6C34520067BD09 /* LoginVC.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
