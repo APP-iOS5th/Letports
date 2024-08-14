@@ -38,7 +38,7 @@ class HomeVC: UIViewController {
     let firstContainerView: UIView = {
         let whiteBox = UIView()
         whiteBox.backgroundColor = .white
-        whiteBox.layer.cornerRadius = 10
+        whiteBox.layer.cornerRadius = 15
         whiteBox.layer.shadowColor = UIColor.black.cgColor
         whiteBox.layer.shadowOpacity = 0.1
         whiteBox.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -49,75 +49,57 @@ class HomeVC: UIViewController {
     }()
     
     lazy var teamProfile: UIStackView = {
-        let profile = UIStackView()
-        profile.axis = .horizontal
-        profile.alignment = .leading
-        profile.distribution = .equalSpacing
-        profile.spacing = 8
-        profile.translatesAutoresizingMaskIntoConstraints = false
+        let profile = createStackView(axis: .horizontal, alignment: .center, distribution: .fillEqually, spacing: 8)
         
-        let teamIcon = UIImageView()
-        teamIcon.image = UIImage(systemName: "circle.fill")
-        teamIcon.contentMode = .scaleAspectFit
-        teamIcon.frame.size = CGSize(width: 70, height: 70)
-        teamIcon.translatesAutoresizingMaskIntoConstraints = false
+        let teamIcon = createImageView(systemName: "circle.fill")
+        teamIcon.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        teamIcon.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        let profileLabel = UIStackView()
-        profileLabel.axis = .vertical
-        profile.alignment = .fill
-        profile.distribution = .fillProportionally
-        profile.spacing = 4
-        profile.translatesAutoresizingMaskIntoConstraints = false
+        let profileLabel = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 20)
         
-        let teamLabel = UILabel()
-        teamLabel.text = "FC 서울"
-        teamLabel.translatesAutoresizingMaskIntoConstraints = false
+        let teamLabel = createLabel(text: "FC 서울", fontSize: 30, fontWeight: .bold)
         
+        let urlLabel = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
         
-        let urlLabel = UIStackView()
-        urlLabel.axis = .horizontal
-        urlLabel.alignment = .fill
-        urlLabel.distribution = .fillProportionally
-        urlLabel.spacing = 4
-        urlLabel.translatesAutoresizingMaskIntoConstraints = false
+        //홈페이지
+        let url1StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+        let homeIcon = createImageView(systemName: "house.fill", tintColor: .lp_black)
+        let url1 = createLabel(text: "홈페이지", fontSize: 12)
+        url1StackView.addArrangedSubview(homeIcon)
+        url1StackView.addArrangedSubview(url1)
         
-        let url = UILabel()
-        url.text = "홈페이지"
-        url.font = UIFont.systemFont(ofSize: 12)
-        url.translatesAutoresizingMaskIntoConstraints = false
+        //공식 인스타
+        let url2StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+        let instaIcon = createImageView(systemName: "rectangle.fill")
+        let url2 = createLabel(text: "공식 인스타", fontSize: 12)
+        url2StackView.addArrangedSubview(instaIcon)
+        url2StackView.addArrangedSubview(url2)
         
-        let url2 = UILabel()
-        url2.text = "공식 인스타"
-        url2.font = UIFont.systemFont(ofSize: 12)
+        //공식 유튜브
+        let url3StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+        let youtubeIcon = createImageView(systemName: "video.fill")
+        let url3 = createLabel(text: "공식 유튜브", fontSize: 12)
+        url3StackView.addArrangedSubview(youtubeIcon)
+        url3StackView.addArrangedSubview(url3)
         
-        url2.translatesAutoresizingMaskIntoConstraints = false
+       
+        urlLabel.addArrangedSubview(url1StackView)
+        urlLabel.addArrangedSubview(url2StackView)
+        urlLabel.addArrangedSubview(url3StackView)
         
-        let url3 = UILabel()
-        url3.text = "공식 유튜브"
-        url3.font = UIFont.systemFont(ofSize: 12)
-        url3.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        urlLabel.addArrangedSubview(url)
-        urlLabel.addArrangedSubview(url2)
-        urlLabel.addArrangedSubview(url3)
         profileLabel.addArrangedSubview(teamLabel)
         profileLabel.addArrangedSubview(urlLabel)
+        
         profile.addArrangedSubview(teamIcon)
         profile.addArrangedSubview(profileLabel)
-        
-        NSLayoutConstraint.activate([
-            teamIcon.topAnchor.constraint(equalTo: profile.topAnchor, constant: 6),
-            teamIcon.leftAnchor.constraint(equalTo: profile.leftAnchor, constant: 10),
-        ])
         
         return profile
     }()
     
     let secondLabel: UILabel = {
         let label = UILabel()
-        label.text = "FC서울의 최신 영상"
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.text = "FC 서울의 최신 영상"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .lpBlack
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +110,7 @@ class HomeVC: UIViewController {
     let secondContainerView: UIView = {
         let whiteBox = UIView()
         whiteBox.backgroundColor = .white
-        whiteBox.layer.cornerRadius = 10
+        whiteBox.layer.cornerRadius = 15
         whiteBox.layer.shadowColor = UIColor.black.cgColor
         whiteBox.layer.shadowOpacity = 0.1
         whiteBox.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -141,7 +123,7 @@ class HomeVC: UIViewController {
     let thirdLabel: UILabel = {
         let label = UILabel()
         label.text = "추천 소모임🔥"
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .lpBlack
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -149,26 +131,49 @@ class HomeVC: UIViewController {
         return label
     }()
     
-    let thirdContainerView: UIView = {
-        let whiteBox = UIView()
-        whiteBox.backgroundColor = .white
-        whiteBox.layer.cornerRadius = 10
-        whiteBox.layer.shadowColor = UIColor.black.cgColor
-        whiteBox.layer.shadowOpacity = 0.1
-        whiteBox.layer.shadowOffset = CGSize(width: 0, height: 2)
-        whiteBox.layer.shadowRadius = 5
-        whiteBox.translatesAutoresizingMaskIntoConstraints = false
+    let gatheringScrollView: UIScrollView = {
+        let gatheringScroll = UIScrollView()
+        gatheringScroll.translatesAutoresizingMaskIntoConstraints = false
+        gatheringScroll.showsHorizontalScrollIndicator = false
         
-        return whiteBox
+        return gatheringScroll
     }()
     
-    
+    lazy var gatheringStackView: UIStackView = {
+        let gatheringView = createStackView(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 2)
+        
+        let image1 = UIImageView()
+        image1.contentMode = .scaleAspectFit
+        image1.image = UIImage(systemName: "house.fill")
+        image1.translatesAutoresizingMaskIntoConstraints = false
+        
+        let image2 = UIImageView()
+        image2.contentMode = .scaleAspectFit
+        image2.image = UIImage(systemName: "house.fill")
+        image2.translatesAutoresizingMaskIntoConstraints = false
+        
+        let image3 = UIImageView()
+        image3.contentMode = .scaleAspectFit
+        image3.image = UIImage(systemName: "house.fill")
+        image3.translatesAutoresizingMaskIntoConstraints = false
+        
+        let image4 = UIImageView()
+        image4.contentMode = .scaleAspectFit
+        image4.image = UIImage(systemName: "house.fill")
+        image4.translatesAutoresizingMaskIntoConstraints = false
+        
+        gatheringView.addArrangedSubview(image1)
+        gatheringView.addArrangedSubview(image2)
+        gatheringView.addArrangedSubview(image3)
+        gatheringView.addArrangedSubview(image4)
+        
+        return gatheringView
+    }()
  
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lpBackgroundWhite
       
-        
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeButton)
         
@@ -177,7 +182,8 @@ class HomeVC: UIViewController {
         view.addSubview(secondLabel)
         view.addSubview(secondContainerView)
         view.addSubview(thirdLabel)
-        view.addSubview(thirdContainerView)
+        view.addSubview(gatheringScrollView)
+        gatheringScrollView.addSubview(gatheringStackView)
         
         
         NSLayoutConstraint.activate([
@@ -202,11 +208,49 @@ class HomeVC: UIViewController {
             thirdLabel.topAnchor.constraint(equalTo: secondContainerView.bottomAnchor, constant: 20),
             thirdLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
             
-            thirdContainerView.topAnchor.constraint(equalTo: thirdLabel.bottomAnchor, constant: 20),
-            thirdContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            thirdContainerView.widthAnchor.constraint(equalToConstant: 300),
-            thirdContainerView.heightAnchor.constraint(equalToConstant: 200)
+            gatheringScrollView.topAnchor.constraint(equalTo: thirdLabel.bottomAnchor, constant: 20),
+            gatheringScrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            gatheringScrollView.widthAnchor.constraint(equalToConstant: 300),
+            gatheringScrollView.heightAnchor.constraint(equalToConstant: 200),
             
+            gatheringStackView.topAnchor.constraint(equalTo: gatheringScrollView.topAnchor),
+            gatheringStackView.leadingAnchor.constraint(equalTo: gatheringScrollView.leadingAnchor),
+            gatheringStackView.trailingAnchor.constraint(equalTo: gatheringScrollView.trailingAnchor),
+            gatheringStackView.bottomAnchor.constraint(equalTo: gatheringScrollView.bottomAnchor),
+            gatheringStackView.heightAnchor.constraint(equalTo: gatheringScrollView.heightAnchor)
         ])
+    }
+    
+    func createStackView(axis: NSLayoutConstraint.Axis,
+                         alignment: UIStackView.Alignment,
+                         distribution: UIStackView.Distribution,
+                         spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.alignment = alignment
+        stackView.distribution = distribution
+        stackView.spacing = spacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    func createImageView(systemName: String,
+                         tintColor: UIColor? = nil,
+                         contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImageView {
+        let imageView = UIImageView(image: UIImage(systemName: systemName))
+        if let tintColor = tintColor {
+            imageView.tintColor = tintColor
+        }
+        imageView.contentMode = contentMode
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }
+    
+    func createLabel(text: String, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }
 }
