@@ -6,6 +6,12 @@
 //
 
 import UIKit
+import Combine
+
+protocol BoaderEditorPhotoCVCellDelegate: AnyObject {
+    func didTapAddPhotoButton()
+    func didTapDeletePhotoButton(photoIndex: Int)
+}
 
 class BoaderEditorPhotoTVCell: UITableViewCell {
     private let titleLabel: UILabel = {
@@ -31,13 +37,16 @@ class BoaderEditorPhotoTVCell: UITableViewCell {
         return cv
     }()
     
-    
+    weak var delegate: BoardEditorCellDelegate?
+    private var cancellables = Set<AnyCancellable>()
+    private var photosSubject = CurrentValueSubject<[UIImage], Never>([])
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .lp_background_white
         setupUI()
+        setupBindings()
     }
     
     required init?(coder: NSCoder) {
@@ -63,43 +72,67 @@ class BoaderEditorPhotoTVCell: UITableViewCell {
             photoCV.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
+    
+    func configureCell(photos: [UIImage]) {
+        photosSubject.send(photos)
+    }
+    
+    private func setupBindings() {
+        photosSubject
+            .sink { [weak self] _ in
+                self?.photoCV.reloadData()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 
-extension BoaderEditorPhotoTVCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension BoaderEditorPhotoTVCell: UICollectionViewDelegate, UICollectionViewDataSource, 
+                                    UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return photosSubject.value.count + 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, 
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell: BoarderEditorPhotoCVCell = collectionView.loadCell(indexPath: indexPath) {
             
             switch indexPath.row {
             case 0 :
                 cell.photoCellSetup(isPhoto: false)
             default:
-                cell.photoCellSetup(isPhoto: true)
+                let originPhotoIndex = indexPath.row - 1
+                cell.photoCellSetup(isPhoto: true, 
+                                    photo: photosSubject.value[originPhotoIndex],
+                                    photoIndex: originPhotoIndex)
             }
-            
+            cell.delegate = self
             return cell
         }
         
         return UICollectionViewCell()
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, 
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 250 , height: 270)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, 
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 32
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, 
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
         let cellWidthIncludingSpacing: CGFloat = CGSize(width: 250 , height: 270).width
-
         let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
         let index: Int
+        
         if velocity.x > 0 {
             index = Int(ceil(estimatedIndex))
         } else if velocity.x < 0 {
@@ -107,9 +140,18 @@ extension BoaderEditorPhotoTVCell: UICollectionViewDelegate, UICollectionViewDat
         } else {
             index = Int(round(estimatedIndex))
         }
-
+        
         targetContentOffset.pointee = CGPoint(x: (CGFloat(index) * cellWidthIncludingSpacing), y: 0)
     }
     
 }
 
+extension BoaderEditorPhotoTVCell: BoaderEditorPhotoCVCellDelegate {
+    func didTapAddPhotoButton() {
+        delegate?.presentImagePickerController()
+    }
+    
+    func didTapDeletePhotoButton(photoIndex: Int) {
+        delegate?.deletePhoto(index: photoIndex)
+    }
+}

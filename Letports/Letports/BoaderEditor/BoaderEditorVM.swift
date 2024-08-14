@@ -15,13 +15,20 @@ enum BoardEditorCellType {
     case photo
 }
 
+protocol BoardEditorCellDelegate: AnyObject {
+    func addPhoto(image: UIImage)
+    func deletePhoto(index: Int)
+    func writeTitle(content: String)
+    func writeContent(content: String)
+    func presentImagePickerController()
+}
 
 class BoaderEditorVM {
     
     @Published var addButtonEnable: Bool = true
     @Published var boardTitle: String?
     @Published var boardContents: String?
-    @Published var boardPhotos: [UIImage]?
+    @Published var boardPhotos: [UIImage] = []
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -43,6 +50,7 @@ class BoaderEditorVM {
     }
     
     
+    //MARK: - OutPut
     func getCellTypes() -> [BoardEditorCellType] {
         return self.cellType
     }
@@ -51,6 +59,12 @@ class BoaderEditorVM {
         return self.cellType.count
     }
     
+    func getPhotoCount() -> Int {
+        return self.boardPhotos.count
+    }
+    
+    
+    //MARK: - Input
     func writeBoardTitle(content: String) {
         self.boardTitle = content
     }
@@ -60,7 +74,13 @@ class BoaderEditorVM {
     }
     
     func addBoardPhotos(photo: UIImage) {
-        self.boardPhotos?.append(photo)
+        self.boardPhotos.append(photo)
+        
     }
+    
+    func deleteBoardPhoto(index: Int) {
+        self.boardPhotos.remove(at: index)
+    }
+    
     
 }

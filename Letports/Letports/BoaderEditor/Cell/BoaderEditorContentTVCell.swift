@@ -41,6 +41,7 @@ class BoaderEditorContentTVCell: UITableViewCell {
         return label
     }()
     
+    weak var delegate: BoardEditorCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -90,6 +91,7 @@ class BoaderEditorContentTVCell: UITableViewCell {
 extension BoaderEditorContentTVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         textCountLabel.text = "\(textView.text.count)/1000"
+        delegate?.writeContent(content: textView.text)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

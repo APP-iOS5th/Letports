@@ -24,10 +24,12 @@ class BoaderEditorTitleTVCell: UITableViewCell {
         tf.delegate = self
         tf.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10, height: 0.0))
         tf.leftViewMode = .always
+        tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
     
+    weak var delegate: BoardEditorCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,9 +61,29 @@ class BoaderEditorTitleTVCell: UITableViewCell {
             titleTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
     }
+    
+    @objc func textFieldDidChange() {
+        if let text = titleTextField.text {
+            self.delegate?.writeTitle(content: text)
+        }
+    }
 }
 
-
 extension BoaderEditorTitleTVCell: UITextFieldDelegate {
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
+        }
+        
+        guard let text = textField.text else { return false }
+        if text.count >= 100 {
+            return false
+        }
+        
+        return true
+    }
 }
