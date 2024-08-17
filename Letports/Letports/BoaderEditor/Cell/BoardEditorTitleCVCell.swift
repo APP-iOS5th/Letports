@@ -1,20 +1,13 @@
 //
-//  BoaderEditorTitleTVCell.swift
+//  BoardEditorTitleCVCell.swift
 //  Letports
 //
-//  Created by Chung Wussup on 8/14/24.
+//  Created by Chung Wussup on 8/17/24.
 //
 
 import UIKit
 
-class BoaderEditorTitleTVCell: UITableViewCell {
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "제목"
-        label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+class BoardEditorTitleCVCell: UICollectionViewCell {
     
     private lazy var titleTextField: UITextField = {
         let tf = UITextField()
@@ -29,11 +22,10 @@ class BoaderEditorTitleTVCell: UITableViewCell {
         return tf
     }()
     
-    weak var delegate: BoardEditorCellDelegate?
+    weak var delegate: BoardEditorDelegate?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         backgroundColor = .lp_background_white
         setupUI()
     }
@@ -42,23 +34,17 @@ class BoaderEditorTitleTVCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private func setupUI() {
-        [titleLabel, titleTextField].forEach {
+        [titleTextField].forEach {
             contentView.addSubview($0)
         }
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 14),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            
-            titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
+            titleTextField.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             titleTextField.heightAnchor.constraint(equalToConstant: 34),
-            titleTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            titleTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -69,7 +55,7 @@ class BoaderEditorTitleTVCell: UITableViewCell {
     }
 }
 
-extension BoaderEditorTitleTVCell: UITextFieldDelegate {
+extension BoardEditorTitleCVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         if let char = string.cString(using: String.Encoding.utf8) {

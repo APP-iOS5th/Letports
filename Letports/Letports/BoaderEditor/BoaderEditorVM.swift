@@ -15,13 +15,13 @@ enum BoardEditorCellType {
     case photo
 }
 
-protocol BoardEditorCellDelegate: AnyObject {
-    func addPhoto(image: UIImage)
-    func deletePhoto(index: Int)
+protocol BoardEditorDelegate: AnyObject {
     func writeTitle(content: String)
     func writeContent(content: String)
-    func presentImagePickerController()
+    func didTapAddPhotoButton()
+    func didTapDeletePhotoButton(photoIndex: Int)
 }
+
 
 class BoaderEditorVM {
     
@@ -60,9 +60,8 @@ class BoaderEditorVM {
     }
     
     func getPhotoCount() -> Int {
-        return self.boardPhotos.count
+        return self.boardPhotos.count + 1
     }
-    
     
     //MARK: - Input
     func writeBoardTitle(content: String) {

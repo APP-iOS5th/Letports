@@ -1,20 +1,13 @@
 //
-//  BoaderEditorContentTVCell.swift
+//  BoardEditorContentCVCell.swift
 //  Letports
 //
-//  Created by Chung Wussup on 8/14/24.
+//  Created by Chung Wussup on 8/17/24.
 //
 
 import UIKit
 
-class BoaderEditorContentTVCell: UITableViewCell {
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "내용"
-        label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+class BoardEditorContentCVCell: UICollectionViewCell {
     
     private let mainView: UIView = {
        let view = UIView()
@@ -41,11 +34,10 @@ class BoaderEditorContentTVCell: UITableViewCell {
         return label
     }()
     
-    weak var delegate: BoardEditorCellDelegate?
+    weak var delegate: BoardEditorDelegate?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         backgroundColor = .lp_background_white
         setupUI()
     }
@@ -54,9 +46,8 @@ class BoaderEditorContentTVCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private func setupUI() {
-        [titleLabel, mainView ].forEach {
+        [mainView ].forEach {
             contentView.addSubview($0)
         }
         
@@ -66,12 +57,7 @@ class BoaderEditorContentTVCell: UITableViewCell {
         
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            
-            mainView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
+            mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             mainView.heightAnchor.constraint(equalToConstant: 236),
@@ -88,7 +74,7 @@ class BoaderEditorContentTVCell: UITableViewCell {
     }
 }
 
-extension BoaderEditorContentTVCell: UITextViewDelegate {
+extension BoardEditorContentCVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         textCountLabel.text = "\(textView.text.count)/1000"
         delegate?.writeContent(content: textView.text)
