@@ -40,7 +40,7 @@ class BoarderEditorPhotoCVCell: UICollectionViewCell {
         return button
     }()
     
-    weak var delegate: BoaderEditorPhotoCVCellDelegate?
+    weak var delegate: BoarderEditorPhotoCVCellDelegate?
     
     private var photoIndex: Int = 0
     

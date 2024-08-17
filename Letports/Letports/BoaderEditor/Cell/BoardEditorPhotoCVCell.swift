@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol BoaderEditorPhotoCVCellDelegate: AnyObject {
+protocol BoarderEditorPhotoCVCellDelegate: AnyObject {
     func didTapAddPhotoButton()
     func didTapDeletePhotoButton(photoIndex: Int)
 }

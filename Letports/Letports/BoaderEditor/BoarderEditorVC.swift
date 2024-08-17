@@ -1,5 +1,5 @@
 //
-//  BoaderEditorVC.swift
+//  BoarderEditorVC.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/13/24.
@@ -28,7 +28,7 @@ class BoarderEditorVC: UIViewController {
         cv.delegate = self
         cv.dataSource = self
         cv.backgroundColor = .lp_background_white
-        cv.register(BoadEditorHeaderCVCell.self,
+        cv.register(BoardEditorHeaderCVCell.self,
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader
                     ,withReuseIdentifier: "BoadEditorHeaderCVCell")
         cv.registersCell(cellClasses: BoardEditorPhotoCVCell.self,
@@ -38,10 +38,10 @@ class BoarderEditorVC: UIViewController {
         return cv
     }()
     
-    private var viewModel: BoaderEditorVM
+    private var viewModel: BoarderEditorVM
     private var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: BoaderEditorVM) {
+    init(viewModel: BoarderEditorVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -301,7 +301,7 @@ extension BoarderEditorVC: UICollectionViewDelegate, UICollectionViewDataSource 
         case UICollectionView.elementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, 
                                                                          withReuseIdentifier: "BoadEditorHeaderCVCell",
-                                                                         for: indexPath) as! BoadEditorHeaderCVCell
+                                                                         for: indexPath) as! BoardEditorHeaderCVCell
             
             // 섹션별로 다른 텍스트를 설정
             switch indexPath.section {
@@ -395,5 +395,5 @@ extension BoarderEditorVC: UIImagePickerControllerDelegate & UINavigationControl
 }
 
 #Preview() {
-    BoarderEditorVC(viewModel: BoaderEditorVM())
+    BoarderEditorVC(viewModel: BoarderEditorVM())
 }
