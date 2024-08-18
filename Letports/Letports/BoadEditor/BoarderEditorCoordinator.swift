@@ -1,5 +1,5 @@
 //
-//  BoarderEditorCoordinator.swift
+//  BoardEditorCoordinator.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/13/24.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class BoarderEditorCoordinator: Coordinator {
+class BoardEditorCoordinator: Coordinator {
     var navigationController: UINavigationController
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -18,8 +18,8 @@ class BoarderEditorCoordinator: Coordinator {
     }
     
     func start() {
-        let viewModel = BoarderEditorVM()
-        let vc = BoarderEditorVC(viewModel: viewModel)
+        let viewModel = BoardEditorVM()
+        let vc = BoardEditorVC(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     

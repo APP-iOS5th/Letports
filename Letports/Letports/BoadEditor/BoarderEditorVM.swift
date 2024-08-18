@@ -1,5 +1,5 @@
 //
-//  BoarderEditorVM.swift
+//  BoardEditorVM.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/13/24.
@@ -23,7 +23,7 @@ protocol BoardEditorDelegate: AnyObject {
 }
 
 
-class BoarderEditorVM {
+class BoardEditorVM {
     
     @Published var addButtonEnable: Bool = true
     @Published var boardTitle: String?

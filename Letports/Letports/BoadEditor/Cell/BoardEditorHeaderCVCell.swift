@@ -1,5 +1,5 @@
 //
-//  BoarderEditorTitleCVCell.swift
+//  BoardEditorTitleCVCell.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/17/24.

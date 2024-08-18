@@ -1,5 +1,5 @@
 //
-//  BoarderEditorVC.swift
+//  BoardEditorVC.swift
 //  Letports
 //
 //  Created by Chung Wussup on 8/13/24.
@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import Photos
 
-class BoarderEditorVC: UIViewController {
+class BoardEditorVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
         let cnv = CustomNavigationView(isLargeNavi: .small,
@@ -38,10 +38,10 @@ class BoarderEditorVC: UIViewController {
         return cv
     }()
     
-    private var viewModel: BoarderEditorVM
+    private var viewModel: BoardEditorVM
     private var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: BoarderEditorVM) {
+    init(viewModel: BoardEditorVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -96,15 +96,9 @@ class BoarderEditorVC: UIViewController {
         viewModel.$boardPhotos
             .receive(on: DispatchQueue.main)
             .sink { [weak self] photos in
-                self?.updatePhotoSection(with: photos)
+                self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
-    }
-    
-    //photo에 해당하는 섹션만 리로드
-    private func updatePhotoSection(with photos: [UIImage]) {
-        let indexSet = IndexSet(integer: 2)
-        collectionView.reloadSections(indexSet)
     }
     
     private func bindKeyboard() {
@@ -142,7 +136,7 @@ class BoarderEditorVC: UIViewController {
 
 }
 
-extension BoarderEditorVC: CustomNavigationDelegate {
+extension BoardEditorVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
         
     }
@@ -157,7 +151,7 @@ extension BoarderEditorVC: CustomNavigationDelegate {
 }
 
 //MARK: - Compositional layout settting
-extension BoarderEditorVC {
+extension BoardEditorVC {
     //Composition Layout 생성
     func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
@@ -247,7 +241,7 @@ extension BoarderEditorVC {
     }
 }
 
-extension BoarderEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
@@ -322,7 +316,7 @@ extension BoarderEditorVC: UICollectionViewDelegate, UICollectionViewDataSource 
     }
 }
 
-extension BoarderEditorVC: BoardEditorDelegate {
+extension BoardEditorVC: BoardEditorDelegate {
     func writeTitle(content: String) {
         viewModel.writeBoardTitle(content: content)
     }
@@ -342,7 +336,7 @@ extension BoarderEditorVC: BoardEditorDelegate {
 
 
 
-extension BoarderEditorVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     private func selectPhotoButtonTapped() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
@@ -395,5 +389,5 @@ extension BoarderEditorVC: UIImagePickerControllerDelegate & UINavigationControl
 }
 
 #Preview() {
-    BoarderEditorVC(viewModel: BoarderEditorVM())
+    BoardEditorVC(viewModel: BoardEditorVM())
 }

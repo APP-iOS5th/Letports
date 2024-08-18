@@ -1,13 +1,14 @@
 //
-//  BoarderEditorPhotoCVCell.swift
+//  BoardEditorPhotoCVCell.swift
 //  Letports
 //
-//  Created by Chung Wussup on 8/14/24.
+//  Created by Chung Wussup on 8/17/24.
 //
 
 import UIKit
 
-class BoarderEditorPhotoCVCell: UICollectionViewCell {
+class BoardEditorPhotoCVCell: UICollectionViewCell {
+    
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -40,12 +41,13 @@ class BoarderEditorPhotoCVCell: UICollectionViewCell {
         return button
     }()
     
-    weak var delegate: BoarderEditorPhotoCVCellDelegate?
-    
+    weak var delegate: BoardEditorDelegate?
     private var photoIndex: Int = 0
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .lp_background_white
         setupUI()
     }
     
@@ -67,17 +69,18 @@ class BoarderEditorPhotoCVCell: UICollectionViewCell {
         }
         
         NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             photoAddButton.topAnchor.constraint(equalTo: photoImageView.topAnchor),
             photoAddButton.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor),
             photoAddButton.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
             photoAddButton.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
             
-            cancelButton.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
-            cancelButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            cancelButton.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: -5),
+            cancelButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             cancelButton.widthAnchor.constraint(equalToConstant: 36),
             cancelButton.heightAnchor.constraint(equalToConstant: 36)
         ])
@@ -98,6 +101,6 @@ class BoarderEditorPhotoCVCell: UICollectionViewCell {
     }
     
     @objc func didTapDeletePhotoButton() {
-        delegate?.didTapDeletePhotoButton(photoIndex: self.photoIndex)
+        delegate?.didTapDeletePhotoButton(photoIndex: self.photoIndex + 1)
     }
 }
