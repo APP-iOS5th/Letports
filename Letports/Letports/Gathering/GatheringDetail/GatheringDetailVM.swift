@@ -13,7 +13,8 @@ protocol ButtonStateDelegate: AnyObject {
 }
 
 enum GatheringDetailCellType {
-	case gatheringImageTitle
+	case gatheringImage
+	case gatheringTitle
 	case gatheringInfo
 	case gatheringProfile
 	case boardButtonType
@@ -39,7 +40,8 @@ class GatheringDetailVM {
 	
 	private var cellType: [GatheringDetailCellType] {
 		var cellTypes: [GatheringDetailCellType] = []
-		cellTypes.append(.gatheringImageTitle)
+		cellTypes.append(.gatheringImage)
+		cellTypes.append(.gatheringTitle)
 		cellTypes.append(.separator)
 		cellTypes.append(.gatheringInfo)
 		cellTypes.append(.gatheringProfile)
@@ -62,7 +64,7 @@ class GatheringDetailVM {
 	struct GatheringHeader {
 		let gatheringImage: String
 		let gatheringName: String
-		let gatehringMasterName: String
+		let gatheringMasterName: String
 		let gatheringNowMember: String
 		let gatheringMaxMember: String
 	}
@@ -71,7 +73,7 @@ class GatheringDetailVM {
 	let GatheringHeaders = [
 		GatheringHeader(gatheringImage: "sampleImage",
 						gatheringName: "수호단",
-						gatehringMasterName: "매드카우",
+						gatheringMasterName: "매드카우",
 						gatheringNowMember: "4",
 						gatheringMaxMember: "10")
 	]

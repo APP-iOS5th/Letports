@@ -34,10 +34,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		contentView.addSubview(tableView)
-		contentView.backgroundColor = .red
-		
-		
+		self.contentView.addSubview(tableView)
 		NSLayoutConstraint.activate([
 			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

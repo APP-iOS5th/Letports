@@ -43,7 +43,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 
 	// MARK: - Setup
 	private func setupUI() {
-		contentView.addSubview(collectionView)
+		self.contentView.addSubview(collectionView)
 		NSLayoutConstraint.activate([
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

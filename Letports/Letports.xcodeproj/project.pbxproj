@@ -35,10 +35,11 @@
 		BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */; };
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
 		BF1283DB2C725CBF00BEAE4C /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* FloatingButton.swift */; };
+		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
-		BF7BBE292C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */; };
+		BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
 		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
 		BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */; };
 		BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */; };
@@ -98,10 +99,11 @@
 		BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonCVCell.swift; sourceTree = "<group>"; };
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
 		BF1283DA2C725CBF00BEAE4C /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
-		BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailImageTVCell.swift; sourceTree = "<group>"; };
+		BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTitleTVCell.swift; sourceTree = "<group>"; };
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
@@ -217,7 +219,8 @@
 		BF7BBE272C6B7F360094C29C /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */,
+				BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */,
+				BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */,
 				BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */,
 				BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */,
 				BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */,
@@ -459,9 +462,10 @@
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,
 				413BE6572C6605B00070D6F9 /* SeperatorLineTVCell.swift in Sources */,
-				BF7BBE292C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift in Sources */,
+				BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
+				BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */,
 				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
 				BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */,

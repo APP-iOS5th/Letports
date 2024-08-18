@@ -7,14 +7,7 @@
 
 import UIKit
 
-final class GatheringDetailImageTVCell: UITableViewCell {
-	
-	private let gatheringImage: UIImageView = {
-		let iv = UIImageView()
-		iv.isUserInteractionEnabled = false
-		iv.translatesAutoresizingMaskIntoConstraints = false
-		return iv
-	}()
+final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
@@ -97,7 +90,7 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 	private func setupUI() {
 		self.contentView.backgroundColor = .lp_background_white
 		
-		[gatheringImage, editButton, titleSV].forEach {
+		[editButton, titleSV].forEach {
 			self.contentView.addSubview($0)
 		}
 		
@@ -110,17 +103,11 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 		}
 		
 		NSLayoutConstraint.activate([
-			gatheringImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-			gatheringImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-			gatheringImage.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-			gatheringImage.heightAnchor.constraint(equalToConstant: 200),
-			
-			titleSV.topAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: 10),
+			titleSV.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
 			titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
 			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
 			
-			
-			editButton.topAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: 39),
+			editButton.topAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 39),
 			editButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
 			editButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
 			editButton.widthAnchor.constraint(equalToConstant: 36),
@@ -129,9 +116,8 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 	}
 	
 	func configureCell(data: GatheringDetailVM.GatheringHeader, isMaster: Bool) {
-		gatheringImage.image = UIImage(named: data.gatheringImage)
 		titleLabel.text = data.gatheringName
-		masterNameLabel.text = data.gatehringMasterName
+		masterNameLabel.text = data.gatheringMasterName
 		gatherNowMemberLabel.text = data.gatheringNowMember
 		gatherMaxMemberLabel.text = data.gatheringMaxMember
 		editButton.isHidden = !isMaster

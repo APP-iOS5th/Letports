@@ -29,7 +29,8 @@ final class GatheringDetailVC: UIViewController {
 		let tv = UITableView()
 		tv.separatorStyle = .none
 		tv.backgroundColor = .lp_background_white
-		tv.rsgistersCell(cellClasses: GatheringDetailImageTVCell.self,
+		tv.rsgistersCell(cellClasses: GatheringImageTVCell.self,
+						 GatheringTitleTVCell.self,
 						 SeperatorLineTVCell.self,
 						 GatheringDetailInfoTVCell.self,
 						 GatheringDetailProfileTVCell.self,
@@ -133,10 +134,9 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch self.viewModel.getDetailCellTypes()[indexPath.row] {
-		case .gatheringImageTitle:
-			if let cell: GatheringDetailImageTVCell  = tableView.loadCell(indexPath: indexPath) {
-				let headerData = viewModel.GatheringHeaders.first // 첫 번째 데이터를 사용
-				if let data = headerData {
+		case .gatheringTitle:
+			if let cell: GatheringTitleTVCell  = tableView.loadCell(indexPath: indexPath) {
+				if let data = viewModel.GatheringHeaders.first(where: { $0.gatheringName == "수호단" }) {
 					cell.configureCell(data: data, isMaster: viewModel.isMaster)
 				}
 				return cell
@@ -164,6 +164,13 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				cell.updateTableViewHeight()
 				return cell
 			}
+		case .gatheringImage:
+			if let cell: GatheringImageTVCell = tableView.loadCell(indexPath: indexPath) {
+				if let data = viewModel.GatheringHeaders.first(where: { $0.gatheringName == "수호단" }) {
+					cell.configureCell(data: data)
+				}
+				return cell
+			}
 		}
 		return UITableViewCell()
 	}
@@ -175,7 +182,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let cellType = self.viewModel.getDetailCellTypes()[indexPath.row]
 		switch cellType {
-		case .gatheringImageTitle:
+		case .gatheringImage:
+			return 200
+		case .gatheringTitle:
 			return UITableView.automaticDimension
 		case .gatheringInfo:
 			return UITableView.automaticDimension
