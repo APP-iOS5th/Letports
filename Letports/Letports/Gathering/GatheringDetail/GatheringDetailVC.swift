@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class GatheringDetailVC: UIViewController {
 	private let floatingButton: FloatingButton = {
@@ -29,6 +30,7 @@ final class GatheringDetailVC: UIViewController {
 	}()
 	
 	private var viewModel: GatheringDetailVM
+	private var cancellables: Set<AnyCancellable> = []
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = GatheringDetailVM()
@@ -46,6 +48,30 @@ final class GatheringDetailVC: UIViewController {
 		tableView.rowHeight = UITableView.automaticDimension
 		setupUI()
 		setupFloatingButton()
+	}
+	
+	// MARK: - bindVm
+	private func bindViewModel() {
+		viewModel.$membershipStatus
+			.receive(on: RunLoop.main)
+			.sink { [weak self] status in
+				self?.updateFloatingButton(for: status)
+			}
+			.store(in: &cancellables)
+	}
+	
+	private func updateFloatingButton(for status: MembershipStatus) {
+		switch status {
+		case .notJoined:
+			floatingButton.setTitle("가입하기", for: .normal)
+			floatingButton.isHidden = false
+		case .pending:
+			floatingButton.setTitle("가입대기", for: .normal)
+			floatingButton.backgroundColor = .lightGray
+			floatingButton.isHidden = false
+		case .joined:
+			floatingButton.isHidden = true
+		}
 	}
 	
 	// MARK: - Setup
@@ -74,7 +100,6 @@ final class GatheringDetailVC: UIViewController {
 	}
 }
 
-
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch self.viewModel.getDetailCellTypes()[indexPath.row] {
@@ -82,7 +107,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			if let cell: GatheringDetailImageTVCell  = tableView.loadCell(indexPath: indexPath) {
 				let headerData = viewModel.GatheringHeaders.first // 첫 번째 데이터를 사용
 				if let data = headerData {
-					cell.configureCell(data: data)
+					cell.configureCell(data: data, isMaster: viewModel.isMaster)
 				}
 				return cell
 			}

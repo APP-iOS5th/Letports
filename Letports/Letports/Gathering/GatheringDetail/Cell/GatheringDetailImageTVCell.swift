@@ -128,11 +128,12 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: GatheringDetailVM.GatheringHeader) {
+	func configureCell(data: GatheringDetailVM.GatheringHeader, isMaster: Bool) {
 		gatheringImage.image = UIImage(named: data.gatheringImage)
 		titleLabel.text = data.gatheringName
 		masterNameLabel.text = data.gatehringMasterName
 		gatherNowMemberLabel.text = data.gatheringNowMember
 		gatherMaxMemberLabel.text = data.gatheringMaxMember
+		editButton.isHidden = !isMaster
 	}
 }

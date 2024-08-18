@@ -20,15 +20,22 @@ enum GatheringDetailCellType {
 	case gatheringBoard
 	case separator
 }
-
+// 게시판 유형
 enum BoardButtonType {
 	case all
 	case noti
 	case free
 }
+// 가입상태
+enum MembershipStatus {
+	case notJoined
+	case pending
+	case joined
+}
 
 class GatheringDetailVM {
-	@Published var isMaster: Bool = false
+	@Published var isMaster: Bool = true
+	@Published var membershipStatus: MembershipStatus = .joined
 	
 	private var cellType: [GatheringDetailCellType] {
 		var cellTypes: [GatheringDetailCellType] = []

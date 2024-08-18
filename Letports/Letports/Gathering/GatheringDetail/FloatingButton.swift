@@ -25,4 +25,6 @@ class FloatingButton: UIButton {
 		self.layer.cornerRadius = 25
 		self.clipsToBounds = true
 	}
+	
+	
 }
