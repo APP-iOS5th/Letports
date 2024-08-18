@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import KoTextCountLimit
 
 class GatheringUplaodTitleTVCell: UITableViewCell {
+    
+    private let koTextLimit = KoTextCountLimit()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -92,18 +95,6 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
 extension GatheringUplaodTitleTVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 {
-                return true
-            }
-        }
-
-        guard let text = textField.text else { return false }
-        if text.count >= 100 {
-            return false
-        }
-
-        return true
+        return koTextLimit.shouldChangeText(for: textField, in: range, replacementText: string, maxCharacterLimit: 10)
     }
 }
