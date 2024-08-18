@@ -1,0 +1,15 @@
+{
+  "originHash" : "b37af3cb0f0dc4217c827669246b721b3fb4604a663dd64fd1798a13bc271b83",
+  "pins" : [
+    {
+      "identity" : "kotextcountlimit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iOS-Ruel/KoTextCountLimit",
+      "state" : {
+        "revision" : "45ceb4f6eeebf9c66483c2d352a47d4e1c5a6fd9",
+        "version" : "1.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}

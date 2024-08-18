@@ -30,6 +30,7 @@
 		4143E4552C6B47B5001AB3E0 /* BoarderEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4542C6B47B5001AB3E0 /* BoarderEditorVC.swift */; };
 		4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */; };
 		4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */; };
+		41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05202C7231B3009FF289 /* KoTextCountLimit */; };
 		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
@@ -120,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +313,9 @@
 			dependencies = (
 			);
 			name = Letports;
+			packageProductDependencies = (
+				41AA05202C7231B3009FF289 /* KoTextCountLimit */,
+			);
 			productName = Letports;
 			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
 			productType = "com.apple.product-type.application";
@@ -383,6 +388,9 @@
 				Base,
 			);
 			mainGroup = D8201FA52C606934004DF06C;
+			packageReferences = (
+				41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */,
+			);
 			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -817,6 +825,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iOS-Ruel/KoTextCountLimit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		41AA05202C7231B3009FF289 /* KoTextCountLimit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */;
+			productName = KoTextCountLimit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D8201FA62C606934004DF06C /* Project object */;
 }
