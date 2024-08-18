@@ -9,6 +9,16 @@ import UIKit
 import Combine
 
 final class GatheringDetailVC: UIViewController {
+	private lazy var navigationView: CustomNavigationView = {
+		let cnv = CustomNavigationView(isLargeNavi: .small,
+									   screenType: .smallGathering(gatheringName: "수호단", btnName: .gear))
+		
+		cnv.delegate = self
+		cnv.backgroundColor = .lp_background_white
+		cnv.translatesAutoresizingMaskIntoConstraints = false
+		return cnv
+	}()
+	
 	private let floatingButton: FloatingButton = {
 		let button = FloatingButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,12 +86,18 @@ final class GatheringDetailVC: UIViewController {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		[tableView].forEach{
+		self.view.backgroundColor = .lpBackgroundWhite
+		
+		[navigationView, tableView].forEach {
 			self.view.addSubview($0)
 		}
 		
 		NSLayoutConstraint.activate([
-			tableView.topAnchor.constraint(equalTo: view.topAnchor),
+			navigationView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+			navigationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			navigationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			
+			tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
 			tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -97,6 +113,20 @@ final class GatheringDetailVC: UIViewController {
 			floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
 		])
+	}
+}
+
+extension GatheringDetailVC: CustomNavigationDelegate {
+	func smallRightButtonDidTap() {
+		print("samll")
+	}
+	
+	func sportsSelectButtonDidTap() {
+		
+	}
+	
+	func backButtonDidTap() {
+		self.dismiss(animated: true)
 	}
 }
 

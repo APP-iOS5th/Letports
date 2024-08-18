@@ -9,13 +9,15 @@ import UIKit
 
 final class GatheringDetailBoardTVCell: UITableViewCell {
 	
-	private let tableView: UITableView = {
+	private lazy var tableView: UITableView = {
 		let tv = UITableView()
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.separatorStyle = .none
 		tv.backgroundColor = .clear
 		tv.isScrollEnabled = false
 		tv.backgroundColor = .lp_background_white
+		tv.dataSource = self
+		tv.delegate = self
 		tv.register(BoardTVCell.self, forCellReuseIdentifier: "BoardTVCell")
 		return tv
 	}()
@@ -34,8 +36,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	private func setupUI() {
 		contentView.addSubview(tableView)
 		contentView.backgroundColor = .red
-		tableView.dataSource = self
-		tableView.delegate = self
+		
 		
 		NSLayoutConstraint.activate([
 			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
