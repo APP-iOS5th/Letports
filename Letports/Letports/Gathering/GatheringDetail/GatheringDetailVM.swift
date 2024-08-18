@@ -8,10 +8,23 @@
 import Foundation
 import UIKit
 
+protocol ButtonStateDelegate: AnyObject {
+	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
+}
+
 enum GatheringDetailCellType {
 	case gatheringImageTitle
 	case gatheringInfo
 	case gatheringProfile
+	case boardButtonType
+	case gatheringBoard
+	case separator
+}
+
+enum BoardButtonType {
+	case all
+	case noti
+	case free
 }
 
 class GatheringDetailVM {
@@ -20,8 +33,13 @@ class GatheringDetailVM {
 	private var cellType: [GatheringDetailCellType] {
 		var cellTypes: [GatheringDetailCellType] = []
 		cellTypes.append(.gatheringImageTitle)
+		cellTypes.append(.separator)
 		cellTypes.append(.gatheringInfo)
 		cellTypes.append(.gatheringProfile)
+		cellTypes.append(.separator)
+		cellTypes.append(.boardButtonType)
+		cellTypes.append(.separator)
+		cellTypes.append(.gatheringBoard)
 		return cellTypes
 	}
 	
@@ -42,6 +60,7 @@ class GatheringDetailVM {
 		let gatheringMaxMember: String
 	}
 	
+	// 더미데이터
 	let GatheringHeaders = [
 		GatheringHeader(gatheringImage: "sampleImage",
 						gatheringName: "수호단",

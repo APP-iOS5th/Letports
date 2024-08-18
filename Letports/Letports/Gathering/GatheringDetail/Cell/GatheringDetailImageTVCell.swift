@@ -86,15 +86,15 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		setUpUI()
+		setupUI()
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	// MARK: - SetUp UI
-	private func setUpUI() {
+	// MARK: - Setup
+	private func setupUI() {
 		self.contentView.backgroundColor = .lp_background_white
 		
 		[gatheringImage, editButton, titleSV].forEach {
@@ -117,7 +117,8 @@ final class GatheringDetailImageTVCell: UITableViewCell {
 			
 			titleSV.topAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: 10),
 			titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
-			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
+			
 			
 			editButton.topAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: 39),
 			editButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),

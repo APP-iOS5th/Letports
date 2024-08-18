@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringDetailProfileCVCell: UICollectionViewCell {
+final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
 	private let userImageBt: UIButton = {
 		let bt = UIButton()
@@ -39,14 +39,15 @@ class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		setUpUI()
+		setupUI()
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	private func setUpUI() {
+	// MARK: - Setup
+	private func setupUI() {
 		[userImageBt, userNickName].forEach {
 			self.verticalStack.addArrangedSubview($0)
 		}

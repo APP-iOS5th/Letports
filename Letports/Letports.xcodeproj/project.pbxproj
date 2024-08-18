@@ -31,7 +31,11 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471462C6499650067BD09 /* ProfileCoordinator.swift */; };
 		B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471482C64F81E0067BD09 /* Coordinator.swift */; };
-		BF3882582C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */; };
+		BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */; };
+		BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */; };
+		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
+		BF1283DB2C725CBF00BEAE4C /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* FloatingButton.swift */; };
+		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
 		BF7BBE292C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */; };
@@ -90,7 +94,11 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B82471462C6499650067BD09 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		B82471482C64F81E0067BD09 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
+		BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonTVCell.swift; sourceTree = "<group>"; };
+		BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonCVCell.swift; sourceTree = "<group>"; };
+		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
+		BF1283DA2C725CBF00BEAE4C /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
 		BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailImageTVCell.swift; sourceTree = "<group>"; };
@@ -211,9 +219,12 @@
 			children = (
 				BF7BBE282C6B7FFC0094C29C /* GatheringDetailImageTVCell.swift */,
 				BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */,
-				BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */,
 				BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */,
-				BF3882572C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift */,
+				BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */,
+				BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */,
+				BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */,
+				BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */,
+				BF3882572C6B827B00C59A4F /* BoardTVCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -224,6 +235,7 @@
 				BF7BBE272C6B7F360094C29C /* Cell */,
 				BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */,
 				BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */,
+				BF1283DA2C725CBF00BEAE4C /* FloatingButton.swift */,
 			);
 			path = GatheringDetail;
 			sourceTree = "<group>";
@@ -419,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */,
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
@@ -429,8 +442,10 @@
 				BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */,
 				BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
+				BF1283DB2C725CBF00BEAE4C /* FloatingButton.swift in Sources */,
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
+				BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */,
 				413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */,
 				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
@@ -449,9 +464,10 @@
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
-				BF3882582C6B827B00C59A4F /* GatheringDetailBoardTVCell.swift in Sources */,
+				BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 				BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */,
+				BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

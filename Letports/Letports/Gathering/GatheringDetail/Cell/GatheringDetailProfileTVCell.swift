@@ -28,7 +28,8 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		setUpUI()
+		setupUI()
+		contentView.backgroundColor = .lp_background_white
 		collectionView.backgroundColor = .lp_background_white
 		collectionView.dataSource = self
 		collectionView.delegate = self
@@ -40,12 +41,13 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private func setUpUI() {
+	// MARK: - Setup
+	private func setupUI() {
 		contentView.addSubview(collectionView)
 		NSLayoutConstraint.activate([
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 		])
 	}
@@ -56,7 +58,8 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 		return profiles.count
 	}
 
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
+	UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell",
 															for: indexPath) as? GatheringDetailProfileCVCell else {
 			return UICollectionViewCell()

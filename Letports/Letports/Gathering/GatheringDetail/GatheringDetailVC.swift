@@ -8,14 +8,22 @@
 import UIKit
 
 final class GatheringDetailVC: UIViewController {
+	private let floatingButton: FloatingButton = {
+		let button = FloatingButton()
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
+	}()
 	
 	private let tableView: UITableView = {
 		let tv = UITableView()
 		tv.separatorStyle = .none
-		tv.backgroundColor = .lpBackgroundWhite
+		tv.backgroundColor = .lp_background_white
 		tv.rsgistersCell(cellClasses: GatheringDetailImageTVCell.self,
+						 SeperatorLineTVCell.self,
 						 GatheringDetailInfoTVCell.self,
-						 GatheringDetailProfileTVCell.self)
+						 GatheringDetailProfileTVCell.self,
+						 BoardButtonTVCell.self,
+						 GatheringDetailBoardTVCell.self)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		return tv
 	}()
@@ -36,10 +44,12 @@ final class GatheringDetailVC: UIViewController {
 		tableView.dataSource = self
 		tableView.delegate = self
 		tableView.rowHeight = UITableView.automaticDimension
-		layout()
+		setupUI()
+		setupFloatingButton()
 	}
 	
-	private func layout() {
+	// MARK: - Setup
+	private func setupUI() {
 		[tableView].forEach{
 			self.view.addSubview($0)
 		}
@@ -51,7 +61,19 @@ final class GatheringDetailVC: UIViewController {
 			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
 	}
+	// 플로팅 버튼
+	private func setupFloatingButton() {
+		view.addSubview(floatingButton)
+		// Set constraints for the button
+		NSLayoutConstraint.activate([
+			floatingButton.widthAnchor.constraint(equalToConstant: 300),
+			floatingButton.heightAnchor.constraint(equalToConstant: 50),
+			floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+		])
+	}
 }
+
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,6 +86,11 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				}
 				return cell
 			}
+		case .separator:
+			if let cell: SeperatorLineTVCell = tableView.loadCell(indexPath: indexPath) {
+				cell.configureCell(height: 1)
+				return cell
+			}
 		case .gatheringInfo:
 			if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath) {
 				return cell
@@ -71,6 +98,15 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
 				cell.profiles = viewModel.profiles
+				return cell
+			}
+		case .boardButtonType:
+			if let cell: BoardButtonTVCell = tableView.loadCell(indexPath: indexPath) {
+				return cell
+			}
+		case .gatheringBoard:
+			if let cell: GatheringDetailBoardTVCell = tableView.loadCell(indexPath: indexPath) {
+				cell.updateTableViewHeight()
 				return cell
 			}
 		}
@@ -90,6 +126,15 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			return UITableView.automaticDimension
 		case .gatheringProfile:
 			return 80
+		case .boardButtonType:
+			return UITableView.automaticDimension
+		case .gatheringBoard:
+			if let cell = tableView.cellForRow(at: indexPath) as? GatheringDetailBoardTVCell {
+				return cell.calculateTableViewHeight()
+			}
+			return UITableView.automaticDimension
+		case .separator:
+			return 1
 		}
 	}
 }
