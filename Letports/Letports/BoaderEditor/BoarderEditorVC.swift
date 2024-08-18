@@ -96,15 +96,9 @@ class BoarderEditorVC: UIViewController {
         viewModel.$boardPhotos
             .receive(on: DispatchQueue.main)
             .sink { [weak self] photos in
-                self?.updatePhotoSection(with: photos)
+                self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
-    }
-    
-    //photo에 해당하는 섹션만 리로드
-    private func updatePhotoSection(with photos: [UIImage]) {
-        let indexSet = IndexSet(integer: 2)
-        collectionView.reloadSections(indexSet)
     }
     
     private func bindKeyboard() {

@@ -7,12 +7,6 @@
 
 import UIKit
 
-
-protocol BoarderEditorPhotoCVCellDelegate: AnyObject {
-    func didTapAddPhotoButton()
-    func didTapDeletePhotoButton(photoIndex: Int)
-}
-
 class BoardEditorPhotoCVCell: UICollectionViewCell {
     
     private let photoImageView: UIImageView = {
