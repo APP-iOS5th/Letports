@@ -28,6 +28,7 @@
 		F71B59EB2C65F3DE0061824B /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E62C65F3DE0061824B /* Extension+UIImage.swift */; };
 		F71B59EC2C65F3DE0061824B /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E82C65F3DE0061824B /* Extension+Color.swift */; };
 		F71B59ED2C65F3DE0061824B /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E92C65F3DE0061824B /* CustomNavigationView.swift */; };
+		F793DAF42C6C488B00D6D6AE /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793DAF32C6C488B00D6D6AE /* URLVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		F71B59E62C65F3DE0061824B /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		F71B59E82C65F3DE0061824B /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		F71B59E92C65F3DE0061824B /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		F793DAF32C6C488B00D6D6AE /* URLVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				B824713A2C647F9F0067BD09 /* HomeVC.swift */,
+				F793DAF32C6C488B00D6D6AE /* URLVC.swift */,
 				B82471422C64994E0067BD09 /* HomeCoordinator.swift */,
 			);
 			path = Home;
@@ -346,6 +349,7 @@
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
+				F793DAF42C6C488B00D6D6AE /* URLVC.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
