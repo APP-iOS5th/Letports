@@ -10,14 +10,33 @@ import UIKit
 final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	private var isExpanded = true
+	private var expandedHeight: CGFloat = 0
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.contentView.backgroundColor = .lp_background_white
+		calculateExpandedHeight()
+		updateTextViewHeight()
+	}
+	
+	private func calculateExpandedHeight() {
 		let sizeThatFitsTextView = gatheringInfoTextView.sizeThatFits(CGSize(
 			width: gatheringInfoTextView.frame.width,
 			height: CGFloat.greatestFiniteMagnitude))
-		gatheringInfoTextView.heightAnchor.constraint(equalToConstant: sizeThatFitsTextView.height).isActive = true
+		expandedHeight = sizeThatFitsTextView.height
+	}
+	
+	private func updateTextViewHeight() {
+		let newHeight = isExpanded ? expandedHeight : 100
+		gatheringInfoTextView.constraints.forEach { constraint in
+			if constraint.firstAttribute == .height {
+				constraint.constant = newHeight
+			}
+		}
+	}
+	
+	func getHeight() -> CGFloat {
+		return isExpanded ? expandedHeight + 60 : 160
 	}
 	
 	private let gatheringInfoTextView: UITextView = {
@@ -90,9 +109,12 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		isExpanded.toggle()
 		
 		UIView.animate(withDuration: 0.3) {
+			self.updateTextViewHeight()
 			self.toggleButton.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
+			self.layoutIfNeeded()
 		}
+		(superview as? UITableView)?.beginUpdates()
+		(superview as? UITableView)?.endUpdates()
 	}
 }
-
 

@@ -41,6 +41,7 @@ final class GatheringDetailVC: UIViewController {
 						 GatheringTitleTVCell.self,
 						 SeperatorLineTVCell.self,
 						 GatheringDetailInfoTVCell.self,
+						 currentMemTVCell.self,
 						 GatheringDetailProfileTVCell.self,
 						 BoardButtonTVCell.self,
 						 GatheringDetailBoardTVCell.self)
@@ -203,6 +204,10 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				cell.board = viewModel.filteredBoardData
 				return cell
 			}
+		case .currentMemLabel:
+			if let cell: currentMemTVCell = tableView.loadCell(indexPath: indexPath) {
+				return cell
+			}
 		}
 		return UITableViewCell()
 	}
@@ -219,6 +224,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringTitle:
 			return UITableView.automaticDimension
 		case .gatheringInfo:
+			if let cell = tableView.cellForRow(at: indexPath) as? GatheringDetailInfoTVCell {
+				return cell.getHeight()
+			}
 			return UITableView.automaticDimension
 		case .gatheringProfile:
 			return 80
@@ -228,6 +236,8 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			return viewModel.calculateBoardHeight()
 		case .separator:
 			return 1
+		case .currentMemLabel:
+			return UITableView.automaticDimension
 		}
 	}
 }

@@ -18,6 +18,7 @@ enum GatheringDetailCellType {
 	case gatheringTitle
 	case gatheringInfo
 	case gatheringProfile
+	case currentMemLabel
 	case boardButtonType
 	case gatheringBoard
 	case separator
@@ -36,8 +37,8 @@ enum MembershipStatus {
 }
 
 class GatheringDetailVM {
-	@Published var isMaster: Bool = false
-	@Published var membershipStatus: MembershipStatus = .pending
+	@Published var isMaster: Bool = true
+	@Published var membershipStatus: MembershipStatus = .joined
 	@Published var selectedBoardType: BoardButtonType = .all
 	
 	private var cellType: [GatheringDetailCellType] {
@@ -46,6 +47,7 @@ class GatheringDetailVM {
 		cellTypes.append(.gatheringTitle)
 		cellTypes.append(.separator)
 		cellTypes.append(.gatheringInfo)
+		cellTypes.append(.currentMemLabel)
 		cellTypes.append(.gatheringProfile)
 		cellTypes.append(.separator)
 		cellTypes.append(.boardButtonType)
@@ -92,7 +94,7 @@ class GatheringDetailVM {
 		let userNickName: String
 	}
 	
-	// 더미데이터
+	// 현재인원 더미데이터
 	let profiles = [
 		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
 		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
@@ -119,7 +121,7 @@ class GatheringDetailVM {
 	}
 	
 	
-	// 더미데이터
+	// 게시판 더미데이터
 	let boardData = [
 		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
 		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
