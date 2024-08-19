@@ -9,6 +9,8 @@ import UIKit
 
 final class GatheringDetailBoardTVCell: UITableViewCell {
 	
+	private var tableViewHeightConstraint: NSLayoutConstraint?
+	
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
 		tv.translatesAutoresizingMaskIntoConstraints = false
@@ -33,28 +35,39 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	}
 	
 	var board: [GatheringDetailVM.BoardData] = [] {
-			didSet {
-				tableView.reloadData()
-				updateTableViewHeight()
-			}
+		didSet {
+			tableView.reloadData()
+			updateTableViewHeight()
 		}
+	}
 	
 	// MARK: - Setup
-	private func setupUI() {
-		self.contentView.addSubview(tableView)
-		NSLayoutConstraint.activate([
-			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-			tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-			tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-		])
+		private func setupUI() {
+			self.contentView.addSubview(tableView)
+			NSLayoutConstraint.activate([
+				tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+				tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+				tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+			])
+			
+			// 높이 제약 조건 추가
+			tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+			tableViewHeightConstraint?.isActive = true
+		}
+		
+		// MARK: - 높이계산
+		public func calculateTableViewHeight() -> CGFloat {
+			let numberOfRows = board.count
+			let cellHeight: CGFloat = 50 + 12 // 각 셀의 높이
+			return CGFloat(numberOfRows) * cellHeight
+		}
+		
+		private func updateTableViewHeight() {
+			let newHeight = calculateTableViewHeight()
+			tableViewHeightConstraint?.constant = newHeight
+			layoutIfNeeded()
+		}
 	}
-	
-	func calculateTableViewHeight() -> CGFloat {
-		tableView.layoutIfNeeded()
-		return tableView.contentSize.height
-	}
-}
 
 extension GatheringDetailBoardTVCell: UITableViewDataSource {
 	
@@ -74,24 +87,7 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 
 extension GatheringDetailBoardTVCell: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 44 + 12
-	}
-	
-	func updateTableViewHeight() {
-		let totalHeight = calculateTableViewHeight()
-		// 높이 제약 조건을 업데이트하거나 새로 만듭니다.
-		if let constraint = contentView.constraints.first(where: { $0.firstAttribute == .height }) {
-			constraint.constant = totalHeight
-		} else {
-			contentView.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
-		}
-		layoutIfNeeded()
-		
-		// 부모 테이블 뷰에 높이 변경을 알립니다.
-		if let tableView = superview as? UITableView {
-			tableView.beginUpdates()
-			tableView.endUpdates()
-		}
+		return 50 + 12
 	}
 }
 

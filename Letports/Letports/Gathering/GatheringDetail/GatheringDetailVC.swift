@@ -19,8 +19,8 @@ final class GatheringDetailVC: UIViewController {
 		return cnv
 	}()
 	
-	private let floatingButton: FloatingButton = {
-		let button = FloatingButton()
+	private let joinButton: JoinButton = {
+		let button = JoinButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}()
@@ -40,7 +40,7 @@ final class GatheringDetailVC: UIViewController {
 						 GatheringDetailBoardTVCell.self)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.rowHeight = UITableView.automaticDimension
-		tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+		
 		return tv
 	}()
 	
@@ -58,8 +58,6 @@ final class GatheringDetailVC: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		tableView.estimatedRowHeight = 100 // 예상 높이 설정
-		tableView.rowHeight = UITableView.automaticDimension
 		setupUI()
 		setupFloatingButton()
 		bindViewModel()
@@ -75,7 +73,7 @@ final class GatheringDetailVC: UIViewController {
 		viewModel.$membershipStatus
 			.receive(on: RunLoop.main)
 			.sink { [weak self] status in
-				self?.updateFloatingButton(for: status)
+				self?.updateJoinButton(for: status)
 			}
 			.store(in: &cancellables)
 		
@@ -89,17 +87,17 @@ final class GatheringDetailVC: UIViewController {
 			.store(in: &cancellables)
 	}
 	
-	private func updateFloatingButton(for status: MembershipStatus) {
+	private func updateJoinButton(for status: MembershipStatus) {
 		switch status {
 		case .notJoined:
-			floatingButton.setTitle("가입하기", for: .normal)
-			floatingButton.isHidden = false
+			joinButton.setTitle("가입하기", for: .normal)
+			joinButton.isHidden = false
 		case .pending:
-			floatingButton.setTitle("가입대기", for: .normal)
-			floatingButton.backgroundColor = .lightGray
-			floatingButton.isHidden = false
+			joinButton.setTitle("가입대기", for: .normal)
+			joinButton.backgroundColor = .lightGray
+			joinButton.isHidden = false
 		case .joined:
-			floatingButton.isHidden = true
+			joinButton.isHidden = true
 		}
 	}
 	
@@ -124,13 +122,13 @@ final class GatheringDetailVC: UIViewController {
 	}
 	// 플로팅 버튼
 	private func setupFloatingButton() {
-		view.addSubview(floatingButton)
+		view.addSubview(joinButton)
 		// Set constraints for the button
 		NSLayoutConstraint.activate([
-			floatingButton.widthAnchor.constraint(equalToConstant: 300),
-			floatingButton.heightAnchor.constraint(equalToConstant: 50),
-			floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+			joinButton.widthAnchor.constraint(equalToConstant: 300),
+			joinButton.heightAnchor.constraint(equalToConstant: 50),
+			joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			joinButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
 		])
 	}
 }
@@ -188,7 +186,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringBoard:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell", for: indexPath) as? GatheringDetailBoardTVCell {
 				cell.board = viewModel.filteredBoardData
-				cell.updateTableViewHeight()
 				return cell
 			}
 		}
@@ -213,7 +210,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .boardButtonType:
 			return UITableView.automaticDimension
 		case .gatheringBoard:
-			return UITableView.automaticDimension
+			return viewModel.calculateBoardHeight()
 		case .separator:
 			return 1
 		}
@@ -221,12 +218,10 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
-	func updateTableViewData(for boardButtonType: BoardButtonType) {
-		viewModel.selectedBoardType = boardButtonType
-		tableView.reloadData()
-		view.setNeedsLayout()
-		view.layoutIfNeeded()
-	}
+	func didSelectBoardType(_ type: BoardButtonType) {
+		  viewModel.selectedBoardType = type
+		  tableView.reloadData()
+	  }
 }
 
 #Preview {

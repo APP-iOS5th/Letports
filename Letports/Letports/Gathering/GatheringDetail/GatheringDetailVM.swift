@@ -62,6 +62,12 @@ class GatheringDetailVM {
 		return self.cellType
 	}
 	
+	func calculateBoardHeight() -> CGFloat {
+			let numberOfRows = filteredBoardData.count
+			let cellHeight: CGFloat = 50 + 12 // 각 셀의 높이
+			return CGFloat(numberOfRows) * cellHeight
+		}
+	
 	// 모임 타이틀
 	struct GatheringHeader {
 		let gatheringImage: String

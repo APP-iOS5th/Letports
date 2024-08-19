@@ -7,7 +7,7 @@
 import UIKit
 
 protocol BoardButtonTVCellDelegate: AnyObject {
-	func updateTableViewData(for boardButtonType: BoardButtonType)
+	func didSelectBoardType(_ type: BoardButtonType)
 }
 
 final class BoardButtonTVCell: UITableViewCell {
@@ -69,7 +69,6 @@ extension BoardButtonTVCell: UICollectionViewDataSource {
 		let boardButtonType = boardButtonTypes[indexPath.item]
 		cell.configure(with: boardButtonType)
 		
-		// 선택 상태에 따라 셀 UI 업데이트
 		cell.updateButtonUI(isSelected: selectedButtonIndex == indexPath.item)
 		
 		cell.delegate = self
@@ -96,7 +95,7 @@ extension BoardButtonTVCell: ButtonStateDelegate {
 		if let indexPath = collectionView.indexPath(for: button.superview?.superview as! UICollectionViewCell) {
 			selectedButtonIndex = indexPath.item
 			let selectedType = boardButtonTypes[selectedButtonIndex!]
-			delegate?.updateTableViewData(for: selectedType)
+			delegate?.didSelectBoardType(selectedType)
 		}
 		collectionView.reloadData()
 	}
