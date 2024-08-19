@@ -18,7 +18,7 @@ class BoardButtonCVCell: UICollectionViewCell {
 		bt.clipsToBounds = true
 		bt.layer.cornerRadius = 11
 		bt.layer.borderWidth = 0.5
-		bt.layer.borderColor = UIColor.lp_lightGray.cgColor
+		bt.layer.borderColor = UIColor.lp_black.cgColor
 		bt.backgroundColor = .lp_white
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		return bt

@@ -4,6 +4,7 @@
 //
 //  Created by Yachae on 8/18/24.
 //
+
 import UIKit
 
 protocol BoardButtonTVCellDelegate: AnyObject {
@@ -17,16 +18,16 @@ final class BoardButtonTVCell: UITableViewCell {
 	weak var delegate: BoardButtonTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 10
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-		layout.minimumInteritemSpacing = 10
-		let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		cv.translatesAutoresizingMaskIntoConstraints = false
-		cv.showsHorizontalScrollIndicator = false
-		return cv
-	}()
+			let layout = UICollectionViewFlowLayout()
+			layout.scrollDirection = .horizontal
+			layout.minimumInteritemSpacing = 10
+			layout.minimumLineSpacing = 10
+			layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+			let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+			cv.translatesAutoresizingMaskIntoConstraints = false
+			cv.showsHorizontalScrollIndicator = false
+			return cv
+		}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,6 +52,7 @@ final class BoardButtonTVCell: UITableViewCell {
 			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
 			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			collectionView.heightAnchor.constraint(equalToConstant: 30)
 		])
 	}
 }
@@ -67,6 +69,7 @@ extension BoardButtonTVCell: UICollectionViewDataSource {
 		}
 		
 		let boardButtonType = boardButtonTypes[indexPath.item]
+		
 		cell.configure(with: boardButtonType)
 		
 		cell.updateButtonUI(isSelected: selectedButtonIndex == indexPath.item)
@@ -80,13 +83,23 @@ extension BoardButtonTVCell: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 60, height: 25) // 셀 크기 설정
+		let boardButtonType = boardButtonTypes[indexPath.item]
+		let title: String
+		switch boardButtonType {
+		case .all: title = "전체"
+		case .noti: title = "공지"
+		case .free: title = "자유게시판"
+		}
+		
+		let font = UIFont.systemFont(ofSize: 14)
+		let width = title.size(withAttributes: [.font: font]).width + 30
+		return CGSize(width: width, height: 25)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-		return 10 // 버튼 간의 간격 설정
+		return 15
 	}
 }
 
