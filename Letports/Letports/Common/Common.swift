@@ -15,7 +15,9 @@ let STOREAGE = Storage.storage()
 let FIRESTORE = Firestore.firestore()
 
 
-struct Gathering: Codable {
+
+//MARK: - Sample Models 추후 삭제 필요
+struct SampleGathering: Codable {
     let gatheringSports: String
     let gatheringTeam: String
     let gatheringUID: String
@@ -31,7 +33,7 @@ struct Gathering: Codable {
     let gatheringCreateDate: Date
 }
 
-struct GatheringMember: Codable {
+struct SampleGatheringMember: Codable {
     let userUID: String
     let nickname: String
     let image: String
@@ -41,18 +43,18 @@ struct GatheringMember: Codable {
 }
 
 // Post model
-struct Post: Codable {
+struct SamplePost: Codable {
     let postUID: String
     let userUID: String
     let title: String
     let contents: String
     let imageUrls: [String]
-    let comments: [Comment]
+    let comments: [SampleComment]
     let boardType: String
 }
 
 // Comment model
-struct Comment: Codable {
+struct SampleComment: Codable {
     let postUID: String
     let commentUID: String
     let userUID: String

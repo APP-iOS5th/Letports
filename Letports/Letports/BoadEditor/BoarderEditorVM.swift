@@ -29,6 +29,7 @@ class BoardEditorVM {
     @Published var boardTitle: String?
     @Published var boardContents: String?
     @Published var boardPhotos: [UIImage] = []
+    @Published var isUploading: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -50,6 +51,9 @@ class BoardEditorVM {
     }
     
     func boardUpload() {
+        guard !isUploading else { return }
+        isUploading = true
+        
         uploadImage()
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
@@ -72,13 +76,14 @@ class BoardEditorVM {
         if let title = boardTitle,
            let contents = boardContents {
             let uuid = UUID().uuidString
-            let post = Post(postUID: uuid, userUID: "몰루", title: title, contents: contents, imageUrls: images, comments: [], boardType: "Free")
-            
+            let post = SamplePost(postUID: uuid, userUID: "몰루", title: title, contents: contents, 
+                            imageUrls: images, comments: [], boardType: "Free")
             
             FM.setData(collection: "Board", document: uuid, data: post)
                 .sink{ _ in
-                } receiveValue: {
+                } receiveValue: { [weak self] _ in
                     print("Data Save")
+                    self?.isUploading = false
                 }
                 .store(in: &cancellables)
         }
