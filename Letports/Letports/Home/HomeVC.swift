@@ -10,6 +10,7 @@ import UIKit
 class HomeVC: UIViewController {
     
     weak var coordinator: HomeCoordinator?
+    let viewModel = HomeViewModel()
     
     let titleLabel: UILabel = {
         let title = UILabel()
@@ -165,6 +166,11 @@ class HomeVC: UIViewController {
         thumbnail1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.75).isActive = true
         thumbnailTitle1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.25).isActive = true
         
+        //첫번째 썸네일
+        let thumbnail1TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
+        firstThumbnailStackView.addGestureRecognizer(thumbnail1TapGesture)
+        firstThumbnailStackView.isUserInteractionEnabled = true
+        
         //두번째 썸네일
         let secondThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
         
@@ -183,6 +189,11 @@ class HomeVC: UIViewController {
         
         secondThumbnailStackView.addArrangedSubview(thumbnail2)
         secondThumbnailStackView.addArrangedSubview(thumbnailTitle2)
+        
+        //두번째 썸네일
+        let thumbnail2TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
+        secondThumbnailStackView.addGestureRecognizer(thumbnail2TapGesture)
+        secondThumbnailStackView.isUserInteractionEnabled = true
         
         thumbnail2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.75).isActive = true
         thumbnailTitle2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.25).isActive = true
@@ -397,4 +408,19 @@ class HomeVC: UIViewController {
             }
         }.resume()
     }
+    
+    @objc func handleThumbnail1Tap() {
+        let videoID = "aWp0mk2PEyI"
+        if let url = URL(string: "https://www.youtube.com/watch?v=\(videoID)") {
+            presentBottomSheet(with: url)
+        }
+    }
+    
+    @objc func handleThumbnail2Tap() {
+        let videoID = "aWp0mk2PEyI"
+        if let url = URL(string: "https://www.youtube.com/watch?v=\(videoID)") {
+            presentBottomSheet(with: url)
+        }
+    }
+        
 }

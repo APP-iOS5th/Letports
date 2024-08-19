@@ -28,6 +28,7 @@
 		F71B59EB2C65F3DE0061824B /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E62C65F3DE0061824B /* Extension+UIImage.swift */; };
 		F71B59EC2C65F3DE0061824B /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E82C65F3DE0061824B /* Extension+Color.swift */; };
 		F71B59ED2C65F3DE0061824B /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71B59E92C65F3DE0061824B /* CustomNavigationView.swift */; };
+		F726AB522C733635004EC2E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F726AB512C733635004EC2E3 /* HomeViewModel.swift */; };
 		F793DAF42C6C488B00D6D6AE /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793DAF32C6C488B00D6D6AE /* URLVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		F71B59E62C65F3DE0061824B /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		F71B59E82C65F3DE0061824B /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		F71B59E92C65F3DE0061824B /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		F726AB512C733635004EC2E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F793DAF32C6C488B00D6D6AE /* URLVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				B824713A2C647F9F0067BD09 /* HomeVC.swift */,
+				F726AB512C733635004EC2E3 /* HomeViewModel.swift */,
 				F793DAF32C6C488B00D6D6AE /* URLVC.swift */,
 				B82471422C64994E0067BD09 /* HomeCoordinator.swift */,
 			);
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
+				F726AB522C733635004EC2E3 /* HomeViewModel.swift in Sources */,
 				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
