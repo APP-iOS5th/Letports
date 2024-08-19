@@ -72,10 +72,13 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let editButton: UIButton = {
 		let bt = UIButton()
-		bt.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
+		var config = UIButton.Configuration.plain()
+		config.image = UIImage(systemName: "pencil.circle")
+		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
+		bt.configuration = config
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		bt.addAction(UIAction{_ in
-			print("buttonTap")
+		print("buttonTap")
 		}, for: .touchUpInside)
 		return bt
 	}()

@@ -25,6 +25,12 @@ final class GatheringDetailVC: UIViewController {
 		return button
 	}()
 	
+	private lazy var floatingActionButton: PostButton = {
+		let button = PostButton()
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
+	}()
+	
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
 		tv.separatorStyle = .none
@@ -59,7 +65,6 @@ final class GatheringDetailVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-		setupFloatingButton()
 		bindViewModel()
 	}
 	
@@ -100,7 +105,7 @@ final class GatheringDetailVC: UIViewController {
 	private func setupUI() {
 		self.view.backgroundColor = .lpBackgroundWhite
 		
-		[navigationView, tableView].forEach {
+		[navigationView, tableView, joinButton, floatingActionButton].forEach {
 			self.view.addSubview($0)
 		}
 		
@@ -113,17 +118,16 @@ final class GatheringDetailVC: UIViewController {
 			tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-		])
-	}
-	// 플로팅 버튼
-	private func setupFloatingButton() {
-		view.addSubview(joinButton)
-		// Set constraints for the button
-		NSLayoutConstraint.activate([
+			
 			joinButton.widthAnchor.constraint(equalToConstant: 300),
 			joinButton.heightAnchor.constraint(equalToConstant: 50),
 			joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			joinButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+			joinButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+			
+			floatingActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+			floatingActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+			floatingActionButton.widthAnchor.constraint(equalToConstant: 60),
+			floatingActionButton.heightAnchor.constraint(equalToConstant: 60)
 		])
 	}
 }
@@ -134,11 +138,10 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	}
 	
 	func sportsSelectButtonDidTap() {
-		
 	}
 	
 	func backButtonDidTap() {
-		self.dismiss(animated: true)
+		
 	}
 }
 
@@ -214,9 +217,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
 	func didSelectBoardType(_ type: BoardButtonType) {
-		  viewModel.selectedBoardType = type
-		  tableView.reloadData()
-	  }
+		viewModel.selectedBoardType = type
+		tableView.reloadData()
+	}
 }
 
 #Preview {
