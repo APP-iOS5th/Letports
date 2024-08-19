@@ -27,10 +27,8 @@ class GatheringUploadVM {
     @Published var gatehrInfoText: String?
     @Published var gatehrQuestionText: String?
     @Published var gatehrNameText: String?
-    
-    @Published var uploadedImageURL: String?
-    
-    private var memNowCount: Int = 1
+
+    private var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardUploadCellType] {
@@ -52,32 +50,32 @@ class GatheringUploadVM {
     
     
     init() {
-         Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
-             .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
-                 return selectedImage != nil
-                 && gatehrInfoText != nil
-                 && gatehrQuestionText != nil
-                 && gatehrNameText != nil
-             }
-             .assign(to: \.addButtonEnable, on: self)
-             .store(in: &cancellables)
-     }
-    
-    func uploadImage() {
-        guard let image = selectedImage else { return }
-        FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            } receiveValue: { [weak self] urls in
-                self?.uploadedImageURL = urls.first?.absoluteString
+        Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
+            .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
+                return selectedImage != nil
+                && gatehrInfoText != nil
+                && gatehrQuestionText != nil
+                && gatehrNameText != nil
             }
+            .assign(to: \.addButtonEnable, on: self)
             .store(in: &cancellables)
+    }
+    
+    func uploadImage() -> AnyPublisher<String?, Never> {
+        guard let image = selectedImage else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
+            .map { urls in
+                urls.first?.absoluteString
+            }
+            .catch { error -> Just<String?> in
+                print(error.localizedDescription)
+                return Just(nil)
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
     
     
@@ -89,8 +87,8 @@ class GatheringUploadVM {
         return self.cellType.count
     }
     
-    func checkMemeberCount(count: Int) {
-        self.memNowCount = count
+    func checkMemeberMaxCount(count: Int) {
+        self.memMaxCount = count
     }
     
     func writeGatherInfo(content: String) {
@@ -103,5 +101,40 @@ class GatheringUploadVM {
     
     func writeGatehrName(content: String) {
         self.gatehrNameText = content
+    }
+    
+    func gatheringUpload() {
+        uploadImage()
+            .sink { [weak self] imageUrl in
+                guard let self = self else { return }
+                self.gatehringUpload(imageUrl: imageUrl ?? "")
+            }
+            .store(in: &cancellables)
+    }
+    
+
+    func gatehringUpload(imageUrl: String) {
+        if let gatehrName = gatehrNameText,
+           let gatherInfo = gatehrInfoText,
+           let gatherQuestion = gatehrQuestionText {
+            
+            let uuid = UUID().uuidString
+            
+            let gathering = Gathering(gatheringSports: "축구", gatheringTeam: "테스트",
+                                      gatheringUID: uuid,
+                                      gatheringMaster: "나",
+                                      gatheringName: gatehrName, gatheringImage: imageUrl,
+                                      gatherMaxMember: memMaxCount, gatherNowMember: 1,
+                                      gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
+                                      gatheringMembers: ["나"],
+                                      gatheringCreateDate: Date())
+            
+            FM.setData(collection: "Gathering", document: uuid, data: gathering)
+                .sink { _ in
+                } receiveValue: {
+                    print("Data Save")
+                }
+                .store(in: &cancellables)
+        }
     }
 }

@@ -49,6 +49,8 @@ class GatheringUploadVC: UIViewController {
     let imagePickerController = UIImagePickerController()
     
     private var viewModel: GatheringUploadVM
+    
+    private let buttonTapSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: GatheringUploadVM) {
@@ -67,6 +69,7 @@ class GatheringUploadVC: UIViewController {
         bindViewModel()
         setupTapGesture()
         setupDelegate()
+        setupDebounce()
         
     }
     
@@ -154,11 +157,19 @@ class GatheringUploadVC: UIViewController {
         )
     }
     
+    private func setupDebounce() {
+        buttonTapSubject
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] in
+                self?.viewModel.gatheringUpload()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        print("samll")
+        buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -204,7 +215,7 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .gatherInfo:
             if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.delegate = self 
+                cell.delegate = self
                 return cell
             }
         case .gatherQuestion:
@@ -224,7 +235,7 @@ extension GatheringUploadVC: GatheringUploadDelegate {
     }
     
     func checkMemberCount(count: Int) {
-        viewModel.checkMemeberCount(count: count)
+        viewModel.checkMemeberMaxCount(count: count)
     }
     
     func sendGatehrInfo(content: String) {
