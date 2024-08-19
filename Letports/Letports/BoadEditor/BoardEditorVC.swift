@@ -39,6 +39,8 @@ class BoardEditorVC: UIViewController {
     }()
     
     private var viewModel: BoardEditorVM
+    
+    private let buttonTapSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: BoardEditorVM) {
@@ -56,6 +58,7 @@ class BoardEditorVC: UIViewController {
         setupTapGesture()
         bindViewModel()
         bindKeyboard()
+        uploadDebounce()
     }
     
     //MARK: - Setup
@@ -133,12 +136,21 @@ class BoardEditorVC: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    private func uploadDebounce() {
+        buttonTapSubject
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] in
+                self?.viewModel.boardUpload()
+            }
+            .store(in: &cancellables)
+    }
 
 }
 
 extension BoardEditorVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        
+        buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -304,7 +316,7 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 case 1:
                     header.configureText(text: "내용")
                 case 2:
-                    header.configureText(text: "사진")
+                header.configureText(text: "사진", photoCount: viewModel.getPhotoCount() - 1)
                 default:
                     header.configureText(text: nil)
             }
@@ -326,7 +338,9 @@ extension BoardEditorVC: BoardEditorDelegate {
     }
     
     func didTapAddPhotoButton() {
-        self.selectPhotoButtonTapped()
+        if !viewModel.photoUploadIsLimit() {
+            self.selectPhotoButtonTapped()
+        }  else { return }
     }
     
     func didTapDeletePhotoButton(photoIndex: Int) {

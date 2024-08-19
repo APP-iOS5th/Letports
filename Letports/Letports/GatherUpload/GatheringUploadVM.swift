@@ -61,24 +61,6 @@ class GatheringUploadVM {
             .store(in: &cancellables)
     }
     
-    func uploadImage() -> AnyPublisher<String?, Never> {
-        guard let image = selectedImage else {
-            return Just(nil).eraseToAnyPublisher()
-        }
-        
-        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
-            .map { urls in
-                urls.first?.absoluteString
-            }
-            .catch { error -> Just<String?> in
-                print(error.localizedDescription)
-                return Just(nil)
-            }
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
-    }
-    
-    
     func getCellTypes() -> [BoardUploadCellType] {
         return self.cellType
     }
@@ -102,7 +84,7 @@ class GatheringUploadVM {
     func writeGatehrName(content: String) {
         self.gatehrNameText = content
     }
-    
+
     func gatheringUpload() {
         uploadImage()
             .sink { [weak self] imageUrl in
@@ -112,8 +94,26 @@ class GatheringUploadVM {
             .store(in: &cancellables)
     }
     
+    private func uploadImage() -> AnyPublisher<String?, Never> {
+        guard let image = selectedImage else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
+            .map { urls in
+                urls.first?.absoluteString
+            }
+            .catch { error -> Just<String?> in
+                print(error.localizedDescription)
+                return Just(nil)
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    
 
-    func gatehringUpload(imageUrl: String) {
+    private func gatehringUpload(imageUrl: String) {
         if let gatehrName = gatehrNameText,
            let gatherInfo = gatehrInfoText,
            let gatherQuestion = gatehrQuestionText {

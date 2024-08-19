@@ -69,7 +69,7 @@ class GatheringUploadVC: UIViewController {
         bindViewModel()
         setupTapGesture()
         setupDelegate()
-        setupDebounce()
+        uploadDebounce()
         
     }
     
@@ -157,7 +157,7 @@ class GatheringUploadVC: UIViewController {
         )
     }
     
-    private func setupDebounce() {
+    private func uploadDebounce() {
         buttonTapSubject
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .sink { [weak self] in

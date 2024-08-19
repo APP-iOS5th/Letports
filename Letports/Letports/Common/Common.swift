@@ -39,3 +39,24 @@ struct GatheringMember: Codable {
     let joinStatus: String
     let joinDate: Date
 }
+
+// Post model
+struct Post: Codable {
+    let postUID: String
+    let userUID: String
+    let title: String
+    let contents: String
+    let imageUrls: [String]
+    let comments: [Comment]
+    let boardType: String
+}
+
+// Comment model
+struct Comment: Codable {
+    let postUID: String
+    let commentUID: String
+    let userUID: String
+    let contents: String
+    let createDate: Date
+    let writeDate: Date
+}

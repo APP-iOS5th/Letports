@@ -49,6 +49,40 @@ class BoardEditorVM {
             .store(in: &cancellables)
     }
     
+    func boardUpload() {
+        uploadImage()
+            .sink { [weak self] imageUrls in
+                guard let self = self else { return }
+                self.boardUpload(images: imageUrls)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func uploadImage() -> AnyPublisher<[String], Never> {
+        return FirebaseStorageManager.uploadImages(images: boardPhotos, filePath: .boardImageUpload)
+            .map { urls in
+                urls.map { $0.absoluteString }
+            }
+            .replaceError(with: [])
+            .eraseToAnyPublisher()
+    }
+    
+    
+    private func boardUpload(images: [String]) {
+        if let title = boardTitle,
+           let contents = boardContents {
+            let uuid = UUID().uuidString
+            let post = Post(postUID: uuid, userUID: "몰루", title: title, contents: contents, imageUrls: images, comments: [], boardType: "Free")
+            
+            
+            FM.setData(collection: "Board", document: uuid, data: post)
+                .sink{ _ in
+                } receiveValue: {
+                    print("Data Save")
+                }
+                .store(in: &cancellables)
+        }
+    }
     
     //MARK: - OutPut
     func getCellTypes() -> [BoardEditorCellType] {
@@ -61,6 +95,10 @@ class BoardEditorVM {
     
     func getPhotoCount() -> Int {
         return self.boardPhotos.count + 1
+    }
+    
+    func photoUploadIsLimit() -> Bool {
+        return self.boardPhotos.count < 5 ? false : true
     }
     
     //MARK: - Input
