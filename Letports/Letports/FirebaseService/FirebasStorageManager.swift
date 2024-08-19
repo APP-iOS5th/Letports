@@ -19,13 +19,13 @@ enum FirebaseStorageError: Error {
     var localizedDescription: String {
         switch self {
         case .imageDataConversionFailed:
-            return "Failed to convert image to data."
+            return "이미지를 데이터로 변환하지 못했어요."
         case .uploadFailed(let error):
-            return "Image upload failed: \(error.localizedDescription)"
+            return "이미지 업로드 실패: \(error.localizedDescription)"
         case .downloadURLFailed(let error):
-            return "Failed to retrieve download URL: \(error.localizedDescription)"
+            return "다운로드 URL을 찾지 못했어요: \(error.localizedDescription)"
         case .unknown:
-            return "An unknown error occurred."
+            return "알 수 없는 오류 발생."
         }
     }
 }
