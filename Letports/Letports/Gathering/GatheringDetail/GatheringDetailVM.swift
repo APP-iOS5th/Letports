@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
