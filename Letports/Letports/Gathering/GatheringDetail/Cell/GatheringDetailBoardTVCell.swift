@@ -32,6 +32,13 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	var board: [GatheringDetailVM.BoardData] = [] {
+			didSet {
+				tableView.reloadData()
+				updateTableViewHeight()
+			}
+		}
+	
 	// MARK: - Setup
 	private func setupUI() {
 		self.contentView.addSubview(tableView)
@@ -44,15 +51,15 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	}
 	
 	func calculateTableViewHeight() -> CGFloat {
-			tableView.layoutIfNeeded()
-			return tableView.contentSize.height
-		}
+		tableView.layoutIfNeeded()
+		return tableView.contentSize.height
+	}
 }
 
 extension GatheringDetailBoardTVCell: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 5
+		return board.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,6 +67,7 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 													   for: indexPath) as? BoardTVCell else {
 			return UITableViewCell()
 		}
+		cell.configureCell(data: board[indexPath.row])
 		return cell
 	}
 }
@@ -70,10 +78,20 @@ extension GatheringDetailBoardTVCell: UITableViewDelegate {
 	}
 	
 	func updateTableViewHeight() {
-		// 내부 테이블뷰의 전체 높이를 계산하여 외부 셀의 높이를 설정
-		let totalHeight = CGFloat(tableView.numberOfRows(inSection: 0)) * 44 // 각 셀의 높이 * 셀의 수
-		// 외부 셀의 높이를 내부 테이블뷰의 전체 높이로 설정
-		self.contentView.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
+		let totalHeight = calculateTableViewHeight()
+		// 높이 제약 조건을 업데이트하거나 새로 만듭니다.
+		if let constraint = contentView.constraints.first(where: { $0.firstAttribute == .height }) {
+			constraint.constant = totalHeight
+		} else {
+			contentView.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
+		}
+		layoutIfNeeded()
+		
+		// 부모 테이블 뷰에 높이 변경을 알립니다.
+		if let tableView = superview as? UITableView {
+			tableView.beginUpdates()
+			tableView.endUpdates()
+		}
 	}
 }
 

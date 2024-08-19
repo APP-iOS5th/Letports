@@ -20,16 +20,14 @@ final class BoardTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let label = UILabel()
-		label.text = "공지 방출 인원 명단"
-		label.font = UIFont.systemFont(ofSize: 16)
+		label.font = .systemFont(ofSize: 10)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
 	
 	private let createDateLabel: UILabel = {
 		let label = UILabel()
-		label.text = "2024/08/01"
-		label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .systemFont(ofSize: 8)
 		label.textColor = .lightGray
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -37,8 +35,7 @@ final class BoardTVCell: UITableViewCell {
 	
 	private let boardTypeLabel: UILabel = {
 		let label = UILabel()
-		label.text = "공지"
-		label.font = UIFont.systemFont(ofSize: 14)
+		label.font = .systemFont(ofSize: 10, weight: .bold)
 		label.textAlignment = .center
 		label.layer.borderWidth = 1
 		label.layer.cornerRadius = 10
@@ -79,26 +76,27 @@ final class BoardTVCell: UITableViewCell {
 			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			containerView.heightAnchor.constraint(equalToConstant: 50),
 			
 			boardTypeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
 			boardTypeLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
 			boardTypeLabel.widthAnchor.constraint(equalToConstant: 50),
-			boardTypeLabel.heightAnchor.constraint(equalToConstant: 30),
+			boardTypeLabel.heightAnchor.constraint(equalToConstant: 20),
 			
 			titleLabel.leadingAnchor.constraint(equalTo: boardTypeLabel.trailingAnchor, constant: 10),
 			titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
 			
 			createDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-			createDateLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+			createDateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4)
 		])
 	}
 	
 	
-	func configureCell(title: String, date: String, boardType: String) {
-		 titleLabel.text = title
-		 createDateLabel.text = date
-		 boardTypeLabel.text = boardType
-	 }
+	func configureCell(data: GatheringDetailVM.BoardData) {
+		createDateLabel.text = data.createDate
+		boardTypeLabel.text = data.boardType.description
+		titleLabel.text = data.title
+	}
 }
 
 

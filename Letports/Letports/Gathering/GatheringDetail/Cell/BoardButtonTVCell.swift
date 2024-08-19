@@ -6,8 +6,16 @@
 //
 import UIKit
 
-final class BoardButtonTVCell: UITableViewCell {
+protocol BoardButtonTVCellDelegate: AnyObject {
+	func updateTableViewData(for boardButtonType: BoardButtonType)
+}
 
+final class BoardButtonTVCell: UITableViewCell {
+	
+	private let boardButtonTypes: [BoardButtonType] = [.all, .noti, .free]
+	private var selectedButtonIndex: Int?  // 선택된 버튼 추적
+	weak var delegate: BoardButtonTVCellDelegate?
+	
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -19,9 +27,6 @@ final class BoardButtonTVCell: UITableViewCell {
 		cv.showsHorizontalScrollIndicator = false
 		return cv
 	}()
-	
-	private let boardButtonTypes: [BoardButtonType] = [.all, .noti, .free]
-	private var selectedButtonIndex: Int?  // 선택된 버튼 추적
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -88,13 +93,13 @@ extension BoardButtonTVCell: UICollectionViewDelegateFlowLayout {
 
 extension BoardButtonTVCell: ButtonStateDelegate {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool) {
-		// 선택된 버튼 인덱스 업데이트
 		if let indexPath = collectionView.indexPath(for: button.superview?.superview as! UICollectionViewCell) {
 			selectedButtonIndex = indexPath.item
+			let selectedType = boardButtonTypes[selectedButtonIndex!]
+			delegate?.updateTableViewData(for: selectedType)
 		}
-		
-		// 컬렉션 뷰를 리로드하여 버튼 UI를 새로 고침
 		collectionView.reloadData()
 	}
 }
+
 

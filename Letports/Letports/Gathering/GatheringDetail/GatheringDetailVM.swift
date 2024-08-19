@@ -22,7 +22,7 @@ enum GatheringDetailCellType {
 	case gatheringBoard
 	case separator
 }
-// 게시판 유형
+// 게시판버튼 유형
 enum BoardButtonType {
 	case all
 	case noti
@@ -37,7 +37,8 @@ enum MembershipStatus {
 
 class GatheringDetailVM {
 	@Published var isMaster: Bool = true
-	@Published var membershipStatus: MembershipStatus = .pending
+	@Published var membershipStatus: MembershipStatus = .joined
+	@Published var selectedBoardType: BoardButtonType = .all
 	
 	private var cellType: [GatheringDetailCellType] {
 		var cellTypes: [GatheringDetailCellType] = []
@@ -61,7 +62,7 @@ class GatheringDetailVM {
 		return self.cellType
 	}
 	
-	
+	// 모임 타이틀
 	struct GatheringHeader {
 		let gatheringImage: String
 		let gatheringName: String
@@ -79,6 +80,7 @@ class GatheringDetailVM {
 						gatheringMaxMember: "10")
 	]
 	
+	// 프로필
 	struct Profile {
 		let userImage: String
 		let userNickName: String
@@ -94,6 +96,49 @@ class GatheringDetailVM {
 		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
 		Profile(userImage: "porfileEX2", userNickName: "수호신대장")
 	]
+	
+	struct BoardData {
+		let title: String
+		let createDate: String
+		let boardType: BoardButtonType
+	}
+	
+	var filteredBoardData: [BoardData] {
+		switch selectedBoardType {
+		case .all:
+			return boardData
+		case .noti, .free:
+			return boardData.filter { $0.boardType == selectedBoardType }
+		}
+	}
+	
+	
+	// 더미데이터
+	let boardData = [
+		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
+		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
+		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
+		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
+		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
+		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
+		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
+		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
+		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
+		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
+	]
 }
 
 
+
+extension BoardButtonType {
+	var description: String {
+		switch self {
+		case .all:
+			return "전체"
+		case .noti:
+			return "공지"
+		case .free:
+			return "자유"
+		}
+	}
+}

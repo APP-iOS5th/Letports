@@ -74,6 +74,9 @@ final class GatheringTitleTVCell: UITableViewCell {
 		let bt = UIButton()
 		bt.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
 		bt.translatesAutoresizingMaskIntoConstraints = false
+		bt.addAction(UIAction{_ in
+			print("buttonTap")
+		}, for: .touchUpInside)
 		return bt
 	}()
 	
