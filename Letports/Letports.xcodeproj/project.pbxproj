@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4111E5832C6C670500DA2A3D /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */; };
+		411C4A4D2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */; };
+		411C4A4F2C7091E900FE3604 /* BoardEditorTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */; };
+		411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A502C70925700FE3604 /* BoardEditorContentCVCell.swift */; };
+		411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A522C70929800FE3604 /* BoardEditorPhotoCVCell.swift */; };
 		411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E512C6337AE00B07D84 /* UserManager.swift */; };
 		411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E532C635A8B00B07D84 /* Extension+Color.swift */; };
 		413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */; };
@@ -21,6 +26,10 @@
 		413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
 		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
 		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
+		4143E4552C6B47B5001AB3E0 /* BoardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */; };
+		4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */; };
+		4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */; };
+		41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05202C7231B3009FF289 /* KoTextCountLimit */; };
 		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
@@ -59,6 +68,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionView.swift"; sourceTree = "<group>"; };
+		411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorHeaderCVCell.swift; sourceTree = "<group>"; };
+		411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorTitleCVCell.swift; sourceTree = "<group>"; };
+		411C4A502C70925700FE3604 /* BoardEditorContentCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorContentCVCell.swift; sourceTree = "<group>"; };
+		411C4A522C70929800FE3604 /* BoardEditorPhotoCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorPhotoCVCell.swift; sourceTree = "<group>"; };
 		411D4E512C6337AE00B07D84 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		411D4E532C635A8B00B07D84 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVC.swift; sourceTree = "<group>"; };
@@ -73,6 +87,9 @@
 		413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadQuestionTVCell.swift; sourceTree = "<group>"; };
 		413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadInfoTVCell.swift; sourceTree = "<group>"; };
 		413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMemCntTVCell.swift; sourceTree = "<group>"; };
+		4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVC.swift; sourceTree = "<group>"; };
+		4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorVM.swift; sourceTree = "<group>"; };
+		4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorCoordinator.swift; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -102,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +140,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4111E5792C6C35CB00DA2A3D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */,
+				411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */,
+				411C4A502C70925700FE3604 /* BoardEditorContentCVCell.swift */,
+				411C4A522C70929800FE3604 /* BoardEditorPhotoCVCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		413BE63F2C65EA050070D6F9 /* GatherUpload */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +175,7 @@
 			children = (
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
+				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -162,6 +192,17 @@
 				413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		4143E4532C6B478D001AB3E0 /* BoadEditor */ = {
+			isa = PBXGroup;
+			children = (
+				4111E5792C6C35CB00DA2A3D /* Cell */,
+				4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */,
+				4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */,
+				4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */,
+			);
+			path = BoadEditor;
 			sourceTree = "<group>";
 		};
 		B82471372C647F560067BD09 /* Home */ = {
@@ -214,6 +255,7 @@
 		D8201FB02C606934004DF06C /* Letports */ = {
 			isa = PBXGroup;
 			children = (
+				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
@@ -268,6 +310,9 @@
 			dependencies = (
 			);
 			name = Letports;
+			packageProductDependencies = (
+				41AA05202C7231B3009FF289 /* KoTextCountLimit */,
+			);
 			productName = Letports;
 			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
 			productType = "com.apple.product-type.application";
@@ -340,6 +385,9 @@
 				Base,
 			);
 			mainGroup = D8201FA52C606934004DF06C;
+			packageReferences = (
+				41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */,
+			);
 			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -384,13 +432,16 @@
 			files = (
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
+				411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */,
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
+				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
+				4143E4552C6B47B5001AB3E0 /* BoardEditorVC.swift in Sources */,
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
 				413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */,
@@ -404,9 +455,14 @@
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
+				4111E5832C6C670500DA2A3D /* Extension+UICollectionView.swift in Sources */,
+				411C4A4D2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift in Sources */,
+				4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
+				411C4A4F2C7091E900FE3604 /* BoardEditorTitleCVCell.swift in Sources */,
+				4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,6 +821,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iOS-Ruel/KoTextCountLimit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		41AA05202C7231B3009FF289 /* KoTextCountLimit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */;
+			productName = KoTextCountLimit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D8201FA62C606934004DF06C /* Project object */;
 }

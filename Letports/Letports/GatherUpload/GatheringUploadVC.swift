@@ -33,7 +33,7 @@ class GatheringUploadVC: UIViewController {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.rsgistersCell(cellClasses: GatheringUploadMainTVCell.self,
+        tv.registersCell(cellClasses: GatheringUploadMainTVCell.self,
                          SeparatorTVCell.self,
                          GatheringUplaodImageTVCell.self,
                          GatheringUplaodTitleTVCell.self,

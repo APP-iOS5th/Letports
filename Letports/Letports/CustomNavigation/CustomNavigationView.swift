@@ -18,6 +18,8 @@ enum NaviButtonType {
     case ellipsis
     case gear
     case create
+    case write
+    case update
     case alert
     case empty
     
@@ -29,6 +31,10 @@ enum NaviButtonType {
             return "gearshape.fill"
         case .create:
             return "생성"
+        case .write:
+            return "작성"
+        case .update:
+            return "수정"
         case .alert:
             return "bell"
         case .empty:
@@ -47,8 +53,10 @@ enum ScreenType {
     case largeProfile(btnName: NaviButtonType = .gear)
     /// Gathering Detail  Screen
     case smallGathering(gatheringName: String, btnName: NaviButtonType)
+    /// Gathering Board Editor
+    case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
     /// Profile Detail  Screen
-    case samllProfile
+    case smallProfile
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
     /// Create Gathering Screen
@@ -68,7 +76,9 @@ enum ScreenType {
         case .smallGathering(let gatheringName, _):
             //모임명으로 바뀌어야함
             return gatheringName
-        case .samllProfile:
+        case .smallBoardEditor(_, let isUpload):
+            return isUpload ? "게시글 작성" : "게시글 수정"
+        case .smallProfile:
             return "프로필"
         case .smallGatheringSetting:
             return "소모임 설정"
@@ -85,7 +95,8 @@ enum ScreenType {
         case .largeProfile(let btnName),
                 .smallGathering(_, let btnName),
                 .smallGatheringSetting(let btnName),
-                .smallCreateGathering(let btnName):
+                .smallCreateGathering(let btnName),
+                .smallBoardEditor(let btnName, _):
             
             return btnName.buttonName
         default:
