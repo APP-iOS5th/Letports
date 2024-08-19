@@ -36,8 +36,8 @@ enum MembershipStatus {
 }
 
 class GatheringDetailVM {
-	@Published var isMaster: Bool = true
-	@Published var membershipStatus: MembershipStatus = .joined
+	@Published var isMaster: Bool = false
+	@Published var membershipStatus: MembershipStatus = .pending
 	@Published var selectedBoardType: BoardButtonType = .all
 	
 	private var cellType: [GatheringDetailCellType] {

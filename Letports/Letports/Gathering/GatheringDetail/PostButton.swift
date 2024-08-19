@@ -49,7 +49,9 @@ class PostButton: UIView {
 		bt.layer.cornerRadius = 15
 		bt.layer.borderWidth = 1
 		bt.layer.borderColor = UIColor.lightGray.cgColor
-		bt.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+		var configuration = UIButton.Configuration.plain()
+		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+		bt.configuration = configuration
 		return bt
 	}()
 	
@@ -60,9 +62,17 @@ class PostButton: UIView {
 		bt.layer.cornerRadius = 15
 		bt.layer.borderWidth = 1
 		bt.layer.borderColor = UIColor.lightGray.cgColor
-		bt.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+		var configuration = UIButton.Configuration.plain()
+		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+		bt.configuration = configuration
 		return bt
 	}()
+	
+	var isMaster: Bool = false {
+			didSet {
+				updateButtonVisibility()
+			}
+		}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -94,6 +104,14 @@ class PostButton: UIView {
 		postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
 		noticeButton.addTarget(self, action: #selector(noticeButtonTapped), for: .touchUpInside)
 	}
+	
+	private func updateButtonVisibility() {
+		   noticeButton.isHidden = !isMaster
+	   }
+	
+	func setVisible(_ isVisible: Bool) {
+		   self.isHidden = !isVisible
+	   }
 	
 	@objc private func floatingButtonTapped() {
 		UIView.animate(withDuration: 0.3) {

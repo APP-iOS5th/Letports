@@ -74,6 +74,14 @@ final class GatheringDetailVC: UIViewController {
 			.receive(on: RunLoop.main)
 			.sink { [weak self] status in
 				self?.updateJoinButton(for: status)
+				self?.updateFloatingActionButton(for: status)
+			}
+			.store(in: &cancellables)
+		
+		viewModel.$isMaster
+			.receive(on: RunLoop.main)
+			.sink { [weak self] isMaster in
+				self?.floatingActionButton.isMaster = isMaster
 			}
 			.store(in: &cancellables)
 		
@@ -98,6 +106,15 @@ final class GatheringDetailVC: UIViewController {
 			joinButton.isHidden = false
 		case .joined:
 			joinButton.isHidden = true
+		}
+	}
+	
+	private func updateFloatingActionButton(for status: MembershipStatus) {
+		switch status {
+		case .notJoined, .pending:
+			floatingActionButton.setVisible(false)
+		case .joined:
+			floatingActionButton.setVisible(true)
 		}
 	}
 	
