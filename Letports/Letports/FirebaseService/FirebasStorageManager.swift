@@ -10,8 +10,6 @@ import Firebase
 import FirebaseStorage
 import Combine
 
-let STOREAGE = Storage.storage()
-
 enum FirebaseStorageError: Error {
     case imageDataConversionFailed
     case uploadFailed(error: Error)
