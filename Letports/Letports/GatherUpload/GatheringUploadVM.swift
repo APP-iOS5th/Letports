@@ -28,6 +28,8 @@ class GatheringUploadVM {
     @Published var gatehrQuestionText: String?
     @Published var gatehrNameText: String?
     
+    @Published var uploadedImageURL: String?
+    
     private var memNowCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
@@ -60,6 +62,23 @@ class GatheringUploadVM {
              .assign(to: \.addButtonEnable, on: self)
              .store(in: &cancellables)
      }
+    
+    func uploadImage() {
+        guard let image = selectedImage else { return }
+        FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] urls in
+                self?.uploadedImageURL = urls.first?.absoluteString
+            }
+            .store(in: &cancellables)
+    }
     
     
     func getCellTypes() -> [BoardUploadCellType] {
