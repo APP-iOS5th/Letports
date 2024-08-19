@@ -63,11 +63,6 @@ final class GatheringDetailVC: UIViewController {
 		bindViewModel()
 	}
 	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		tableView.frame = view.bounds
-	}
-	
 	// MARK: - bindVm
 	private func bindViewModel() {
 		viewModel.$membershipStatus

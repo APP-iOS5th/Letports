@@ -39,7 +39,7 @@ class BoardButtonCVCell: UICollectionViewCell {
 	private func setupUI() {
 		contentView.addSubview(boardSelectButton)
 		boardSelectButton.addTarget(self, action: #selector(buttonTap), for: .touchUpInside)
-
+		
 		NSLayoutConstraint.activate([
 			boardSelectButton.heightAnchor.constraint(equalToConstant: 22),
 			boardSelectButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -66,11 +66,22 @@ class BoardButtonCVCell: UICollectionViewCell {
 		}
 	}
 	
+	private func tapGesture() {
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTap))
+		self.contentView.addGestureRecognizer(tapGesture)
+		self.contentView.isUserInteractionEnabled = true
+	}
+	
 	func configure(with type: BoardButtonType) {
 		self.boardButtonType = type
 	}
 	
 	@objc private func buttonTap() {
 		delegate?.didChangeButtonState(boardSelectButton, isSelected: true)
+	}
+	
+	@objc private func cellTap() {
+		print("셀이 눌렸습니다")
+		buttonTap() // 기존의 버튼 탭 동작도 유지
 	}
 }

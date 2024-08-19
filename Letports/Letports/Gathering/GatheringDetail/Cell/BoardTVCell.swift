@@ -53,6 +53,7 @@ final class BoardTVCell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
+		tapGesture()
 		self.selectionStyle = .none
 		self.backgroundColor = .clear // 셀의 배경을 투명하게 설정
 		self.contentView.backgroundColor = .clear
@@ -91,11 +92,20 @@ final class BoardTVCell: UITableViewCell {
 		])
 	}
 	
+	private func tapGesture() {
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTap))
+		self.contentView.addGestureRecognizer(tapGesture)
+		self.contentView.isUserInteractionEnabled = true
+	}
 	
 	func configureCell(data: GatheringDetailVM.BoardData) {
 		createDateLabel.text = data.createDate
 		boardTypeLabel.text = data.boardType.description
 		titleLabel.text = data.title
+	}
+	
+	@objc private func cellTap() {
+		print("셀이 눌렸습니다")
 	}
 }
 
