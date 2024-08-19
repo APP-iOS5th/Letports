@@ -27,6 +27,7 @@ class GatheringUploadVM {
     @Published var gatehrInfoText: String?
     @Published var gatehrQuestionText: String?
     @Published var gatehrNameText: String?
+    @Published var isUploading: Bool = false
 
     private var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
@@ -86,6 +87,9 @@ class GatheringUploadVM {
     }
 
     func gatheringUpload() {
+        guard !isUploading else { return }
+        isUploading = true
+        
         uploadImage()
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
@@ -131,8 +135,9 @@ class GatheringUploadVM {
             
             FM.setData(collection: "Gathering", document: uuid, data: gathering)
                 .sink { _ in
-                } receiveValue: {
+                } receiveValue: { [weak self] _ in
                     print("Data Save")
+                    self?.isUploading = false
                 }
                 .store(in: &cancellables)
         }

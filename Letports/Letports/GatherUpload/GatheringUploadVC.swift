@@ -46,6 +46,13 @@ class GatheringUploadVC: UIViewController {
         return tv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let imagePickerController = UIImagePickerController()
     
     private var viewModel: GatheringUploadVM
@@ -88,7 +95,7 @@ class GatheringUploadVC: UIViewController {
     private func setupUI() {
         self.view.backgroundColor = .lpBackgroundWhite
         
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         
@@ -100,7 +107,12 @@ class GatheringUploadVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
@@ -115,6 +127,17 @@ class GatheringUploadVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
                 self?.navigationView.rightButtonIsEnable(enable)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isUploading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isUploading in
+                if isUploading {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
             }
             .store(in: &cancellables)
     }
