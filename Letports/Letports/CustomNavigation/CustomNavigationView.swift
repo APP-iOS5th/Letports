@@ -18,6 +18,7 @@ enum NaviButtonType {
     case ellipsis
     case gear
     case create
+    case save
     case write
     case update
     case alert
@@ -31,6 +32,8 @@ enum NaviButtonType {
             return "gearshape.fill"
         case .create:
             return "생성"
+        case .save:
+            return "저장"
         case .write:
             return "작성"
         case .update:
@@ -63,6 +66,8 @@ enum ScreenType {
     case smallCreateGathering(btnName: NaviButtonType)
     /// Setting Screen
     case smallSetting
+    /// Profile Edit
+    case smallEditProfile
     
     
     var title: String {
@@ -86,6 +91,8 @@ enum ScreenType {
             return "소모임 생성"
         case .smallSetting:
             return "설정"
+        case .smallEditProfile:
+            return "프로필 수정"
         }
     }
     
