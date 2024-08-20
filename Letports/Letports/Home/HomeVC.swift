@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class HomeVC: UIViewController {
     
     weak var coordinator: HomeCoordinator?
     let viewModel = HomeViewModel()
+    private var cancellables = Set<AnyCancellable>()
     
     let titleLabel: UILabel = {
         let title = UILabel()
@@ -36,32 +38,34 @@ class HomeVC: UIViewController {
         return button
     }()
     
-    let firstContainerView: UIView = {
-        let whiteBox = UIView()
-        whiteBox.backgroundColor = .white
-        whiteBox.layer.cornerRadius = 15
-        whiteBox.layer.shadowColor = UIColor.black.cgColor
-        whiteBox.layer.shadowOpacity = 0.1
-        whiteBox.layer.shadowOffset = CGSize(width: 0, height: 2)
-        whiteBox.layer.shadowRadius = 5
-        whiteBox.translatesAutoresizingMaskIntoConstraints = false
-        
-        return whiteBox
-    }()
+    lazy var firstContainerView = createWhiteBox()
     
     lazy var teamProfile: UIStackView = {
         let profile = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 8)
         
-        let teamIcon = UIImageView(image: UIImage(named: "FCSeoul"))
-        teamIcon.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        teamIcon.heightAnchor.constraint(equalToConstant: 70).isActive = true
+//        let teamIcon = UIImageView(image: UIImage(named: "FCSeoul"))
+//        teamIcon.widthAnchor.constraint(equalToConstant: 70).isActive = true
+//        teamIcon.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        let teamLogo: UIImageView = {
+            let imageView = UIImageView()
+            imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
+                    imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+                    return imageView
+        }()
         
         let spacerView1 = UIView()
         spacerView1.widthAnchor.constraint(equalToConstant: 10).isActive = true
         
         let profileLabel = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
         
-        let teamLabel = createLabel(text: "FC 서울", fontSize: 30, fontWeight: .bold)
+        //let teamLabel = createLabel(text: "FC 서울", fontSize: 30, fontWeight: .bold)
+        
+        let teamName: UILabel = {
+               let label = UILabel()
+               label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+               return label
+           }()
         
         let spacerView = UIView()
         spacerView.heightAnchor.constraint(equalToConstant: 12).isActive = true
@@ -128,18 +132,7 @@ class HomeVC: UIViewController {
         return label
     }()
     
-    let secondContainerView: UIView = {
-        let whiteBox = UIView()
-        whiteBox.backgroundColor = .white
-        whiteBox.layer.cornerRadius = 15
-        whiteBox.layer.shadowColor = UIColor.black.cgColor
-        whiteBox.layer.shadowOpacity = 0.1
-        whiteBox.layer.shadowOffset = CGSize(width: 0, height: 2)
-        whiteBox.layer.shadowRadius = 5
-        whiteBox.translatesAutoresizingMaskIntoConstraints = false
-        
-        return whiteBox
-    }()
+    lazy var secondContainerView = createWhiteBox()
     
     lazy var thumbnailStackView: UIStackView = {
         let stackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 20)
@@ -248,32 +241,53 @@ class HomeVC: UIViewController {
         image2.widthAnchor.constraint(equalToConstant: 300).isActive = true
         image2.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        let image3 = UIImageView()
-        image3.contentMode = .scaleAspectFit
-        image3.image = UIImage(systemName: "rectangle")
-        image3.tintColor = .lpMain
-        image3.translatesAutoresizingMaskIntoConstraints = false
-        image3.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        image3.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        let image4 = UIImageView()
-        image4.contentMode = .scaleAspectFit
-        image4.image = UIImage(systemName: "house.fill")
-        image4.tintColor = .lpMain
-        image4.translatesAutoresizingMaskIntoConstraints = false
-        image4.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        image4.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
         gatheringView.addArrangedSubview(image1)
         gatheringView.addArrangedSubview(image2)
-        gatheringView.addArrangedSubview(image3)
-        gatheringView.addArrangedSubview(image4)
         
         return gatheringView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupUI()
+        layoutVC()
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$teamLogo
+            .sink { [weak self] logoURL in
+                guard let self = self, let url = ULR(string: logoURL) else { return }
+                self.loadImage(from: url, into: self.teamLogo)
+            }
+            .store(in: &$cancellables)
+        
+        viewModel.$teamName
+            .assign(to: &\.text, on: teamName)
+            .store(in: &cancellables)
+        
+        viewModel.$homeURL
+            .sink { [weak self] url in
+                self?.updateHomeURL(url)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$instagramURL
+            .sink { [weak self] url in
+                self?.updateInstagramURL(url)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$youtubeURL
+            .sink { [weak self] url in
+                self?.updateYoutubeURL(url)
+            }
+            .store(in: &cancellables)
+    }
+    
+    // 제목, 팀변경 버튼
+    func setupUI() {
         view.backgroundColor = .lpBackgroundWhite
         
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
@@ -287,7 +301,10 @@ class HomeVC: UIViewController {
         view.addSubview(thirdLabel)
         view.addSubview(gatheringScrollView)
         gatheringScrollView.addSubview(gatheringStackView)
-        
+    }
+    
+    // VC레이아웃
+    func layoutVC() {
         NSLayoutConstraint.activate([
             firstContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             firstContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -328,6 +345,26 @@ class HomeVC: UIViewController {
         ])
     }
     
+    // 배경 흰 네모
+    func createWhiteBox(backgroundColor: UIColor = .white,
+                          cornerRadius: CGFloat = 15,
+                          shadowColor: UIColor = .black,
+                          shadowOpacity: Float = 0.1,
+                          shadowOffset: CGSize = CGSize(width: 0, height: 2),
+                          shadowRadius: CGFloat = 5) -> UIView {
+        let whiteBox = UIView()
+        whiteBox.backgroundColor = backgroundColor
+        whiteBox.layer.cornerRadius = cornerRadius
+        whiteBox.layer.shadowColor = shadowColor.cgColor
+        whiteBox.layer.shadowOpacity = shadowOpacity
+        whiteBox.layer.shadowOffset = shadowOffset
+        whiteBox.layer.shadowRadius = shadowRadius
+        whiteBox.translatesAutoresizingMaskIntoConstraints = false
+        
+        return whiteBox
+    }
+    
+    // 스택뷰 만들기
     func createStackView(axis: NSLayoutConstraint.Axis,
                          alignment: UIStackView.Alignment,
                          distribution: UIStackView.Distribution,
@@ -341,6 +378,7 @@ class HomeVC: UIViewController {
         return stackView
     }
     
+    // 이미지 뷰 만들기
     func createImageView(systemName: String,
                          tintColor: UIColor? = nil,
                          contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImageView {
@@ -353,6 +391,7 @@ class HomeVC: UIViewController {
         return imageView
     }
     
+    // 라벨 만들기
     func createLabel(text: String, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular) -> UILabel {
         let label = UILabel()
         label.text = text
@@ -422,5 +461,9 @@ class HomeVC: UIViewController {
             presentBottomSheet(with: url)
         }
     }
-        
+    
+    //일단, 팀로고, 팀네임, url주소만 받아오는걸로 해보자
+//    func bindData() {
+//        viewModel.
+//    }
 }
