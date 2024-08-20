@@ -82,14 +82,26 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
     }
     
     
+    func configureCell(title: String?) {
+        guard let title = title else { return }
+        self.textCountCheck(text: title)
+        self.titleTextField.text = title
+        
+    }
+ 
     @objc func textFieldDidChange() {
         if let text = titleTextField.text {
-            DispatchQueue.main.async { [weak self] in
-                self?.textCountLabel.text = "\(text.count)/100"
-            }
+            self.textCountCheck(text: text)
             self.delegate?.sendGatherName(content: text)
         }
     }
+    
+    private func textCountCheck(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.textCountLabel.text = "\(text.count)/100"
+        }
+    }
+    
 }
 
 extension GatheringUplaodTitleTVCell: UITextFieldDelegate {

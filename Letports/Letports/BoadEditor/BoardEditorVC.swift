@@ -14,7 +14,7 @@ class BoardEditorVC: UIViewController {
     private(set) lazy var navigationView: CustomNavigationView = {
         let cnv = CustomNavigationView(isLargeNavi: .small,
                                        screenType: .smallBoardEditor(btnName: viewModel.isEditMode ? .update : .write, 
-                                                                     isUpload: true))
+                                                                     isUpload: !viewModel.isEditMode))
         
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white

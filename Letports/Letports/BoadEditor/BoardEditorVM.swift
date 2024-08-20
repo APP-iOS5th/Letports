@@ -33,8 +33,6 @@ class BoardEditorVM {
     
     var isEditMode: Bool
     private var postID: String?
-    
-    
     private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardEditorCellType] {

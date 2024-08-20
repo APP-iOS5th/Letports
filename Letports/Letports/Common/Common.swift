@@ -29,8 +29,23 @@ struct SampleGathering: Codable {
     let gatherInfo: String
     let gatherQuestion: String
 //    let gatheringMembers: [GatheringMember]
-    let gatheringMembers: [String]
+    let gatheringMembers: [SampleGatheringMember]
     let gatheringCreateDate: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case gatheringSports = "GatheringSports"
+        case gatheringTeam = "GatheringSportsTeam"
+        case gatheringUID = "GatheringUid"
+        case gatheringMaster = "GatheringMaster"
+        case gatheringName = "GatherName"
+        case gatheringImage = "GatherImage"
+        case gatherMaxMember = "GatherMaxMember"
+        case gatherNowMember = "GatherNowMember"
+        case gatherInfo = "GatherInfo"
+        case gatherQuestion = "GatherQuestion"
+        case gatheringMembers = "GatheringMembers"
+        case gatheringCreateDate = "GatheringCreateDate"
+    }
 }
 
 struct SampleGatheringMember: Codable {
@@ -40,6 +55,15 @@ struct SampleGatheringMember: Codable {
     let answer: String
     let joinStatus: String
     let joinDate: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case userUID = "UserUID"
+        case nickname = "NickName"
+        case image = "Image"
+        case answer = "Answer"
+        case joinStatus = "JoinStatus"
+        case joinDate = "JoinDate"
+    }
 }
 
 // Post model

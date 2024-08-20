@@ -22,14 +22,17 @@ enum BoardUploadCellType {
 
 class GatheringUploadVM {
     
-    @Published var selectedImage: UIImage?
-    @Published var addButtonEnable: Bool = true
-    @Published var gatehrInfoText: String?
-    @Published var gatehrQuestionText: String?
-    @Published var gatehrNameText: String?
-    @Published var isUploading: Bool = false
-
-    private var memMaxCount: Int = 1
+    @Published private(set) var selectedImage: UIImage?
+    @Published private(set) var addButtonEnable: Bool = true
+    @Published private(set) var gatherInfoText: String?
+    @Published private(set) var gatherQuestionText: String?
+    @Published private(set) var gatherNameText: String?
+    @Published private(set) var isUploading: Bool = false
+    
+    private(set) var isEditMode: Bool
+    private var gatehringID: String?
+    
+    private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardUploadCellType] {
@@ -50,13 +53,30 @@ class GatheringUploadVM {
     }
     
     
-    init() {
-        Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
-            .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
+    init(gathering: SampleGathering? = nil) {
+        if let gathering = gathering {
+            self.isEditMode = true
+            self.gatehringID = gathering.gatheringUID
+            self.gatherNameText = gathering.gatheringName
+            self.gatherInfoText = gathering.gatherInfo
+            self.gatherQuestionText = gathering.gatherQuestion
+            self.memMaxCount = gathering.gatherMaxMember
+            
+            loadImage(from: gathering.gatheringImage)
+                .sink { [weak self] image in
+                    self?.selectedImage = image
+                }
+                .store(in: &cancellables)
+        } else {
+            self.isEditMode = false
+        }
+        
+        Publishers.CombineLatest4($selectedImage, $gatherInfoText, $gatherQuestionText, $gatherNameText)
+            .map { selectedImage, gatehrInfoText, gatherQuestionText, gatherNameText in
                 return selectedImage != nil
                 && gatehrInfoText != nil
-                && gatehrQuestionText != nil
-                && gatehrNameText != nil
+                && gatherQuestionText != nil
+                && gatherNameText != nil
             }
             .assign(to: \.addButtonEnable, on: self)
             .store(in: &cancellables)
@@ -75,17 +95,21 @@ class GatheringUploadVM {
     }
     
     func writeGatherInfo(content: String) {
-        self.gatehrInfoText = content
+        self.gatherInfoText = content
     }
     
     func writeGatherQuestion(content: String) {
-        self.gatehrQuestionText = content
+        self.gatherQuestionText = content
     }
     
     func writeGatehrName(content: String) {
-        self.gatehrNameText = content
+        self.gatherNameText = content
     }
-
+    
+    func changeSelectedImage(selectedImage: UIImage) {
+        self.selectedImage = selectedImage
+    }
+    
     func gatheringUpload() {
         guard !isUploading else { return }
         isUploading = true
@@ -116,30 +140,52 @@ class GatheringUploadVM {
     }
     
     
-
+    
     private func gatehringUpload(imageUrl: String) {
-        if let gatehrName = gatehrNameText,
-           let gatherInfo = gatehrInfoText,
-           let gatherQuestion = gatehrQuestionText {
+        if let gatherName = gatherNameText,
+           let gatherInfo = gatherInfoText,
+           let gatherQuestion = gatherQuestionText {
             
             let uuid = UUID().uuidString
             
             let gathering = SampleGathering(gatheringSports: "축구", gatheringTeam: "테스트",
-                                      gatheringUID: uuid,
-                                      gatheringMaster: "나",
-                                      gatheringName: gatehrName, gatheringImage: imageUrl,
-                                      gatherMaxMember: memMaxCount, gatherNowMember: 1,
-                                      gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
-                                      gatheringMembers: ["나"],
-                                      gatheringCreateDate: Date())
+                                            gatheringUID: self.isEditMode ? self.gatehringID ?? uuid : uuid,
+                                            gatheringMaster: "나",
+                                            gatheringName: gatherName, gatheringImage: imageUrl,
+                                            gatherMaxMember: memMaxCount, gatherNowMember: 1,
+                                            gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
+                                            gatheringMembers: [],
+                                            gatheringCreateDate: Date())
             
-            FM.setData(collection: "Gathering", document: uuid, data: gathering)
-                .sink { _ in
-                } receiveValue: { [weak self] _ in
-                    print("Data Save")
-                    self?.isUploading = false
-                }
-                .store(in: &cancellables)
+            if isEditMode {
+                FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
+                    .sink { _ in
+                    } receiveValue: { [weak self] _ in
+                        self?.isUploading = false
+                    }
+                    .store(in: &cancellables)
+            } else {
+                FM.setData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
+                    .sink { _ in
+                    } receiveValue: { [weak self] _ in
+                        print("Data Save")
+                        self?.isUploading = false
+                    }
+                    .store(in: &cancellables)
+            }
         }
+    }
+    
+    private func loadImage(from urlString: String) -> AnyPublisher<UIImage?, Never> {
+        guard let url = URL(string: urlString) else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map { data, _ in
+                return UIImage(data: data)
+            }
+            .replaceError(with: nil)
+            .eraseToAnyPublisher()
     }
 }

@@ -12,7 +12,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.text = "사전질문"
+        label.text = "모집 인원"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,13 +59,14 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
         return button
     }()
     
-    private lazy var memNowCount: Int = 1 {
+    private lazy var memCount: Int = 1 {
         didSet {
-            delegate?.checkMemberCount(count: memNowCount)
-            countLabel.text = "\(memNowCount)"
+            delegate?.checkMemberCount(count: memCount)
+            countLabel.text = "\(memCount)"
+            updateTitleLabel()
         }
     }
-    private let memMaxCount: Int = 10
+    private var memMaxCount: Int = 30
     weak var delegate: GatheringUploadDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -114,21 +115,41 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
             plusButton.widthAnchor.constraint(equalToConstant: 24),
             countLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 100)
         ])
-        countLabel.text = "\(memNowCount)"
+        countLabel.text = "\(memCount)"
+    }
+    
+    func configureCell(nowCount: Int = 1) {
+        self.memCount = nowCount
+    }
+    
+    private func updateTitleLabel() {
+        let titleText = "모집 인원"
+        if memCount >= memMaxCount {
+            let fullText = "\(titleText) 최대 모인원은 \(memMaxCount)명 입니다."
+            let attributedString = NSMutableAttributedString(string: fullText)
+            let range = (fullText as NSString).range(of: "최대 모인원은 \(memMaxCount)명 입니다.")
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
+            attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 12, weight: .regular), range: range)
+            
+            titleLabel.attributedText = attributedString
+        } else {
+            titleLabel.text = titleText
+        }
     }
     
     
     @objc func didTapMinusButton() {
-        if memNowCount > 1 {
-            memNowCount -= 1
+        if memCount > 1 {
+            memCount -= 1
         } else {
             return
         }
     }
     
     @objc func didTapPlusButton() {
-        if memNowCount < memMaxCount {
-            memNowCount += 1
+        if memCount < memMaxCount {
+            memCount += 1
         } else {
             return
         }

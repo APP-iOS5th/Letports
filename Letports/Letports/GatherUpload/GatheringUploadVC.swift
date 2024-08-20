@@ -20,8 +20,13 @@ protocol GatheringUploadDelegate: AnyObject {
 class GatheringUploadVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
+        let isEditMode = viewModel.isEditMode
+        let screenType: ScreenType = .smallUploadGathering(btnName: viewModel.isEditMode ? .update : .create, isUpdate: viewModel.isEditMode)
+//        isEditMode ? .smallUpdateGathering(btnName: .update)
+//                                                : .smallCreateGathering(btnName: .create)
+                                            
         let cnv = CustomNavigationView(isLargeNavi: .small,
-                                       screenType: .smallCreateGathering(btnName: .create))
+                                       screenType: screenType)
         
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
@@ -61,7 +66,7 @@ class GatheringUploadVC: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: GatheringUploadVM) {
-        self.viewModel = GatheringUploadVM()
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -229,21 +234,25 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
         case .gatherName:
             if let cell: GatheringUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(title: viewModel.gatherNameText)
                 return cell
             }
         case .gatherMemberCount:
             if let cell: GatheringUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(nowCount: viewModel.memMaxCount)
                 return cell
             }
         case .gatherInfo:
             if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(infoText: viewModel.gatherInfoText)
                 return cell
             }
         case .gatherQuestion:
             if let cell: GatheringUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(question: viewModel.gatherQuestionText)
                 return cell
             }
         }
@@ -279,7 +288,7 @@ extension GatheringUploadVC: UIImagePickerControllerDelegate, UINavigationContro
         picker.dismiss(animated: true, completion: nil)
         
         if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.selectedImage = selectedImage
+            viewModel.changeSelectedImage(selectedImage: selectedImage)
         }
     }
 }
