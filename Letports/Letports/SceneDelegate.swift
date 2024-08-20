@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
 //        mainCoordinator?.start()
         
-        window?.rootViewController = GatheringDetailVC(viewModel: GatheringDetailVM())
+        window?.rootViewController = GatheringBoardDetailVC(viewModel: GatheringBoardDetailVM())
         window?.makeKeyAndVisible()
         
     }

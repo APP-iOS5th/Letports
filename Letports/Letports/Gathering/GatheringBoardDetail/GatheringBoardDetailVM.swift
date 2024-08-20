@@ -13,10 +13,22 @@ enum GatheringBoardDetailCellType {
 	case separator
 	case images
 	case commentHeaderLabel
-	case commernt
+	case comment
 }
 
 final class GatheringBoardDetailVM {
+	
+//	struct GatherBoardPost: Codable, Identifiable {
+//		@DocumentID var id: String?
+//		var postUid: String
+//		var userUid: String
+//		var createDate: Date?
+//		var title: String
+//		var contents: String
+//		var imageUrls: [String]
+//		var comment: String
+//		var boardType: String
+//	}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
@@ -26,7 +38,7 @@ final class GatheringBoardDetailVM {
 		cellTypes.append(.images)
 		cellTypes.append(.separator)
 		cellTypes.append(.commentHeaderLabel)
-		cellTypes.append(.commernt)
+		cellTypes.append(.comment)
 		return cellTypes
 	}
 	
@@ -50,11 +62,19 @@ final class GatheringBoardDetailVM {
 		let images: [String]
 	}
 	// 댓글(삭제예정)
-	struct BoardDetailComment {
-		let contents: String
-		let writeDate: Date
+	struct Comment {
+		let nickName: String
+		let writeDate: String
+		let content: String
 	}
 	
+	let comment: [Comment] = [
+		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견"),
+		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
+		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),
+		Comment(nickName: "김민재", writeDate: "2024-07-10 14:12", content: "댓글 내용 4 - 김민재님의 의견"),
+		Comment(nickName: "김민재", writeDate: "2024-07-17 07:12", content: "댓글 내용 5 - 김민재님의 의견")
+	]
 	
 }
 

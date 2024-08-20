@@ -26,6 +26,8 @@ class CommentHeaderLabelTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	// MARK: - setupUI()
+
 	private func setupUI() {
 		self.contentView.addSubview(commentHeaderLabel)
 		self.contentView.backgroundColor = .lp_background_white

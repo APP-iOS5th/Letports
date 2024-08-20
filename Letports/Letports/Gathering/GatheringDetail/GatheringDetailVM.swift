@@ -12,6 +12,20 @@ protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
+//struct Gathering: Codable, Identifiable {
+//	@DocumentID var id: String?
+//	var gatheringUid: String
+//	var gatheringMaster: String
+//	var gatherName: String
+//	var gatherImage: String
+//	var gatherMaxMember: Int
+//	var gatherNowMember: Int
+//	var gatherInfo: String
+//	var gatherQuestion: String
+//	var gatheringMember: [User]
+//	var gatheringCreateDate: Date?
+//}
+
 enum GatheringDetailCellType {
 	case gatheringImage
 	case gatheringTitle

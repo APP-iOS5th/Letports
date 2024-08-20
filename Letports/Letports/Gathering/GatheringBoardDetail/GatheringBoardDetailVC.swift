@@ -30,7 +30,7 @@ final class GatheringBoardDetailVC: UIViewController {
 						 SeperatorLineTVCell.self,
 						 GatheringBoardDetailImagesTVCell.self,
 						 CommentHeaderLabelTVCell.self,
-						 GatheringBoardDetailCommertTVCell.self)
+						 GatheringBoardCommentTVCell.self)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.rowHeight = UITableView.automaticDimension
 		return tv
@@ -120,8 +120,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 			if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
 				return cell
 			}
-		case .commernt:
-			if let cell: GatheringBoardDetailCommertTVCell = tableView.loadCell(indexPath: indexPath) {
+		case .comment:
+			if let cell: GatheringBoardCommentTVCell = tableView.loadCell(indexPath: indexPath) {
+				cell.updateCommentList(viewModel.comment)
 				return cell
 			}
 		}
@@ -145,7 +146,10 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 			return UITableView.automaticDimension
 		case .commentHeaderLabel:
 			return UITableView.automaticDimension
-		case .commernt:
+		case .comment:
+			if let cell = tableView.cellForRow(at: indexPath) as? GatheringBoardCommentTVCell {
+				return cell.calculateTableViewHeight()
+			}
 			return UITableView.automaticDimension
 		}
 	}

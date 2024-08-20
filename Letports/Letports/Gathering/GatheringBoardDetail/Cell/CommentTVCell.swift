@@ -32,31 +32,24 @@ class CommentTVCell: UITableViewCell {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 8)
 		lb.textColor = .lightGray
-		lb.text = "08/01 19:03"
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
 	private let nickNameLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 8)
-		lb.text = "손흥민"
-		lb.textColor = .lightGray
+		lb.font = .systemFont(ofSize: 14)
+		lb.textColor = .black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
 	private let commentLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 10, weight: .bold)
-		lb.textAlignment = .center
-		lb.layer.borderWidth = 1
-		lb.layer.cornerRadius = 10
-		lb.text = """
-올스타전 못뛰었쥬 토트넘에서 우승만 해보고 서울로 갈게요 그전까지 은퇴 ㄴㄴL
-"""
-		lb.layer.borderColor = UIColor.black.cgColor
-		lb.clipsToBounds = true
+		lb.font = .systemFont(ofSize: 10)
+		lb.textAlignment = .left
+		lb.numberOfLines = 2
+		lb.lineBreakMode = .byTruncatingTail
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
@@ -64,7 +57,6 @@ class CommentTVCell: UITableViewCell {
 	private let nickNameCommentSV: UIStackView = {
 		let sv = UIStackView()
 		sv.axis = .vertical
-		sv.spacing = 15
 		sv.alignment = .leading
 		sv.translatesAutoresizingMaskIntoConstraints = false
 		return sv
@@ -90,13 +82,10 @@ class CommentTVCell: UITableViewCell {
 	// MARK: - Setup
 	private func setupUI() {
 		contentView.addSubview(containerView)
-		[userImageView, nickNameCommentSV, createDateLabel].forEach {
+		[userImageView, nickNameLabel, commentLabel, createDateLabel].forEach {
 			containerView.addSubview($0)
 		}
 		
-		[nickNameLabel, commentLabel].forEach {
-			nickNameCommentSV.addArrangedSubview($0)
-		}
 		self.contentView.backgroundColor = .lp_background_white
 		self.containerView.backgroundColor = .white
 		
@@ -105,20 +94,31 @@ class CommentTVCell: UITableViewCell {
 			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-			containerView.heightAnchor.constraint(equalToConstant: 50),
 			
-			userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 7),
-			userImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 7),
-			userImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 7),
+			userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+			userImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
 			userImageView.widthAnchor.constraint(equalToConstant: 60),
 			userImageView.heightAnchor.constraint(equalToConstant: 60),
 			
-			nickNameCommentSV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-			nickNameCommentSV.leadingAnchor.constraint(equalTo: userImageView.leadingAnchor, constant: 3),
+			nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+			nickNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
 			
-			createDateLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4),
+			commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor),
+			commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
+			commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+			commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -15),
+			
+			createDateLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
 			createDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
 		])
+	}
+	
+	func configureCell(data: GatheringBoardDetailVM.Comment) {
+		// 임시 주석처리
+		userImageView.image = UIImage(named: "defaultUserImage")
+		nickNameLabel.text = data.nickName
+		commentLabel.text = data.content
+		createDateLabel.text = data.writeDate
 	}
 
 }

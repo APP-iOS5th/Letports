@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GatheringBoardDetailCommertTVCell: UITableViewCell {
+class GatheringBoardCommentTVCell: UITableViewCell {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
 	
@@ -16,11 +16,12 @@ class GatheringBoardDetailCommertTVCell: UITableViewCell {
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.separatorStyle = .none
 		tv.backgroundColor = .clear
+		tv.allowsSelection = false
 		tv.isScrollEnabled = false
 		tv.backgroundColor = .lp_background_white
 		tv.dataSource = self
 		tv.delegate = self
-		tv.register(BoardTVCell.self, forCellReuseIdentifier: "BoardTVCell")
+		tv.register(CommentTVCell.self, forCellReuseIdentifier: "CommentTVCell")
 		return tv
 	}()
 	
@@ -34,7 +35,7 @@ class GatheringBoardDetailCommertTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var board: [GatheringBoardDetailVM.BoardDetailComment] = [] {
+	var board: [GatheringBoardDetailVM.Comment] = [] {
 		didSet {
 			tableView.reloadData()
 			updateTableViewHeight()
@@ -43,11 +44,13 @@ class GatheringBoardDetailCommertTVCell: UITableViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
+		self.contentView.backgroundColor = .lp_background_white
 		self.contentView.addSubview(tableView)
 		NSLayoutConstraint.activate([
 			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 			tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+			tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 		])
 		
 		// 높이 제약 조건 추가
@@ -57,8 +60,8 @@ class GatheringBoardDetailCommertTVCell: UITableViewCell {
 	
 	// MARK: - 높이계산
 	public func calculateTableViewHeight() -> CGFloat {
-		let numberOfRows = 5
-		let cellHeight: CGFloat = 50 + 12
+		let numberOfRows = board.count
+		let cellHeight: CGFloat = 80 + 10
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
@@ -67,28 +70,36 @@ class GatheringBoardDetailCommertTVCell: UITableViewCell {
 		tableViewHeightConstraint?.constant = newHeight
 		layoutIfNeeded()
 	}
+	
+	func updateCommentList(_ comments: [GatheringBoardDetailVM.Comment]) {
+		self.board = comments
+		self.tableView.reloadData()
+		self.updateTableViewHeight()
+		self.layoutIfNeeded()
+	}
 }
 
 // MARK: -  extension
 
-extension GatheringBoardDetailCommertTVCell: UITableViewDataSource {
+extension GatheringBoardCommentTVCell: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 3
+		return board.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTVCell",
-													   for: indexPath) as? BoardTVCell else {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTVCell",
+													   for: indexPath) as? CommentTVCell else {
 			return UITableViewCell()
 		}
-		
+		let comment = board[indexPath.row]
+		cell.configureCell(data: comment)
 		return cell
 	}
 }
 
-extension GatheringBoardDetailCommertTVCell: UITableViewDelegate {
+extension GatheringBoardCommentTVCell: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 50 + 12
+		return 80 + 10
 	}
 }
