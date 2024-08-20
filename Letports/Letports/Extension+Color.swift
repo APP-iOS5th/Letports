@@ -65,6 +65,14 @@ extension UIColor {
     class var lp_sub: UIColor {
         return UIColor(named: "lp_sub") ?? UIColor("#9ABCDC")
     }
-        
     
+    /// Letports Separator - #D9D9D9
+    class var lp_separator: UIColor {
+        return UIColor(named: "lp_separator") ?? UIColor("#D9D9D9", alpha: 0.25)
+    }
+    
+    /// Letports LightGray - #D9D9D9
+    class var lp_lightGray: UIColor {
+        return UIColor(named: "lp_lightGray") ?? UIColor("#D9D9D9")
+    }
 }
