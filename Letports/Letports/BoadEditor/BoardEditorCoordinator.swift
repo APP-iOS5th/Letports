@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Photos
 
-protocol BoardEditorDelegaet: AnyObject {
+protocol BoardEditorCoordinatorDelegate: AnyObject {
     func photoUploadButtonTapped()
     func popViewController()
 }
@@ -50,7 +50,7 @@ class BoardEditorCoordinator: NSObject, Coordinator {
 }
 
 
-extension BoardEditorCoordinator: BoardEditorDelegaet {
+extension BoardEditorCoordinator: BoardEditorCoordinatorDelegate {
     func photoUploadButtonTapped() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {

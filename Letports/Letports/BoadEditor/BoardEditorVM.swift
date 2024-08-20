@@ -36,7 +36,7 @@ class BoardEditorVM {
     private var cancellables = Set<AnyCancellable>()
     
     
-    weak var delegate: BoardEditorDelegaet?
+    weak var delegate: BoardEditorCoordinatorDelegate?
     
     private var cellType: [BoardEditorCellType] {
         var cellTypes: [BoardEditorCellType] = []

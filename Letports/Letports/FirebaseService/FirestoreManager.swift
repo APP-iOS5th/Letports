@@ -63,10 +63,10 @@ class FirestoreManager {
     
     //READ
     func getData<T: Decodable>(collection: String, 
-                               documnet: String,
+                               document: String,
                                type: T.Type) -> AnyPublisher<T, FirestoreError> {
         return Future<T, FirestoreError> { promise in
-            FIRESTORE.collection(collection).document(documnet).getDocument { snapShot, error in
+            FIRESTORE.collection(collection).document(document).getDocument { snapShot, error in
                 if let error = error {
                     promise(.failure(.unknownError(error)))
                 } else if let snapshot = snapShot, snapshot.exists {
