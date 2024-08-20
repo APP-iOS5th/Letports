@@ -7,7 +7,7 @@
 import UIKit
 import Kingfisher
 
-class ProfileCell: UITableViewCell {
+class ProfileTVCell: UITableViewCell {
     
     private lazy var containerView: UIView = {
        let view = UIView()
