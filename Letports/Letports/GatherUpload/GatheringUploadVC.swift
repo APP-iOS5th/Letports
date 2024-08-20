@@ -46,9 +46,18 @@ class GatheringUploadVC: UIViewController {
         return tv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let imagePickerController = UIImagePickerController()
     
     private var viewModel: GatheringUploadVM
+    
+    private let buttonTapSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: GatheringUploadVM) {
@@ -67,6 +76,7 @@ class GatheringUploadVC: UIViewController {
         bindViewModel()
         setupTapGesture()
         setupDelegate()
+        uploadDebounce()
         
     }
     
@@ -85,7 +95,7 @@ class GatheringUploadVC: UIViewController {
     private func setupUI() {
         self.view.backgroundColor = .lpBackgroundWhite
         
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         
@@ -97,7 +107,12 @@ class GatheringUploadVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
@@ -112,6 +127,17 @@ class GatheringUploadVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
                 self?.navigationView.rightButtonIsEnable(enable)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isUploading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isUploading in
+                if isUploading {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
             }
             .store(in: &cancellables)
     }
@@ -154,11 +180,19 @@ class GatheringUploadVC: UIViewController {
         )
     }
     
+    private func uploadDebounce() {
+        buttonTapSubject
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] in
+                self?.viewModel.gatheringUpload()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        print("samll")
+        buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -204,7 +238,7 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .gatherInfo:
             if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.delegate = self 
+                cell.delegate = self
                 return cell
             }
         case .gatherQuestion:
@@ -224,7 +258,7 @@ extension GatheringUploadVC: GatheringUploadDelegate {
     }
     
     func checkMemberCount(count: Int) {
-        viewModel.checkMemeberCount(count: count)
+        viewModel.checkMemeberMaxCount(count: count)
     }
     
     func sendGatehrInfo(content: String) {

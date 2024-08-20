@@ -42,11 +42,30 @@ class BoardEditorHeaderCVCell: UICollectionReusableView {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.configureText(text: nil)
+        self.configureText(text: nil, photoCount: nil)
     }
     
-    func configureText(text: String?) {
-        self.titleLabel.text = text
+    func configureText(text: String?, photoCount: Int? = nil) {
+        
+        let fullText = NSMutableAttributedString()
+        
+        if let text = text {
+            let textAttributedString = NSAttributedString(string: "\(text)", attributes: [
+                .font: UIFont.systemFont(ofSize: 18),
+                .foregroundColor: UIColor.lp_black
+            ])
+            fullText.append(textAttributedString)
+        }
+        
+        if let photoCount = photoCount {
+            let photoCountString = NSAttributedString(string: " \(photoCount)/5", attributes: [
+                .font: UIFont.systemFont(ofSize: 12),
+                .foregroundColor: UIColor.lp_lightGray
+            ])
+            fullText.append(photoCountString)
+        }
+        
+        self.titleLabel.attributedText = fullText
     }
     
 }

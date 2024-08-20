@@ -38,7 +38,17 @@ class BoardEditorVC: UIViewController {
         return cv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
     private var viewModel: BoardEditorVM
+    
+    private let buttonTapSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: BoardEditorVM) {
@@ -56,13 +66,14 @@ class BoardEditorVC: UIViewController {
         setupTapGesture()
         bindViewModel()
         bindKeyboard()
+        uploadDebounce()
     }
     
     //MARK: - Setup
     private func setupUI() {
         self.view.backgroundColor = .lp_background_white
         
-        [navigationView, collectionView].forEach {
+        [navigationView, collectionView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         
@@ -74,7 +85,12 @@ class BoardEditorVC: UIViewController {
             collectionView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
@@ -99,6 +115,17 @@ class BoardEditorVC: UIViewController {
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
+        
+        viewModel.$isUploading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isUploading in
+                if isUploading {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func bindKeyboard() {
@@ -108,7 +135,7 @@ class BoardEditorVC: UIViewController {
             .sink { [weak self] keyboardFrame in
                 guard let self = self else { return }
                 UIView.animate(withDuration: 0.3) {
-                    self.collectionView.contentInset = UIEdgeInsets(top: 0, 
+                    self.collectionView.contentInset = UIEdgeInsets(top: 0,
                                                                     left: 0,
                                                                     bottom: keyboardFrame.height,
                                                                     right: 0)
@@ -133,12 +160,21 @@ class BoardEditorVC: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    private func uploadDebounce() {
+        buttonTapSubject
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] in
+                self?.viewModel.boardUpload()
+            }
+            .store(in: &cancellables)
+    }
+    
 }
 
 extension BoardEditorVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        
+        buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -156,26 +192,26 @@ extension BoardEditorVC {
     func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
             switch sectionIndex {
-                case 0:
-                    return self.createTitleSection()
-                case 1:
-                    return self.createContentSection()
-                case 2:
-                    return self.createHorizontalScrollSection()
-                default:
-                    return nil
+            case 0:
+                return self.createTitleSection()
+            case 1:
+                return self.createContentSection()
+            case 2:
+                return self.createHorizontalScrollSection()
+            default:
+                return nil
             }
         }
     }
     
     // 제목 레이아웃
     func createTitleSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), 
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), 
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .absolute(34))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
@@ -191,12 +227,12 @@ extension BoardEditorVC {
     
     // 내용 레이아웃
     func createContentSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), 
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), 
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .absolute(236))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
@@ -212,7 +248,7 @@ extension BoardEditorVC {
     
     // 사진 가로 스크롤 섹션 레이아웃
     func createHorizontalScrollSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), 
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
@@ -234,8 +270,8 @@ extension BoardEditorVC {
     
     //Header Item
     func createSupplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem{
-        return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1), 
-                                                                             heightDimension: .estimated(43)), 
+        return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension: .estimated(43)),
                                                            elementKind: UICollectionView.elementKindSectionHeader,
                                                            alignment: .top)
     }
@@ -246,7 +282,7 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return 3
     }
     
-    func collectionView(_ collectionView: UICollectionView, 
+    func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
@@ -262,11 +298,11 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case 2:
             if let cell: BoardEditorPhotoCVCell = collectionView.loadCell(indexPath: indexPath) {
                 switch indexPath.row {
-                    case 0:
-                        cell.photoCellSetup(isPhoto: false)
-                    default:
-                        cell.photoCellSetup(isPhoto: true, 
-                                            photo: viewModel.boardPhotos[indexPath.row - 1])
+                case 0:
+                    cell.photoCellSetup(isPhoto: false)
+                default:
+                    cell.photoCellSetup(isPhoto: true,
+                                        photo: viewModel.boardPhotos[indexPath.row - 1])
                 }
                 cell.delegate = self
                 return cell
@@ -288,25 +324,25 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, 
+    func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, 
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                          withReuseIdentifier: "BoadEditorHeaderCVCell",
                                                                          for: indexPath) as! BoardEditorHeaderCVCell
             
             // 섹션별로 다른 텍스트를 설정
             switch indexPath.section {
-                case 0:
-                    header.configureText(text: "제목")
-                case 1:
-                    header.configureText(text: "내용")
-                case 2:
-                    header.configureText(text: "사진")
-                default:
-                    header.configureText(text: nil)
+            case 0:
+                header.configureText(text: "제목")
+            case 1:
+                header.configureText(text: "내용")
+            case 2:
+                header.configureText(text: "사진", photoCount: viewModel.getPhotoCount() - 1)
+            default:
+                header.configureText(text: nil)
             }
             
             return header
@@ -326,7 +362,9 @@ extension BoardEditorVC: BoardEditorDelegate {
     }
     
     func didTapAddPhotoButton() {
-        self.selectPhotoButtonTapped()
+        if !viewModel.photoUploadIsLimit() {
+            self.selectPhotoButtonTapped()
+        }  else { return }
     }
     
     func didTapDeletePhotoButton(photoIndex: Int) {
@@ -340,20 +378,20 @@ extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControlle
     private func selectPhotoButtonTapped() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
-            case .notDetermined:
-                PHPhotoLibrary.requestAuthorization { [weak self] status in
-                    if status == .authorized {
-                        self?.presentImagePC()
-                    } else {
-                        self?.showAccessDeniedAlert()
-                    }
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                if status == .authorized {
+                    self?.presentImagePC()
+                } else {
+                    self?.showAccessDeniedAlert()
                 }
-            case .authorized, .limited:
-                presentImagePC()
-            case .denied, .restricted:
-                showAccessDeniedAlert()
-            @unknown default:
-                showAccessDeniedAlert()
+            }
+        case .authorized, .limited:
+            presentImagePC()
+        case .denied, .restricted:
+            showAccessDeniedAlert()
+        @unknown default:
+            showAccessDeniedAlert()
         }
     }
     
