@@ -2,12 +2,43 @@ import Foundation
 import Combine
 import FirebaseFirestore
 
+
+enum ProfileCellType {
+    case profile
+    case myGatheringHeader
+    case myGatherings
+    case pendingGatheringHeader
+    case pendingGatherings
+}
+
 class ProfileVM {
     @Published var user: User?
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
    
     private var cancellables = Set<AnyCancellable>()
+    
+    private var cellType: [ProfileCellType] {
+        var cellTypes: [ProfileCellType] = []
+        cellTypes.append(.profile)
+        cellTypes.append(.myGatheringHeader)
+        for _ in myGatherings {
+            cellTypes.append(.myGatherings)
+        }
+        cellTypes.append(.pendingGatheringHeader)
+        for _ in pendingGatherings {
+            cellTypes.append(.pendingGatherings)
+        }
+        return cellTypes
+    }
+    
+    func getCellTypes() -> [ProfileCellType] {
+        return self.cellType
+    }
+    
+    func getCellCount() -> Int {
+        return self.cellType.count
+    }
     
     init() {
         loadUser(withUID: "user004")
@@ -76,6 +107,8 @@ class ProfileVM {
                 pendingGatherings.append(gathering)
             }
         }
+        let pendingGatheringIDs = Set(pendingGatherings.map { $0.gatheringUid })
+            myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
         return (myGatherings, pendingGatherings)
     }
 }

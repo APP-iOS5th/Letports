@@ -62,8 +62,9 @@
 		D86C075C2C747F1C0067D1D4 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C07572C747F1C0067D1D4 /* ProfileCoordinator.swift */; };
 		D86C075D2C747F1C0067D1D4 /* GatheringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C07552C747F1C0067D1D4 /* GatheringCell.swift */; };
 		D86C075E2C747F1C0067D1D4 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C07582C747F1C0067D1D4 /* ProfileVC.swift */; };
-		D86C075F2C747F1C0067D1D4 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C075A2C747F1C0067D1D4 /* ProfileView.swift */; };
+		D86C075F2C747F1C0067D1D4 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C075A2C747F1C0067D1D4 /* ProfileCell.swift */; };
 		D86C07602C747F1C0067D1D4 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C07592C747F1C0067D1D4 /* ProfileVM.swift */; };
+		D86C07622C75023B0067D1D4 /* SectionNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C07612C7502350067D1D4 /* SectionNameCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,7 +141,8 @@
 		D86C07572C747F1C0067D1D4 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		D86C07582C747F1C0067D1D4 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		D86C07592C747F1C0067D1D4 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
-		D86C075A2C747F1C0067D1D4 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		D86C075A2C747F1C0067D1D4 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		D86C07612C7502350067D1D4 /* SectionNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionNameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,7 +349,6 @@
 				D86C07572C747F1C0067D1D4 /* ProfileCoordinator.swift */,
 				D86C07582C747F1C0067D1D4 /* ProfileVC.swift */,
 				D86C07592C747F1C0067D1D4 /* ProfileVM.swift */,
-				D86C075B2C747F1C0067D1D4 /* View */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -366,17 +367,11 @@
 		D86C07562C747F1C0067D1D4 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				D86C07612C7502350067D1D4 /* SectionNameCell.swift */,
+				D86C075A2C747F1C0067D1D4 /* ProfileCell.swift */,
 				D86C07552C747F1C0067D1D4 /* GatheringCell.swift */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		D86C075B2C747F1C0067D1D4 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D86C075A2C747F1C0067D1D4 /* ProfileView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -525,7 +520,7 @@
 				D86C075C2C747F1C0067D1D4 /* ProfileCoordinator.swift in Sources */,
 				D86C075D2C747F1C0067D1D4 /* GatheringCell.swift in Sources */,
 				D86C075E2C747F1C0067D1D4 /* ProfileVC.swift in Sources */,
-				D86C075F2C747F1C0067D1D4 /* ProfileView.swift in Sources */,
+				D86C075F2C747F1C0067D1D4 /* ProfileCell.swift in Sources */,
 				D86C07602C747F1C0067D1D4 /* ProfileVM.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
 				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
@@ -545,6 +540,7 @@
 				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
+				D86C07622C75023B0067D1D4 /* SectionNameCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
 				4143E4552C6B47B5001AB3E0 /* BoardEditorVC.swift in Sources */,
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,

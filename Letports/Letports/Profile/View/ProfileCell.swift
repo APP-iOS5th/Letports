@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class ProfileView: UIView {
+class ProfileCell: UITableViewCell {
     
      lazy var profileIV: UIImageView = {
         let iv = UIImageView()

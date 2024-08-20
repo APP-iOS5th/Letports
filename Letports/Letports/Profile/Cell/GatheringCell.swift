@@ -1,7 +1,10 @@
 import UIKit
 
 class GatheringCell: UITableViewCell {
-     lazy var containerView: UIView = {
+    
+
+    
+    private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
          view.backgroundColor = .lp_white
@@ -9,7 +12,7 @@ class GatheringCell: UITableViewCell {
         return view
     }()
     
-     lazy var gatheringIV: UIImageView = {
+    private lazy var gatheringIV: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 12
         iv.contentMode = .scaleAspectFill
@@ -18,7 +21,7 @@ class GatheringCell: UITableViewCell {
         return iv
     }()
     
-     lazy var gatheringName: UILabel = {
+    private lazy var gatheringName: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
@@ -27,7 +30,7 @@ class GatheringCell: UITableViewCell {
         return label
     }()
     
-     lazy var gatheringInfo: UILabel = {
+    private lazy var gatheringInfo: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor(named: "lp_gray")
@@ -38,7 +41,7 @@ class GatheringCell: UITableViewCell {
     }()
     
     
-     lazy var gatheringMasterIV: UIImageView = {
+    private  lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
          iv.layer.cornerRadius = 5
          iv.contentMode = .scaleAspectFill
@@ -47,7 +50,7 @@ class GatheringCell: UITableViewCell {
         return iv
     }()
     
-     lazy var gatheringMasterName: UILabel = {
+    private lazy var gatheringMasterName: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 8)
         label.textAlignment = .left
@@ -56,7 +59,7 @@ class GatheringCell: UITableViewCell {
         return label
     }()
     
-     lazy var personIV: UIImageView = {
+    private lazy var personIV: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "person.2.fill")
         iv.tintColor = UIColor(named: "lp_black")
@@ -64,7 +67,7 @@ class GatheringCell: UITableViewCell {
         return iv
     }()
     
-     lazy var memberCount: UILabel = {
+    private lazy var memberCount: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 8)
         label.textColor = UIColor(named: "lp_black")
@@ -72,7 +75,7 @@ class GatheringCell: UITableViewCell {
         return label
     }()
     
-     lazy var calendarIV: UIImageView = {
+    private lazy var calendarIV: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "calendar.circle.fill")
         iv.tintColor = UIColor(named: "lp_black")
@@ -80,7 +83,7 @@ class GatheringCell: UITableViewCell {
         return iv
     }()
     
-     lazy var createGatheringDate: UILabel = {
+    private lazy var createGatheringDate: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 8)
         label.textColor = UIColor(named: "lp_black")
@@ -90,31 +93,28 @@ class GatheringCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.selectionStyle = .none
         setupUI()
     }
     
     private func setupUI() {
         contentView.addSubview(containerView)
-        
-        containerView.addSubview(gatheringIV)
-        containerView.addSubview(gatheringName)
-        containerView.addSubview(gatheringInfo)
-        containerView.addSubview(gatheringMasterIV)
-        containerView.addSubview(gatheringMasterName)
-        containerView.addSubview(personIV)
-        containerView.addSubview(memberCount)
-        containerView.addSubview(calendarIV)
-        containerView.addSubview(createGatheringDate)
-        
+      
+        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
+            containerView.addSubview($0)
+        }
+       
+  
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 80)
@@ -165,6 +165,23 @@ class GatheringCell: UITableViewCell {
         ])
     }
     
-   
+    func configure(with gathering: Gathering) {
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = gathering.gatheringMaster
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate // Assuming dateFormatted is a formatted date string
+        guard let url = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+                return
+            }
+            let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
+        
+            
+        
+        }
     
 }
