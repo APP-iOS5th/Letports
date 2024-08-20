@@ -41,7 +41,9 @@ class FirestoreManager {
     private init() {}
     
     //CREATE
-    func setData<T: Encodable>(collection: String, document: String, data: T) -> AnyPublisher<Void, FirestoreError> {
+    func setData<T: Encodable>(collection: String, 
+                               document: String,
+                               data: T) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
             do {
                 let encodedData = try Firestore.Encoder().encode(data)
@@ -60,7 +62,9 @@ class FirestoreManager {
     }
     
     //READ
-    func getData<T: Decodable>(collection: String, documnet: String , type: T.Type) -> AnyPublisher<T, FirestoreError> {
+    func getData<T: Decodable>(collection: String, 
+                               documnet: String,
+                               type: T.Type) -> AnyPublisher<T, FirestoreError> {
         return Future<T, FirestoreError> { promise in
             FIRESTORE.collection(collection).document(documnet).getDocument { snapShot, error in
                 if let error = error {
@@ -83,7 +87,9 @@ class FirestoreManager {
     //UPDATE
     ///Field update
     ///Fields Update Method
-    func updateData(collection: String, document: String, fields: [String: Any]) -> AnyPublisher<Void, FirestoreError> {
+    func updateData(collection: String, 
+                    document: String,
+                    fields: [String: Any]) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
             FIRESTORE.collection(collection).document(document).updateData(fields) { error in
                 if let error = error {
@@ -98,7 +104,9 @@ class FirestoreManager {
     
     ///Data Update
     ///All Data Update Method
-    func updateData<T: Encodable>(collection: String, document: String, data: T) -> AnyPublisher<Void, FirestoreError> {
+    func updateData<T: Encodable>(collection: String, 
+                                  document: String,
+                                  data: T) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
             do {
                 

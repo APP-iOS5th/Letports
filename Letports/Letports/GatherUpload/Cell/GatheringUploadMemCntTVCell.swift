@@ -130,7 +130,9 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
             let range = (fullText as NSString).range(of: "최대 모인원은 \(memMaxCount)명 입니다.")
             
             attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
-            attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 12, weight: .regular), range: range)
+            attributedString.addAttribute(.font, 
+                                          value: UIFont.systemFont(ofSize: 12, weight: .regular), 
+                                          range: range)
             
             titleLabel.attributedText = attributedString
         } else {

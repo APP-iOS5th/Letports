@@ -68,6 +68,7 @@ extension BoardEditorTitleCVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         
-        return koTextLimit.shouldChangeText(for: textField, in: range, replacementText: string, maxCharacterLimit: 100)
+        return koTextLimit.shouldChangeText(for: textField, in: range, 
+                                            replacementText: string, maxCharacterLimit: 100)
     }
 }

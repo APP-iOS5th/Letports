@@ -88,6 +88,7 @@ extension BoardEditorContentCVCell: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
-        return koTextLimit.shouldChangeText(for: textView, in: range, replacementText: text, maxCharacterLimit: 1000)
+        return koTextLimit.shouldChangeText(for: textView, in: range, 
+                                            replacementText: text, maxCharacterLimit: 1000)
     }
 }

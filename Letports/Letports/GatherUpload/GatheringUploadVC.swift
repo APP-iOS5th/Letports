@@ -21,7 +21,8 @@ class GatheringUploadVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
         let isEditMode = viewModel.isEditMode
-        let screenType: ScreenType = .smallUploadGathering(btnName: viewModel.isEditMode ? .update : .create, isUpdate: viewModel.isEditMode)
+        let screenType: ScreenType = .smallUploadGathering(btnName: viewModel.isEditMode ? .update : .create, 
+                                                           isUpdate: viewModel.isEditMode)
         let cnv = CustomNavigationView(isLargeNavi: .small,
                                        screenType: screenType)
         
@@ -84,13 +85,17 @@ class GatheringUploadVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), 
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), 
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, 
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, 
+                                                  object: nil)
     }
     
     //MARK: - Setup
@@ -165,7 +170,10 @@ class GatheringUploadVC: UIViewController {
             UIView.animate(
                 withDuration: 0.3,
                 animations: {
-                    self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardRectangle.height, right: 0)
+                    self.tableView.contentInset = UIEdgeInsets(top: 0, 
+                                                               left: 0,
+                                                               bottom: keyboardRectangle.height,
+                                                               right: 0)
                     self.tableView.scrollIndicatorInsets = self.tableView.contentInset
                 }
             )
@@ -281,7 +289,8 @@ extension GatheringUploadVC: GatheringUploadDelegate {
 }
 
 extension GatheringUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, 
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         
         if let selectedImage = info[.originalImage] as? UIImage {

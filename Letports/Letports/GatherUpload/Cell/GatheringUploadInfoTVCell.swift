@@ -94,7 +94,9 @@ extension GatheringUploadInfoTVCell: UITextViewDelegate {
         self.delegate?.sendGatehrInfo(content: contentTextView.text)
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return koTextLimit.shouldChangeText(for: textView, in: range, replacementText: text, maxCharacterLimit: 1000)
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, 
+                  replacementText text: String) -> Bool {
+        return koTextLimit.shouldChangeText(for: textView, in: range, 
+                                            replacementText: text, maxCharacterLimit: 1000)
     }
 }
