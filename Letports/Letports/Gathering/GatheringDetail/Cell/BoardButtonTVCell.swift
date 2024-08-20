@@ -14,7 +14,7 @@ protocol BoardButtonTVCellDelegate: AnyObject {
 final class BoardButtonTVCell: UITableViewCell {
 	
 	private let boardButtonTypes: [BoardButtonType] = [.all, .noti, .free]
-	private var selectedButtonIndex: Int?  // 선택된 버튼 추적
+	private var selectedButtonIndex: Int?
 	weak var delegate: BoardButtonTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {

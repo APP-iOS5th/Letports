@@ -11,7 +11,7 @@ class BoardButtonCVCell: UICollectionViewCell {
 	
 	private var boardButtonType: BoardButtonType = .all
 	
-	let boardSelectButton: UIButton = {
+	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
 		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
 		let bt = UIButton(configuration: config, primaryAction: nil)

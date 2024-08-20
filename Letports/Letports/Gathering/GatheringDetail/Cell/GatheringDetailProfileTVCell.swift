@@ -60,7 +60,8 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
 	UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell", for: indexPath) as? GatheringDetailProfileCVCell else {
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell", 
+															for: indexPath) as? GatheringDetailProfileCVCell else {
 			return UICollectionViewCell()
 		}
 		cell.configure(profile: profiles[indexPath.item])

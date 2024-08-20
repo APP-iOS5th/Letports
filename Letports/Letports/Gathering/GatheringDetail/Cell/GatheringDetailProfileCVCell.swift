@@ -24,7 +24,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	private let userNickName: UILabel = {
 		let lb = UILabel()
 		lb.textAlignment = .center
-		lb.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+		lb.font = .systemFont(ofSize: 10, weight: .medium)
 		return lb
 	}()
 	
@@ -61,13 +61,13 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		userImageBt.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 	}
 	
-	@objc private func imageTap() {
-		// 이미지 버튼 클릭 시 동작 정의
-		print("이미지 버튼이 클릭되었습니다.")
-	}
-	
 	func configure(profile: GatheringDetailVM.Profile) {
 		self.userImageBt.setImage(UIImage(named: profile.userImage), for: .normal)
 		 self.userNickName.text = profile.userNickName
 	 }
+	
+	@objc private func imageTap() {
+		// 이미지 버튼 클릭 시 동작 정의
+		print("이미지 버튼이 클릭되었습니다.")
+	}
 }

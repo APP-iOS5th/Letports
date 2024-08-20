@@ -1,14 +1,14 @@
 //
-//  SelectBoardTVCell.swift
+//  CommentTVCell.swift
 //  Letports
 //
-//  Created by Yachae on 8/13/24.
+//  Created by Yachae on 8/20/24.
 //
 
 import UIKit
 
-final class BoardTVCell: UITableViewCell {
-	
+class CommentTVCell: UITableViewCell {
+
 	private let containerView: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -18,31 +18,56 @@ final class BoardTVCell: UITableViewCell {
 		return view
 	}()
 	
-	private let titleLabel: UILabel = {
-		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 10)
-		lb.translatesAutoresizingMaskIntoConstraints = false
-		return lb
+	private let userImageView: UIImageView = {
+		let iv = UIImageView()
+		iv.contentMode = .scaleAspectFit
+		iv.clipsToBounds = true
+		iv.layer.cornerRadius = 10
+		iv.layer.borderWidth = 0.5
+		iv.translatesAutoresizingMaskIntoConstraints = false
+		return iv
 	}()
 	
 	private let createDateLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 8)
 		lb.textColor = .lightGray
+		lb.text = "08/01 19:03"
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
-	private let boardTypeLabel: UILabel = {
+	private let nickNameLabel: UILabel = {
+		let lb = UILabel()
+		lb.font = .systemFont(ofSize: 8)
+		lb.text = "손흥민"
+		lb.textColor = .lightGray
+		lb.translatesAutoresizingMaskIntoConstraints = false
+		return lb
+	}()
+	
+	private let commentLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 10, weight: .bold)
 		lb.textAlignment = .center
 		lb.layer.borderWidth = 1
 		lb.layer.cornerRadius = 10
+		lb.text = """
+올스타전 못뛰었쥬 토트넘에서 우승만 해보고 서울로 갈게요 그전까지 은퇴 ㄴㄴL
+"""
 		lb.layer.borderColor = UIColor.black.cgColor
 		lb.clipsToBounds = true
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
+	}()
+	
+	private let nickNameCommentSV: UIStackView = {
+		let sv = UIStackView()
+		sv.axis = .vertical
+		sv.spacing = 15
+		sv.alignment = .leading
+		sv.translatesAutoresizingMaskIntoConstraints = false
+		return sv
 	}()
 	
 	override func layoutSubviews() {
@@ -53,9 +78,8 @@ final class BoardTVCell: UITableViewCell {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
-		tapGesture()
 		self.selectionStyle = .none
-		self.backgroundColor = .clear 
+		self.backgroundColor = .clear
 		self.contentView.backgroundColor = .clear
 	}
 	
@@ -66,8 +90,12 @@ final class BoardTVCell: UITableViewCell {
 	// MARK: - Setup
 	private func setupUI() {
 		contentView.addSubview(containerView)
-		[boardTypeLabel, titleLabel, createDateLabel].forEach {
+		[userImageView, nickNameCommentSV, createDateLabel].forEach {
 			containerView.addSubview($0)
+		}
+		
+		[nickNameLabel, commentLabel].forEach {
+			nickNameCommentSV.addArrangedSubview($0)
 		}
 		self.contentView.backgroundColor = .lp_background_white
 		self.containerView.backgroundColor = .white
@@ -79,35 +107,18 @@ final class BoardTVCell: UITableViewCell {
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 			containerView.heightAnchor.constraint(equalToConstant: 50),
 			
-			boardTypeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-			boardTypeLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-			boardTypeLabel.widthAnchor.constraint(equalToConstant: 50),
-			boardTypeLabel.heightAnchor.constraint(equalToConstant: 20),
+			userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 7),
+			userImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 7),
+			userImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 7),
+			userImageView.widthAnchor.constraint(equalToConstant: 60),
+			userImageView.heightAnchor.constraint(equalToConstant: 60),
 			
-			titleLabel.leadingAnchor.constraint(equalTo: boardTypeLabel.trailingAnchor, constant: 10),
-			titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+			nickNameCommentSV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+			nickNameCommentSV.leadingAnchor.constraint(equalTo: userImageView.leadingAnchor, constant: 3),
 			
+			createDateLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4),
 			createDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-			createDateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4)
 		])
 	}
-	
-	private func tapGesture() {
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTap))
-		self.contentView.addGestureRecognizer(tapGesture)
-		self.contentView.isUserInteractionEnabled = true
-	}
-	
-	func configureCell(data: GatheringDetailVM.BoardData) {
-		createDateLabel.text = data.createDate
-		boardTypeLabel.text = data.boardType.description
-		titleLabel.text = data.title
-	}
-	
-	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
-	}
+
 }
-
-
-

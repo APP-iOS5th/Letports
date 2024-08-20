@@ -20,15 +20,15 @@ final class GatheringDetailVC: UIViewController {
 	}()
 	
 	private let joinButton: JoinButton = {
-		let button = JoinButton()
-		button.translatesAutoresizingMaskIntoConstraints = false
-		return button
+		let bt = JoinButton()
+		bt.translatesAutoresizingMaskIntoConstraints = false
+		return bt
 	}()
 	
 	private lazy var floatingActionButton: PostButton = {
-		let button = PostButton()
-		button.translatesAutoresizingMaskIntoConstraints = false
-		return button
+		let bt = PostButton()
+		bt.translatesAutoresizingMaskIntoConstraints = false
+		return bt
 	}()
 	
 	private lazy var tableView: UITableView = {
@@ -47,7 +47,6 @@ final class GatheringDetailVC: UIViewController {
 						 GatheringDetailBoardTVCell.self)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.rowHeight = UITableView.automaticDimension
-		
 		return tv
 	}()
 	
@@ -121,7 +120,7 @@ final class GatheringDetailVC: UIViewController {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		self.view.backgroundColor = .lpBackgroundWhite
+		self.view.backgroundColor = .lp_background_white
 		
 		[navigationView, tableView, joinButton, floatingActionButton].forEach {
 			self.view.addSubview($0)
@@ -149,6 +148,8 @@ final class GatheringDetailVC: UIViewController {
 		])
 	}
 }
+
+// MARK: - extension
 
 extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightButtonDidTap() {

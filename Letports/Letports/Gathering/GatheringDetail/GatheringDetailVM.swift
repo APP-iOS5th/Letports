@@ -5,7 +5,6 @@
 //  Created by Yachae on 8/13/24.
 //
 
-import Foundation
 import UIKit
 
 // 게시판 버튼
@@ -66,11 +65,11 @@ class GatheringDetailVM {
 	
 	func calculateBoardHeight() -> CGFloat {
 			let numberOfRows = filteredBoardData.count
-			let cellHeight: CGFloat = 50 + 12 // 각 셀의 높이
+			let cellHeight: CGFloat = 50 + 12
 			return CGFloat(numberOfRows) * cellHeight
 		}
 	
-	// 모임 타이틀
+	// 모임 타이틀(삭제예정)
 	struct GatheringHeader {
 		let gatheringImage: String
 		let gatheringName: String
@@ -79,7 +78,7 @@ class GatheringDetailVM {
 		let gatheringMaxMember: String
 	}
 	
-	// 더미데이터
+	// 더미데이터(삭제예정)
 	let GatheringHeaders = [
 		GatheringHeader(gatheringImage: "sampleImage",
 						gatheringName: "수호단",
@@ -88,21 +87,15 @@ class GatheringDetailVM {
 						gatheringMaxMember: "10")
 	]
 	
-	// 프로필
+	// 프로필(삭제예정)
 	struct Profile {
 		let userImage: String
 		let userNickName: String
 	}
 	
-	// 현재인원 더미데이터
+	// 현재인원 더미데이터(삭제예정)
 	let profiles = [
 		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장")
 	]
 	
 	struct BoardData {
@@ -121,17 +114,9 @@ class GatheringDetailVM {
 	}
 	
 	
-	// 게시판 더미데이터
+	// 게시판 더미데이터(삭제예정)
 	let boardData = [
 		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
 		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
 	]
 }
