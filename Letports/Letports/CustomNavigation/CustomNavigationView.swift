@@ -67,7 +67,7 @@ enum ScreenType {
     /// Setting Screen
     case smallSetting
     /// Profile Edit
-    case smallEditProfile
+    case smallEditProfile(btnName: NaviButtonType)
     
     
     var title: String {
@@ -103,7 +103,8 @@ enum ScreenType {
                 .smallGathering(_, let btnName),
                 .smallGatheringSetting(let btnName),
                 .smallBoardEditor(let btnName, _),
-                .smallUploadGathering(let btnName, _):
+                .smallUploadGathering(let btnName, _),
+                .smallEditProfile(let btnName):
             return btnName.buttonName
         default:
             return ""
