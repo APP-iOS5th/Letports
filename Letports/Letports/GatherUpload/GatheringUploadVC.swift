@@ -22,9 +22,6 @@ class GatheringUploadVC: UIViewController {
     private(set) lazy var navigationView: CustomNavigationView = {
         let isEditMode = viewModel.isEditMode
         let screenType: ScreenType = .smallUploadGathering(btnName: viewModel.isEditMode ? .update : .create, isUpdate: viewModel.isEditMode)
-//        isEditMode ? .smallUpdateGathering(btnName: .update)
-//                                                : .smallCreateGathering(btnName: .create)
-                                            
         let cnv = CustomNavigationView(isLargeNavi: .small,
                                        screenType: screenType)
         
