@@ -13,7 +13,8 @@ class BoardEditorVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
         let cnv = CustomNavigationView(isLargeNavi: .small,
-                                       screenType: .smallBoardEditor(btnName: .write, isUpload: true))
+                                       screenType: .smallBoardEditor(btnName: viewModel.isEditMode ? .update : .write, 
+                                                                     isUpload: true))
         
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
@@ -288,11 +289,13 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0:
             if let cell: BoardEditorTitleCVCell = collectionView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(title: viewModel.boardTitle)
                 return cell
             }
         case 1:
             if let cell: BoardEditorContentCVCell = collectionView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(content: viewModel.boardContents)
                 return cell
             }
         case 2:
@@ -424,8 +427,4 @@ extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControlle
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-}
-
-#Preview() {
-    BoardEditorVC(viewModel: BoardEditorVM())
 }

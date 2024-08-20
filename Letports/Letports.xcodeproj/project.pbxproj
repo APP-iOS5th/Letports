@@ -27,8 +27,8 @@
 		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
 		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
 		4143E4552C6B47B5001AB3E0 /* BoardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */; };
-		4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */; };
-		4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */; };
+		4143E4592C6B47DF001AB3E0 /* BoardEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */; };
+		4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */; };
 		41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05202C7231B3009FF289 /* KoTextCountLimit */; };
 		41AA05242C72D9C3009FF289 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05232C72D9C3009FF289 /* FirebaseFirestore */; };
 		41AA05262C72D9C3009FF289 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05252C72D9C3009FF289 /* FirebaseStorage */; };
@@ -95,8 +95,8 @@
 		413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadInfoTVCell.swift; sourceTree = "<group>"; };
 		413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMemCntTVCell.swift; sourceTree = "<group>"; };
 		4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVC.swift; sourceTree = "<group>"; };
-		4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorVM.swift; sourceTree = "<group>"; };
-		4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorCoordinator.swift; sourceTree = "<group>"; };
+		4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVM.swift; sourceTree = "<group>"; };
+		4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorCoordinator.swift; sourceTree = "<group>"; };
 		41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasStorageManager.swift; sourceTree = "<group>"; };
 		41AA052C2C72E2A2009FF289 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -213,8 +213,8 @@
 			children = (
 				4111E5792C6C35CB00DA2A3D /* Cell */,
 				4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */,
-				4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */,
-				4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */,
+				4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */,
+				4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */,
 			);
 			path = BoadEditor;
 			sourceTree = "<group>";
@@ -500,12 +500,12 @@
 				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
 				4111E5832C6C670500DA2A3D /* Extension+UICollectionView.swift in Sources */,
 				411C4A4D2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift in Sources */,
-				4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */,
+				4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */,
 				B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
 				411C4A4F2C7091E900FE3604 /* BoardEditorTitleCVCell.swift in Sources */,
-				4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */,
+				4143E4592C6B47DF001AB3E0 /* BoardEditorVM.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -31,6 +31,10 @@ class BoardEditorVM {
     @Published var boardPhotos: [UIImage] = []
     @Published var isUploading: Bool = false
     
+    var isEditMode: Bool
+    private var postID: String?
+    
+    
     private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardEditorCellType] {
@@ -41,7 +45,17 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init() {
+    init(post: SamplePost? = nil) {
+        if let post = post {
+            self.isEditMode = true
+            self.postID = post.postUID
+            self.boardTitle = post.title
+            self.boardContents = post.contents
+            self.loadImages(from: post.imageUrls)
+        } else {
+            self.isEditMode = false
+        }
+        
         Publishers.CombineLatest($boardTitle, $boardContents)
             .map { boardTitle, boardContents in
                 return boardTitle != nil && boardContents != nil
@@ -75,18 +89,53 @@ class BoardEditorVM {
     private func boardUpload(images: [String]) {
         if let title = boardTitle,
            let contents = boardContents {
-            let uuid = UUID().uuidString
-            let post = SamplePost(postUID: uuid, userUID: "몰루", title: title, contents: contents, 
-                            imageUrls: images, comments: [], boardType: "Free")
             
-            FM.setData(collection: "Board", document: uuid, data: post)
-                .sink{ _ in
-                } receiveValue: { [weak self] _ in
-                    print("Data Save")
-                    self?.isUploading = false
-                }
-                .store(in: &cancellables)
+            let uuid = UUID().uuidString
+            
+            let post = SamplePost(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
+                                  userUID: "몰루",
+                                  title: title, contents: contents,
+                                  imageUrls: images, comments: [], boardType: "Free")
+            
+            if isEditMode {
+                FM.updateData(collection: "Board", document: post.postUID, data: post)
+                    .sink{ _ in
+                    } receiveValue: { [weak self] _ in
+                        print("Data Update")
+                        self?.isUploading = false
+                    }
+                    .store(in: &cancellables)
+                    
+            } else {
+                FM.setData(collection: "Board", document: post.postUID, data: post)
+                    .sink{ _ in
+                    } receiveValue: { [weak self] _ in
+                        print("Data Save")
+                        self?.isUploading = false
+                    }
+                    .store(in: &cancellables)
+            }
+            
         }
+    }
+    
+    private func loadImages(from urls: [String]) {
+        let imagePublishers = urls.compactMap { urlString -> AnyPublisher<UIImage?, Never>? in
+            guard let url = URL(string: urlString) else { return nil }
+            return URLSession.shared.dataTaskPublisher(for: url)
+                .map { data, _ in
+                    UIImage(data: data)
+                }
+                .replaceError(with: nil)
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers.MergeMany(imagePublishers)
+            .collect()
+            .sink { [weak self] images in
+                self?.boardPhotos = images.compactMap { $0 }
+            }
+            .store(in: &cancellables)
     }
     
     //MARK: - OutPut
@@ -121,7 +170,7 @@ class BoardEditorVM {
     }
     
     func deleteBoardPhoto(index: Int) {
-        self.boardPhotos.remove(at: index)
+        self.boardPhotos.remove(at: index - 1)
     }
     
     

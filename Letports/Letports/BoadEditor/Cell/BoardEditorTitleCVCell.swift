@@ -50,6 +50,13 @@ class BoardEditorTitleCVCell: UICollectionViewCell {
         ])
     }
     
+    func configureCell(title: String?) {
+        guard let title = title else {
+            return
+        }
+        self.titleTextField.text = title
+    }
+    
     @objc func textFieldDidChange() {
         if let text = titleTextField.text {
             self.delegate?.writeTitle(content: text)

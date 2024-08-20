@@ -73,6 +73,11 @@ class BoardEditorContentCVCell: UICollectionViewCell {
             
         ])
     }
+    
+    func configureCell(content: String?) {
+        guard let content = content else { return }
+        contentTextView.text = content
+    }
 }
 
 extension BoardEditorContentCVCell: UITextViewDelegate {
