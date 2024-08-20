@@ -59,6 +59,37 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+    func getDocument<T: Decodable>(collection: String, documentId: String, type: T.Type) -> AnyPublisher<T, FirestoreError> {
+        Future { promise in
+            FIRESTORE.collection(collection).document(documentId).getDocument { (document, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                } else if let document = document, document.exists {
+                    do {
+                        let data = try document.data(as: T.self)
+                        promise(.success(data))
+                    } catch {
+                        promise(.failure(.dataDecodingFailed))
+                    }
+                } else {
+                    promise(.failure(.documentNotFound))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+
+    // 문서 여러 개 가져오기
+    func getDocuments<T: Decodable>(collection: String, documentIds: [String], type: T.Type) -> AnyPublisher<[T], FirestoreError> {
+        let publishers = documentIds.map { id in
+            self.getDocument(collection: collection, documentId: id, type: T.self)
+        }
+        
+        return Publishers.MergeMany(publishers)
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
     //READ
     func getData<T: Decodable>(collection: String, documnet: String , type: T.Type) -> AnyPublisher<T, FirestoreError> {
         return Future<T, FirestoreError> { promise in
