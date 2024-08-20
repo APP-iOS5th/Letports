@@ -175,7 +175,7 @@ class BoardEditorVC: UIViewController {
 
 extension BoardEditorVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        buttonTapSubject.send(())
+        self.buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -183,7 +183,7 @@ extension BoardEditorVC: CustomNavigationDelegate {
     }
     
     func backButtonDidTap() {
-        self.navigationController?.popViewController(animated: true)
+        self.viewModel.backButtonTapped()
     }
 }
 
@@ -366,7 +366,7 @@ extension BoardEditorVC: BoardEditorDelegate {
     
     func didTapAddPhotoButton() {
         if !viewModel.photoUploadIsLimit() {
-            self.selectPhotoButtonTapped()
+            self.viewModel.photoUploadButtonTapped()
         }  else { return }
     }
     
@@ -374,57 +374,50 @@ extension BoardEditorVC: BoardEditorDelegate {
         viewModel.deleteBoardPhoto(index: photoIndex)
     }
 }
-
-
-
-extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    private func selectPhotoButtonTapped() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { [weak self] status in
-                if status == .authorized {
-                    self?.presentImagePC()
-                } else {
-                    self?.showAccessDeniedAlert()
-                }
-            }
-        case .authorized, .limited:
-            presentImagePC()
-        case .denied, .restricted:
-            showAccessDeniedAlert()
-        @unknown default:
-            showAccessDeniedAlert()
-        }
-    }
-    
-    private func showAccessDeniedAlert() {
-        let alert = UIAlertController(title: "앨범 접근 권한 필요",
-                                      message: "설정에서 앨범 접근 권한을 허용해주세요.",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    
-    private func presentImagePC() {
-        DispatchQueue.main.async {
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.delegate = self
-            imagePickerController.sourceType = .photoLibrary
-            self.present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.addBoardPhotos(photo: selectedImage)
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
+//extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+//    private func selectPhotoButtonTapped() {
+//        let status = PHPhotoLibrary.authorizationStatus()
+//        switch status {
+//        case .notDetermined:
+//            PHPhotoLibrary.requestAuthorization { [weak self] status in
+//                if status == .authorized {
+//                    self?.presentImagePC()
+//                } else {
+//                    self?.showAccessDeniedAlert()
+//                }
+//            }
+//        case .authorized, .limited:
+//            presentImagePC()
+//        case .denied, .restricted:
+//            showAccessDeniedAlert()
+//        @unknown default:
+//            showAccessDeniedAlert()
+//        }
+//    }
+//    
+//    private func showAccessDeniedAlert() {
+////        self.viewModel.showAlbumAccessDeniedAlert()
+//    }
+//    
+//    
+//    private func presentImagePC() {
+//        DispatchQueue.main.async {
+//            let imagePickerController = UIImagePickerController()
+//            imagePickerController.delegate = self
+//            imagePickerController.sourceType = .photoLibrary
+//            self.present(imagePickerController, animated: true, completion: nil)
+//        }
+//    }
+//    
+//    func imagePickerController(_ picker: UIImagePickerController,
+//                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        if let selectedImage = info[.originalImage] as? UIImage {
+//            viewModel.addBoardPhotos(photo: selectedImage)
+//        }
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//    
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//}

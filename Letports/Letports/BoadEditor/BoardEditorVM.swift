@@ -35,6 +35,9 @@ class BoardEditorVM {
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
     
+    
+    weak var delegate: BoardEditorDelegaet?
+    
     private var cellType: [BoardEditorCellType] {
         var cellTypes: [BoardEditorCellType] = []
         cellTypes.append(.title)
@@ -136,6 +139,15 @@ class BoardEditorVM {
             .store(in: &cancellables)
     }
     
+    
+    func photoUploadButtonTapped() {
+        delegate?.photoUploadButtonTapped()
+    }
+    
+    func backButtonTapped() {
+        delegate?.popViewController()
+    }
+    
     //MARK: - OutPut
     func getCellTypes() -> [BoardEditorCellType] {
         return self.cellType
@@ -164,7 +176,6 @@ class BoardEditorVM {
     
     func addBoardPhotos(photo: UIImage) {
         self.boardPhotos.append(photo)
-        
     }
     
     func deleteBoardPhoto(index: Int) {
