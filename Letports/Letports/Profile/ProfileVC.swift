@@ -37,9 +37,9 @@ class ProfileVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none
-        tv.registersCell(cellClasses: SectionNameCell.self,
-                         ProfileCell.self,
-                         GatheringCell.self)
+        tv.registersCell(cellClasses: SectionTVCell.self,
+                         ProfileTVCell.self,
+                         GatheringTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -121,6 +121,19 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cellType = viewModel.getCellTypes()[indexPath.row]
+
+        switch cellType {
+        case .myGatherings:
+            // 셀 간 간격을 추가하는 방법
+            cell.contentView.layoutMargins = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+            cell.contentView.backgroundColor = .clear
+
+        default:
+            break
+        }
+    }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -143,20 +156,20 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
-            if let cell: ProfileCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 cell.setEditButtonAction(target: self, action: #selector(editProfile))
                 cell.configure(with: viewModel.user!)
                 return cell
             }
         case .myGatheringHeader:
-            if let cell: SectionNameCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(withTitle: "내 소모임")
                 cell.backgroundColor = .lp_background_white
                 return cell
             }
         case .myGatherings:
-            if let cell: GatheringCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
@@ -167,13 +180,13 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .pendingGatheringHeader:
-            if let cell: SectionNameCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 cell.configure(withTitle: "가입 대기중 소모임")
                 return cell
             }
         case .pendingGatherings:
-            if let cell: GatheringCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 let startIndex = 2 + viewModel.myGatherings.count + 1
                 let gatheringIndex = indexPath.row - startIndex

@@ -1,6 +1,6 @@
 import UIKit
 
-class GatheringCell: UITableViewCell {
+class GatheringTVCell: UITableViewCell {
     
 
     

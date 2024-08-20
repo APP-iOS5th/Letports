@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class SectionNameCell: UITableViewCell {
+class SectionTVCell: UITableViewCell {
     private lazy var TitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
