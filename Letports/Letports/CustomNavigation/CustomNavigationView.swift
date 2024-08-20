@@ -62,8 +62,8 @@ enum ScreenType {
     case smallProfile
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
-    /// Create Gathering Screen
-    case smallCreateGathering(btnName: NaviButtonType)
+    /// Gathering Upload, Update Screen
+    case smallUploadGathering(btnName: NaviButtonType, isUpdate: Bool)
     /// Setting Screen
     case smallSetting
     /// Profile Edit
@@ -87,8 +87,8 @@ enum ScreenType {
             return "프로필"
         case .smallGatheringSetting:
             return "소모임 설정"
-        case .smallCreateGathering:
-            return "소모임 생성"
+        case .smallUploadGathering(_, let isUpdate):
+            return isUpdate ? "소모임 수정" : "소모임 생성"
         case .smallSetting:
             return "설정"
         case .smallEditProfile:
@@ -102,9 +102,8 @@ enum ScreenType {
         case .largeProfile(let btnName),
                 .smallGathering(_, let btnName),
                 .smallGatheringSetting(let btnName),
-                .smallCreateGathering(let btnName),
-                .smallBoardEditor(let btnName, _):
-            
+                .smallBoardEditor(let btnName, _),
+                .smallUploadGathering(let btnName, _):
             return btnName.buttonName
         default:
             return ""
@@ -348,7 +347,7 @@ class CustomNavigationView: UIView {
         
         var buttonImage = UIImage(systemName: "arrow.backward")
         switch self.screenType {
-        case .smallCreateGathering:
+        case .smallUploadGathering:
             buttonImage = UIImage(systemName: "xmark")
         default:
             buttonImage = UIImage(systemName: "arrow.backward")
