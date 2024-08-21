@@ -25,13 +25,13 @@ protocol BoardEditorDelegate: AnyObject {
 
 class BoardEditorVM {
     
-    @Published var addButtonEnable: Bool = true
-    @Published var boardTitle: String?
-    @Published var boardContents: String?
-    @Published var boardPhotos: [UIImage] = []
-    @Published var isUploading: Bool = false
+    @Published private(set) var addButtonEnable: Bool = true
+    @Published private(set) var boardTitle: String?
+    @Published private(set) var boardContents: String?
+    @Published private(set) var boardPhotos: [UIImage] = []
+    @Published private(set) var isUploading: Bool = false
     
-    var isEditMode: Bool
+    private(set) var isEditMode: Bool
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
     
@@ -67,12 +67,13 @@ class BoardEditorVM {
     
     func boardUpload() {
         guard !isUploading else { return }
-        isUploading = true
+        self.isUploading = true
         
         uploadImage()
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
                 self.boardUpload(images: imageUrls)
+                self.delegate?.popViewController()
             }
             .store(in: &cancellables)
     }
@@ -141,11 +142,11 @@ class BoardEditorVM {
     
     
     func photoUploadButtonTapped() {
-        delegate?.photoUploadButtonTapped()
+        self.delegate?.photoUploadButtonTapped()
     }
     
     func backButtonTapped() {
-        delegate?.popViewController()
+        self.delegate?.popViewController()
     }
     
     //MARK: - OutPut

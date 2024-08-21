@@ -27,17 +27,17 @@ class BoardEditorCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        viewModel.delegate = self
+        self.viewModel.delegate = self
         let vc = BoardEditorVC(viewModel: viewModel)
         vc.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(vc, animated: true)
+        self.navigationController.pushViewController(vc, animated: true)
     }
     
     func imagePickerPresent() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = .photoLibrary
-        navigationController.present(imagePickerController, animated: true)
+        self.navigationController.present(imagePickerController, animated: true)
     }
     
     func albumAccessDeniedAlert() {
@@ -45,7 +45,7 @@ class BoardEditorCoordinator: NSObject, Coordinator {
                                       message: "설정에서 앨범 접근 권한을 허용해주세요.",
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        navigationController.present(alert, animated: true)
+        self.navigationController.present(alert, animated: true)
     }
 }
 
@@ -80,7 +80,7 @@ extension BoardEditorCoordinator: UIImagePickerControllerDelegate & UINavigation
     func imagePickerController(_ picker: UIImagePickerController, 
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.addBoardPhotos(photo: selectedImage)
+            self.viewModel.addBoardPhotos(photo: selectedImage)
         }
         picker.dismiss(animated: true)
     }
