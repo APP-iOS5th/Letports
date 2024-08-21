@@ -55,9 +55,7 @@ class GatheringUploadVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    let imagePickerController = UIImagePickerController()
-    
+        
     private var viewModel: GatheringUploadVM
     
     private let buttonTapSubject = PassthroughSubject<Void, Never>()
@@ -75,12 +73,10 @@ class GatheringUploadVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
-        bindViewModel()
-        setupTapGesture()
-        setupDelegate()
-        uploadDebounce()
-        
+        self.setupUI()
+        self.bindViewModel()
+        self.setupTapGesture()
+        self.uploadDebounce()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,20 +120,20 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$selectedImage
+        self.viewModel.$selectedImage
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
         
-        viewModel.$addButtonEnable
+        self.viewModel.$addButtonEnable
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
                 self?.navigationView.rightButtonIsEnable(enable)
             }
             .store(in: &cancellables)
         
-        viewModel.$isUploading
+        self.viewModel.$isUploading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isUploading in
                 if isUploading {
@@ -150,17 +146,14 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func setupTapGesture() {
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    private func setupDelegate() {
-        imagePickerController.delegate = self
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     
@@ -191,7 +184,7 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func uploadDebounce() {
-        buttonTapSubject
+        self.buttonTapSubject
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .sink { [weak self] in
                 self?.viewModel.gatheringUpload()
@@ -202,7 +195,7 @@ class GatheringUploadVC: UIViewController {
 
 extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        buttonTapSubject.send(())
+        self.buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -210,7 +203,7 @@ extension GatheringUploadVC: CustomNavigationDelegate {
     }
     
     func backButtonDidTap() {
-        self.dismiss(animated: true)
+        self.viewModel.didTapDismiss()
     }
 }
 
@@ -233,31 +226,31 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
         case .uploadImage:
             if let cell: GatheringUplaodImageTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(image: viewModel.selectedImage)
+                cell.configureCell(image: self.viewModel.selectedImage)
                 return cell
             }
         case .gatherName:
             if let cell: GatheringUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(title: viewModel.gatherNameText)
+                cell.configureCell(title: self.viewModel.gatherNameText)
                 return cell
             }
         case .gatherMemberCount:
             if let cell: GatheringUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(nowCount: viewModel.memMaxCount)
+                cell.configureCell(nowCount: self.viewModel.memMaxCount)
                 return cell
             }
         case .gatherInfo:
             if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(infoText: viewModel.gatherInfoText)
+                cell.configureCell(infoText: self.viewModel.gatherInfoText)
                 return cell
             }
         case .gatherQuestion:
             if let cell: GatheringUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(question: viewModel.gatherQuestionText)
+                cell.configureCell(question: self.viewModel.gatherQuestionText)
                 return cell
             }
         }
@@ -267,34 +260,24 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
 
 extension GatheringUploadVC: GatheringUploadDelegate {
     func didTapUploadImage() {
-        self.imagePickerController.sourceType = .photoLibrary
-        self.present(imagePickerController, animated: true)
+        self.viewModel.photoUploadButtonTapped()
     }
     
     func checkMemberCount(count: Int) {
-        viewModel.checkMemeberMaxCount(count: count)
+        self.viewModel.checkMemeberMaxCount(count: count)
     }
     
     func sendGatehrInfo(content: String) {
-        viewModel.writeGatherInfo(content: content)
+        self.viewModel.writeGatherInfo(content: content)
     }
     
     func sendGatherQuestion(content: String) {
-        viewModel.writeGatherQuestion(content: content)
+        self.viewModel.writeGatherQuestion(content: content)
     }
     
     func sendGatherName(content: String) {
-        viewModel.writeGatehrName(content: content)
+        self.viewModel.writeGatehrName(content: content)
     }
 }
 
-extension GatheringUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, 
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.changeSelectedImage(selectedImage: selectedImage)
-        }
-    }
-}
+

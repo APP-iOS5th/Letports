@@ -35,6 +35,8 @@ class GatheringUploadVM {
     private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
+    weak var delegate: GatheringUploadCoordinatorDelegate?
+    
     private var cellType: [BoardUploadCellType] {
         var cellTypes: [BoardUploadCellType] = []
         cellTypes.append(.main)
@@ -62,7 +64,7 @@ class GatheringUploadVM {
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             
-            loadImage(from: gathering.gatheringImage)
+            self.loadImage(from: gathering.gatheringImage)
                 .sink { [weak self] image in
                     self?.selectedImage = image
                 }
@@ -110,6 +112,14 @@ class GatheringUploadVM {
         self.selectedImage = selectedImage
     }
     
+    func didTapDismiss() {
+        self.delegate?.dismissViewController()
+    }
+    
+    func photoUploadButtonTapped() {
+        self.delegate?.presentImagePickerController()
+    }
+    
     func gatheringUpload() {
         guard !isUploading else { return }
         isUploading = true
@@ -118,6 +128,7 @@ class GatheringUploadVM {
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
                 self.gatehringUpload(imageUrl: imageUrl ?? "")
+                self.delegate?.dismissViewController()
             }
             .store(in: &cancellables)
     }
