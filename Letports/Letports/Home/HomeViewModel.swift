@@ -32,6 +32,9 @@ class FirebaseService: FirebaseServiceProtocol {
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
+                    print(data)
+                    
+                    let teamName = (data?["TeamName"] as? String ?? "Fc ㅋㅋ")
                     let teamLogoURL = (data?["TeamLogo"] as? String).flatMap { URL(string: $0) }
                     let homepageURL = (data?["Homepage"] as? String).flatMap { URL(string: $0) }
                     let instagramURL = (data?["Instagram"] as? String).flatMap { URL(string: $0) }
@@ -39,7 +42,7 @@ class FirebaseService: FirebaseServiceProtocol {
                     
                     let team = Team(
                         teamLogo: teamLogoURL,
-                        teamName: data?["TeamName"] as? String ?? "",
+                        teamName: teamName,
                         homepageURL: homepageURL,
                         instagramURL: instagramURL,
                         youtubeURL: youtubeURL
@@ -81,7 +84,6 @@ class HomeViewModel {
                 }
             }, receiveValue: { [weak self] team in
                 self?.team = team
-                print(team)
             })
             .store(in: &cancellables)
     }

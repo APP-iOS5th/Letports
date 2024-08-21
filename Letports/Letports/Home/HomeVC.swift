@@ -148,7 +148,6 @@ class HomeVC: UIViewController {
         stackView.addArrangedSubview(firstThumbnailStackView)
         stackView.addArrangedSubview(secondThumbnailStackView)
         
-        
         let videoID1 = "aWp0mk2PEyI"
         let videoID2 = "aWp0mk2PEyI"
         loadThumbnail(for: videoID1, into: thumbnail1)
