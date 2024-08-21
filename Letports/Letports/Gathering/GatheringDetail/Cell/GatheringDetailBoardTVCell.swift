@@ -42,32 +42,32 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	}
 	
 	// MARK: - Setup
-		private func setupUI() {
-			self.contentView.addSubview(tableView)
-			NSLayoutConstraint.activate([
-				tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-				tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-				tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-			])
-			
-			// 높이 제약 조건 추가
-			tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
-			tableViewHeightConstraint?.isActive = true
-		}
+	private func setupUI() {
+		self.contentView.addSubview(tableView)
+		NSLayoutConstraint.activate([
+			tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+			tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+		])
 		
-		// MARK: - 높이계산
-		public func calculateTableViewHeight() -> CGFloat {
-			let numberOfRows = board.count
-			let cellHeight: CGFloat = 50 + 12
-			return CGFloat(numberOfRows) * cellHeight
-		}
-		
-		private func updateTableViewHeight() {
-			let newHeight = calculateTableViewHeight()
-			tableViewHeightConstraint?.constant = newHeight
-			layoutIfNeeded()
-		}
+		// 높이 제약 조건 추가
+		tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+		tableViewHeightConstraint?.isActive = true
 	}
+	
+	// MARK: - 높이계산
+	public func calculateTableViewHeight() -> CGFloat {
+		let numberOfRows = board.count
+		let cellHeight: CGFloat = 50 + 12
+		return CGFloat(numberOfRows) * cellHeight
+	}
+	
+	private func updateTableViewHeight() {
+		let newHeight = calculateTableViewHeight()
+		tableViewHeightConstraint?.constant = newHeight
+		layoutIfNeeded()
+	}
+}
 
 // MARK: -  extension
 

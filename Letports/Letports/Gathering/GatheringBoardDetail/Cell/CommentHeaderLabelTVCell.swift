@@ -8,7 +8,7 @@
 import UIKit
 
 class CommentHeaderLabelTVCell: UITableViewCell {
-
+	
 	private let commentHeaderLabel: UILabel = {
 		let lb = UILabel()
 		lb.text = "댓글"
@@ -27,7 +27,7 @@ class CommentHeaderLabelTVCell: UITableViewCell {
 	}
 	
 	// MARK: - setupUI()
-
+	
 	private func setupUI() {
 		self.contentView.addSubview(commentHeaderLabel)
 		self.contentView.backgroundColor = .lp_background_white

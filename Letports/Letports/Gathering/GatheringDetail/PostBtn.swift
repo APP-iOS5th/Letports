@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostButton: UIView {
+class PostBtn: UIView {
 	private let floatingButton: UIButton = {
 		let bt = UIButton(type: .custom)
 		bt.translatesAutoresizingMaskIntoConstraints = false
@@ -69,10 +69,10 @@ class PostButton: UIView {
 	}()
 	
 	var isMaster: Bool = false {
-			didSet {
-				updateButtonVisibility()
-			}
+		didSet {
+			updateButtonVisibility()
 		}
+	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -106,12 +106,12 @@ class PostButton: UIView {
 	}
 	
 	private func updateButtonVisibility() {
-		   noticeButton.isHidden = !isMaster
-	   }
+		noticeButton.isHidden = !isMaster
+	}
 	
 	func setVisible(_ isVisible: Bool) {
-		   self.isHidden = !isVisible
-	   }
+		self.isHidden = !isVisible
+	}
 	
 	@objc private func floatingButtonTapped() {
 		UIView.animate(withDuration: 0.3) {

@@ -8,7 +8,7 @@
 import UIKit
 
 final class GatheringDetailProfileTVCell: UITableViewCell {
-
+	
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -25,7 +25,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 			collectionView.reloadData()
 		}
 	}
-
+	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
@@ -36,11 +36,11 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		collectionView.register(GatheringDetailProfileCVCell.self, 
 								forCellWithReuseIdentifier: "GatheringDetailProfileCVCell")
 	}
-
+	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
+	
 	// MARK: - Setup
 	private func setupUI() {
 		self.contentView.addSubview(collectionView)
@@ -57,7 +57,7 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return profiles.count
 	}
-
+	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
 	UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell", 
@@ -73,7 +73,7 @@ extension GatheringDetailProfileTVCell: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
-			
+		
 		return CGSize(width: 60, height: 80) // 셀 크기 설정
 	}
 }

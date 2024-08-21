@@ -39,7 +39,11 @@ class BoardViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+		setupUI()
+	}
+	
+	// MARK: - setupUI
+	private func setupUI() {
 		self.view.backgroundColor = .white
 		navigationView.delegate = self
 		self.view.addSubview(navigationView)
@@ -48,12 +52,10 @@ class BoardViewController: UIViewController {
 			navigationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 			navigationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
 		])
-
-		self.view.backgroundColor = UIColor("#BBBBBB", alpha: 1.0)
+		
 		self.view.backgroundColor = .lp_background_white
-	
-
 	}
+	
 }
 
 extension BoardViewController: CustomNavigationDelegate {

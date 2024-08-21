@@ -8,7 +8,7 @@
 import UIKit
 
 class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
-    
+	
 	private let imageView: UIImageView = {
 		let iv = UIImageView()
 		iv.contentMode = .scaleAspectFill
@@ -17,7 +17,7 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 		iv.image = UIImage(named: "sampleImage")
 		iv.layer.borderWidth = 0.5
 		iv.translatesAutoresizingMaskIntoConstraints = false
-	
+		
 		return iv
 	}()
 	

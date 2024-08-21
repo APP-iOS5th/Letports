@@ -26,7 +26,6 @@
 		41AA05242C72D9C3009FF289 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05232C72D9C3009FF289 /* FirebaseFirestore */; };
 		41AA05262C72D9C3009FF289 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 41AA05252C72D9C3009FF289 /* FirebaseStorage */; };
 		41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */; };
-		41AA052D2C72E2A2009FF289 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41AA052C2C72E2A2009FF289 /* GoogleService-Info.plist */; };
 		41AA05302C73000C009FF289 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA052F2C73000C009FF289 /* Common.swift */; };
 		41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05312C73020C009FF289 /* FirestoreManager.swift */; };
 		41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
@@ -43,17 +42,19 @@
 		BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */; };
 		BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */; };
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
-		BF1283DB2C725CBF00BEAE4C /* JoinButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinButton.swift */; };
+		BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
 		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
+		BF358EA62C76183B007F507D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF358EA52C76183B007F507D /* GoogleService-Info.plist */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
 		BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
 		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
 		BF8972692C75AC960015CBF2 /* GatheringBoardCommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */; };
-		BF89726A2C75ACAA0015CBF2 /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E52C7316D40053A86B /* PostButton.swift */; };
+		BF89726A2C75ACAA0015CBF2 /* PostBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E52C7316D40053A86B /* PostBtn.swift */; };
 		BF89726B2C75AD2D0015CBF2 /* BoarderEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */; };
 		BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */; };
+		BF89726F2C75BA5E0015CBF2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BF89726E2C75BA5E0015CBF2 /* Kingfisher */; };
 		BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */; };
 		BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */; };
 		BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */; };
@@ -117,7 +118,6 @@
 		4143E4582C6B47DF001AB3E0 /* BoarderEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorVM.swift; sourceTree = "<group>"; };
 		4143E45A2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoarderEditorCoordinator.swift; sourceTree = "<group>"; };
 		41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasStorageManager.swift; sourceTree = "<group>"; };
-		41AA052C2C72E2A2009FF289 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -134,22 +134,22 @@
 		BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonTVCell.swift; sourceTree = "<group>"; };
 		BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonCVCell.swift; sourceTree = "<group>"; };
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
-		BF1283DA2C725CBF00BEAE4C /* JoinButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinButton.swift; sourceTree = "<group>"; };
+		BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinBtn.swift; sourceTree = "<group>"; };
 		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
+		BF358EA52C76183B007F507D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
 		BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTitleTVCell.swift; sourceTree = "<group>"; };
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
 		BF89725F2C75A1E70015CBF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		BF8972612C75A2340015CBF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardCommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BFFFD3E52C7316D40053A86B /* PostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
+		BFFFD3E52C7316D40053A86B /* PostBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBtn.swift; sourceTree = "<group>"; };
 		BFFFD3E72C7328130053A86B /* currentMemTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = currentMemTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailVC.swift; sourceTree = "<group>"; };
 		BFFFD3EC2C7333FC0053A86B /* GatheringBoardDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailVM.swift; sourceTree = "<group>"; };
@@ -176,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF89726F2C75BA5E0015CBF2 /* Kingfisher in Frameworks */,
 				41AA05212C7231B3009FF289 /* KoTextCountLimit in Frameworks */,
 				41AA05242C72D9C3009FF289 /* FirebaseFirestore in Frameworks */,
 				41AA05262C72D9C3009FF289 /* FirebaseStorage in Frameworks */,
@@ -334,8 +335,8 @@
 				BF7BBE272C6B7F360094C29C /* Cell */,
 				BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */,
 				BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */,
-				BF1283DA2C725CBF00BEAE4C /* JoinButton.swift */,
-				BFFFD3E52C7316D40053A86B /* PostButton.swift */,
+				BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */,
+				BFFFD3E52C7316D40053A86B /* PostBtn.swift */,
 			);
 			path = GatheringDetail;
 			sourceTree = "<group>";
@@ -406,9 +407,8 @@
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
-				BF8972612C75A2340015CBF2 /* GoogleService-Info.plist */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
-				41AA052C2C72E2A2009FF289 /* GoogleService-Info.plist */,
+				BF358EA52C76183B007F507D /* GoogleService-Info.plist */,
 				411D4E532C635A8B00B07D84 /* Extension+Color.swift */,
 			);
 			path = Letports;
@@ -452,6 +452,7 @@
 				41AA05202C7231B3009FF289 /* KoTextCountLimit */,
 				41AA05232C72D9C3009FF289 /* FirebaseFirestore */,
 				41AA05252C72D9C3009FF289 /* FirebaseStorage */,
+				BF89726E2C75BA5E0015CBF2 /* Kingfisher */,
 			);
 			productName = Letports;
 			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
@@ -528,6 +529,7 @@
 			packageReferences = (
 				41AA051F2C7231B3009FF289 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */,
 				41AA05222C72D9C3009FF289 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BF89726D2C75BA5E0015CBF2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
 			projectDirPath = "";
@@ -546,8 +548,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
+				BF358EA62C76183B007F507D /* GoogleService-Info.plist in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
-				41AA052D2C72E2A2009FF289 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +594,7 @@
 				BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */,
 				BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
-				BF1283DB2C725CBF00BEAE4C /* JoinButton.swift in Sources */,
+				BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */,
 				BFFFD3E82C7328130053A86B /* currentMemTVCell.swift in Sources */,
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,
@@ -626,7 +628,7 @@
 				BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 				BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */,
-				BF89726A2C75ACAA0015CBF2 /* PostButton.swift in Sources */,
+				BF89726A2C75ACAA0015CBF2 /* PostBtn.swift in Sources */,
 				BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */,
 				BFFFD3F62C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift in Sources */,
 			);
@@ -1004,6 +1006,14 @@
 				minimumVersion = 11.0.0;
 			};
 		};
+		BF89726D2C75BA5E0015CBF2 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1021,6 +1031,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 41AA05222C72D9C3009FF289 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		BF89726E2C75BA5E0015CBF2 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF89726D2C75BA5E0015CBF2 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

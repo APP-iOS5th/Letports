@@ -8,7 +8,7 @@
 import UIKit
 
 final class GatheringBoardDetailContentTVCell: UITableViewCell {
-
+	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
 		lb.text = "아니 이거 맞냐?"
@@ -64,14 +64,14 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 			self.contentView.addSubview($0)
 		}
 		NSLayoutConstraint.activate([
-			   contentTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-			   contentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-			   contentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			   contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-			   
-			   titleLabel.topAnchor.constraint(equalTo: contentTextView.topAnchor, constant: 16),
-			   titleLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor, constant: 20),
-			   titleLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16)
-		   ])
-	   }
+			contentTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+			contentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+			contentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+			contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+			
+			titleLabel.topAnchor.constraint(equalTo: contentTextView.topAnchor, constant: 16),
+			titleLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor, constant: 20),
+			titleLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16)
+		])
 	}
+}

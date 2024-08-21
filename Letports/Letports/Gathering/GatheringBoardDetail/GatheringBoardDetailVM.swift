@@ -18,17 +18,17 @@ enum GatheringBoardDetailCellType {
 
 final class GatheringBoardDetailVM {
 	
-//	struct GatherBoardPost: Codable, Identifiable {
-//		@DocumentID var id: String?
-//		var postUid: String
-//		var userUid: String
-//		var createDate: Date?
-//		var title: String
-//		var contents: String
-//		var imageUrls: [String]
-//		var comment: String
-//		var boardType: String
-//	}
+	//	struct GatherBoardPost: Codable, Identifiable {
+	//		@DocumentID var id: String?
+	//		var postUid: String
+	//		var userUid: String
+	//		var createDate: Date?
+	//		var title: String
+	//		var contents: String
+	//		var imageUrls: [String]
+	//		var comment: String
+	//		var boardType: String
+	//	}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
@@ -62,7 +62,7 @@ final class GatheringBoardDetailVM {
 		let images: [String]
 	}
 	// 댓글(삭제예정)
-	struct Comment {
+	struct Comment { // 퍼블리셔로
 		let nickName: String
 		let writeDate: String
 		let content: String

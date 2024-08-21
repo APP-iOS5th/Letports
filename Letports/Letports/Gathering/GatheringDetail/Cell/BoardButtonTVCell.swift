@@ -18,16 +18,16 @@ final class BoardButtonTVCell: UITableViewCell {
 	weak var delegate: BoardButtonTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
-			let layout = UICollectionViewFlowLayout()
-			layout.scrollDirection = .horizontal
-			layout.minimumInteritemSpacing = 10
-			layout.minimumLineSpacing = 10
-			layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-			let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-			cv.translatesAutoresizingMaskIntoConstraints = false
-			cv.showsHorizontalScrollIndicator = false
-			return cv
-		}()
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 10
+		layout.minimumLineSpacing = 10
+		layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+		let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		cv.translatesAutoresizingMaskIntoConstraints = false
+		cv.showsHorizontalScrollIndicator = false
+		return cv
+	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)

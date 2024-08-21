@@ -66,7 +66,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		return tv
 	}()
 	
-	private let toggleButton: UIButton = {
+	private let toggleBtn: UIButton = {
 		let bt = UIButton()
 		bt.setTitle("▲", for: .normal)
 		bt.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +86,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		[gatheringInfoTextView, toggleButton].forEach {
+		[gatheringInfoTextView, toggleBtn].forEach {
 			self.contentView.addSubview($0)
 		}
 		
@@ -95,12 +95,12 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 			gatheringInfoTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
 			gatheringInfoTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			
-			toggleButton.topAnchor.constraint(equalTo: gatheringInfoTextView.bottomAnchor, constant: 10),
-			toggleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			toggleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+			toggleBtn.topAnchor.constraint(equalTo: gatheringInfoTextView.bottomAnchor, constant: 10),
+			toggleBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+			toggleBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 		])
 		
-		toggleButton.addTarget(self, action: #selector(toggleGatheringInfo), for: .touchUpInside)
+		toggleBtn.addTarget(self, action: #selector(toggleGatheringInfo), for: .touchUpInside)
 		
 	}
 	
@@ -110,7 +110,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		
 		UIView.animate(withDuration: 0.3) {
 			self.updateTextViewHeight()
-			self.toggleButton.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
+			self.toggleBtn.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
 			self.layoutIfNeeded()
 		}
 		(superview as? UITableView)?.beginUpdates()

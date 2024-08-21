@@ -78,7 +78,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		bt.configuration = config
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		bt.addAction(UIAction{_ in
-		print("buttonTap")
+			print("buttonTap")
 		}, for: .touchUpInside)
 		return bt
 	}()

@@ -19,7 +19,7 @@ class CommentInputView: UIView {
 		return tf
 	}()
 	
-	private let registButton: UIButton = {
+	private let registBtn: UIButton = {
 		let bt = UIButton()
 		bt.setTitle("등록", for: .normal)
 		bt.setTitleColor(.black, for: .normal)
@@ -52,7 +52,7 @@ class CommentInputView: UIView {
 	private func setupUI() {
 		addSubview(textFieldSV)
 		
-		[textField, registButton].forEach {
+		[textField, registBtn].forEach {
 			textFieldSV.addArrangedSubview($0)
 		}
 		
@@ -62,7 +62,7 @@ class CommentInputView: UIView {
 			textFieldSV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 			textFieldSV.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
 			
-			registButton.widthAnchor.constraint(equalToConstant: 60)
+			registBtn.widthAnchor.constraint(equalToConstant: 60)
 		])
 	}
 	

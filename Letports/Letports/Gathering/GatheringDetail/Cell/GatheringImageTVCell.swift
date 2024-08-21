@@ -8,14 +8,14 @@
 import UIKit
 
 class GatheringImageTVCell: UITableViewCell {
-
+	
 	private let gatheringImage: UIImageView = {
 		let iv = UIImageView()
 		iv.isUserInteractionEnabled = false
 		iv.translatesAutoresizingMaskIntoConstraints = false
 		return iv
 	}()
-
+	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.selectionStyle = .none

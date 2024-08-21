@@ -19,14 +19,14 @@ final class GatheringDetailVC: UIViewController {
 		return cnv
 	}()
 	
-	private let joinButton: JoinButton = {
-		let bt = JoinButton()
+	private let joinButton: JoinBtn = {
+		let bt = JoinBtn()
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		return bt
 	}()
 	
-	private lazy var postButton: PostButton = {
-		let bt = PostButton()
+	private lazy var postButton: PostBtn = {
+		let bt = PostBtn()
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		return bt
 	}()
@@ -94,6 +94,7 @@ final class GatheringDetailVC: UIViewController {
 			}
 			.store(in: &cancellables)
 	}
+	
 	
 	private func updateJoinButton(for status: MembershipStatus) {
 		switch status {

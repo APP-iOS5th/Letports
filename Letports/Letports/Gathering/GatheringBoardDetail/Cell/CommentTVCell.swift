@@ -8,7 +8,7 @@
 import UIKit
 
 class CommentTVCell: UITableViewCell {
-
+	
 	private let containerView: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -120,5 +120,5 @@ class CommentTVCell: UITableViewCell {
 		commentLabel.text = data.content
 		createDateLabel.text = data.writeDate
 	}
-
+	
 }

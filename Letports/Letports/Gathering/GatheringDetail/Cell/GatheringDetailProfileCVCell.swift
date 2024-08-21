@@ -9,7 +9,7 @@ import UIKit
 
 final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
-	private let userImageBt: UIButton = {
+	private let userImageBtn: UIButton = {
 		let bt = UIButton()
 		bt.contentMode = .scaleAspectFill
 		bt.clipsToBounds = true
@@ -48,7 +48,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		[userImageBt, userNickName].forEach {
+		[userImageBtn, userNickName].forEach {
 			self.verticalStack.addArrangedSubview($0)
 		}
 		
@@ -58,13 +58,13 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 			verticalStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 		])
 		
-		userImageBt.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
+		userImageBtn.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 	}
 	
 	func configure(profile: GatheringDetailVM.Profile) {
-		self.userImageBt.setImage(UIImage(named: profile.userImage), for: .normal)
-		 self.userNickName.text = profile.userNickName
-	 }
+		self.userImageBtn.setImage(UIImage(named: profile.userImage), for: .normal)
+		self.userNickName.text = profile.userNickName
+	}
 	
 	@objc private func imageTap() {
 		// 이미지 버튼 클릭 시 동작 정의
