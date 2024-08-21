@@ -25,7 +25,7 @@ final class GatheringBoardDetailVC: UIViewController {
 		tv.backgroundColor = .lp_background_white
 		tv.dataSource = self
 		tv.delegate = self
-		tv.rsgistersCell(cellClasses: GatheringBoardDetailProfileTVCell.self,
+		tv.registersCell(cellClasses: GatheringBoardDetailProfileTVCell.self,
 						 GatheringBoardDetailContentTVCell.self,
 						 SeperatorLineTVCell.self,
 						 GatheringBoardDetailImagesTVCell.self,

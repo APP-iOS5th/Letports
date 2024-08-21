@@ -34,7 +34,7 @@ class GatheringUploadVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.registersCell(cellClasses: GatheringUploadMainTVCell.self,
-                         SeparatorTVCell.self,
+                         SeperatorLineTVCell.self,
                          GatheringUplaodImageTVCell.self,
                          GatheringUplaodTitleTVCell.self,
                          GatheringUploadMemCntTVCell.self,
@@ -112,7 +112,7 @@ class GatheringUploadVC: UIViewController {
             loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
             loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }

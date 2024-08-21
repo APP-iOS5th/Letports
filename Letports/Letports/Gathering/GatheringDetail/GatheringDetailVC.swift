@@ -25,7 +25,7 @@ final class GatheringDetailVC: UIViewController {
 		return bt
 	}()
 	
-	private lazy var floatingActionButton: PostButton = {
+	private lazy var postButton: PostButton = {
 		let bt = PostButton()
 		bt.translatesAutoresizingMaskIntoConstraints = false
 		return bt
@@ -37,7 +37,7 @@ final class GatheringDetailVC: UIViewController {
 		tv.backgroundColor = .lp_background_white
 		tv.dataSource = self
 		tv.delegate = self
-		tv.rsgistersCell(cellClasses: GatheringImageTVCell.self,
+		tv.registersCell(cellClasses: GatheringImageTVCell.self,
 						 GatheringTitleTVCell.self,
 						 SeperatorLineTVCell.self,
 						 GatheringDetailInfoTVCell.self,
@@ -81,7 +81,7 @@ final class GatheringDetailVC: UIViewController {
 		viewModel.$isMaster
 			.receive(on: RunLoop.main)
 			.sink { [weak self] isMaster in
-				self?.floatingActionButton.isMaster = isMaster
+				self?.postButton.isMaster = isMaster
 			}
 			.store(in: &cancellables)
 		
@@ -112,9 +112,9 @@ final class GatheringDetailVC: UIViewController {
 	private func updateFloatingActionButton(for status: MembershipStatus) {
 		switch status {
 		case .notJoined, .pending:
-			floatingActionButton.setVisible(false)
+			postButton.setVisible(false)
 		case .joined:
-			floatingActionButton.setVisible(true)
+			postButton.setVisible(true)
 		}
 	}
 	
@@ -122,7 +122,7 @@ final class GatheringDetailVC: UIViewController {
 	private func setupUI() {
 		self.view.backgroundColor = .lp_background_white
 		
-		[navigationView, tableView, joinButton, floatingActionButton].forEach {
+		[navigationView, tableView, joinButton, postButton].forEach {
 			self.view.addSubview($0)
 		}
 		
@@ -141,10 +141,10 @@ final class GatheringDetailVC: UIViewController {
 			joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			joinButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
 			
-			floatingActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-			floatingActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-			floatingActionButton.widthAnchor.constraint(equalToConstant: 60),
-			floatingActionButton.heightAnchor.constraint(equalToConstant: 60)
+			postButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+			postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+			postButton.widthAnchor.constraint(equalToConstant: 60),
+			postButton.heightAnchor.constraint(equalToConstant: 60)
 		])
 	}
 }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "f3f6f4f0b5748118d6c6018c4103f1071e72babdc0ad61393d7ad1045dba8c96",
+  "originHash" : "ba081632260d15f32cdb9055d720e5068137d9771b965abeea233d50f4c6ca16",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "a5c253d1b4409eb8aef4346015ba000f9935cb2d",
-        "version" : "11.0.0"
+        "revision" : "9118aca998dbe2ceac45d64b21a91c6376928df7",
+        "version" : "11.1.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "ca30c987b732d130732fb60b071e0b655a85ada7",
-        "version" : "11.0.0"
+        "revision" : "07a2f57d147d2bf368a0d2dcb5579ff082d9e44f",
+        "version" : "11.1.0"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "53156c7ec267db846e6b64c9f4c4e31ba4cf75eb",
-        "version" : "8.0.2"
+        "revision" : "66dd81c729364b0425d0c2b73e38a489f32b1717",
+        "version" : "8.0.1"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iOS-Ruel/KoTextCountLimit",
       "state" : {
-        "revision" : "45ceb4f6eeebf9c66483c2d352a47d4e1c5a6fd9",
-        "version" : "1.0.1"
+        "revision" : "35fba210b60709dafb177a778fdcec8f00fa4609",
+        "version" : "1.0.2"
       }
     },
     {
