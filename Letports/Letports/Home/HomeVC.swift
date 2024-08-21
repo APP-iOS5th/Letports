@@ -40,86 +40,39 @@ class HomeVC: UIViewController {
     
     lazy var firstContainerView = createWhiteBox()
     
-    lazy var teamProfile: UIStackView = {
-        let profile = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 8)
-        
-//        let teamIcon = UIImageView(image: UIImage(named: "FCSeoul"))
-//        teamIcon.widthAnchor.constraint(equalToConstant: 70).isActive = true
-//        teamIcon.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        
-        let teamLogo: UIImageView = {
-            let imageView = UIImageView()
-            imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-                    imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-                    return imageView
-        }()
-        
-        let spacerView1 = UIView()
-        spacerView1.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        
-        let profileLabel = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
-        
-        //let teamLabel = createLabel(text: "FC 서울", fontSize: 30, fontWeight: .bold)
-        
-        let teamName: UILabel = {
-               let label = UILabel()
-               label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-               return label
-           }()
-        
-        let spacerView = UIView()
-        spacerView.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        
-        let urlLabel = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
-        
-        //홈페이지
-        let url1StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
-        let homeIcon = UIImageView(image: UIImage(named: "Home"))
-        let url1 = createLabel(text: "홈페이지", fontSize: 12)
-        url1StackView.addArrangedSubview(homeIcon)
-        url1StackView.addArrangedSubview(url1)
-        
-        let homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
-        url1StackView.addGestureRecognizer(homeTapGesture)
-        url1StackView.isUserInteractionEnabled = true
-        
-        //공식 인스타
-        let url2StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
-        let instaIcon = UIImageView(image: UIImage(named: "Instagram"))
-        let url2 = createLabel(text: "공식 인스타", fontSize: 12)
-        url2StackView.addArrangedSubview(instaIcon)
-        url2StackView.addArrangedSubview(url2)
-        
-        let instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
-        url2StackView.addGestureRecognizer(instaTapGesture)
-        url2StackView.isUserInteractionEnabled = true
-        
-        //공식 유튜브
-        let url3StackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
-        let youtubeIcon = UIImageView(image: UIImage(named: "Youtube"))
-        let url3 = createLabel(text: "공식 유튜브", fontSize: 12)
-        url3StackView.addArrangedSubview(youtubeIcon)
-        url3StackView.addArrangedSubview(url3)
-        
-        let youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
-        url3StackView.addGestureRecognizer(youtubeTapGesture)
-        url3StackView.isUserInteractionEnabled = true
-        
-        
-        urlLabel.addArrangedSubview(url1StackView)
-        urlLabel.addArrangedSubview(url2StackView)
-        urlLabel.addArrangedSubview(url3StackView)
-        
-        profileLabel.addArrangedSubview(teamLabel)
-        profileLabel.addArrangedSubview(spacerView)
-        profileLabel.addArrangedSubview(urlLabel)
-        
-        profile.addArrangedSubview(teamIcon)
-        profile.addArrangedSubview(spacerView1)
-        profile.addArrangedSubview(profileLabel)
-        
-        return profile
+    lazy var teamProfileStackView = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 8)
+    
+    lazy var teamLogo: UIImageView = {
+        let imageView = UIImageView()
+        imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
     }()
+    
+    // 팀 이름 있는 세로 스택뷰
+    lazy var teamProfileStackView2 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
+    
+    lazy var teamName = createLabel(text: viewModel.teamName, fontSize: 30, fontWeight: .bold)
+    
+    // URL스택뷰
+    lazy var urlStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    
+    // 홈 아이콘, 이름 스택뷰
+    lazy var homeURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    let homeIcon = UIImageView(image: UIImage(named: "Home"))
+    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 12)
+    
+    // 인스타 아이콘, 이름 스택뷰
+    lazy var instagramURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    let instagramIcon = UIImageView(image: UIImage(named: "Instagram"))
+    lazy var instagramLabel = createLabel(text: "공식 인스타", fontSize: 12)
+    
+    // 유튜뷰 아이콘, 이름 스택뷰
+    lazy var youtubeURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    let youtubeIcon = UIImageView(image: UIImage(named: "Youtube"))
+    lazy var youtubeLabel = createLabel(text: "공식 유튜브", fontSize: 12)
     
     let secondLabel: UILabel = {
         let label = UILabel()
@@ -258,43 +211,66 @@ class HomeVC: UIViewController {
     private func bindViewModel() {
         viewModel.$teamLogo
             .sink { [weak self] logoURL in
-                guard let self = self, let url = ULR(string: logoURL) else { return }
+                guard let self = self, let url = logoURL else { return }
                 self.loadImage(from: url, into: self.teamLogo)
-            }
-            .store(in: &$cancellables)
-        
-        viewModel.$teamName
-            .assign(to: &\.text, on: teamName)
-            .store(in: &cancellables)
-        
-        viewModel.$homeURL
-            .sink { [weak self] url in
-                self?.updateHomeURL(url)
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$instagramURL
-            .sink { [weak self] url in
-                self?.updateInstagramURL(url)
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$youtubeURL
-            .sink { [weak self] url in
-                self?.updateYoutubeURL(url)
             }
             .store(in: &cancellables)
     }
     
+    func loadImage(from url: URL?, into imageView: UIImageView) {
+            guard let url = url else { return }
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, error == nil, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        imageView.image = image
+                    }
+                } else {
+                    print("Error loading image:", error ?? "Unknown error")
+                }
+            }.resume()
+        }
+    
     // 제목, 팀변경 버튼
+    func profileLayout() {
+        homeURLStackView.addArrangedSubview(homeIcon)
+        homeURLStackView.addArrangedSubview(homeLabel)
+        instagramURLStackView.addArrangedSubview(instagramIcon)
+        instagramURLStackView.addArrangedSubview(instagramLabel)
+        youtubeURLStackView.addArrangedSubview(youtubeIcon)
+        youtubeURLStackView.addArrangedSubview(youtubeLabel)
+        urlStackView.addArrangedSubview(homeURLStackView)
+        urlStackView.addArrangedSubview(instagramURLStackView)
+        urlStackView.addArrangedSubview(youtubeURLStackView)
+        
+        teamProfileStackView2.addArrangedSubview(teamName)
+        teamProfileStackView2.addArrangedSubview(urlStackView)
+        
+        teamProfileStackView.addArrangedSubview(teamLogo)
+        teamProfileStackView.addArrangedSubview(teamProfileStackView2)
+        
+        firstContainerView.addSubview(teamProfileStackView)
+        view.addSubview(firstContainerView)
+        
+        lazy var homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
+        homeURLStackView.addGestureRecognizer(homeTapGesture)
+        homeURLStackView.isUserInteractionEnabled = true
+        
+        lazy var instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
+        instagramURLStackView.addGestureRecognizer(instaTapGesture)
+        instagramURLStackView.isUserInteractionEnabled = true
+        
+        lazy var youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
+        youtubeURLStackView.addGestureRecognizer(youtubeTapGesture)
+        youtubeURLStackView.isUserInteractionEnabled = true
+    }
+    
     func setupUI() {
         view.backgroundColor = .lpBackgroundWhite
         
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeButton)
         
-        firstContainerView.addSubview(teamProfile)
-        view.addSubview(firstContainerView)
+        profileLayout()
         view.addSubview(secondLabel)
         secondContainerView.addSubview(thumbnailStackView)
         view.addSubview(secondContainerView)
@@ -311,10 +287,10 @@ class HomeVC: UIViewController {
             firstContainerView.widthAnchor.constraint(equalToConstant: 361),
             firstContainerView.heightAnchor.constraint(equalToConstant: 110),
             
-            teamProfile.topAnchor.constraint(equalTo: firstContainerView.topAnchor, constant: 10),
-            teamProfile.leftAnchor.constraint(equalTo: firstContainerView.leftAnchor, constant: 10),
-            teamProfile.rightAnchor.constraint(equalTo: firstContainerView.rightAnchor, constant: -10),
-            teamProfile.bottomAnchor.constraint(equalTo: firstContainerView.bottomAnchor, constant: -10),
+            teamProfileStackView.topAnchor.constraint(equalTo: firstContainerView.topAnchor, constant: 10),
+            teamProfileStackView.leftAnchor.constraint(equalTo: firstContainerView.leftAnchor, constant: 10),
+            teamProfileStackView.rightAnchor.constraint(equalTo: firstContainerView.rightAnchor, constant: -10),
+            teamProfileStackView.bottomAnchor.constraint(equalTo: firstContainerView.bottomAnchor, constant: -10),
             
             secondLabel.topAnchor.constraint(equalTo: firstContainerView.bottomAnchor, constant: 20),
             secondLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
@@ -401,21 +377,21 @@ class HomeVC: UIViewController {
     }
     
     @objc func handleHomeTap() {
-        if let url = URL(string: "http://www.fcseoul.com") {
+        if let url = viewModel.homepageURL {
             presentBottomSheet(with: url)
         }
         print("홈페이지")
     }
     
     @objc func handleInstaTap() {
-        if let url = URL(string: "https://www.instagram.com/fcseoul") {
+        if let url = viewModel.instagramURL {
             presentBottomSheet(with: url)
         }
         print("인스타그램")
     }
     
     @objc func handleYoutubeTap() {
-        if let url = URL(string: "https://www.youtube.com/@FCSEOUL") {
+        if let url = viewModel.youtubeURL {
             presentBottomSheet(with: url)
         }
         print("유튜브")
@@ -461,9 +437,4 @@ class HomeVC: UIViewController {
             presentBottomSheet(with: url)
         }
     }
-    
-    //일단, 팀로고, 팀네임, url주소만 받아오는걸로 해보자
-//    func bindData() {
-//        viewModel.
-//    }
 }
