@@ -21,6 +21,15 @@ enum BoardUploadCellType {
 
 
 class GatheringUploadVM {
+    let sportsTeam = SampleSportsTeam(
+        sportsUID: "I5umvrhFTwzeOkYlgvL3",
+        teamHomeTown: "서울특별시",
+        teamLogo: "https://www.kleague.com/assets/images/emblem/emblem_K09.png",
+        teamName: "FC서울",
+        teamStadium: "서울월드컵경기장",
+        teamStartDate: "1983",
+        teamUID: "YcXsJAgoFtqS3XZ0HdZu"
+    )
     
     @Published private(set) var selectedImage: UIImage?
     @Published private(set) var addButtonEnable: Bool = true
@@ -166,7 +175,8 @@ class GatheringUploadVM {
                                             gatherMaxMember: memMaxCount, gatherNowMember: 1,
                                             gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
                                             gatheringMembers: [],
-                                            gatheringCreateDate: Date())
+                                            gatheringCreateDate: Date(),
+                                            sportsTeam: sportsTeam)
             
             if isEditMode {
                 FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)

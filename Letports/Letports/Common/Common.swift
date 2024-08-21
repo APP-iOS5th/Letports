@@ -28,9 +28,9 @@ struct SampleGathering: Codable {
     let gatherNowMember: Int
     let gatherInfo: String
     let gatherQuestion: String
-//    let gatheringMembers: [GatheringMember]
     let gatheringMembers: [SampleGatheringMember]
     let gatheringCreateDate: Date
+    let sportsTeam: SampleSportsTeam
     
     enum CodingKeys: String, CodingKey {
         case gatheringSports = "GatheringSports"
@@ -45,6 +45,7 @@ struct SampleGathering: Codable {
         case gatherQuestion = "GatherQuestion"
         case gatheringMembers = "GatheringMembers"
         case gatheringCreateDate = "GatheringCreateDate"
+        case sportsTeam = "SportsTeam"
     }
 }
 
@@ -86,3 +87,46 @@ struct SampleComment: Codable {
     let createDate: Date
     let writeDate: Date
 }
+
+struct SampleSportsTeam: Codable {
+    let sportsUID:String
+    let teamHomeTown:String
+    let teamLogo:String
+    let teamName:String
+    let teamStadium:String
+    let teamStartDate:String
+    let teamUID:String
+    
+    enum CodingKeys: String, CodingKey {
+        case sportsUID = "SportsUID"
+        case teamHomeTown = "TeamHomeTown"
+        case teamLogo = "TeamLogo"
+        case teamName = "TeamName"
+        case teamStadium = "TeamStadium"
+        case teamStartDate = "TeamStartDate"
+        case teamUID = "TeamUID"
+        
+    }
+}
+
+//struct User: Codable {
+//    let email: String
+//    let image: String
+//    let myGathering: [String]
+//    let nickname: String
+//    let simpleInfo: String
+//    let uid: String
+//    let userSports: String
+//    let userSportsTeam: String
+//
+//    enum CodingKeys: String, CodingKey {
+//            case email = "Email"
+//            case image = "Image"
+//            case myGathering = "MyGathering"
+//            case nickname = "NickName"
+//            case simpleInfo = "SimpleInfo"
+//            case uid = "UID"
+//            case userSports = "UserSports"
+//            case userSportsTeam = "UserSportsTeam"
+//        }
+//}
