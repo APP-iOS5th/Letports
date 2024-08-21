@@ -12,12 +12,13 @@ import FirebaseFirestore
 
 
 struct Team {
-    let teamLogo: URL?
-    let teamName: String?
-    let homepageURL: URL?
-    let instagramURL: URL?
-    let youtubeURL: URL?
+    var teamLogo: URL?
+    var teamName: String?
+    var homepageURL: URL?
+    var instagramURL: URL?
+    var youtubeURL: URL?
 }
+
 protocol FirebaseServiceProtocol {
     func fetchTeamData(teamUID: String) -> AnyPublisher<Team, Error>
 }
@@ -57,11 +58,7 @@ class FirebaseService: FirebaseServiceProtocol {
 
 class HomeViewModel {
     
-    @Published var teamLogo: URL?
-    @Published var teamName: String = ""
-    @Published var homepageURL: URL?
-    @Published var instagramURL: URL?
-    @Published var youtubeURL: URL?
+    @Published var team: Team?
     
     private var cancellables = Set<AnyCancellable>()
     private let firebaseService: FirebaseServiceProtocol
@@ -83,11 +80,8 @@ class HomeViewModel {
                     break
                 }
             }, receiveValue: { [weak self] team in
-                self?.teamLogo = team.teamLogo
-                self?.teamName = team.teamName ?? ""
-                self?.homepageURL = team.homepageURL
-                self?.instagramURL = team.instagramURL
-                self?.youtubeURL = team.youtubeURL
+                self?.team = team
+                print(team)
             })
             .store(in: &cancellables)
     }

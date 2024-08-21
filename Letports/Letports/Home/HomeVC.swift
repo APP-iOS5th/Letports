@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import Kingfisher
 
 class HomeVC: UIViewController {
     
@@ -54,7 +55,7 @@ class HomeVC: UIViewController {
     // 팀 이름 있는 세로 스택뷰
     lazy var teamProfileStackView2 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
     
-    lazy var teamName = createLabel(text: viewModel.teamName, fontSize: 30, fontWeight: .bold)
+    lazy var teamName = createLabel(text: "", fontSize: 30, fontWeight: .bold)
     
     // URL스택뷰
     lazy var urlStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
@@ -209,26 +210,18 @@ class HomeVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$teamLogo
-            .sink { [weak self] logoURL in
-                guard let self = self, let url = logoURL else { return }
-                self.loadImage(from: url, into: self.teamLogo)
+        viewModel.$team
+            .sink { [weak self] team in
+                guard let self = self, let team = team else { return }
+                if let logoURL = team.teamLogo {
+                    self.teamLogo.kf.setImage(with: logoURL)
+                } else {
+                    self.teamLogo.image = UIImage(named: "home")
+                }
+                self.teamName.text = team.teamName
             }
             .store(in: &cancellables)
     }
-    
-    func loadImage(from url: URL?, into imageView: UIImageView) {
-            guard let url = url else { return }
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data, error == nil, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        imageView.image = image
-                    }
-                } else {
-                    print("Error loading image:", error ?? "Unknown error")
-                }
-            }.resume()
-        }
     
     // 제목, 팀변경 버튼
     func profileLayout() {
@@ -377,21 +370,21 @@ class HomeVC: UIViewController {
     }
     
     @objc func handleHomeTap() {
-        if let url = viewModel.homepageURL {
+        if let url = viewModel.team?.homepageURL {
             presentBottomSheet(with: url)
         }
         print("홈페이지")
     }
     
     @objc func handleInstaTap() {
-        if let url = viewModel.instagramURL {
+        if let url = viewModel.team?.instagramURL {
             presentBottomSheet(with: url)
         }
         print("인스타그램")
     }
     
     @objc func handleYoutubeTap() {
-        if let url = viewModel.youtubeURL {
+        if let url = viewModel.team?.youtubeURL {
             presentBottomSheet(with: url)
         }
         print("유튜브")
