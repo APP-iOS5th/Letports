@@ -27,8 +27,9 @@ class GatheringUploadVM {
     @Published var gatehrInfoText: String?
     @Published var gatehrQuestionText: String?
     @Published var gatehrNameText: String?
-    
-    private var memNowCount: Int = 1
+    @Published var isUploading: Bool = false
+
+    private var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
     private var cellType: [BoardUploadCellType] {
@@ -50,17 +51,16 @@ class GatheringUploadVM {
     
     
     init() {
-         Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
-             .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
-                 return selectedImage != nil
-                 && gatehrInfoText != nil
-                 && gatehrQuestionText != nil
-                 && gatehrNameText != nil
-             }
-             .assign(to: \.addButtonEnable, on: self)
-             .store(in: &cancellables)
-     }
-    
+        Publishers.CombineLatest4($selectedImage, $gatehrInfoText, $gatehrQuestionText, $gatehrNameText)
+            .map { selectedImage, gatehrInfoText, gatehrQuestionText, gatehrNameText in
+                return selectedImage != nil
+                && gatehrInfoText != nil
+                && gatehrQuestionText != nil
+                && gatehrNameText != nil
+            }
+            .assign(to: \.addButtonEnable, on: self)
+            .store(in: &cancellables)
+    }
     
     func getCellTypes() -> [BoardUploadCellType] {
         return self.cellType
@@ -70,8 +70,8 @@ class GatheringUploadVM {
         return self.cellType.count
     }
     
-    func checkMemeberCount(count: Int) {
-        self.memNowCount = count
+    func checkMemeberMaxCount(count: Int) {
+        self.memMaxCount = count
     }
     
     func writeGatherInfo(content: String) {
@@ -84,5 +84,62 @@ class GatheringUploadVM {
     
     func writeGatehrName(content: String) {
         self.gatehrNameText = content
+    }
+
+    func gatheringUpload() {
+        guard !isUploading else { return }
+        isUploading = true
+        
+        uploadImage()
+            .sink { [weak self] imageUrl in
+                guard let self = self else { return }
+                self.gatehringUpload(imageUrl: imageUrl ?? "")
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func uploadImage() -> AnyPublisher<String?, Never> {
+        guard let image = selectedImage else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
+            .map { urls in
+                urls.first?.absoluteString
+            }
+            .catch { error -> Just<String?> in
+                print(error.localizedDescription)
+                return Just(nil)
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    
+
+    private func gatehringUpload(imageUrl: String) {
+        if let gatehrName = gatehrNameText,
+           let gatherInfo = gatehrInfoText,
+           let gatherQuestion = gatehrQuestionText {
+            
+            let uuid = UUID().uuidString
+            
+            let gathering = SampleGathering(gatheringSports: "축구", gatheringTeam: "테스트",
+                                      gatheringUID: uuid,
+                                      gatheringMaster: "나",
+                                      gatheringName: gatehrName, gatheringImage: imageUrl,
+                                      gatherMaxMember: memMaxCount, gatherNowMember: 1,
+                                      gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
+                                      gatheringMembers: ["나"],
+                                      gatheringCreateDate: Date())
+            
+            FM.setData(collection: "Gathering", document: uuid, data: gathering)
+                .sink { _ in
+                } receiveValue: { [weak self] _ in
+                    print("Data Save")
+                    self?.isUploading = false
+                }
+                .store(in: &cancellables)
+        }
     }
 }
