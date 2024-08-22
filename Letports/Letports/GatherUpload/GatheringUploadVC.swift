@@ -121,6 +121,7 @@ class GatheringUploadVC: UIViewController {
     
     private func bindViewModel() {
         self.viewModel.$selectedImage
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
