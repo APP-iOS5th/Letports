@@ -13,7 +13,8 @@ class BoardEditorVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
         let cnv = CustomNavigationView(isLargeNavi: .small,
-                                       screenType: .smallBoardEditor(btnName: .write, isUpload: true))
+                                       screenType: .smallBoardEditor(btnName: viewModel.isEditMode ? .update : .write, 
+                                                                     isUpload: !viewModel.isEditMode))
         
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
@@ -62,11 +63,11 @@ class BoardEditorVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        setupTapGesture()
-        bindViewModel()
-        bindKeyboard()
-        uploadDebounce()
+        self.setupUI()
+        self.setupTapGesture()
+        self.bindViewModel()
+        self.bindKeyboard()
+        self.uploadDebounce()
     }
     
     //MARK: - Setup
@@ -97,7 +98,7 @@ class BoardEditorVC: UIViewController {
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Binding
@@ -174,7 +175,7 @@ class BoardEditorVC: UIViewController {
 
 extension BoardEditorVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        buttonTapSubject.send(())
+        self.buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -182,7 +183,7 @@ extension BoardEditorVC: CustomNavigationDelegate {
     }
     
     func backButtonDidTap() {
-        self.navigationController?.popViewController(animated: true)
+        self.viewModel.backButtonTapped()
     }
 }
 
@@ -288,11 +289,13 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0:
             if let cell: BoardEditorTitleCVCell = collectionView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(title: self.viewModel.boardTitle)
                 return cell
             }
         case 1:
             if let cell: BoardEditorContentCVCell = collectionView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(content: self.viewModel.boardContents)
                 return cell
             }
         case 2:
@@ -302,7 +305,7 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
                     cell.photoCellSetup(isPhoto: false)
                 default:
                     cell.photoCellSetup(isPhoto: true,
-                                        photo: viewModel.boardPhotos[indexPath.row - 1])
+                                        photo: self.viewModel.boardPhotos[indexPath.row - 1])
                 }
                 cell.delegate = self
                 return cell
@@ -318,7 +321,7 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0, 1:
             return 1
         case 2:
-            return viewModel.getPhotoCount()
+            return self.viewModel.getPhotoCount()
         default :
             return 1
         }
@@ -340,7 +343,7 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
             case 1:
                 header.configureText(text: "내용")
             case 2:
-                header.configureText(text: "사진", photoCount: viewModel.getPhotoCount() - 1)
+                header.configureText(text: "사진", photoCount: self.viewModel.getPhotoCount() - 1)
             default:
                 header.configureText(text: nil)
             }
@@ -354,78 +357,20 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension BoardEditorVC: BoardEditorDelegate {
     func writeTitle(content: String) {
-        viewModel.writeBoardTitle(content: content)
+        self.viewModel.writeBoardTitle(content: content)
     }
     
     func writeContent(content: String) {
-        viewModel.writeBoardContents(content: content)
+        self.viewModel.writeBoardContents(content: content)
     }
     
     func didTapAddPhotoButton() {
         if !viewModel.photoUploadIsLimit() {
-            self.selectPhotoButtonTapped()
+            self.viewModel.photoUploadButtonTapped()
         }  else { return }
     }
     
     func didTapDeletePhotoButton(photoIndex: Int) {
-        viewModel.deleteBoardPhoto(index: photoIndex)
+        self.viewModel.deleteBoardPhoto(index: photoIndex)
     }
-}
-
-
-
-extension BoardEditorVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    private func selectPhotoButtonTapped() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { [weak self] status in
-                if status == .authorized {
-                    self?.presentImagePC()
-                } else {
-                    self?.showAccessDeniedAlert()
-                }
-            }
-        case .authorized, .limited:
-            presentImagePC()
-        case .denied, .restricted:
-            showAccessDeniedAlert()
-        @unknown default:
-            showAccessDeniedAlert()
-        }
-    }
-    
-    private func showAccessDeniedAlert() {
-        let alert = UIAlertController(title: "앨범 접근 권한 필요",
-                                      message: "설정에서 앨범 접근 권한을 허용해주세요.",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    
-    private func presentImagePC() {
-        DispatchQueue.main.async {
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.delegate = self
-            imagePickerController.sourceType = .photoLibrary
-            self.present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.addBoardPhotos(photo: selectedImage)
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
-
-#Preview() {
-    BoardEditorVC(viewModel: BoardEditorVM())
 }

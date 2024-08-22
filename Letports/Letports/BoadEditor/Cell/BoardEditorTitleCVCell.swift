@@ -50,6 +50,13 @@ class BoardEditorTitleCVCell: UICollectionViewCell {
         ])
     }
     
+    func configureCell(title: String?) {
+        guard let title = title else {
+            return
+        }
+        self.titleTextField.text = title
+    }
+    
     @objc func textFieldDidChange() {
         if let text = titleTextField.text {
             self.delegate?.writeTitle(content: text)
@@ -61,6 +68,7 @@ extension BoardEditorTitleCVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         
-        return koTextLimit.shouldChangeText(for: textField, in: range, replacementText: string, maxCharacterLimit: 100)
+        return koTextLimit.shouldChangeText(for: textField, in: range, 
+                                            replacementText: string, maxCharacterLimit: 100)
     }
 }
