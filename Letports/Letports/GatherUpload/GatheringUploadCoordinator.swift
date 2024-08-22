@@ -42,7 +42,7 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
                                      gatherInfo: "두산 베어스를 사랑하는 팬들의 모임입니다.", gatherQuestion: "두산 베어스를 좋아하는 이유는?",
                                      gatheringMembers: [], gatheringCreateDate: Date(),
                                      sportsTeam: sportsTeam)
-                let viewModel = GatheringUploadVM()
+        
         viewModel.delegate = self
         let vc = GatheringUploadVC(viewModel: viewModel)
         vc.modalPresentationStyle = .fullScreen
