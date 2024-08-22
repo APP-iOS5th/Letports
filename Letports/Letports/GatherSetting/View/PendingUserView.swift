@@ -11,19 +11,13 @@ enum UserAction {
     case deny
     case approve
 }
-protocol PendingUserViewDelegate: AnyObject {
-    func didTapDenyButton()
-    func didTapApplyButton()
-}
 
 class PendingUserView: UIView {
     
     private var viewModel: GatherSettingVM!
     private var currentUser: GatheringMember?
     private var currentGathering: Gathering?
-    weak var delegate: PendingUserViewDelegate?
-    
-    
+   
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -158,7 +152,6 @@ class PendingUserView: UIView {
     @objc private func applyButtonTapped() {
         guard let user = currentUser, let gathering = currentGathering else { return }
         viewModel.processUserAction(for: user, with: gathering, action: .approve)
-        
     }
     
     func configure(with user: GatheringMember, with gathering: Gathering, viewModel: GatherSettingVM) {
