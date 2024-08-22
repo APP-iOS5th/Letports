@@ -61,6 +61,37 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+    func getDocument<T: Decodable>(collection: String, documentId: String, type: T.Type) -> AnyPublisher<T, FirestoreError> {
+        Future { promise in
+            FIRESTORE.collection(collection).document(documentId).getDocument { (document, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                } else if let document = document, document.exists {
+                    do {
+                        let data = try document.data(as: T.self)
+                        promise(.success(data))
+                    } catch {
+                        promise(.failure(.dataDecodingFailed))
+                    }
+                } else {
+                    promise(.failure(.documentNotFound))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+
+    // 문서 여러 개 가져오기
+    func getDocuments<T: Decodable>(collection: String, documentIds: [String], type: T.Type) -> AnyPublisher<[T], FirestoreError> {
+        let publishers = documentIds.map { id in
+            self.getDocument(collection: collection, documentId: id, type: T.self)
+        }
+        
+        return Publishers.MergeMany(publishers)
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
     //READ
     func getData<T: Decodable>(collection: String, 
                                document: String,
@@ -96,6 +127,46 @@ class FirestoreManager {
                     promise(.failure(.unknownError(error)))
                 } else {
                     promise(.success(()))
+                }
+                
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func approveUser(collection: String, document: String, newStatus: String) -> AnyPublisher<Void, FirestoreError> {
+        return Future<Void, FirestoreError> { promise in
+            let db = Firestore.firestore()
+            let docRef = db.collection(collection).document(document)
+            
+            docRef.getDocument { (document, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                    return
+                }
+                
+                guard let document = document, document.exists, var data = document.data() else {
+                    promise(.failure(.documentNotFound))
+                    return
+                }
+                
+                // Fetch the current array
+                var array = data["GatherMembers"] as? [[String: Any]] ?? []
+                
+                // Update the `joinStatus` field for each item in the array
+                for index in 0..<array.count {
+                    var item = array[index]
+                    item["joinStatus"] = newStatus
+                    array[index] = item
+                }
+                
+                // Update the document with the new array
+                docRef.updateData(["GatherMembers": array]) { error in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                    } else {
+                        promise(.success(()))
+                    }
                 }
             }
         }
@@ -141,4 +212,12 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+}
+
+extension Encodable {
+    func asDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        return dictionary ?? [:]
+    }
 }

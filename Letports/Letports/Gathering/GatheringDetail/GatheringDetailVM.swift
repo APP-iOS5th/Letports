@@ -59,23 +59,24 @@ class FirebaseService: FirebaseServiceProtocol {
 							joinDate: memberData["JoinDate"] as? String ?? "",
 							joinStatus: memberData["JoinStatus"] as? String ?? "",
 							nickName: memberData["NickName"] as? String ?? "",
-							userUID: memberData["UserUID"] as? String ?? ""
+                            userUID: memberData["UserUID"] as? String ?? "", 
+                            simpleInfo: ""
 						)
 						gatheringMembers.append(member)
 					}
 				}
-				
-				let gathering = Gathering(
-					gatherImage: gatherImage,
-					gatherName: gatherName,
-					gatherMaxMember: gatherMaxMember,
-					gatherNowMember: gatheringMembers.count,
-					gatherInfo: gatherInfo,
-					gatheringCreateDate: gatheringCreateDate,
-					gatheringMaster: gatheringMaster,
-					gatheringUid: gatheringUid,
-					gatheringMembers: gatheringMembers
-				)
+
+				let gathering = Gathering(gatherImage: gatherImage ?? "",
+                                          gatherInfo: gatherInfo ?? "",
+                                          gatherMaxMember: gatherMaxMember ?? 0,
+                                          gatherName: gatherName ?? "",
+                                          gatherNowMember: gatheringMembers.count,
+                                          gatherQuestion: "",
+                                          gatheringCreateDate: gatheringCreateDate ?? "",
+                                          gatheringMaster: gatheringMaster ?? "",
+                                          gatheringMembers: gatheringMembers,
+                                          gatheringSports: "",
+                                          gatheringSportsTeam: "", gatheringUid: gatheringUid)
 				promise(.success(gathering))
 			}
 		}
@@ -155,12 +156,14 @@ class GatheringDetailVM {
 	
 	// 모임장 닉네임
 	private func getMasterNickname() {
-		guard let gathering = self.gathering,
-			  let masterUID = gathering.gatheringMaster,
-			  let members = gathering.gatheringMembers else {
+		guard let gathering = self.gathering else {
 			self.masterNickname = "알 수 없음"
 			return
 		}
+        
+        
+      let masterUID = gathering.gatheringMaster
+      let members = gathering.gatheringMembers
 		
 		if let masterMember = members.first(where: { $0.userUID == masterUID }) {
 			self.masterNickname = masterMember.nickName
@@ -170,11 +173,12 @@ class GatheringDetailVM {
 	}
 	// 모임장 상태인지
 	private func updateMasterStatus() {
-		guard let gathering = self.gathering,
-			  let gatheringMaster = gathering.gatheringMaster else {
+		guard let gathering = self.gathering else {
 			isMaster = false
 			return
 		}
+        
+        let gatheringMaster = gathering.gatheringMaster
 		isMaster = currentUser.UID == gatheringMaster
 	}
 	// 현재 사용자 정보
@@ -188,7 +192,7 @@ class GatheringDetailVM {
 			return
 		}
 		
-		if currentUser.myGathering.contains(gathering.gatheringUid ?? "") {
+		if currentUser.myGathering.contains(gathering.gatheringUid) {
 			self.membershipStatus = .joined
 		} else {
 			self.membershipStatus = .notJoined
