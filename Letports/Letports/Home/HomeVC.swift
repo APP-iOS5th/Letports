@@ -41,7 +41,7 @@ class HomeVC: UIViewController {
     
     lazy var firstContainerView = createWhiteBox()
     
-    lazy var teamProfileStackView = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 8)
+    lazy var teamProfileStackView = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 16)
     
     lazy var teamLogo: UIImageView = {
         let imageView = UIImageView()
@@ -53,7 +53,7 @@ class HomeVC: UIViewController {
     }()
     
     // 팀 이름 있는 세로 스택뷰
-    lazy var teamProfileStackView2 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
+    lazy var teamProfileStackView2 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 16)
     
     lazy var teamName = createLabel(text: "", fontSize: 30, fontWeight: .bold)
     
@@ -77,7 +77,7 @@ class HomeVC: UIViewController {
     
     let secondLabel: UILabel = {
         let label = UILabel()
-        label.text = "FC 서울의 최신 영상"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .lpBlack
         label.sizeToFit()
@@ -206,6 +206,7 @@ class HomeVC: UIViewController {
                     self.teamLogo.image = UIImage(named: "home")
                 }
                 self.teamName.text = team.teamName
+                self.secondLabel.text = "\(team.teamName ?? "")의 최신 영상"
             }
             .store(in: &cancellables)
         
