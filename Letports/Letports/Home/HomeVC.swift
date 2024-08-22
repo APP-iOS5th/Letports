@@ -109,7 +109,7 @@ class HomeVC: UIViewController {
     //썸네일1 제목
     lazy var thumbnailTitle1: UILabel = {
         let label = UILabel()
-        label.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
+        label.text = "제목1"
         label.font = UIFont.systemFont(ofSize: 10)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -135,7 +135,7 @@ class HomeVC: UIViewController {
     //썸네일2 제목
     lazy var thumbnailTitle2: UILabel = {
         let label = UILabel()
-        label.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
+        label.text = "제목2"
         label.font = UIFont.systemFont(ofSize: 10)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -206,6 +206,25 @@ class HomeVC: UIViewController {
                     self.teamLogo.image = UIImage(named: "home")
                 }
                 self.teamName.text = team.teamName
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$latestYoutubeVideos
+            .sink { [weak self] videos in
+                guard let self = self else { return }
+                
+                if let video1 = videos.first {
+                    self.thumbnail1.kf.setImage(with: video1.thumbnailURL)
+                    self.thumbnailTitle1.text = video1.title
+                    self.thumbnail1.tag = 0
+                }
+                
+                if videos.count > 1 {
+                    let video2 = videos[1]
+                    self.thumbnail2.kf.setImage(with: video2.thumbnailURL)
+                    self.thumbnailTitle2.text = video2.title
+                    self.thumbnail2.tag = 1
+                }
             }
             .store(in: &cancellables)
     }
@@ -285,11 +304,6 @@ class HomeVC: UIViewController {
             thumbnail2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.75),
             thumbnailTitle2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.25)
         ])
-        
-        let videoID1 = "aWp0mk2PEyI"
-        let videoID2 = "aWp0mk2PEyI"
-        loadThumbnail(for: videoID1, into: thumbnail1)
-        loadThumbnail(for: videoID2, into: thumbnail2)
         
         thumbnailStackView.addArrangedSubview(firstThumbnailStackView)
         thumbnailStackView.addArrangedSubview(secondThumbnailStackView)
@@ -424,33 +438,17 @@ class HomeVC: UIViewController {
         present(bottomSheetVC, animated: true, completion: nil)
     }
     
-    //MARK: 유튜브 썸네일
-    func loadThumbnail(for videoID: String, into imageView: UIImageView) {
-        let urlString = "https://img.youtube.com/vi/\(videoID)/hqdefault.jpg"
-        guard let url = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil, let image = UIImage(data: data) else {
-                print("Error loading image:", error ?? "Unknown error")
-                return
-            }
-            DispatchQueue.main.async {
-                imageView.image = image
-            }
-        }.resume()
-    }
-    
     @objc func handleThumbnail1Tap() {
-        let videoID = "aWp0mk2PEyI"
-        if let url = URL(string: "https://www.youtube.com/watch?v=\(videoID)") {
-            presentBottomSheet(with: url)
-        }
+        openYoutubeVideo(at: 0)
     }
     
     @objc func handleThumbnail2Tap() {
-        let videoID = "aWp0mk2PEyI"
-        if let url = URL(string: "https://www.youtube.com/watch?v=\(videoID)") {
-            presentBottomSheet(with: url)
-        }
+        openYoutubeVideo(at: 1)
+    }
+    
+    private func openYoutubeVideo(at index: Int) {
+        guard index < viewModel.latestYoutubeVideos.count else { return }
+        let video = viewModel.latestYoutubeVideos[index]
+        presentBottomSheet(with: video.videoURL)
     }
 }
