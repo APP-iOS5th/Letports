@@ -73,8 +73,14 @@
 		D8299F5F2C776331003D29AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8299F5E2C776331003D29AC /* GoogleService-Info.plist */; };
 		D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F622C776425003D29AC /* ProfileCoordinator.swift */; };
 		D8299F662C776459003D29AC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D8299F652C776459003D29AC /* Kingfisher */; };
-		D8299F682C77648D003D29AC /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F672C77648D003D29AC /* Commons.swift */; };
 		D8299F6A2C776555003D29AC /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F692C776555003D29AC /* ProfileVC.swift */; };
+		D8299F6D2C777CE3003D29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F6C2C777CDF003D29AC /* User.swift */; };
+		D8299F6F2C777D09003D29AC /* Sports.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F6E2C777D03003D29AC /* Sports.swift */; };
+		D8299F712C777D2A003D29AC /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F702C777D27003D29AC /* Team.swift */; };
+		D8299F732C777D4E003D29AC /* Gathering.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F722C777D4B003D29AC /* Gathering.swift */; };
+		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
+		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
+		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,8 +167,14 @@
 		D8299F582C776313003D29AC /* ProfileEditVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditVM.swift; sourceTree = "<group>"; };
 		D8299F5E2C776331003D29AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8299F622C776425003D29AC /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
-		D8299F672C77648D003D29AC /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		D8299F692C776555003D29AC /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		D8299F6C2C777CDF003D29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D8299F6E2C777D03003D29AC /* Sports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
+		D8299F702C777D27003D29AC /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		D8299F722C777D4B003D29AC /* Gathering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gathering.swift; sourceTree = "<group>"; };
+		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
+		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,7 +283,13 @@
 		41AA052E2C730001009FF289 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				D8299F672C77648D003D29AC /* Commons.swift */,
+				D8299F782C777DCD003D29AC /* Post.swift */,
+				D8299F762C777DA2003D29AC /* Comment.swift */,
+				D8299F742C777D7B003D29AC /* GatheringMember.swift */,
+				D8299F722C777D4B003D29AC /* Gathering.swift */,
+				D8299F702C777D27003D29AC /* Team.swift */,
+				D8299F6E2C777D03003D29AC /* Sports.swift */,
+				D8299F6C2C777CDF003D29AC /* User.swift */,
 				41AA052F2C73000C009FF289 /* Common.swift */,
 				41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */,
 			);
@@ -581,15 +599,18 @@
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
 				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
+				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
+				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
 				D8299F6A2C776555003D29AC /* ProfileVC.swift in Sources */,
 				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
 				41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */,
 				411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */,
 				41AA05302C73000C009FF289 /* Common.swift in Sources */,
+				D8299F6D2C777CE3003D29AC /* User.swift in Sources */,
+				D8299F792C777DCF003D29AC /* Post.swift in Sources */,
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
 				D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
-				D8299F682C77648D003D29AC /* Commons.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				D8201FB62C606934004DF06C /* ViewController.swift in Sources */,
@@ -625,7 +646,9 @@
 				D8299F392C776219003D29AC /* GatherUserTVCell.swift in Sources */,
 				D8299F3A2C776219003D29AC /* GatherDeleteTVCell.swift in Sources */,
 				D8299F3B2C776219003D29AC /* JoiningUserView.swift in Sources */,
+				D8299F712C777D2A003D29AC /* Team.swift in Sources */,
 				413BE6572C6605B00070D6F9 /* SeparatorTVCell.swift in Sources */,
+				D8299F772C777DA7003D29AC /* Comment.swift in Sources */,
 				4111E5832C6C670500DA2A3D /* Extension+UICollectionView.swift in Sources */,
 				411C4A4D2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift in Sources */,
 				4143E45B2C6B47E9001AB3E0 /* BoarderEditorCoordinator.swift in Sources */,
@@ -634,6 +657,7 @@
 				411D4E542C635A8B00B07D84 /* Extension+Color.swift in Sources */,
 				411C4A4F2C7091E900FE3604 /* BoardEditorTitleCVCell.swift in Sources */,
 				4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */,
+				D8299F6F2C777D09003D29AC /* Sports.swift in Sources */,
 				B82471412C6497EF0067BD09 /* TabBarCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
