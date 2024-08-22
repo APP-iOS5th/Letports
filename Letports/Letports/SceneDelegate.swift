@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let viewModel = GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser)
 		window?.rootViewController = GatheringDetailVC(viewModel: viewModel)
         window?.makeKeyAndVisible()
-        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

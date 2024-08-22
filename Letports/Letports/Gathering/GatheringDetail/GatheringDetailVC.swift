@@ -62,7 +62,7 @@ final class GatheringDetailVC: UIViewController {
 	
 	private var viewModel: GatheringDetailVM
 	private var cancellables: Set<AnyCancellable> = []
-	weak var delegate: GatheringDetailVCDelegate?
+	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -188,11 +188,12 @@ final class GatheringDetailVC: UIViewController {
 
 extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightButtonDidTap() {
+		delegate?.didSettingBtnTap()
 		print("samll")
 	}
 	
 	func backButtonDidTap() {
-		
+		delegate?.didBackBtnTap()
 	}
 }
 
@@ -280,12 +281,12 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinButtonTap() {
-		delegate?.didTapJoinBtn()
+		delegate?.didJoinBtnTap()
 		print("버튼이 눌렸다")
 	}
 	
-	@objc private func settingsButtonTap() {
-		delegate?.didTapSettingsBtn()
+	@objc private func editBtnTap() {
+		print("편집버튼")
 	}
 }
 

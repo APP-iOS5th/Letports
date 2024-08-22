@@ -134,7 +134,7 @@ class GatheringDetailVM {
 	}
 	
 	private func fetchGatheringData() {
-		firebaseService.fetchGatheringData(gatheringUid: "gathering004")
+		firebaseService.fetchGatheringData(gatheringUid: "gathering012")
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -230,11 +230,11 @@ class GatheringDetailVM {
 	
 	// 예시 사용자
 	static let dummyUser = User(
-		UID: "user001",
-		nickName: "속도광",
+		UID: "user013",
+		nickName: "완벽수비",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
 		email: "user005@example.com",
-		myGathering: ["gathering003", "gathering005"],
+		myGathering: ["gathering012", "gathering010"],
 		simpleInfo: "빠른 속도를 좋아합니다",
 		userSports: "KBO",
 		userSportsTeam: "두산 베어스",

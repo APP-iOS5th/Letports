@@ -77,9 +77,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.addAction(UIAction{_ in
-			print("buttonTap")
-		}, for: .touchUpInside)
+		btn.addTarget(GatheringTitleTVCell.self, action: #selector("editBtnTap"), for: .touchUpInside)
 		return btn
 	}()
 	
