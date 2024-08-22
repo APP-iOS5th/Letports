@@ -6,28 +6,32 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
-    var mainCoordinator: TabBarCoordinator?
+    var appCoordinator: AppCoordinator?
     
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene( scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        window = UIWindow(windowScene: windowScene)
-        
-//        let navigationController = UINavigationController()
-        
-//        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
-//        mainCoordinator?.start()        
-//        window?.rootViewController = GatheringUploadVC(viewModel: GatheringUploadVM())
-        
-        
-        let post = SamplePost(postUID: "DEEB99E9-F385-4B54-BEA8-3D6C3794DF8F", userUID: "몰루", title: "Asdfasdfas", contents: "Dfasdfasdfasdf", imageUrls: ["https://firebasestorage.googleapis.com:443/v0/b/letports-81f7f.appspot.com/o/Board_Upload_Images%2F4A37A30D-75DF-4C12-AC6D-20628FB5E1291724128102.612148?alt=media&token=558be13d-e800-4978-a9d1-18ffdc36088f", "https://firebasestorage.googleapis.com:443/v0/b/letports-81f7f.appspot.com/o/Board_Upload_Images%2F00703690-A5FE-468E-9DB5-B240C4B3BB241724128102.6057038?alt=media&token=cf7da634-8a06-4ec8-a48f-9962e77d5a87"], comments: [], boardType: "Free")
-        window?.rootViewController = BoardEditorVC(viewModel: BoardEditorVM())
 
-        window?.makeKeyAndVisible()
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+
+        let navigationController = UINavigationController()
+
+        appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator?.start()
+
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+
+    }
+
+    func scene( scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+
+        appCoordinator?.handleURL(url)
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
