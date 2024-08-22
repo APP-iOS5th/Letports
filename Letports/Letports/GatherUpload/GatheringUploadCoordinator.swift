@@ -26,23 +26,6 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        let sportsTeam = SampleSportsTeam(
-            sportsUID: "I5umvrhFTwzeOkYlgvL3",
-            teamHomeTown: "서울특별시",
-            teamLogo: "https://www.kleague.com/assets/images/emblem/emblem_K09.png",
-            teamName: "FC서울",
-            teamStadium: "서울월드컵경기장",
-            teamStartDate: "1983",
-            teamUID: "YcXsJAgoFtqS3XZ0HdZu"
-        )
-        let gather = SampleGathering(gatheringSports: "KBO", gatheringTeam: "두산 베어스",
-                                     gatheringUID: "gathering001", gatheringMaster: "user001",
-                                     gatheringName: "두산 베어스 팬클럽", gatheringImage: "https://cdn.pixabay.com/photo/2021/11/23/09/12/mountains-6818253_1280.jpg",
-                                     gatherMaxMember: 22, gatherNowMember: 3,
-                                     gatherInfo: "두산 베어스를 사랑하는 팬들의 모임입니다.", gatherQuestion: "두산 베어스를 좋아하는 이유는?",
-                                     gatheringMembers: [], gatheringCreateDate: Date(),
-                                     sportsTeam: sportsTeam)
-        
         viewModel.delegate = self
         let vc = GatheringUploadVC(viewModel: viewModel)
         vc.modalPresentationStyle = .fullScreen
@@ -51,11 +34,9 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
     }
     
     func imagePickerPresent() {
-        print("check image picker present")
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = .photoLibrary
-        //        self.navigationController.present(imagePickerController, animated: true)
         if let topViewController = topMostViewController() {
             topViewController.present(imagePickerController, animated: true)
         } else {
