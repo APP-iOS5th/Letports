@@ -4,7 +4,7 @@ class GatheringTVCell: UITableViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
-         view.backgroundColor = .lp_white
+        view.backgroundColor = .lp_white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -40,9 +40,9 @@ class GatheringTVCell: UITableViewCell {
     
     private  lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
-         iv.layer.cornerRadius = 5
-         iv.contentMode = .scaleAspectFill
-         iv.clipsToBounds = true
+        iv.layer.cornerRadius = 5
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -102,12 +102,12 @@ class GatheringTVCell: UITableViewCell {
     
     private func setupUI() {
         contentView.addSubview(containerView)
-      
+        
         [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
             containerView.addSubview($0)
         }
-       
-  
+        
+        
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
@@ -171,14 +171,11 @@ class GatheringTVCell: UITableViewCell {
         guard let url = URL(string: gathering.gatherImage) else {
             gatheringIV.image = UIImage(systemName: "person.circle")
             gatheringMasterIV.image = UIImage(systemName: "person.circle")
-                return
-            }
-            let placeholder = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
         gatheringIV.kf.setImage(with: url, placeholder: placeholder)
         gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
-        
-            
-        
-        }
+    }
     
 }
