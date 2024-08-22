@@ -71,16 +71,16 @@ final class GatheringTitleTVCell: UITableViewCell {
 	}()
 	
 	private let editButton: UIButton = {
-		let bt = UIButton()
+		let btn = UIButton()
 		var config = UIButton.Configuration.plain()
 		config.image = UIImage(systemName: "pencil.circle")
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
-		bt.configuration = config
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		bt.addAction(UIAction{_ in
+		btn.configuration = config
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.addAction(UIAction{_ in
 			print("buttonTap")
 		}, for: .touchUpInside)
-		return bt
+		return btn
 	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -121,11 +121,17 @@ final class GatheringTitleTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: GatheringDetailVM.GatheringHeader, isMaster: Bool) {
-		titleLabel.text = data.gatheringName
-		masterNameLabel.text = data.gatheringMasterName
-		gatherNowMemberLabel.text = data.gatheringNowMember
-		gatherMaxMemberLabel.text = data.gatheringMaxMember
+	func configureCell(data: Gathering, currentUser: User, masterNickname: String) {
+		titleLabel.text = data.gatherName
+		print(titleLabel.text ?? "없음")
+		masterNameLabel.text = "모임장: \(masterNickname)"
+		print(masterNameLabel.text ?? "없음")
+		gatherNowMemberLabel.text = "\(data.gatherNowMember ?? 0)"
+		print(gatherNowMemberLabel.text ?? "없음")
+		gatherMaxMemberLabel.text = "\(data.gatherMaxMember ?? 0)"
+		print(gatherMaxMemberLabel.text ?? "없음")
+		let isMaster = currentUser.UID == data.gatheringMaster
+		print(isMaster)
 		editButton.isHidden = !isMaster
 	}
 }

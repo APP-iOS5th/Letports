@@ -14,24 +14,6 @@ protocol FirebaseServiceProtocol {
 	func fetchGatheringData(gatheringUid: String) -> AnyPublisher<Gathering, Error>
 }
 
-struct Gathering {
-	var gatherImage: String?
-	var gatherName: String?
-	var gatherMaxMember: Int?
-	var gatherNowMember: Int?
-	var gatherInfo: String?
-	var gatheringCreateDate: String?
-	var gatheringMaster: String?
-}
-
-// 더미 유저
-struct User {
-	var UID = "user005"
-	var nickName = "속도광"
-	var Image = "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg"
-	var myGathering = ["gathering004", "gathering005"]
-}
-
 class FirebaseService: FirebaseServiceProtocol {
 	func fetchGatheringData(gatheringUid: String) -> AnyPublisher<Gathering, Error> {
 		return Future { promise in
@@ -62,21 +44,38 @@ class FirebaseService: FirebaseServiceProtocol {
 				let gatherImage = data?["GatherImage"] as? String
 				let gatherName = data?["GatherName"] as? String
 				let gatherMaxMember = data?["GatherMaxMember"] as? Int
-				let gatherNowMember = (data?["GatheringMembers"] as? [[String: Any]])?.count ?? 0
 				let gatherInfo = data?["GatherInfo"] as? String
 				let gatheringCreateDate = data?["GatheringCreateDate"] as? String
 				let gatheringMaster = data?["GatheringMaster"] as? String
+				let gatheringUid = document.documentID
+				
+				// GatheringMembers 데이터 파싱
+				var gatheringMembers: [GatheringMember] = []
+				if let membersData = data?["GatheringMembers"] as? [[String: Any]] {
+					for memberData in membersData {
+						let member = GatheringMember(
+							answer: memberData["Answer"] as? String ?? "",
+							image: memberData["Image"] as? String ?? "",
+							joinDate: memberData["JoinDate"] as? String ?? "",
+							joinStatus: memberData["JoinStatus"] as? String ?? "",
+							nickName: memberData["NickName"] as? String ?? "",
+							userUID: memberData["UserUID"] as? String ?? ""
+						)
+						gatheringMembers.append(member)
+					}
+				}
 				
 				let gathering = Gathering(
 					gatherImage: gatherImage,
 					gatherName: gatherName,
 					gatherMaxMember: gatherMaxMember,
-					gatherNowMember: gatherNowMember,
+					gatherNowMember: gatheringMembers.count,
 					gatherInfo: gatherInfo,
 					gatheringCreateDate: gatheringCreateDate,
-					gatheringMaster: gatheringMaster
+					gatheringMaster: gatheringMaster,
+					gatheringUid: gatheringUid,
+					gatheringMembers: gatheringMembers
 				)
-				
 				promise(.success(gathering))
 			}
 		}
@@ -115,15 +114,22 @@ enum MembershipStatus {
 
 class GatheringDetailVM {
 	@Published var gathering: Gathering?
-	@Published var isMaster: Bool = true
 	@Published var membershipStatus: MembershipStatus = .joined
 	@Published var selectedBoardType: BoardButtonType = .all
+	@Published var masterNickname: String = ""
+	@Published var isMaster: Bool = false
 	
+	private let currentUser: User // 현재 사용자 정보
 	private let firebaseService: FirebaseServiceProtocol
+	
 	var cancellables = Set<AnyCancellable>()
 	
-	init(firebaseService: FirebaseServiceProtocol = FirebaseService()) {
+	init(currentUser: User, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
+		self.currentUser = currentUser
 		self.firebaseService = firebaseService
+	}
+	
+	func loadData() {
 		fetchGatheringData()
 	}
 	
@@ -135,23 +141,62 @@ class GatheringDetailVM {
 					print("데이터 가져오기 완료")
 				case .failure(let error):
 					print("에러 발생: \(error)")
-					// 에러 처리 (예: 사용자에게 알림 표시)
 				}
 			}, receiveValue: { [weak self] gathering in
+				self?.gathering = gathering
+				self?.updateMembershipStatus()
+				self?.updateMasterStatus()
+				self?.getMasterNickname()
 				print("가져온 Gathering 객체:")
 				print(gathering)
 			})
 			.store(in: &cancellables)
 	}
 	
-	private func updateMasterStatus(gathering: Gathering) {
-		// 현재 사용자가 모임장인지 확인하는 로직
-		// 예: self.isMaster = (currentUserID == gathering.gatheringMaster)
+	// 모임장 닉네임
+	private func getMasterNickname() {
+		guard let gathering = self.gathering,
+			  let masterUID = gathering.gatheringMaster,
+			  let members = gathering.gatheringMembers else {
+			self.masterNickname = "알 수 없음"
+			return
+		}
+		
+		if let masterMember = members.first(where: { $0.userUID == masterUID }) {
+			self.masterNickname = masterMember.nickName
+		} else {
+			self.masterNickname = "알 수 없음"
+		}
 	}
-	
-	private func updateMembershipStatus(gathering: Gathering) {
-		// 현재 사용자의 모임 가입 상태를 확인하는 로직
-		// 예: self.membershipStatus = ...
+	// 모임장 상태인지
+	private func updateMasterStatus() {
+		guard let gathering = self.gathering,
+			  let gatheringMaster = gathering.gatheringMaster else {
+			isMaster = false
+			return
+		}
+		isMaster = currentUser.UID == gatheringMaster
+	}
+	// 현재 사용자 정보
+	func getCurrentUserInfo() -> User {
+		return currentUser
+	}
+	// 가입중인지 아닌지
+	private func updateMembershipStatus() {
+		guard let gathering = self.gathering else {
+			self.membershipStatus = .notJoined
+			return
+		}
+		
+		if currentUser.myGathering.contains(gathering.gatheringUid ?? "") {
+			self.membershipStatus = .joined
+		} else {
+			self.membershipStatus = .notJoined
+		}
+	}
+	// 모임 멤버들 정보
+	func getGatheringMembers() -> [GatheringMember] {
+		return gathering?.gatheringMembers ?? []
 	}
 	
 	private var cellType: [GatheringDetailCellType] {
@@ -183,36 +228,20 @@ class GatheringDetailVM {
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
-	
-	
-	// 모임 타이틀(삭제예정)
-	struct GatheringHeader {
-		let gatheringImage: String
-		let gatheringName: String
-		let gatheringMasterName: String
-		let gatheringNowMember: String
-		let gatheringMaxMember: String
-	}
-	
-	// 더미데이터(삭제예정)
-	let GatheringHeaders = [
-		GatheringHeader(gatheringImage: "sampleImage",
-						gatheringName: "수호단",
-						gatheringMasterName: "매드카우",
-						gatheringNowMember: "4",
-						gatheringMaxMember: "10")
-	]
-	
-	// 프로필(삭제예정)
-	struct Profile {
-		let userImage: String
-		let userNickName: String
-	}
-	
-	// 현재인원 더미데이터(삭제예정)
-	let profiles = [
-		Profile(userImage: "porfileEX2", userNickName: "수호신대장"),
-	]
+	// 예시 사용자
+	static let dummyUser = User(
+		UID: "user001",
+		nickName: "속도광",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
+		email: "user005@example.com",
+		myGathering: ["gathering003", "gathering005"],
+		simpleInfo: "빠른 속도를 좋아합니다",
+		userSports: "KBO",
+		userSportsTeam: "두산 베어스",
+		answer: "속도가 빠르기 때문입니다.",
+		joinDate: "2024-01-21",
+		joinStatus: "가입중"
+	)
 	
 	struct BoardData {
 		let title: String
@@ -235,7 +264,6 @@ class GatheringDetailVM {
 		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
 	]
 }
-
 
 
 extension BoardButtonType {

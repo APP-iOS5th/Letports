@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import Kingfisher
 
 class GatheringImageTVCell: UITableViewCell {
 	
 	private let gatheringImage: UIImageView = {
 		let iv = UIImageView()
-		iv.isUserInteractionEnabled = false
+		iv.contentMode = .scaleAspectFill
+		iv.backgroundColor = .lightGray
+		iv.clipsToBounds = true
 		iv.translatesAutoresizingMaskIntoConstraints = false
 		return iv
 	}()
@@ -37,11 +40,13 @@ class GatheringImageTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: GatheringDetailVM.GatheringHeader) {
-		if let image = UIImage(named: data.gatheringImage) {
-			gatheringImage.image = image
-		} else {
-			print("Image not found: \(data.gatheringImage)")
+	// 안됨 
+	func configureCell(data: String?) {
+		if let imageUrlString = data,
+		   let url = URL(string: imageUrlString) {
+			print("URL 확인: \(url)")
+			gatheringImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
 		}
 	}
 }
+

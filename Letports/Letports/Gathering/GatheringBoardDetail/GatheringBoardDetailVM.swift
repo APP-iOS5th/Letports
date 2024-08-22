@@ -18,18 +18,6 @@ enum GatheringBoardDetailCellType {
 
 final class GatheringBoardDetailVM {
 	
-	//	struct GatherBoardPost: Codable, Identifiable {
-	//		@DocumentID var id: String?
-	//		var postUid: String
-	//		var userUid: String
-	//		var createDate: Date?
-	//		var title: String
-	//		var contents: String
-	//		var imageUrls: [String]
-	//		var comment: String
-	//		var boardType: String
-	//	}
-	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
 		cellTypes.append(.boardProfileTitle)

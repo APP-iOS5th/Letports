@@ -14,14 +14,14 @@ class BoardButtonCVCell: UICollectionViewCell {
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
 		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-		let bt = UIButton(configuration: config, primaryAction: nil)
-		bt.clipsToBounds = true
-		bt.layer.cornerRadius = 11
-		bt.layer.borderWidth = 0.5
-		bt.layer.borderColor = UIColor.lp_black.cgColor
-		bt.backgroundColor = .lp_white
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		return bt
+		let btn = UIButton(configuration: config, primaryAction: nil)
+		btn.clipsToBounds = true
+		btn.layer.cornerRadius = 11
+		btn.layer.borderWidth = 0.5
+		btn.layer.borderColor = UIColor.lp_black.cgColor
+		btn.backgroundColor = .lp_white
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
 	}()
 	
 	weak var delegate: ButtonStateDelegate?

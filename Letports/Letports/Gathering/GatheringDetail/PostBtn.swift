@@ -9,11 +9,11 @@ import UIKit
 
 class PostBtn: UIView {
 	private let floatingButton: UIButton = {
-		let bt = UIButton(type: .custom)
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		bt.backgroundColor = .lp_main
-		bt.layer.cornerRadius = 30
-		bt.clipsToBounds = true
+		let btn = UIButton(type: .custom)
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.backgroundColor = .lp_main
+		btn.layer.cornerRadius = 30
+		btn.clipsToBounds = true
 		
 		let plusLayer = CAShapeLayer()
 		plusLayer.strokeColor = UIColor.white.cgColor
@@ -27,9 +27,9 @@ class PostBtn: UIView {
 		path.addLine(to: CGPoint(x: 30, y: 40))
 		
 		plusLayer.path = path.cgPath
-		bt.layer.addSublayer(plusLayer)
+		btn.layer.addSublayer(plusLayer)
 		
-		return bt
+		return btn
 	}()
 	
 	private let optionsStackView: UIStackView = {
@@ -43,29 +43,29 @@ class PostBtn: UIView {
 	}()
 	
 	private let postButton: UIButton = {
-		let bt = UIButton(type: .system)
-		bt.setTitle("게시글 등록", for: .normal)
-		bt.backgroundColor = .white
-		bt.layer.cornerRadius = 15
-		bt.layer.borderWidth = 1
-		bt.layer.borderColor = UIColor.lightGray.cgColor
+		let btn = UIButton(type: .system)
+		btn.setTitle("게시글 등록", for: .normal)
+		btn.backgroundColor = .white
+		btn.layer.cornerRadius = 15
+		btn.layer.borderWidth = 1
+		btn.layer.borderColor = UIColor.lightGray.cgColor
 		var configuration = UIButton.Configuration.plain()
 		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-		bt.configuration = configuration
-		return bt
+		btn.configuration = configuration
+		return btn
 	}()
 	
 	private let noticeButton: UIButton = {
-		let bt = UIButton(type: .system)
-		bt.setTitle("공지사항 등록", for: .normal)
-		bt.backgroundColor = .white
-		bt.layer.cornerRadius = 15
-		bt.layer.borderWidth = 1
-		bt.layer.borderColor = UIColor.lightGray.cgColor
+		let btn = UIButton(type: .system)
+		btn.setTitle("공지사항 등록", for: .normal)
+		btn.backgroundColor = .white
+		btn.layer.cornerRadius = 15
+		btn.layer.borderWidth = 1
+		btn.layer.borderColor = UIColor.lightGray.cgColor
 		var configuration = UIButton.Configuration.plain()
 		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-		bt.configuration = configuration
-		return bt
+		btn.configuration = configuration
+		return btn
 	}()
 	
 	var isMaster: Bool = false {

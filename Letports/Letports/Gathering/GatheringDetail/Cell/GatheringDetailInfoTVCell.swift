@@ -47,31 +47,15 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		tv.isScrollEnabled = false
 		tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
 		tv.translatesAutoresizingMaskIntoConstraints = false
-		tv.text = """
-🖤❤️ 수호신은 FC 서울을 응원하는 서포터즈 🖤❤️
-
-⚽️🏟️주로 골대 뒤에서 응원을 하지만  👩‍❤️‍👨FC 서울을 응원하고 사랑한다면 누구든 수호신
-
-✅ 가입대상
-☝️️ 서울을 사랑한다면 👌
-✌️ 혼자가기 고민했다면 👌
-
-✅ 가입 조건
-☝️️ 개랑, 매북, 통산, 싸천, 징구, 빵집, 남패 금지
-🚫🚯☝️️ 개랑, 매북, 통산, 싸천, 징구, 빵집, 남패 금지
-🚫🚯☝️️ 개랑, 매북, 통산, 싸천, 징구, 빵집, 남패 금지
-🚫🚯☝️️ 개랑, 매북, 통산, 싸천, 징구, 빵집, 남패 금지
-🚫🚯☝️️ 개랑, 매북, 통산, 싸천, 징구, 빵집, 남패 금지
-"""
 		return tv
 	}()
 	
 	private let toggleBtn: UIButton = {
-		let bt = UIButton()
-		bt.setTitle("▲", for: .normal)
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		bt.setTitleColor(.lpBlack, for: .normal)
-		return bt
+		let btn = UIButton()
+		btn.setTitle("▲", for: .normal)
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.setTitleColor(.lpBlack, for: .normal)
+		return btn
 	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -82,7 +66,6 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -102,6 +85,11 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		
 		toggleBtn.addTarget(self, action: #selector(toggleGatheringInfo), for: .touchUpInside)
 		
+	}
+	
+	func configure(with gatherInfo: String?) {
+		gatheringInfoTextView.text = gatherInfo
+		print("소개글 \(gatheringInfoTextView)")
 	}
 	
 	// 접기버튼

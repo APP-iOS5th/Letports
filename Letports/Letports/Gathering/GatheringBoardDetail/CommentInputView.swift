@@ -20,14 +20,14 @@ class CommentInputView: UIView {
 	}()
 	
 	private let registBtn: UIButton = {
-		let bt = UIButton()
-		bt.setTitle("등록", for: .normal)
-		bt.setTitleColor(.black, for: .normal)
-		bt.clipsToBounds = true
-		bt.layer.cornerRadius = 10
-		bt.backgroundColor = .lp_white
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		return bt
+		let btn = UIButton()
+		btn.setTitle("등록", for: .normal)
+		btn.setTitleColor(.black, for: .normal)
+		btn.clipsToBounds = true
+		btn.layer.cornerRadius = 10
+		btn.backgroundColor = .lp_white
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
 	}()
 	
 	private let textFieldSV: UIStackView = {

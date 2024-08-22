@@ -11,7 +11,7 @@ final class GatheringBoardDetailVC: UIViewController {
 	
 	private lazy var navigationView: CustomNavigationView = {
 		let cnv = CustomNavigationView(isLargeNavi: .small,
-									   screenType: .smallGathering(gatheringName: "자유게시판", btnName: .ellipsis))
+									   screenType: .smallGathering(gatheringName: "자유게시판", btnName: .gear))
 		
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white

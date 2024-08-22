@@ -10,15 +10,15 @@ import UIKit
 final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
 	private let userImageBtn: UIButton = {
-		let bt = UIButton()
-		bt.contentMode = .scaleAspectFill
-		bt.clipsToBounds = true
-		bt.layer.cornerRadius = 22.5
-		bt.layer.borderWidth = 0.5
-		bt.layer.borderColor = UIColor.black.cgColor
-		bt.widthAnchor.constraint(equalToConstant: 45).isActive = true
-		bt.heightAnchor.constraint(equalToConstant: 45).isActive = true
-		return bt
+		let btn = UIButton()
+		btn.contentMode = .scaleAspectFill
+		btn.clipsToBounds = true
+		btn.layer.cornerRadius = 22.5
+		btn.layer.borderWidth = 0.5
+		btn.layer.borderColor = UIColor.black.cgColor
+		btn.widthAnchor.constraint(equalToConstant: 45).isActive = true
+		btn.heightAnchor.constraint(equalToConstant: 45).isActive = true
+		return btn
 	}()
 	
 	private let userNickName: UILabel = {
@@ -61,9 +61,15 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		userImageBtn.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 	}
 	
-	func configure(profile: GatheringDetailVM.Profile) {
-		self.userImageBtn.setImage(UIImage(named: profile.userImage), for: .normal)
-		self.userNickName.text = profile.userNickName
+	func configure(member: GatheringMember) {
+		self.userNickName.text = member.nickName
+		if let url = URL(string: member.image) {
+			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
+		} else {
+			userImageBtn.setImage(UIImage(named: "placeholder_image"), for: .normal)
+		}
+		
+		
 	}
 	
 	@objc private func imageTap() {

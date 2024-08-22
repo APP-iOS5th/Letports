@@ -20,11 +20,11 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		return cv
 	}()
 	
-	var profiles: [GatheringDetailVM.Profile] = [] {
-		didSet {
-			collectionView.reloadData()
-		}
-	}
+	var members: [GatheringMember] = [] {
+		   didSet {
+			   collectionView.reloadData()
+		   }
+	   }
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -55,7 +55,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 
 extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return profiles.count
+		return members.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
@@ -64,7 +64,7 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 															for: indexPath) as? GatheringDetailProfileCVCell else {
 			return UICollectionViewCell()
 		}
-		cell.configure(profile: profiles[indexPath.item])
+		cell.configure(member: members[indexPath.item])
 		return cell
 	}
 }

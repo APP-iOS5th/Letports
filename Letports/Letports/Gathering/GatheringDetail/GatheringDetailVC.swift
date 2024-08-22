@@ -9,26 +9,36 @@ import UIKit
 import Combine
 
 final class GatheringDetailVC: UIViewController {
-	private lazy var navigationView: CustomNavigationView = {
-		let cnv = CustomNavigationView(isLargeNavi: .small,
-									   screenType: .smallGathering(gatheringName: "수호단", btnName: .gear))
-		
-		cnv.delegate = self
-		cnv.backgroundColor = .lp_background_white
-		cnv.translatesAutoresizingMaskIntoConstraints = false
-		return cnv
+		private lazy var navigationView: CustomNavigationView = {
+			let screenType: ScreenType
+			let gatheringName = viewModel.gathering?.gatherName ?? "모임"
+			
+			if viewModel.isMaster {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+			} else if viewModel.membershipStatus == .joined {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+			} else {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
+			}
+			
+			let cnv = CustomNavigationView(isLargeNavi: .small, screenType: screenType)
+			cnv.delegate = self
+			cnv.backgroundColor = .lp_background_white
+			cnv.translatesAutoresizingMaskIntoConstraints = false
+			return cnv
+		}()
+	
+	private lazy var joinBtn: JoinBtn = {
+		let btn = JoinBtn()
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.addTarget(self, action: #selector(joinButtonTap), for: .touchUpInside)
+		return btn
 	}()
 	
-	private let joinButton: JoinBtn = {
-		let bt = JoinBtn()
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		return bt
-	}()
-	
-	private lazy var postButton: PostBtn = {
-		let bt = PostBtn()
-		bt.translatesAutoresizingMaskIntoConstraints = false
-		return bt
+	private var postBtn: PostBtn = {
+		let btn = PostBtn()
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
 	}()
 	
 	private lazy var tableView: UITableView = {
@@ -52,9 +62,10 @@ final class GatheringDetailVC: UIViewController {
 	
 	private var viewModel: GatheringDetailVM
 	private var cancellables: Set<AnyCancellable> = []
+	weak var delegate: GatheringDetailVCDelegate?
 	
 	init(viewModel: GatheringDetailVM) {
-		self.viewModel = GatheringDetailVM()
+		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -66,22 +77,25 @@ final class GatheringDetailVC: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		bindViewModel()
+		viewModel.loadData()
+
+		print("Join button action set: \(joinBtn.actions(forTarget: self, forControlEvent: .touchUpInside) ?? [])")
 	}
 	
 	// MARK: - bindVm
 	private func bindViewModel() {
-		viewModel.$membershipStatus
+		viewModel.$gathering
 			.receive(on: RunLoop.main)
-			.sink { [weak self] status in
-				self?.updateJoinButton(for: status)
-				self?.updateFloatingActionButton(for: status)
+			.sink { [weak self] gathering in
+				self?.updateUI(with: gathering)
 			}
 			.store(in: &cancellables)
 		
-		viewModel.$isMaster
+		viewModel.$membershipStatus
 			.receive(on: RunLoop.main)
-			.sink { [weak self] isMaster in
-				self?.postButton.isMaster = isMaster
+			.sink { [weak self] status in
+				self?.updateJoinBtn(for: status)
+				self?.boardWritewBtn(for: status)
 			}
 			.store(in: &cancellables)
 		
@@ -95,27 +109,47 @@ final class GatheringDetailVC: UIViewController {
 			.store(in: &cancellables)
 	}
 	
+	private func updateUI(with gathering: Gathering?) {
+		guard let gathering = gathering else { return }
+		
+		let gatheringName = gathering.gatherName ?? "모임"
+		let screenType: ScreenType
+		
+		if viewModel.isMaster {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+		} else if viewModel.membershipStatus == .joined {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+		} else {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
+		}
+		
+		navigationView.screenType = screenType
+		tableView.reloadData()
+	}
 	
-	private func updateJoinButton(for status: MembershipStatus) {
+	private func updateJoinBtn(for status: MembershipStatus) {
 		switch status {
 		case .notJoined:
-			joinButton.setTitle("가입하기", for: .normal)
-			joinButton.isHidden = false
+			joinBtn.setTitle("가입하기", for: .normal)
+			joinBtn.isHidden = false
+			print("Join button visible: not joined")
 		case .pending:
-			joinButton.setTitle("가입대기", for: .normal)
-			joinButton.backgroundColor = .lightGray
-			joinButton.isHidden = false
+			joinBtn.setTitle("가입대기", for: .normal)
+			joinBtn.backgroundColor = .lightGray
+			joinBtn.isHidden = false
+			print("Join button visible: pending")
 		case .joined:
-			joinButton.isHidden = true
+			joinBtn.isHidden = true
+			print("Join button hidden: already joined")
 		}
 	}
 	
-	private func updateFloatingActionButton(for status: MembershipStatus) {
+	private func boardWritewBtn(for status: MembershipStatus) {
 		switch status {
 		case .notJoined, .pending:
-			postButton.setVisible(false)
+			postBtn.setVisible(false)
 		case .joined:
-			postButton.setVisible(true)
+			postBtn.setVisible(true)
 		}
 	}
 	
@@ -123,7 +157,7 @@ final class GatheringDetailVC: UIViewController {
 	private func setupUI() {
 		self.view.backgroundColor = .lp_background_white
 		
-		[navigationView, tableView, joinButton, postButton].forEach {
+		[navigationView, tableView, joinBtn, postBtn].forEach {
 			self.view.addSubview($0)
 		}
 		
@@ -137,15 +171,15 @@ final class GatheringDetailVC: UIViewController {
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 			
-			joinButton.widthAnchor.constraint(equalToConstant: 300),
-			joinButton.heightAnchor.constraint(equalToConstant: 50),
-			joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			joinButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+			joinBtn.widthAnchor.constraint(equalToConstant: 300),
+			joinBtn.heightAnchor.constraint(equalToConstant: 50),
+			joinBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			joinBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
 			
-			postButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-			postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-			postButton.widthAnchor.constraint(equalToConstant: 60),
-			postButton.heightAnchor.constraint(equalToConstant: 60)
+			postBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+			postBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+			postBtn.widthAnchor.constraint(equalToConstant: 60),
+			postBtn.heightAnchor.constraint(equalToConstant: 60)
 		])
 	}
 }
@@ -170,16 +204,14 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		switch self.viewModel.getDetailCellTypes()[indexPath.row] {
 		case .gatheringImage:
 			if let cell: GatheringImageTVCell = tableView.loadCell(indexPath: indexPath) {
-				if let data = viewModel.GatheringHeaders.first(where: { $0.gatheringName == "수호단" }) {
-					cell.configureCell(data: data)
-				}
+				let gatheringImage = viewModel.gathering?.gatherImage 
+					cell.configureCell(data: gatheringImage)
 				return cell
 			}
 		case .gatheringTitle:
-			if let cell: GatheringTitleTVCell  = tableView.loadCell(indexPath: indexPath) {
-				if let data = viewModel.GatheringHeaders.first(where: { $0.gatheringName == "수호단" }) {
-					cell.configureCell(data: data, isMaster: viewModel.isMaster)
-				}
+			if let cell: GatheringTitleTVCell = tableView.loadCell(indexPath: indexPath),
+			   let gathering = viewModel.gathering {
+				cell.configureCell(data: gathering, currentUser: viewModel.getCurrentUserInfo(), masterNickname: viewModel.masterNickname)
 				return cell
 			}
 		case .separator:
@@ -188,12 +220,14 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .gatheringInfo:
-			if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath) {
+			if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath),
+			   let gathering = viewModel.gathering {
+				cell.configure(with: gathering.gatherInfo)
 				return cell
 			}
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
-				cell.profiles = viewModel.profiles
+				cell.members = viewModel.gathering?.gatheringMembers ?? []
 				return cell
 			}
 		case .boardButtonType:
@@ -202,7 +236,8 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .gatheringBoard:
-			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell", for: indexPath) as? GatheringDetailBoardTVCell {
+			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
+														for: indexPath) as? GatheringDetailBoardTVCell {
 				cell.board = viewModel.filteredBoardData
 				return cell
 			}
@@ -242,6 +277,17 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			return UITableView.automaticDimension
 		}
 	}
+	
+	// MARK: - objc메소드
+	
+	@objc private func joinButtonTap() {
+		delegate?.didTapJoinBtn()
+		print("버튼이 눌렸다")
+	}
+	
+	@objc private func settingsButtonTap() {
+		delegate?.didTapSettingsBtn()
+	}
 }
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
@@ -252,5 +298,5 @@ extension GatheringDetailVC: BoardButtonTVCellDelegate {
 }
 
 #Preview {
-	GatheringDetailVC(viewModel: GatheringDetailVM())
+	GatheringDetailVC(viewModel: GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser))
 }
