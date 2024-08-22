@@ -41,7 +41,9 @@ class FirestoreManager {
     private init() {}
     
     //CREATE
-    func setData<T: Encodable>(collection: String, document: String, data: T) -> AnyPublisher<Void, FirestoreError> {
+    func setData<T: Encodable>(collection: String, 
+                               document: String,
+                               data: T) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
             do {
                 let encodedData = try Firestore.Encoder().encode(data)
@@ -60,9 +62,11 @@ class FirestoreManager {
     }
     
     //READ
-    func getData<T: Decodable>(collection: String, documnet: String , type: T.Type) -> AnyPublisher<T, FirestoreError> {
+    func getData<T: Decodable>(collection: String, 
+                               document: String,
+                               type: T.Type) -> AnyPublisher<T, FirestoreError> {
         return Future<T, FirestoreError> { promise in
-            FIRESTORE.collection(collection).document(documnet).getDocument { snapShot, error in
+            FIRESTORE.collection(collection).document(document).getDocument { snapShot, error in
                 if let error = error {
                     promise(.failure(.unknownError(error)))
                 } else if let snapshot = snapShot, snapshot.exists {
@@ -81,7 +85,11 @@ class FirestoreManager {
     }
     
     //UPDATE
-    func updateData(collection: String, document: String, fields: [String: Any]) -> AnyPublisher<Void, FirestoreError> {
+    ///Field update
+    ///Fields Update Method
+    func updateData(collection: String, 
+                    document: String,
+                    fields: [String: Any]) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
             FIRESTORE.collection(collection).document(document).updateData(fields) { error in
                 if let error = error {
@@ -94,6 +102,30 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+    ///Data Update
+    ///All Data Update Method
+    func updateData<T: Encodable>(collection: String, 
+                                  document: String,
+                                  data: T) -> AnyPublisher<Void, FirestoreError> {
+        return Future<Void, FirestoreError> { promise in
+            do {
+                
+                let encodedData = try Firestore.Encoder().encode(data)
+                
+                FIRESTORE.collection(collection).document(document).setData(encodedData) { error in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                    } else {
+                        promise(.success(()))
+                    }
+                }
+            } catch {
+                promise(.failure(.dataEncodingFailed))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+
     
     //DELETE
     func deleteDocument(from collection: String, document: String) -> AnyPublisher<Void, FirestoreError> {

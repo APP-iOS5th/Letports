@@ -75,17 +75,28 @@ class GatheringUploadInfoTVCell: UITableViewCell {
         
     }
     
+    func configureCell(infoText: String?) {
+        guard let infoText = infoText else { return }
+        self.contentTextView.text = infoText
+        self.textCountCheck(text: infoText)
+    }
     
-    
+    private func textCountCheck(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.textCountLabel.text = "\(text.count)/1000"
+        }
+    }
 }
 
 extension GatheringUploadInfoTVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        textCountLabel.text = "\(textView.text.count)/1000"
+        textCountCheck(text: textView.text)
         self.delegate?.sendGatehrInfo(content: contentTextView.text)
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return koTextLimit.shouldChangeText(for: textView, in: range, replacementText: text, maxCharacterLimit: 1000)
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, 
+                  replacementText text: String) -> Bool {
+        return koTextLimit.shouldChangeText(for: textView, in: range, 
+                                            replacementText: text, maxCharacterLimit: 1000)
     }
 }
