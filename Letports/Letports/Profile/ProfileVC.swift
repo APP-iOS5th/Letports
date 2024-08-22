@@ -74,30 +74,25 @@ class ProfileVC: UIViewController {
         
     }
     private func bindViewModel() {
-        viewModel.$user
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$myGatherings
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$pendingGatherings
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
+        Publishers.CombineLatest3(
+            viewModel.$user,
+            viewModel.$myGatherings,
+            viewModel.$pendingGatherings
+        )
+        .sink { [weak self] (user, myGathering, pendingGathering) in
+            self?.handleUpdates(user: user, myGathering: myGathering, pendingGathering: pendingGathering)
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func handleUpdates(user: User?, myGathering: [Gathering], pendingGathering: [Gathering]) {
+        tableView.reloadData()
     }
     
     @objc private func editProfile() {
         print("눌림")
         guard let user = viewModel.user else { return }
         coordinator?.showEditProfile(user: user)
-        
     }
     
     
