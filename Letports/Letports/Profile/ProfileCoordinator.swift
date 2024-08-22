@@ -1,23 +1,24 @@
-//
-//  ProfileCoordinator.swift
-//  Letports
-//
-//  Created by John Yun on 8/8/24.
-//
-
 import UIKit
 
 class ProfileCoordinator: Coordinator {
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
-    
+
     func start() {
-        let profileVC = ProfileVC()
+        let profileVM = ProfileVM()
+        let profileVC = ProfileVC(viewModel: profileVM)
         profileVC.coordinator = self
-        navigationController.setViewControllers([profileVC], animated: false)
+        navigationController.pushViewController(profileVC, animated: false)
+    }
+
+    func showEditProfile(user: User) {
+        let profileEditVM = ProfileEditVM(user: user)
+        let profileEditVC = ProfileEditVC(viewModel: profileEditVM)
+        navigationController.pushViewController(profileEditVC, animated: true)
     }
 }
+    
