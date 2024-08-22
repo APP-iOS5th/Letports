@@ -17,12 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-//        let navigationController = UINavigationController()
+        let navigationController = UINavigationController()
         
-//        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
-//        mainCoordinator?.start()
+        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
+        mainCoordinator?.start()
         
-        window?.rootViewController = GatheringUploadVC(viewModel: GatheringUploadVM())
+        window?.rootViewController = GatherSettingVC(viewModel: GatherSettingVM())
+//        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
     }
