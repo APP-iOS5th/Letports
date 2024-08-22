@@ -62,7 +62,6 @@
 		BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDF2C7440130084CA10 /* CommentInputView.swift */; };
 		BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
 		BFD9AEF82C76F21A000C3A20 /* CustomActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */; };
-		BFD9AEFF2C76F696000C3A20 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEFE2C76F696000C3A20 /* SignupVC.swift */; };
 		BFD9AF012C76F7A2000C3A20 /* ActionSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */; };
 		BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */; };
 		BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF52D282C6C3A4900AC72C8 /* ViewController.swift */; };
@@ -157,7 +156,6 @@
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheetView.swift; sourceTree = "<group>"; };
-		BFD9AEFE2C76F696000C3A20 /* SignupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
 		BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetVC.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 				BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */,
 				BFFFD3E52C7316D40053A86B /* PostBtn.swift */,
 				BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */,
-				BFD9AEFE2C76F696000C3A20 /* SignupVC.swift */,
 				BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */,
 			);
 			path = GatheringDetail;
@@ -627,7 +624,6 @@
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
-				BFD9AEFF2C76F696000C3A20 /* SignupVC.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
