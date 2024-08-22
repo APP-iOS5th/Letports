@@ -66,7 +66,9 @@ extension GatheringBoardDetailImagesTVCell: UICollectionViewDataSource {
 }
 
 extension GatheringBoardDetailImagesTVCell: UICollectionViewDelegateFlowLayout {
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+	func collectionView(_ collectionView: UICollectionView, 
+						layout collectionViewLayout: UICollectionViewLayout,
+						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let height = collectionView.frame.height
 		return CGSize(width: height, height: height)
 	}

@@ -391,6 +391,6 @@ class CustomNavigationView: UIView {
 
 
 #Preview {
-	BoardViewController()
+	viewController()
 }
 

@@ -191,9 +191,6 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 		print("samll")
 	}
 	
-	func sportsSelectButtonDidTap() {
-	}
-	
 	func backButtonDidTap() {
 		
 	}
@@ -211,7 +208,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringTitle:
 			if let cell: GatheringTitleTVCell = tableView.loadCell(indexPath: indexPath),
 			   let gathering = viewModel.gathering {
-				cell.configureCell(data: gathering, currentUser: viewModel.getCurrentUserInfo(), masterNickname: viewModel.masterNickname)
+				cell.configureCell(data: gathering, 
+								   currentUser: viewModel.getCurrentUserInfo(),
+								   masterNickname: viewModel.masterNickname)
 				return cell
 			}
 		case .separator:
