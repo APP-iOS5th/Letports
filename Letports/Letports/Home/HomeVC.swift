@@ -86,76 +86,65 @@ class HomeVC: UIViewController {
         return label
     }()
     
+    //유튜브 썸네일 흰 배경
     lazy var secondContainerView = createWhiteBox()
     
-    lazy var thumbnailStackView: UIStackView = {
-        let stackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 20)
+    //썸네일 전체 스택뷰
+    lazy var thumbnailStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 20)
+    
+    //썸네일1 스택뷰
+    lazy var firstThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
+    
+    //썸네일1 이미지
+    lazy var thumbnail1: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 10
+        image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
         
-        //첫번째 썸네일
-        let firstThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
-        
-        let thumbnail1 = UIImageView()
-        thumbnail1.contentMode = .scaleAspectFill
-        thumbnail1.layer.cornerRadius = 10
-        thumbnail1.clipsToBounds = true
-        thumbnail1.translatesAutoresizingMaskIntoConstraints = false
-        
-        let thumbnailTitle1 = UILabel()
-        thumbnailTitle1.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
-        thumbnailTitle1.font = UIFont.systemFont(ofSize: 10)
-        thumbnailTitle1.numberOfLines = 2
-        thumbnailTitle1.lineBreakMode = .byTruncatingTail
-        thumbnailTitle1.translatesAutoresizingMaskIntoConstraints = false
-        
-        firstThumbnailStackView.addArrangedSubview(thumbnail1)
-        firstThumbnailStackView.addArrangedSubview(thumbnailTitle1)
-        
-        thumbnail1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.75).isActive = true
-        thumbnailTitle1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.25).isActive = true
-        
-        //첫번째 썸네일
-        let thumbnail1TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
-        firstThumbnailStackView.addGestureRecognizer(thumbnail1TapGesture)
-        firstThumbnailStackView.isUserInteractionEnabled = true
-        
-        //두번째 썸네일
-        let secondThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
-        
-        let thumbnail2 = UIImageView()
-        thumbnail2.contentMode = .scaleAspectFill
-        thumbnail2.layer.cornerRadius = 10
-        thumbnail2.clipsToBounds = true
-        thumbnail2.translatesAutoresizingMaskIntoConstraints = false
-        
-        let thumbnailTitle2 = UILabel()
-        thumbnailTitle2.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
-        thumbnailTitle2.font = UIFont.systemFont(ofSize: 10)
-        thumbnailTitle2.numberOfLines = 2
-        thumbnailTitle2.lineBreakMode = .byTruncatingTail
-        thumbnailTitle2.translatesAutoresizingMaskIntoConstraints = false
-        
-        secondThumbnailStackView.addArrangedSubview(thumbnail2)
-        secondThumbnailStackView.addArrangedSubview(thumbnailTitle2)
-        
-        //두번째 썸네일
-        let thumbnail2TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
-        secondThumbnailStackView.addGestureRecognizer(thumbnail2TapGesture)
-        secondThumbnailStackView.isUserInteractionEnabled = true
-        
-        thumbnail2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.75).isActive = true
-        thumbnailTitle2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.25).isActive = true
-        
-        stackView.addArrangedSubview(firstThumbnailStackView)
-        stackView.addArrangedSubview(secondThumbnailStackView)
-        
-        let videoID1 = "aWp0mk2PEyI"
-        let videoID2 = "aWp0mk2PEyI"
-        loadThumbnail(for: videoID1, into: thumbnail1)
-        loadThumbnail(for: videoID2, into: thumbnail2)
-        
-        return stackView
+        return image
     }()
     
+    //썸네일1 제목
+    lazy var thumbnailTitle1: UILabel = {
+        let label = UILabel()
+        label.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    //썸네일2 스택뷰
+    lazy var secondThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
+    
+    //썸네일2 이미지
+    lazy var thumbnail2: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 10
+        image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    //썸네일2 제목
+    lazy var thumbnailTitle2: UILabel = {
+        let label = UILabel()
+        label.text = "줌 인 서울 I 서울의 상승세 어떻게 막을래? I 서울 1-0 인천 I K리그1 2024 R25"
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    //추천 소모임 뷰
     let thirdLabel: UILabel = {
         let label = UILabel()
         label.text = "추천 소모임🔥"
@@ -204,7 +193,6 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        layoutVC()
         bindViewModel()
     }
     
@@ -220,6 +208,24 @@ class HomeVC: UIViewController {
                 self.teamName.text = team.teamName
             }
             .store(in: &cancellables)
+    }
+    
+    func setupUI() {
+        view.backgroundColor = .lpBackgroundWhite
+        
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeButton)
+        
+        profileLayout()
+        view.addSubview(secondLabel)
+        youtubeThumbnailLayout()
+        secondContainerView.addSubview(thumbnailStackView)
+        view.addSubview(secondContainerView)
+        view.addSubview(thirdLabel)
+        view.addSubview(gatheringScrollView)
+        gatheringScrollView.addSubview(gatheringStackView)
+        
+        layoutVC()
     }
     
     // 제목, 팀변경 버튼
@@ -256,19 +262,37 @@ class HomeVC: UIViewController {
         youtubeURLStackView.isUserInteractionEnabled = true
     }
     
-    func setupUI() {
-        view.backgroundColor = .lpBackgroundWhite
+    //썸네일 레이아웃
+    func youtubeThumbnailLayout() {
+        firstThumbnailStackView.addArrangedSubview(thumbnail1)
+        firstThumbnailStackView.addArrangedSubview(thumbnailTitle1)
+        secondThumbnailStackView.addArrangedSubview(thumbnail2)
+        secondThumbnailStackView.addArrangedSubview(thumbnailTitle2)
         
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeButton)
+        //첫번째 썸네일 탭 제스쳐
+        let thumbnail1TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
+        firstThumbnailStackView.addGestureRecognizer(thumbnail1TapGesture)
+        firstThumbnailStackView.isUserInteractionEnabled = true
         
-        profileLayout()
-        view.addSubview(secondLabel)
-        secondContainerView.addSubview(thumbnailStackView)
-        view.addSubview(secondContainerView)
-        view.addSubview(thirdLabel)
-        view.addSubview(gatheringScrollView)
-        gatheringScrollView.addSubview(gatheringStackView)
+        //두번째 썸네일
+        let thumbnail2TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
+        secondThumbnailStackView.addGestureRecognizer(thumbnail2TapGesture)
+        secondThumbnailStackView.isUserInteractionEnabled = true
+        
+        NSLayoutConstraint.activate([
+            thumbnail1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.75),
+            thumbnailTitle1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.25),
+            thumbnail2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.75),
+            thumbnailTitle2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.25)
+        ])
+        
+        let videoID1 = "aWp0mk2PEyI"
+        let videoID2 = "aWp0mk2PEyI"
+        loadThumbnail(for: videoID1, into: thumbnail1)
+        loadThumbnail(for: videoID2, into: thumbnail2)
+        
+        thumbnailStackView.addArrangedSubview(firstThumbnailStackView)
+        thumbnailStackView.addArrangedSubview(secondThumbnailStackView)
     }
     
     // VC레이아웃
@@ -315,11 +339,11 @@ class HomeVC: UIViewController {
     
     // 배경 흰 네모
     func createWhiteBox(backgroundColor: UIColor = .white,
-                          cornerRadius: CGFloat = 15,
-                          shadowColor: UIColor = .black,
-                          shadowOpacity: Float = 0.1,
-                          shadowOffset: CGSize = CGSize(width: 0, height: 2),
-                          shadowRadius: CGFloat = 5) -> UIView {
+                        cornerRadius: CGFloat = 15,
+                        shadowColor: UIColor = .black,
+                        shadowOpacity: Float = 0.1,
+                        shadowOffset: CGSize = CGSize(width: 0, height: 2),
+                        shadowRadius: CGFloat = 5) -> UIView {
         let whiteBox = UIView()
         whiteBox.backgroundColor = backgroundColor
         whiteBox.layer.cornerRadius = cornerRadius

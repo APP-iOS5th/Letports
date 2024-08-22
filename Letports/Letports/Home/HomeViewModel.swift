@@ -34,7 +34,7 @@ class FirebaseService: FirebaseServiceProtocol {
                     let data = document.data()
                     print(data)
                     
-                    let teamName = (data?["TeamName"] as? String ?? "Fc ㅋㅋ")
+                    let teamName = (data?["TeamName"] as? String)
                     let teamLogoURL = (data?["TeamLogo"] as? String).flatMap { URL(string: $0) }
                     let homepageURL = (data?["Homepage"] as? String).flatMap { URL(string: $0) }
                     let instagramURL = (data?["Instagram"] as? String).flatMap { URL(string: $0) }
