@@ -77,7 +77,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.addTarget(GatheringTitleTVCell.self, action: #selector("editBtnTap"), for: .touchUpInside)
+		btn.addTarget(GatheringTitleTVCell.self, action: #selector(editBtnTap), for: .touchUpInside)
 		return btn
 	}()
 	
@@ -131,5 +131,9 @@ final class GatheringTitleTVCell: UITableViewCell {
 		let isMaster = currentUser.UID == data.gatheringMaster
 		print(isMaster)
 		editButton.isHidden = !isMaster
+	}
+	
+	@objc func editBtnTap() {
+		print("편집버튼")
 	}
 }

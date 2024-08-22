@@ -39,6 +39,8 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471462C6499650067BD09 /* ProfileCoordinator.swift */; };
 		B82471492C64F81E0067BD09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471482C64F81E0067BD09 /* Coordinator.swift */; };
+		BF08A9582C778A2B00682AB8 /* JoinViewBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08A9572C778A2B00682AB8 /* JoinViewBackgroundView.swift */; };
+		BF08A95A2C778A7400682AB8 /* JoinPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08A9592C778A7400682AB8 /* JoinPopUpView.swift */; };
 		BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */; };
 		BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */; };
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
@@ -61,8 +63,7 @@
 		BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */; };
 		BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDF2C7440130084CA10 /* CommentInputView.swift */; };
 		BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
-		BFD9AEF82C76F21A000C3A20 /* CustomActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */; };
-		BFD9AF012C76F7A2000C3A20 /* ActionSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */; };
+		BFD9AF012C76F7A2000C3A20 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF002C76F7A2000C3A20 /* ActionSheetView.swift */; };
 		BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */; };
 		BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF52D282C6C3A4900AC72C8 /* ViewController.swift */; };
 		BFFFD3E82C7328130053A86B /* currentMemTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E72C7328130053A86B /* currentMemTVCell.swift */; };
@@ -136,6 +137,8 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B82471462C6499650067BD09 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		B82471482C64F81E0067BD09 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		BF08A9572C778A2B00682AB8 /* JoinViewBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewBackgroundView.swift; sourceTree = "<group>"; };
+		BF08A9592C778A7400682AB8 /* JoinPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPopUpView.swift; sourceTree = "<group>"; };
 		BF1283D22C72155000BEAE4C /* BoardButtonTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonTVCell.swift; sourceTree = "<group>"; };
 		BF1283D42C72170B00BEAE4C /* BoardButtonCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardButtonCVCell.swift; sourceTree = "<group>"; };
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
@@ -155,8 +158,7 @@
 		BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardCommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
-		BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheetView.swift; sourceTree = "<group>"; };
-		BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetVC.swift; sourceTree = "<group>"; };
+		BFD9AF002C76F7A2000C3A20 /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BFFFD3E52C7316D40053A86B /* PostBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBtn.swift; sourceTree = "<group>"; };
@@ -309,7 +311,6 @@
 				BFE5B5722C6B7ECB00C0103F /* GatheringDetail */,
 				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
 				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
-				BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */,
 			);
 			path = Gathering;
 			sourceTree = "<group>";
@@ -349,8 +350,10 @@
 				BF358EA92C766D27007F507D /* GatheringDetailModel.swift */,
 				BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */,
 				BFFFD3E52C7316D40053A86B /* PostBtn.swift */,
-				BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */,
+				BFD9AF002C76F7A2000C3A20 /* ActionSheetView.swift */,
 				BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */,
+				BF08A9572C778A2B00682AB8 /* JoinViewBackgroundView.swift */,
+				BF08A9592C778A7400682AB8 /* JoinPopUpView.swift */,
 			);
 			path = GatheringDetail;
 			sourceTree = "<group>";
@@ -605,7 +608,6 @@
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				BF358EAA2C766D27007F507D /* GatheringDetailModel.swift in Sources */,
-				BFD9AEF82C76F21A000C3A20 /* CustomActionSheetView.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */,
@@ -623,11 +625,13 @@
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				B82471472C6499650067BD09 /* ProfileCoordinator.swift in Sources */,
+				BF08A9582C778A2B00682AB8 /* JoinViewBackgroundView.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
+				BF08A95A2C778A7400682AB8 /* JoinPopUpView.swift in Sources */,
 				B824713F2C647FBB0067BD09 /* ProfileVC.swift in Sources */,
-				BFD9AF012C76F7A2000C3A20 /* ActionSheetVC.swift in Sources */,
+				BFD9AF012C76F7A2000C3A20 /* ActionSheetView.swift in Sources */,
 				BFFFD3F22C7341720053A86B /* GatheringBoardDetailContentTVCell.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				BFFFD3F42C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift in Sources */,

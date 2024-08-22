@@ -34,7 +34,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var board: [GatheringDetailVM.BoardData] = [] {
+	var board: [BoardPost] = [] {
 		didSet {
 			tableView.reloadData()
 			updateTableViewHeight()

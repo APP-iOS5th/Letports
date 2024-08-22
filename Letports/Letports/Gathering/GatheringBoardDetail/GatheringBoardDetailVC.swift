@@ -155,6 +155,6 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
-#Preview {
-	GatheringBoardDetailVC(viewModel: GatheringBoardDetailVM())
-}
+//#Preview {
+//	GatheringBoardDetailVC(viewModel: GatheringBoardDetailVM(boardPost: ))
+//}

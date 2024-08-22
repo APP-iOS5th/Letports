@@ -12,11 +12,10 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func didSettingBtnTap()
 	func didJoinBtnTap()
 	func didEditBtnTap()
-	func didRequestReportGathering()
-	func didDeleteidBtnTap()
 	func didNotiRegiBtnTap()
 	func didBoardRegiBtnTap()
 	func didBackBtnTap()
+	func didCellTap(boardPost: BoardPost)
 }
 
 class GatheringDetailCoordinator: Coordinator {
@@ -33,39 +32,37 @@ class GatheringDetailCoordinator: Coordinator {
 		viewController.delegate = self
 		navigationController.pushViewController(viewController, animated: true)
 	}
-}
-
-extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
+	
 	func didSettingBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didJoinBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didEditBtnTap() {
-		<#code#>
-	}
-	
-	func didRequestReportGathering() {
-		<#code#>
-	}
-	
-	func didDeleteidBtnTap() {
-		<#code#>
-	}
-	
-	func didNotiRegiBtnTap() {
-		<#code#>
-	}
-	
-	func didBoardRegiBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didBackBtnTap() {
-		<#code#>
+		
+	}
+}
+
+extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
+	func didCellTap(boardPost: BoardPost) {
+			let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController)
+			childCoordinators.append(boardDetailCoordinator)
+		boardDetailCoordinator.startWithBoardPost(boardPost: boardPost)
+		}
+	
+	func didNotiRegiBtnTap() {
+		
+	}
+	
+	func didBoardRegiBtnTap() {
+		
 	}
 }
 

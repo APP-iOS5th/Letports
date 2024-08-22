@@ -17,19 +17,18 @@ struct GatheringMember {
 }
 
 struct BoardPost {
-	var boardType: String
-	var comments: [Comment]?
-	var contents: String
-	var imageUrls: [String]?
-	var postUID: String
-	var title: String
-	var userUID: String
+	let postUID: String
+	let title: String
+	let contents: String
+	let boardType: String
+	let userUID: String
+	let imageUrls: [String]
 }
 
 struct Comment {
 	// 댓글 구조체 정의
 }
-	
+
 struct Gathering {
 	var gatherImage: String?
 	var gatherName: String?
@@ -40,6 +39,7 @@ struct Gathering {
 	var gatheringMaster: String?
 	var gatheringUid: String?
 	var gatheringMembers: [GatheringMember]?
+	var gatheringQuestion: String?
 }
 
 struct User {

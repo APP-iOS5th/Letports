@@ -18,6 +18,12 @@ enum GatheringBoardDetailCellType {
 
 final class GatheringBoardDetailVM {
 	
+	private let boardPost: BoardPost
+	  
+	  init(boardPost: BoardPost) {
+		  self.boardPost = boardPost
+	  }
+	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
 		cellTypes.append(.boardProfileTitle)

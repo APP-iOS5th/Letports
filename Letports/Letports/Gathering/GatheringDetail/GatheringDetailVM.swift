@@ -12,6 +12,35 @@ import FirebaseFirestore
 
 protocol FirebaseServiceProtocol {
 	func fetchGatheringData(gatheringUid: String) -> AnyPublisher<Gathering, Error>
+	func fetchBoardData() -> AnyPublisher<[BoardPost], Error>
+}
+
+// 게시판 버튼
+protocol ButtonStateDelegate: AnyObject {
+	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
+}
+
+enum GatheringDetailCellType {
+	case gatheringImage
+	case gatheringTitle
+	case gatheringInfo
+	case gatheringProfile
+	case currentMemLabel
+	case boardButtonType
+	case gatheringBoard
+	case separator
+}
+// 게시판버튼 유형
+enum BoardButtonType: String {
+	case all = "All"
+	case noti = "Noti"
+	case free = "Free"
+}
+// 가입상태
+enum MembershipStatus {
+	case notJoined
+	case pending
+	case joined
 }
 
 class FirebaseService: FirebaseServiceProtocol {
@@ -48,6 +77,7 @@ class FirebaseService: FirebaseServiceProtocol {
 				let gatheringCreateDate = data?["GatheringCreateDate"] as? String
 				let gatheringMaster = data?["GatheringMaster"] as? String
 				let gatheringUid = document.documentID
+				let gatherQuestion = data?["GatherQuestion"] as? String
 				
 				// GatheringMembers 데이터 파싱
 				var gatheringMembers: [GatheringMember] = []
@@ -74,48 +104,56 @@ class FirebaseService: FirebaseServiceProtocol {
 					gatheringCreateDate: gatheringCreateDate,
 					gatheringMaster: gatheringMaster,
 					gatheringUid: gatheringUid,
-					gatheringMembers: gatheringMembers
+					gatheringMembers: gatheringMembers,
+					gatheringQuestion: gatherQuestion
 				)
 				promise(.success(gathering))
 			}
 		}
 		.eraseToAnyPublisher()
 	}
+	
+	func fetchBoardData() -> AnyPublisher<[BoardPost], Error> {
+		return Future { promise in
+			let db = Firestore.firestore()
+			db.collection("Board").getDocuments { (snapshot, error) in
+				if let error = error {
+					print("Error fetching board data: \(error)")
+					promise(.failure(error))
+					return
+				}
+				
+				guard let documents = snapshot?.documents else {
+					print("No board documents found")
+					promise(.failure(NSError(domain: "Firestore",
+											 code: -1,
+											 userInfo: [NSLocalizedDescriptionKey: "No board documents found"])))
+					return
+				}
+				
+				let boardPosts: [BoardPost] = documents.compactMap { doc in
+					let data = doc.data()
+					return BoardPost(
+						postUID: doc.documentID,
+						title: data["title"] as? String ?? "",
+						contents: data["contents"] as? String ?? "",
+						boardType: data["boardType"] as? String ?? "",
+						userUID: data["userUID"] as? String ?? "",
+						imageUrls: data["imageUrls"] as? [String] ?? []
+					)
+				}
+				
+				promise(.success(boardPosts))
+			}
+		}
+		.eraseToAnyPublisher()
+	}
 }
-
-// 게시판 버튼
-protocol ButtonStateDelegate: AnyObject {
-	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
-}
-
-
-enum GatheringDetailCellType {
-	case gatheringImage
-	case gatheringTitle
-	case gatheringInfo
-	case gatheringProfile
-	case currentMemLabel
-	case boardButtonType
-	case gatheringBoard
-	case separator
-}
-// 게시판버튼 유형
-enum BoardButtonType {
-	case all
-	case noti
-	case free
-}
-// 가입상태
-enum MembershipStatus {
-	case notJoined
-	case pending
-	case joined
-}
-
 class GatheringDetailVM {
 	@Published var gathering: Gathering?
 	@Published var membershipStatus: MembershipStatus = .joined
 	@Published var selectedBoardType: BoardButtonType = .all
+	@Published var boardData: [BoardPost] = []
 	@Published var masterNickname: String = ""
 	@Published var isMaster: Bool = false
 	
@@ -131,9 +169,29 @@ class GatheringDetailVM {
 	
 	func loadData() {
 		fetchGatheringData()
+		fetchBoardData()
+	}
+	// 게시판 데이터
+	private func fetchBoardData() {
+		firebaseService.fetchBoardData()
+			.sink(receiveCompletion: { completion in
+				switch completion {
+				case .finished:
+					print("게시판 데이터 가져오기 완료")
+				case .failure(let error):
+					print("게시판 데이터 가져오기 에러: \(error)")
+				}
+			}, receiveValue: { [weak self] boardPosts in
+				self?.boardData = boardPosts
+				print("가져온 BoardPost 객체:")
+				print(boardPosts)
+			})
+			.store(in: &cancellables)
 	}
 	
+	// 모임데이터
 	private func fetchGatheringData() {
+		// uid 변경 필수
 		firebaseService.fetchGatheringData(gatheringUid: "gathering012")
 			.sink(receiveCompletion: { completion in
 				switch completion {
@@ -243,38 +301,15 @@ class GatheringDetailVM {
 		joinStatus: "가입중"
 	)
 	
-	struct BoardData {
-		let title: String
-		let createDate: String
-		let boardType: BoardButtonType
-	}
 	
-	var filteredBoardData: [BoardData] {
+	// 게시판 분류
+	var filteredBoardData: [BoardPost] {
 		switch selectedBoardType {
 		case .all:
 			return boardData
 		case .noti, .free:
-			return boardData.filter { $0.boardType == selectedBoardType }
-		}
-	}
-	
-	// 게시판 더미데이터(삭제예정)
-	let boardData = [
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
-	]
-}
-
-
-extension BoardButtonType {
-	var description: String {
-		switch self {
-		case .all:
-			return "전체"
-		case .noti:
-			return "공지"
-		case .free:
-			return "자유"
+			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
 		}
 	}
 }
+

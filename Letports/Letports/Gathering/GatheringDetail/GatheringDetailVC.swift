@@ -9,24 +9,24 @@ import UIKit
 import Combine
 
 final class GatheringDetailVC: UIViewController {
-		private lazy var navigationView: CustomNavigationView = {
-			let screenType: ScreenType
-			let gatheringName = viewModel.gathering?.gatherName ?? "모임"
-			
-			if viewModel.isMaster {
-				screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
-			} else if viewModel.membershipStatus == .joined {
-				screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
-			} else {
-				screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
-			}
-			
-			let cnv = CustomNavigationView(isLargeNavi: .small, screenType: screenType)
-			cnv.delegate = self
-			cnv.backgroundColor = .lp_background_white
-			cnv.translatesAutoresizingMaskIntoConstraints = false
-			return cnv
-		}()
+	private lazy var navigationView: CustomNavigationView = {
+		let screenType: ScreenType
+		let gatheringName = viewModel.gathering?.gatherName ?? "모임"
+		
+		if viewModel.isMaster {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+		} else if viewModel.membershipStatus == .joined {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+		} else {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
+		}
+		
+		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: screenType)
+		cnv.delegate = self
+		cnv.backgroundColor = .lp_background_white
+		cnv.translatesAutoresizingMaskIntoConstraints = false
+		return cnv
+	}()
 	
 	private lazy var joinBtn: JoinBtn = {
 		let btn = JoinBtn()
@@ -78,7 +78,7 @@ final class GatheringDetailVC: UIViewController {
 		setupUI()
 		bindViewModel()
 		viewModel.loadData()
-
+		
 		print("Join button action set: \(joinBtn.actions(forTarget: self, forControlEvent: .touchUpInside) ?? [])")
 	}
 	
@@ -153,6 +153,46 @@ final class GatheringDetailVC: UIViewController {
 		}
 	}
 	
+	//	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+	//		// 이미 화면에 해당 뷰가 있는지 확인
+	//		if existingView == nil {
+	//			let joinBackView = JoinViewBackgroundView(frame: self.view.bounds)
+	//			self.joinBackView = joinBackView
+	//			self.view.addSubview(joinBackView)
+	//			NSLayoutConstraint.activate([
+	//				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
+	//				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+	//				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+	//				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+	//			])
+	//			// 뷰를 생성하고 설정
+	//			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+	//			existingView = T(frame: userViewFrame)
+	//
+	//			if let userView = existingView as? PendingUserView  {
+	//				userView.configure(with: user, with: gathering, viewModel: viewModel)
+	//			}
+	//
+	//			if let userView = existingView as? JoiningUserView {
+	//				userView.configure(with: user, with: gathering)
+	//			}
+	//
+	//			if let userView = existingView {
+	//				userView.center = view.center
+	//
+	//				self.view.addSubview(userView)
+	//				userView.translatesAutoresizingMaskIntoConstraints = false
+	//
+	//				NSLayoutConstraint.activate([
+	//					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+	//					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+	//					userView.widthAnchor.constraint(equalToConstant: width),
+	//					userView.heightAnchor.constraint(equalToConstant: height)
+	//				])
+	//			}
+	//		}
+	//	}
+	
 	// MARK: - Setup
 	private func setupUI() {
 		self.view.backgroundColor = .lp_background_white
@@ -202,14 +242,14 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		switch self.viewModel.getDetailCellTypes()[indexPath.row] {
 		case .gatheringImage:
 			if let cell: GatheringImageTVCell = tableView.loadCell(indexPath: indexPath) {
-				let gatheringImage = viewModel.gathering?.gatherImage 
-					cell.configureCell(data: gatheringImage)
+				let gatheringImage = viewModel.gathering?.gatherImage
+				cell.configureCell(data: gatheringImage)
 				return cell
 			}
 		case .gatheringTitle:
 			if let cell: GatheringTitleTVCell = tableView.loadCell(indexPath: indexPath),
 			   let gathering = viewModel.gathering {
-				cell.configureCell(data: gathering, 
+				cell.configureCell(data: gathering,
 								   currentUser: viewModel.getCurrentUserInfo(),
 								   masterNickname: viewModel.masterNickname)
 				return cell
@@ -261,7 +301,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringTitle:
 			return UITableView.automaticDimension
 		case .gatheringInfo:
-			if let cell = tableView.cellForRow(at: indexPath) as? GatheringDetailInfoTVCell {
+			if let cell = self.tableView.cellForRow(at: indexPath) as? GatheringDetailInfoTVCell {
 				return cell.getHeight()
 			}
 			return UITableView.automaticDimension
@@ -276,6 +316,13 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .currentMemLabel:
 			return UITableView.automaticDimension
 		}
+		
+		// 셀이 눌렸을 떄
+		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+			guard indexPath.row < viewModel.filteredBoardData.count else { return }
+			let selectedBoardPost = viewModel.filteredBoardData[indexPath.row]
+			delegate?.didCellTap(boardPost: selectedBoardPost)
+		}
 	}
 	
 	// MARK: - objc메소드
@@ -289,18 +336,10 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		print("편집버튼")
 	}
 	
-	@objc private func deleteIdBtnTap() {
-		delegate?.didDeleteidBtnTap()
-	}
 	
-	@objc private func reportBtnTap() {
-		delegate?.didRequestReportGathering()
-	}
-	
-	@objc private func cancelBtnTap() {
-		delegate?.didDeleteidBtnTap()
-	}
 }
+
+
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
 	func didSelectBoardType(_ type: BoardButtonType) {

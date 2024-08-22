@@ -27,7 +27,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	}
 	
 	private func updateTextViewHeight() {
-		let newHeight = isExpanded ? expandedHeight : 100
+		let newHeight = isExpanded ? expandedHeight : 50
 		gatheringInfoTextView.constraints.forEach { constraint in
 			if constraint.firstAttribute == .height {
 				constraint.constant = newHeight

@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol ActionSheetViewDelegate: AnyObject {
+	func didDeleteIdBtnTap()
+	func didRequestReportGathering()
+	func didCancelBtnTap()
+}
+
 class ActionSheetView: UIView {
+	
+	weak var delegate: ActionSheetViewDelegate?
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -89,6 +97,17 @@ class ActionSheetView: UIView {
 		cancelButton.addTarget(self, action: #selector(cancelBtnTap), for: .touchUpInside)
 	}
 	
+	@objc private func deleteIdBtnTap() {
+		delegate?.didDeleteIdBtnTap()
+	}
+	
+	@objc private func reportBtnTap() {
+		delegate?.didRequestReportGathering()
+	}
+	
+	@objc private func cancelBtnTap() {
+		delegate?.didCancelBtnTap()
+	}
 	
 }
 

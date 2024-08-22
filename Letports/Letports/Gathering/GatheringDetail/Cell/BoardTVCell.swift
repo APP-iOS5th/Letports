@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol BoardTVCellDelegate: AnyObject {
+	func didTapBoardCell(_ cell: BoardTVCell, boardPost: BoardPost)
+}
+
 final class BoardTVCell: UITableViewCell {
+	
+	weak var delegate: BoardTVCellDelegate?
+	private var boardPost: BoardPost?
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -98,14 +105,23 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: GatheringDetailVM.BoardData) {
-		createDateLabel.text = data.createDate
-		boardTypeLabel.text = data.boardType.description
-		titleLabel.text = data.title
+	func configureCell(data: BoardPost) {
+//		createDateLabel.text = data.createDate (데이터 없음)
+		self.boardPost = data
+		switch data.boardType {
+		   case "Free":
+			   boardTypeLabel.text = "자유"
+		   case "Noti":
+			   boardTypeLabel.text = "공지"
+		   default:
+			   boardTypeLabel.text = "전체"
+		   }
+		titleLabel.text = data.contents
 	}
 	
 	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
+		guard let boardPost = boardPost else { return }
+		delegate?.didTapBoardCell(self, boardPost: boardPost)
 	}
 }
 
