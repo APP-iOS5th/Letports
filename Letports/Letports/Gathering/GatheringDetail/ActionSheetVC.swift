@@ -7,14 +7,7 @@
 
 import UIKit
 
-protocol ActionSheetViewDelegate: AnyObject {
-	func didTapLeaveGathering()
-	func didTapReportGathering()
-	func didTapCancel()
-}
-
-class ActionSheetVC: UIViewController {
-	weak var delegate: ActionSheetViewDelegate?
+class ActionSheetView: UIView {
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -25,87 +18,80 @@ class ActionSheetVC: UIViewController {
 		return view
 	}()
 	
-	private let leaveButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("모임나가기", for: .normal)
-		button.setTitleColor(.black, for: .normal)
-		return button
+	private let deleteIdBtn: UIButton = {
+		let btn = UIButton(type: .system)
+		btn.setTitle("모임나가기", for: .normal)
+		btn.setTitleColor(.black, for: .normal)
+		return btn
 	}()
 	
-	private let reportButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("모임 신고하기", for: .normal)
-		button.setTitleColor(.red, for: .normal)
-		return button
+	private let reportBtn: UIButton = {
+		let btn = UIButton(type: .system)
+		btn.setTitle("모임 신고하기", for: .normal)
+		btn.setTitleColor(.red, for: .normal)
+		return btn
 	}()
 	
 	private let cancelButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.setTitle("취소", for: .normal)
-		button.setTitleColor(.black, for: .normal)
-		button.backgroundColor = .systemGray6
-		return button
+		let btn = UIButton(type: .system)
+		btn.setTitle("취소", for: .normal)
+		btn.setTitleColor(.black, for: .normal)
+		btn.backgroundColor = .systemGray6
+		return btn
 	}()
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 		setupView()
 	}
 	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
 	private func setupView() {
-		view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+		backgroundColor = UIColor.black.withAlphaComponent(0.5)
 		
-		view.addSubview(containerView)
-		containerView.addSubview(leaveButton)
-		containerView.addSubview(reportButton)
+		addSubview(containerView)
+		containerView.addSubview(deleteIdBtn)
+		containerView.addSubview(reportBtn)
 		containerView.addSubview(cancelButton)
 		
 		containerView.translatesAutoresizingMaskIntoConstraints = false
-		leaveButton.translatesAutoresizingMaskIntoConstraints = false
-		reportButton.translatesAutoresizingMaskIntoConstraints = false
+		deleteIdBtn.translatesAutoresizingMaskIntoConstraints = false
+		reportBtn.translatesAutoresizingMaskIntoConstraints = false
 		cancelButton.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
 			
-			leaveButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-			leaveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-			leaveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-			leaveButton.heightAnchor.constraint(equalToConstant: 50),
+			deleteIdBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+			deleteIdBtn.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+			deleteIdBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+			deleteIdBtn.heightAnchor.constraint(equalToConstant: 50),
 			
-			reportButton.topAnchor.constraint(equalTo: leaveButton.bottomAnchor),
-			reportButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-			reportButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-			reportButton.heightAnchor.constraint(equalToConstant: 50),
+			reportBtn.topAnchor.constraint(equalTo: deleteIdBtn.bottomAnchor),
+			reportBtn.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+			reportBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+			reportBtn.heightAnchor.constraint(equalToConstant: 50),
 			
-			cancelButton.topAnchor.constraint(equalTo: reportButton.bottomAnchor, constant: 10),
+			cancelButton.topAnchor.constraint(equalTo: reportBtn.bottomAnchor, constant: 10),
 			cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
 			cancelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 			cancelButton.heightAnchor.constraint(equalToConstant: 50),
 			cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
 		])
 		
-		leaveButton.addTarget(self, action: #selector(leaveButtonTapped), for: .touchUpInside)
-		reportButton.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
-		cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+		deleteIdBtn.addTarget(self, action: #selector(deleteIdBtnTap), for: .touchUpInside)
+		reportBtn.addTarget(self, action: #selector(reportBtnTap), for: .touchUpInside)
+		cancelButton.addTarget(self, action: #selector(cancelBtnTap), for: .touchUpInside)
 	}
 	
-	@objc private func leaveButtonTapped() {
-		delegate?.didTapLeaveGathering()
-	}
 	
-	@objc private func reportButtonTapped() {
-		delegate?.didTapReportGathering()
-	}
-	
-	@objc private func cancelButtonTapped() {
-		delegate?.didTapCancel()
-		dismiss(animated: true, completion: nil)
-	}
 }
 
 #Preview {
-	ActionSheetVC()
+	ActionSheetView(frame: UIScreen.main.bounds)
 }

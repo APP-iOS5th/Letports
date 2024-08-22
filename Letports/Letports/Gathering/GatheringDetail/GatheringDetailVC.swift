@@ -288,6 +288,18 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	@objc private func editBtnTap() {
 		print("편집버튼")
 	}
+	
+	@objc private func deleteIdBtnTap() {
+		delegate?.didDeleteidBtnTap()
+	}
+	
+	@objc private func reportBtnTap() {
+		delegate?.didRequestReportGathering()
+	}
+	
+	@objc private func cancelBtnTap() {
+		delegate?.didDeleteidBtnTap()
+	}
 }
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
