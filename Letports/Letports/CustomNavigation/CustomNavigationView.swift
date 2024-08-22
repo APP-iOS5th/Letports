@@ -18,6 +18,9 @@ enum NaviButtonType {
     case ellipsis
     case gear
     case create
+    case save
+    case write
+    case update
     case alert
     case empty
     
@@ -29,6 +32,12 @@ enum NaviButtonType {
             return "gearshape.fill"
         case .create:
             return "생성"
+        case .save:
+            return "저장"
+        case .write:
+            return "작성"
+        case .update:
+            return "수정"
         case .alert:
             return "bell"
         case .empty:
@@ -47,14 +56,18 @@ enum ScreenType {
     case largeProfile(btnName: NaviButtonType = .gear)
     /// Gathering Detail  Screen
     case smallGathering(gatheringName: String, btnName: NaviButtonType)
+    /// Gathering Board Editor
+    case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
     /// Profile Detail  Screen
     case smallProfile
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
-    /// Create Gathering Screen
-    case smallCreateGathering(btnName: NaviButtonType)
+    /// Gathering Upload, Update Screen
+    case smallUploadGathering(btnName: NaviButtonType, isUpdate: Bool)
     /// Setting Screen
     case smallSetting
+    /// Profile Edit
+    case smallEditProfile(btnName: NaviButtonType)
     
     
     var title: String {
@@ -68,14 +81,18 @@ enum ScreenType {
         case .smallGathering(let gatheringName, _):
             //모임명으로 바뀌어야함
             return gatheringName
+        case .smallBoardEditor(_, let isUpload):
+            return isUpload ? "게시글 작성" : "게시글 수정"
         case .smallProfile:
             return "프로필"
         case .smallGatheringSetting:
             return "소모임 설정"
-        case .smallCreateGathering:
-            return "소모임 생성"
+        case .smallUploadGathering(_, let isUpdate):
+            return isUpdate ? "소모임 수정" : "소모임 생성"
         case .smallSetting:
             return "설정"
+        case .smallEditProfile:
+            return "프로필 수정"
         }
     }
     
@@ -85,8 +102,9 @@ enum ScreenType {
         case .largeProfile(let btnName),
                 .smallGathering(_, let btnName),
                 .smallGatheringSetting(let btnName),
-                .smallCreateGathering(let btnName):
-            
+                .smallBoardEditor(let btnName, _),
+                .smallUploadGathering(let btnName, _),
+                .smallEditProfile(let btnName):
             return btnName.buttonName
         default:
             return ""
@@ -218,9 +236,19 @@ class CustomNavigationView: UIView {
         }
     }
     
-    var screenType: ScreenType = .largeGathering
-    
     weak var delegate: CustomNavigationDelegate?
+    
+    var screenType: ScreenType = .largeGathering {
+        didSet {
+            setupUI()
+        }
+    }
+    
+    init(isLargeNavi: NaviSize) {
+        self.isLargeNavi = isLargeNavi
+        super.init(frame: .zero)
+        setupUI()
+    }
     
     init(isLargeNavi: NaviSize, screenType: ScreenType) {
         self.isLargeNavi = isLargeNavi
@@ -330,7 +358,7 @@ class CustomNavigationView: UIView {
         
         var buttonImage = UIImage(systemName: "arrow.backward")
         switch self.screenType {
-        case .smallCreateGathering:
+        case .smallUploadGathering:
             buttonImage = UIImage(systemName: "xmark")
         default:
             buttonImage = UIImage(systemName: "arrow.backward")

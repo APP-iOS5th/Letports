@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SeparatorTVCell: UITableViewCell {
+class SeperatorLineTVCell: UITableViewCell {
 
     private(set) lazy var separatorView: UIView = {
         let view = UIView()

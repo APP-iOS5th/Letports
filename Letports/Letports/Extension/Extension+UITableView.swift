@@ -31,7 +31,7 @@ extension UITableView {
     ///위와 같은 형태로 사용 가능.
     ///
     ///Cell은 제한 없이 넣을 수 있음.
-    func rsgistersCell(cellClasses: AnyClass...) {
+    func registersCell(cellClasses: AnyClass...) {
         cellClasses.forEach { cellClass in
             self.register(cellClass: cellClass)
         }

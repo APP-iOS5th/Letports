@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import KoTextCountLimit
 
 class GatheringUploadInfoTVCell: UITableViewCell {
+    private let koTextLimit = KoTextCountLimit()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
@@ -72,66 +75,28 @@ class GatheringUploadInfoTVCell: UITableViewCell {
         
     }
     
+    func configureCell(infoText: String?) {
+        guard let infoText = infoText else { return }
+        self.contentTextView.text = infoText
+        self.textCountCheck(text: infoText)
+    }
     
-    
+    private func textCountCheck(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.textCountLabel.text = "\(text.count)/1000"
+        }
+    }
 }
 
 extension GatheringUploadInfoTVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        textCountLabel.text = "\(textView.text.count)/1000"
+        textCountCheck(text: textView.text)
         self.delegate?.sendGatehrInfo(content: contentTextView.text)
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // 백스페이스 확인
-        if let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
-            return true
-        }
-        
-        // 최대 길이 확인
-        if textView.text.count >= 1000 {
-            return handleTextChange(textView, replacementText: text)
-        }
-        
-        return true
-    }
-    
-    private func handleTextChange(_ textView: UITextView, replacementText text: String) -> Bool {
-        // 받침 여부에 따른 처리
-        let hasPostPosition = postPositionText(textView.text)
-        let isConsonantChar = isConsonant(Character(text))
-        let isVowelChar = isVowel(Character(text))
-        
-        if !hasPostPosition && isConsonantChar {
-            return textView.text.utf16.count + text.count < 1001 || !isVowelChar
-        } else if hasPostPosition && !isConsonantChar {
-            guard let lastText = textView.text.last else { return false }
-            if isConsonant(lastText) {
-                return true
-            } else {
-                return textView.text.count > 1001 ? isVowelChar : false
-            }
-        } else {
-            return false
-        }
-    }
-    
-    private func postPositionText(_ inputText: String) -> Bool {
-        guard let lastText = inputText.last else { return false }
-        guard let unicodeVal = UnicodeScalar(String(lastText))?.value, 0xAC00...0xD7A3 ~= unicodeVal else {
-            return false
-        }
-        let last = (unicodeVal - 0xAC00) % 28
-        return last > 0
-    }
-    
-    private func isConsonant(_ character: Character) -> Bool {
-        guard let unicodeScalarValue = character.unicodeScalars.first?.value else { return false }
-        return 0x3131...0x314E ~= unicodeScalarValue
-    }
-    
-    private func isVowel(_ character: Character) -> Bool {
-        guard let unicodeScalarValue = character.unicodeScalars.first?.value else { return false }
-        return (0x314F...0x3163 ~= unicodeScalarValue) || unicodeScalarValue == 0x318D
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, 
+                  replacementText text: String) -> Bool {
+        return koTextLimit.shouldChangeText(for: textView, in: range, 
+                                            replacementText: text, maxCharacterLimit: 1000)
     }
 }
