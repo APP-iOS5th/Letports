@@ -73,24 +73,19 @@ class GatherSettingVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$gathering
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$pendingGatheringMembers
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$joiningGatheringMembers
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
+        Publishers.CombineLatest3(
+            viewModel.$gathering,
+            viewModel.$pendingGatheringMembers,
+            viewModel.$joiningGatheringMembers
+        )
+        .sink { [weak self] (gathering, pendingMembers, joiningMembers) in
+            self?.handleUpdates(gathering: gathering, pendingMembers: pendingMembers, joiningMembers: joiningMembers)
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func handleUpdates(gathering: Gathering?, pendingMembers: [GatheringMember], joiningMembers: [GatheringMember]) {
+        tableView.reloadData()
     }
     
     private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
@@ -182,7 +177,6 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .pendingGatheringUserTtitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 cell.configure(withTitle: "가입 신청 인원")
                 return cell
             }
@@ -191,7 +185,6 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let startIndex = 1
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.pendingGatheringMembers.count {
-                    cell.backgroundColor = .lp_background_white
                     let user = viewModel.pendingGatheringMembers[userIndex]
                     cell.configure(with: user)
                 }
@@ -199,7 +192,6 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .joiningGatheringUserTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 cell.configure(withTitle: "가입 중 인원")
                 return cell
             }
@@ -209,20 +201,17 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.joiningGatheringMembers.count {
                     let user = viewModel.joiningGatheringMembers[userIndex]
-                    cell.backgroundColor = .lp_background_white
                     cell.configure(with: user)
                 }
                 return cell
             }
         case .settingTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 cell.configure(withTitle: "설정")
                 return cell
             }
         case .deleteGathering:
             if let cell: GatherDeleteTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 return cell
             }
         }
