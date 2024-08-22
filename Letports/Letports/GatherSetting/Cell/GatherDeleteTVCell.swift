@@ -28,6 +28,7 @@ class GatherDeleteTVCell: UITableViewCell {
     }
     
     func setupUI() {
+        self.backgroundColor = .lp_background_white
         contentView.addSubview(TitleLabel)
         NSLayoutConstraint.activate([
             TitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),

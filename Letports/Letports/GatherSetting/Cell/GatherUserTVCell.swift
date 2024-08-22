@@ -56,6 +56,7 @@ class GatherUserTVCell: UITableViewCell {
     
     
     private func setupUI() {
+        self.backgroundColor = .lp_background_white
         contentView.addSubview(containerView)
         [profileIV, nickNameLabel, simpleInfoLabel, ].forEach {
             containerView.addSubview($0)
