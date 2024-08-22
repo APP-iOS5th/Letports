@@ -68,10 +68,8 @@ class GatherUserTVCell: UITableViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
+            containerView.heightAnchor.constraint(equalToConstant: 50),
+            
             profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
             profileIV.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             profileIV.widthAnchor.constraint(equalToConstant: 44),

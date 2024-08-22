@@ -17,7 +17,7 @@ class PendingUserView: UIView {
     private var viewModel: GatherSettingVM!
     private var currentUser: GatheringMember?
     private var currentGathering: Gathering?
-   
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -104,14 +104,13 @@ class PendingUserView: UIView {
         [titleLabel, plzAnswerLabel, questionTextView, answerTextView, denyButton, applyButton].forEach {
             containerView.addSubview($0)
         }
+        
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 468)
-        ])
-        
-        NSLayoutConstraint.activate([
+            containerView.heightAnchor.constraint(equalToConstant: 468),
+            
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
