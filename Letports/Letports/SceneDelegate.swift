@@ -20,15 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let navigationController = UINavigationController()
         
 //        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
-//        mainCoordinator?.start()
-        
+//        mainCoordinator?.start()        
 //        window?.rootViewController = GatheringUploadVC(viewModel: GatheringUploadVM())
         
         
         let post = SamplePost(postUID: "DEEB99E9-F385-4B54-BEA8-3D6C3794DF8F", userUID: "몰루", title: "Asdfasdfas", contents: "Dfasdfasdfasdf", imageUrls: ["https://firebasestorage.googleapis.com:443/v0/b/letports-81f7f.appspot.com/o/Board_Upload_Images%2F4A37A30D-75DF-4C12-AC6D-20628FB5E1291724128102.612148?alt=media&token=558be13d-e800-4978-a9d1-18ffdc36088f", "https://firebasestorage.googleapis.com:443/v0/b/letports-81f7f.appspot.com/o/Board_Upload_Images%2F00703690-A5FE-468E-9DB5-B240C4B3BB241724128102.6057038?alt=media&token=cf7da634-8a06-4ec8-a48f-9962e77d5a87"], comments: [], boardType: "Free")
         window?.rootViewController = BoardEditorVC(viewModel: BoardEditorVM())
+
         window?.makeKeyAndVisible()
-        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
