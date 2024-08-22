@@ -2,7 +2,7 @@
 
 import UIKit
 
-class LoginCoordinator: Coordinator {
+class AuthCoordinator: Coordinator {
     weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
@@ -20,7 +20,7 @@ class LoginCoordinator: Coordinator {
             }
         }
         viewModel.loginFailure = { error in
-            print("LoginCoordinator: Login failed: \(error.localizedDescription)")
+            print("AuthCoordinator: Login failed: \(error.localizedDescription)")
         }
         
         let authVC = AuthVC(viewModel: viewModel, authService: authService)

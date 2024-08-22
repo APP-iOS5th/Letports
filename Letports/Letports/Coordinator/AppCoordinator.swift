@@ -25,10 +25,10 @@ class AppCoordinator: Coordinator {
     
     func showAuthView() {
         navigationController.viewControllers.removeAll()
-        let loginCoordinator = LoginCoordinator(navigationController: navigationController)
-        loginCoordinator.parentCoordinator = self
-        childCoordinators = [loginCoordinator]
-        loginCoordinator.start()
+        let AuthCoordinator = AuthCoordinator(navigationController: navigationController)
+        AuthCoordinator.parentCoordinator = self
+        childCoordinators = [AuthCoordinator]
+        AuthCoordinator.start()
     }
     
     func showMainView() {
