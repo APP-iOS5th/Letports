@@ -236,9 +236,19 @@ class CustomNavigationView: UIView {
         }
     }
     
-    var screenType: ScreenType = .largeGathering
-    
     weak var delegate: CustomNavigationDelegate?
+    
+    var screenType: ScreenType = .largeGathering {
+        didSet {
+            setupUI()
+        }
+    }
+    
+    init(isLargeNavi: NaviSize) {
+        self.isLargeNavi = isLargeNavi
+        super.init(frame: .zero)
+        setupUI()
+    }
     
     init(isLargeNavi: NaviSize, screenType: ScreenType) {
         self.isLargeNavi = isLargeNavi
