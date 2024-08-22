@@ -11,14 +11,15 @@ import Combine
 class ProfileEditVC: UIViewController {
     private var viewModel: ProfileEditVM
     private var cancellables: Set<AnyCancellable> = []
-        init(viewModel: ProfileEditVM) {
-            self.viewModel = viewModel
-            super.init(nibName: nil, bundle: nil)
-        }
-
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+    
+    init(viewModel: ProfileEditVM) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var navigationView: CustomNavigationView = {
         let btnName: NaviButtonType
@@ -26,6 +27,7 @@ class ProfileEditVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     lazy var profileEditView: ProfileEditView = {
         let view = ProfileEditView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -59,19 +61,19 @@ class ProfileEditVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.$user
-                    .receive(on: RunLoop.main)
-                    .sink { [weak self] user in
-                        guard let self = self, let user = user else { return }
-                        self.profileEditView.nickNameTextField.text = user.nickname
-                        self.profileEditView.simpleInfoTextField.text = user.simpleInfo
-                    }
-                    .store(in: &cancellables)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] user in
+                guard let self = self, let user = user else { return }
+                self.profileEditView.nickNameTextField.text = user.nickname
+                self.profileEditView.simpleInfoTextField.text = user.simpleInfo
+            }
+            .store(in: &cancellables)
         
-
+        
     }
     
     @objc private func profileImageButtonTapped() {
-//        coordinator?.showImagePickerController()
+        //        coordinator?.showImagePickerController()
     }
     
     
@@ -82,7 +84,7 @@ class ProfileEditVC: UIViewController {
 
 extension ProfileEditVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-   
+    
     
     
     

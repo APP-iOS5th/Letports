@@ -10,11 +10,11 @@ import UIKit
 
 class ProfileEditVM {
     @Published var user: User?
-
-        init(user: User?) {
-            self.user = user
-        }
-   
+    
+    init(user: User?) {
+        self.user = user
+    }
+    
 }
 
 
