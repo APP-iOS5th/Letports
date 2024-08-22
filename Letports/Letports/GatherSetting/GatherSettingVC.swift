@@ -10,7 +10,6 @@ import Combine
 class GatherSettingVC: UIViewController {
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
-    private let cellHeight: CGFloat = 70.0
     private var pendingUserView: PendingUserView?
     private var joiningUserView: JoiningUserView?
     private var dimmingView: DimmedBackgroundView?
@@ -79,13 +78,9 @@ class GatherSettingVC: UIViewController {
             viewModel.$joiningGatheringMembers
         )
         .sink { [weak self] (gathering, pendingMembers, joiningMembers) in
-            self?.handleUpdates(gathering: gathering, pendingMembers: pendingMembers, joiningMembers: joiningMembers)
+            self?.tableView.reloadData()
         }
         .store(in: &cancellables)
-    }
-    
-    private func handleUpdates(gathering: Gathering?, pendingMembers: [GatheringMember], joiningMembers: [GatheringMember]) {
-        tableView.reloadData()
     }
     
     private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
@@ -227,6 +222,5 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             return 60.0
         }
     }
-    
     
 }

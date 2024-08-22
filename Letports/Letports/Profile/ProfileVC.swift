@@ -12,8 +12,6 @@ import Kingfisher
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
-    private let cellHeight: CGFloat = 70.0
-    
     weak var coordinator: ProfileCoordinator?
     
     init(viewModel: ProfileVM) {
@@ -73,6 +71,7 @@ class ProfileVC: UIViewController {
         ])
         
     }
+    
     private func bindViewModel() {
         Publishers.CombineLatest3(
             viewModel.$user,
@@ -80,13 +79,9 @@ class ProfileVC: UIViewController {
             viewModel.$pendingGatherings
         )
         .sink { [weak self] (user, myGathering, pendingGathering) in
-            self?.handleUpdates(user: user, myGathering: myGathering, pendingGathering: pendingGathering)
+            self?.tableView.reloadData()
         }
         .store(in: &cancellables)
-    }
-    
-    private func handleUpdates(user: User?, myGathering: [Gathering], pendingGathering: [Gathering]) {
-        tableView.reloadData()
     }
     
     @objc private func editProfile() {
@@ -94,10 +89,8 @@ class ProfileVC: UIViewController {
         guard let user = viewModel.user else { return }
         coordinator?.showEditProfile(user: user)
     }
-    
-    
-}
 
+}
 
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
