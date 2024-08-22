@@ -119,12 +119,12 @@ class GatheringDetailVM {
 	@Published var masterNickname: String = ""
 	@Published var isMaster: Bool = false
 	
-	private let currentUser: User // 현재 사용자 정보
+	private let currentUser: LeportsUser // 현재 사용자 정보
 	private let firebaseService: FirebaseServiceProtocol
 	
 	var cancellables = Set<AnyCancellable>()
 	
-	init(currentUser: User, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
+	init(currentUser: LeportsUser, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
 		self.currentUser = currentUser
 		self.firebaseService = firebaseService
 	}
@@ -178,7 +178,7 @@ class GatheringDetailVM {
 		isMaster = currentUser.UID == gatheringMaster
 	}
 	// 현재 사용자 정보
-	func getCurrentUserInfo() -> User {
+	func getCurrentUserInfo() -> LeportsUser {
 		return currentUser
 	}
 	// 가입중인지 아닌지
@@ -229,7 +229,7 @@ class GatheringDetailVM {
 	}
 	
 	// 예시 사용자
-	static let dummyUser = User(
+	static let dummyUser = LeportsUser (
 		UID: "user013",
 		nickName: "완벽수비",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",

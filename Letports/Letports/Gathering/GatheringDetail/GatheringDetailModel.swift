@@ -42,7 +42,7 @@ struct Gathering {
 	var gatheringMembers: [GatheringMember]?
 }
 
-struct User {
+struct LeportsUser {
 	var UID: String
 	var nickName: String
 	var image: String

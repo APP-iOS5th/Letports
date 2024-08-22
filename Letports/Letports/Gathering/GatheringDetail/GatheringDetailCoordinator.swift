@@ -37,35 +37,35 @@ class GatheringDetailCoordinator: Coordinator {
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func didSettingBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didJoinBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didEditBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didRequestReportGathering() {
-		<#code#>
+		
 	}
 	
 	func didDeleteidBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didNotiRegiBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didBoardRegiBtnTap() {
-		<#code#>
+		
 	}
 	
 	func didBackBtnTap() {
-		<#code#>
+		
 	}
 }
 

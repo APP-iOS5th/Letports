@@ -401,7 +401,3 @@ class CustomNavigationView: UIView {
 }
 
 
-#Preview {
-    ViewController()
-}
-

@@ -77,7 +77,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.addTarget(GatheringTitleTVCell.self, action: #selector("editBtnTap"), for: .touchUpInside)
+//		btn.addTarget(GatheringTitleTVCell.self, action: #selector("editBtnTap"), for: .touchUpInside)
 		return btn
 	}()
 	
@@ -119,7 +119,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: Gathering, currentUser: User, masterNickname: String) {
+	func configureCell(data: Gathering, currentUser: LeportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
 		print(titleLabel.text ?? "없음")
 		masterNameLabel.text = "모임장: \(masterNickname)"
