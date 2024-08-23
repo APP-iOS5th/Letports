@@ -17,6 +17,7 @@ class ProfileVM {
     @Published var pendingGatherings: [Gathering] = []
    
     private var cancellables = Set<AnyCancellable>()
+    weak var delegate: ProfileCoordinatorDelegate?
     
     private var cellType: [ProfileCellType] {
         var cellTypes: [ProfileCellType] = []
@@ -42,6 +43,14 @@ class ProfileVM {
     
     init() {
         loadUser()
+    }
+    
+    func didTapDismiss() {
+        self.delegate?.dismissViewController()
+    }
+    
+    func photoUploadButtonTapped() {
+        self.delegate?.presentEditProfileController(user: user!)
     }
     
     func loadUser() {

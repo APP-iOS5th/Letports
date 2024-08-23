@@ -5,10 +5,15 @@ import FirebaseAuth
 import Combine
 import Kingfisher
 
+
+protocol ProfileDelegate: AnyObject {
+    func didTapEditProfileButton()
+}
+
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
-    weak var coordinator: ProfileCoordinator?
+
     
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
@@ -65,7 +70,6 @@ class ProfileVC: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
     }
     
     private func bindViewModel() {
@@ -78,12 +82,6 @@ class ProfileVC: UIViewController {
             self?.tableView.reloadData()
         }
         .store(in: &cancellables)
-    }
-    
-    @objc private func editProfile() {
-        print("눌림")
-        guard let user = viewModel.user else { return }
-        coordinator?.showEditProfile(user: user)
     }
 
 }
@@ -104,22 +102,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             return nil // 선택 불가
         }
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cellType = viewModel.getCellTypes()[indexPath.row]
 
-        switch cellType {
-        case .myGatherings:
-            // 셀 간 간격을 추가하는 방법
-            cell.contentView.layoutMargins = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-            cell.contentView.backgroundColor = .clear
-
-        default:
-            break
-        }
-    }
-    
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
@@ -140,20 +123,17 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
-                cell.setEditButtonAction(target: self, action: #selector(editProfile))
+                cell.delegate = self
                 cell.configure(with: viewModel.user!)
                 return cell
             }
         case .myGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(withTitle: "내 소모임")
-                cell.backgroundColor = .lp_background_white
                 return cell
             }
         case .myGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
@@ -164,13 +144,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 cell.configure(withTitle: "가입 대기중 소모임")
                 return cell
             }
         case .pendingGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 let startIndex = 2 + viewModel.myGatherings.count + 1
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
@@ -185,8 +163,14 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+extension ProfileVC: ProfileDelegate {
+    func didTapEditProfileButton() {
+        self.viewModel.photoUploadButtonTapped()
+    }
+}
+
 extension ProfileVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-    
+        print("셋팅뷰이동")
     }
 }
