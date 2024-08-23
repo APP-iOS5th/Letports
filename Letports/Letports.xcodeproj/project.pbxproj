@@ -19,7 +19,6 @@
 		410BBCB62C778F1D00FE2E18 /* BoardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */; };
 		410BBCB82C778F6A00FE2E18 /* BoardEditorTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */; };
 		410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */; };
-		410BBCBC2C779B6700FE2E18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */; };
 		410BBCBF2C77A59B00FE2E18 /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */; };
 		410BBCC22C77B17500FE2E18 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBCC12C77B17400FE2E18 /* Extension+Color.swift */; };
 		410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */; };
@@ -120,6 +119,10 @@
 		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
+		D877C9712C7866A2008C4695 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D877C9702C7866A2008C4695 /* GoogleService-Info.plist */; };
+		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
+		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
+		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,7 +146,6 @@
 		410BBC9B2C778C9B00FE2E18 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		410BBC9C2C778C9B00FE2E18 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		410BBCA22C778D5E00FE2E18 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
-		410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
 		410BBCC12C77B17400FE2E18 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetportsUser.swift; sourceTree = "<group>"; };
@@ -242,7 +244,6 @@
 		D8299F562C776313003D29AC /* ProfileEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditVC.swift; sourceTree = "<group>"; };
 		D8299F572C776313003D29AC /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		D8299F582C776313003D29AC /* ProfileEditVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditVM.swift; sourceTree = "<group>"; };
-		D8299F5E2C776331003D29AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8299F622C776425003D29AC /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		D8299F692C776555003D29AC /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		D8299F6E2C777D03003D29AC /* Sports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
@@ -251,6 +252,10 @@
 		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		D877C9702C7866A2008C4695 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
+		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
+		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,11 +540,10 @@
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
-				410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */,
 				410BBCA22C778D5E00FE2E18 /* Letports.entitlements */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
 				410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */,
-				D8299F5E2C776331003D29AC /* GoogleService-Info.plist */,
+				D877C9702C7866A2008C4695 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -618,6 +622,7 @@
 		D8299F592C776313003D29AC /* ProfileEdit */ = {
 			isa = PBXGroup;
 			children = (
+				D877C9742C789A8F008C4695 /* Cell */,
 				D8299F552C776313003D29AC /* ProfileEditCoordinator.swift */,
 				D8299F562C776313003D29AC /* ProfileEditVC.swift */,
 				D8299F572C776313003D29AC /* ProfileEditView.swift */,
@@ -632,6 +637,16 @@
 				D8299F452C77622C003D29AC /* SettingVC.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		D877C9742C789A8F008C4695 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */,
+				D877C9792C789B8C008C4695 /* NickNameTVCell.swift */,
+				D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -753,8 +768,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				410BBCBC2C779B6700FE2E18 /* GoogleService-Info.plist in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
+				D877C9712C7866A2008C4695 /* GoogleService-Info.plist in Resources */,
 				410BBCBF2C77A59B00FE2E18 /* Auth.xcconfig in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
 			);
@@ -788,6 +803,7 @@
 				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
 				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
 				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
+				D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */,
 				D8299F6A2C776555003D29AC /* ProfileVC.swift in Sources */,
 				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,
 				410BBCC62C77B5C900FE2E18 /* LetportsUser.swift in Sources */,
@@ -802,6 +818,7 @@
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,
 				B85FD83C2C75AC2B007B4962 /* AppCoordinator.swift in Sources */,
 				D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */,
+				D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
@@ -856,6 +873,7 @@
 				D8299F5C2C776313003D29AC /* ProfileEditVC.swift in Sources */,
 				D8299F5D2C776313003D29AC /* ProfileEditVM.swift in Sources */,
 				D8299F332C776219003D29AC /* DimmedBackgroundView.swift in Sources */,
+				D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */,
 				D8299F342C776219003D29AC /* GatherSectionTVCell.swift in Sources */,
 				D8299F352C776219003D29AC /* GatherSettingCoordinator.swift in Sources */,
 				D8299F362C776219003D29AC /* GatherSettingVM.swift in Sources */,
