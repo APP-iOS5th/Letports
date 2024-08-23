@@ -20,7 +20,6 @@
 		410BBCB82C778F6A00FE2E18 /* BoardEditorTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */; };
 		410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */; };
 		410BBCBC2C779B6700FE2E18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */; };
-		410BBCBF2C77A59B00FE2E18 /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */; };
 		410BBCC22C77B17500FE2E18 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBCC12C77B17400FE2E18 /* Extension+Color.swift */; };
 		410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */; };
 		410BBCC62C77B5C900FE2E18 /* LetportsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */; };
@@ -120,6 +119,7 @@
 		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
+		F703EC2F2C78694A003C994C /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F703EC2E2C786949003C994C /* Auth.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,9 +142,7 @@
 /* Begin PBXFileReference section */
 		410BBC9B2C778C9B00FE2E18 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		410BBC9C2C778C9B00FE2E18 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
-		410BBCA22C778D5E00FE2E18 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
 		410BBCC12C77B17400FE2E18 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetportsUser.swift; sourceTree = "<group>"; };
 		4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionView.swift"; sourceTree = "<group>"; };
@@ -251,6 +249,8 @@
 		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		F703EC2E2C786949003C994C /* Auth.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
+		F703EC302C78695E003C994C /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,10 +535,10 @@
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
+				F703EC2E2C786949003C994C /* Auth.xcconfig */,
 				410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */,
-				410BBCA22C778D5E00FE2E18 /* Letports.entitlements */,
+				F703EC302C78695E003C994C /* Letports.entitlements */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
-				410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */,
 				D8299F5E2C776331003D29AC /* GoogleService-Info.plist */,
 			);
 			path = Letports;
@@ -754,8 +754,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				410BBCBC2C779B6700FE2E18 /* GoogleService-Info.plist in Resources */,
+				F703EC2F2C78694A003C994C /* Auth.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				410BBCBF2C77A59B00FE2E18 /* Auth.xcconfig in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -930,7 +930,6 @@
 /* Begin XCBuildConfiguration section */
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -994,7 +993,6 @@
 		};
 		D8201FD42C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 410BBCBE2C77A2FC00FE2E18 /* Auth.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
