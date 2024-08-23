@@ -16,7 +16,7 @@ protocol ButtonStateDelegate: AnyObject {
 }
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func showBoardDetail(boardPost: Post)
+	func showBoardDetail(boardPost: Post, gathering: Gathering)
 }
 
 
@@ -67,9 +67,7 @@ class GatheringDetailVM {
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
-		print("GatheringDetailVM: coordinatorDelegate is \(coordinatorDelegate == nil ? "nil" : "not nil")")
-		self.coordinatorDelegate?.showBoardDetail(boardPost: boardPost)
-		print("GatheringDetailVM: didTapBoardCell called with boardPost: \(boardPost.postUID)")
+		self.coordinatorDelegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
 	}
 	
 	private func fetchBoardData() {

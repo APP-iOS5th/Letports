@@ -68,7 +68,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		tableViewHeightConstraint?.constant = newHeight
 		layoutIfNeeded()
 	}
-
+	
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return board.count
@@ -89,9 +89,9 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		print("GatheringDetailBoardTVCell: 셀 탭 이벤트 전달받음")
 	}
 }
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 50 + 12
-	}
+func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+	return 50 + 12
+}
 
 
 

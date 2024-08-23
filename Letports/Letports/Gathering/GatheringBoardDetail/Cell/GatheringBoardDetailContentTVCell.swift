@@ -58,7 +58,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 	}
 	
 	func configure(with post: Post) {
-			titleLabel.text = post.title
-			contentTextView.text = post.contents
-		}
+		titleLabel.text = post.title
+		contentTextView.text = post.contents
+	}
 }

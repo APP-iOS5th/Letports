@@ -68,8 +68,6 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		} else {
 			userImageBtn.setImage(UIImage(named: "placeholder_image"), for: .normal)
 		}
-		
-		
 	}
 	
 	@objc private func imageTap() {

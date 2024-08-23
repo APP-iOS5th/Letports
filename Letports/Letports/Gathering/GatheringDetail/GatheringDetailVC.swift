@@ -161,7 +161,7 @@ final class GatheringDetailVC: UIViewController {
 			postBtn.setVisible(true)
 		}
 	}
-
+	
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -197,6 +197,11 @@ final class GatheringDetailVC: UIViewController {
 // MARK: - extension
 
 extension GatheringDetailVC: GatheringDetailDelegate {
+	func didTapCell(boardPost: Post) {
+		viewModel.didTapBoardCell(boardPost: boardPost)
+		print("[\(Date())]GatheringDetailVC: 셀 탭 이벤트 전달받음")
+	}
+	
 	func didTapEditBtn() {
 		// 모임장편집버튼
 	}
@@ -204,15 +209,10 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapProfileImage() {
 		// 프로필버튼
 	}
-
+	
 	
 	func didTapSettingBtn() {
 		// 셋팅버튼
-	}
-	
-	func didTapCell(boardPost: Post) {
-		viewModel.didTapBoardCell(boardPost: boardPost)
-		print("[\(Date())]GatheringDetailVC: 셀 탭 이벤트 전달받음")
 	}
 }
 
@@ -314,43 +314,43 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 	
-//	 가입화면 임시 주석처리
-		private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
-			// 이미 화면에 해당 뷰가 있는지 확인
-			if existingView == nil {
-				let joinBackView = JoinBackgroundView(frame: self.view.bounds)
-				self.joinBackground = joinBackView
-				self.view.addSubview(joinBackView)
+	//	 가입화면 임시 주석처리
+	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+		// 이미 화면에 해당 뷰가 있는지 확인
+		if existingView == nil {
+			let joinBackView = JoinBackgroundView(frame: self.view.bounds)
+			self.joinBackground = joinBackView
+			self.view.addSubview(joinBackView)
+			NSLayoutConstraint.activate([
+				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
+				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+			])
+			// 뷰를 생성하고 설정
+			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+			existingView = T(frame: userViewFrame)
+			
+			
+			if let userView = existingView as? JoinView {
+				userView.configure(with: gathering)
+			}
+			
+			if let userView = existingView {
+				userView.center = view.center
+				
+				self.view.addSubview(userView)
+				userView.translatesAutoresizingMaskIntoConstraints = false
+				
 				NSLayoutConstraint.activate([
-					joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
-					joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-					joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-					joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+					userView.widthAnchor.constraint(equalToConstant: width),
+					userView.heightAnchor.constraint(equalToConstant: height)
 				])
-				// 뷰를 생성하고 설정
-				let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
-				existingView = T(frame: userViewFrame)
-
-	
-				if let userView = existingView as? JoinView {
-					userView.configure(with: gathering)
-				}
-	
-				if let userView = existingView {
-					userView.center = view.center
-	
-					self.view.addSubview(userView)
-					userView.translatesAutoresizingMaskIntoConstraints = false
-	
-					NSLayoutConstraint.activate([
-						userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-						userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-						userView.widthAnchor.constraint(equalToConstant: width),
-						userView.heightAnchor.constraint(equalToConstant: height)
-					])
-				}
 			}
 		}
+	}
 	// MARK: - objc메소드
 	
 	@objc private func joinButtonTap() {

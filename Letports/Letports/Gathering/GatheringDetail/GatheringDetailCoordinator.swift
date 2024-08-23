@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegate {
+	
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
@@ -27,9 +28,12 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		navigationController.pushViewController(vc, animated: true)
 	}
 	
-	func showBoardDetail(boardPost: Post) {
+	func showBoardDetail(boardPost: Post, gathering: Gathering) {
 		print("GatheringDetailCoordinator: showBoardDetail called with boardPost: \(boardPost.postUID)")
-		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, postUID: boardPost.postUID)
+		print("GatheringDetailCoordinator: showBoardDetail called with boardPost: \(gathering)")
+		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, 
+																	 postUID: boardPost.postUID, 
+																	 gathering: gathering)
 		childCoordinators.append(boardDetailCoordinator)
 		boardDetailCoordinator.start()
 		print("GatheringDetailCoordinator: 새 화면으로 전환")

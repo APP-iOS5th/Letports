@@ -138,7 +138,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 														   for: indexPath) as? GatheringBoardDetailImagesTVCell else {
 				return UITableViewCell()
 			}
+			cell.post = viewModel.boardPost
 			return cell
+			
 		case .commentHeaderLabel:
 			if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
 				return cell

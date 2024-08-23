@@ -81,4 +81,8 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 			nameDateSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
 		])
 	}
+	
+//	func configure(with gathering: Gathering) {
+//		nickNameLabel.text = post.title
+//	}
 }

@@ -65,7 +65,7 @@ extension GatheringBoardDetailImagesTVCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringBoardDetailImagesCVCell",
 															for: indexPath) as? GatheringBoardDetailImagesCVCell,
-				let imageUrl = post?.imageUrls[indexPath.item] else {
+			  let imageUrl = post?.imageUrls[indexPath.item] else {
 			return UICollectionViewCell()
 		}
 		cell.configure(with: imageUrl)
@@ -77,7 +77,7 @@ extension GatheringBoardDetailImagesTVCell: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
-		let height = collectionView.frame.height
+		let height = collectionView.frame.height - 20
 		return CGSize(width: height, height: height)
 	}
 }
