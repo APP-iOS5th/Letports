@@ -10,7 +10,6 @@ import Kingfisher
 import Combine
 
 class ProfileImageTVCell: UITableViewCell {
-    
     weak var delegate: ProfileEditDelegate?
     private var cancellables = Set<AnyCancellable>()
     
