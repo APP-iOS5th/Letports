@@ -28,8 +28,10 @@ class GatherSectionTVCell: UITableViewCell {
     }
     
     func setupUI() {
-        self.backgroundColor = .lp_background_white
+        
         contentView.addSubview(titleLabel)
+        contentView.backgroundColor = .lp_background_white
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
