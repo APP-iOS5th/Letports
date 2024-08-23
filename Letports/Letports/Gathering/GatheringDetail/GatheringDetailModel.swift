@@ -7,14 +7,6 @@
 
 import Foundation
 
-struct GatheringMember {
-	var answer: String
-	var image: String
-	var joinDate: String
-	var joinStatus: String
-	var nickName: String
-	var userUID: String
-}
 
 struct BoardPost {
 	let postUID: String
@@ -42,7 +34,7 @@ struct Gathering {
 	var gatheringQuestion: String?
 }
 
-struct User {
+struct LeportsUser {
 	var UID: String
 	var nickName: String
 	var image: String

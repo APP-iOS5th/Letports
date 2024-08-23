@@ -92,9 +92,9 @@ class ActionSheetView: UIView {
 			cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
 		])
 		
-		deleteIdBtn.addTarget(self, action: #selector(deleteIdBtnTap), for: .touchUpInside)
-		reportBtn.addTarget(self, action: #selector(reportBtnTap), for: .touchUpInside)
-		cancelButton.addTarget(self, action: #selector(cancelBtnTap), for: .touchUpInside)
+//		deleteIdBtn.addTarget(self, action: #selector(deleteIdBtnTap), for: .touchUpInside)
+//		reportBtn.addTarget(self, action: #selector(reportBtnTap), for: .touchUpInside)
+//		cancelButton.addTarget(self, action: #selector(cancelBtnTap), for: .touchUpInside)
 	}
 	
 	@objc private func deleteIdBtnTap() {

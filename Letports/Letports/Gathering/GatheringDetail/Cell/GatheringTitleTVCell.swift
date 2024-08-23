@@ -119,7 +119,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: Gathering, currentUser: User, masterNickname: String) {
+	func configureCell(data: Gathering, currentUser: LeportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
 		print(titleLabel.text ?? "없음")
 		masterNameLabel.text = "모임장: \(masterNickname)"

@@ -90,24 +90,24 @@ class FirebaseService: FirebaseServiceProtocol {
 							joinDate: memberData["JoinDate"] as? String ?? "",
 							joinStatus: memberData["JoinStatus"] as? String ?? "",
 							nickName: memberData["NickName"] as? String ?? "",
-							userUID: memberData["UserUID"] as? String ?? ""
+                            userUID: memberData["UserUID"] as? String ?? "", 
+                            simpleInfo: ""
 						)
 						gatheringMembers.append(member)
 					}
 				}
-				
-				let gathering = Gathering(
-					gatherImage: gatherImage,
-					gatherName: gatherName,
-					gatherMaxMember: gatherMaxMember,
-					gatherNowMember: gatheringMembers.count,
-					gatherInfo: gatherInfo,
-					gatheringCreateDate: gatheringCreateDate,
-					gatheringMaster: gatheringMaster,
-					gatheringUid: gatheringUid,
-					gatheringMembers: gatheringMembers,
-					gatheringQuestion: gatherQuestion
-				)
+
+				let gathering = Gathering(gatherImage: gatherImage ?? "",
+                                          gatherInfo: gatherInfo ?? "",
+                                          gatherMaxMember: gatherMaxMember ?? 0,
+                                          gatherName: gatherName ?? "",
+                                          gatherNowMember: gatheringMembers.count,
+                                          gatherQuestion: "",
+                                          gatheringCreateDate: gatheringCreateDate ?? "",
+                                          gatheringMaster: gatheringMaster ?? "",
+                                          gatheringMembers: gatheringMembers,
+                                          gatheringSports: "",
+                                          gatheringSportsTeam: "", gatheringUid: gatheringUid)
 				promise(.success(gathering))
 			}
 		}
@@ -162,13 +162,15 @@ class GatheringDetailVM {
 	@Published private(set) var masterNickname: String = ""
 	@Published private(set) var isMaster: Bool = false
 	@Published var selectedBoardType: BoardButtonType = .all
-	private(set) var cancellables = Set<AnyCancellable>()
-	private let currentUser: User // 현재 사용자 정보
+	@Published var masterNickname: String = ""
+	@Published var isMaster: Bool = false
+	
+	private let currentUser: LeportsUser // 현재 사용자 정보
 	private let firebaseService: FirebaseServiceProtocol
 	
 	weak var coordinatorDelegate: GatheringDetailCoordinatorDelegate?
 	
-	init(currentUser: User, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
+	init(currentUser: LeportsUser, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
 		self.currentUser = currentUser
 		self.firebaseService = firebaseService
 	}
@@ -224,12 +226,14 @@ class GatheringDetailVM {
 	
 	// 모임장 닉네임
 	private func getMasterNickname() {
-		guard let gathering = self.gathering,
-			  let masterUID = gathering.gatheringMaster,
-			  let members = gathering.gatheringMembers else {
+		guard let gathering = self.gathering else {
 			self.masterNickname = "알 수 없음"
 			return
 		}
+        
+        
+      let masterUID = gathering.gatheringMaster
+      let members = gathering.gatheringMembers
 		
 		if let masterMember = members.first(where: { $0.userUID == masterUID }) {
 			self.masterNickname = masterMember.nickName
@@ -239,15 +243,16 @@ class GatheringDetailVM {
 	}
 	// 모임장 상태인지
 	private func updateMasterStatus() {
-		guard let gathering = self.gathering,
-			  let gatheringMaster = gathering.gatheringMaster else {
+		guard let gathering = self.gathering else {
 			isMaster = false
 			return
 		}
+        
+        let gatheringMaster = gathering.gatheringMaster
 		isMaster = currentUser.UID == gatheringMaster
 	}
 	// 현재 사용자 정보
-	func getCurrentUserInfo() -> User {
+	func getCurrentUserInfo() -> LeportsUser {
 		return currentUser
 	}
 	// 가입중인지 아닌지
@@ -257,7 +262,7 @@ class GatheringDetailVM {
 			return
 		}
 		
-		if currentUser.myGathering.contains(gathering.gatheringUid ?? "") {
+		if currentUser.myGathering.contains(gathering.gatheringUid) {
 			self.membershipStatus = .joined
 		} else {
 			self.membershipStatus = .notJoined
@@ -298,7 +303,7 @@ class GatheringDetailVM {
 	}
 	
 	// 예시 사용자
-	static let dummyUser = User(
+	static let dummyUser = LeportsUser (
 		UID: "user013",
 		nickName: "완벽수비",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",

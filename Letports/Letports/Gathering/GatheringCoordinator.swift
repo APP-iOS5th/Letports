@@ -8,6 +8,7 @@
 import UIKit
 
 class GatheringCoordinator: Coordinator {
+    weak var parentCoordinator: TabBarCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
 

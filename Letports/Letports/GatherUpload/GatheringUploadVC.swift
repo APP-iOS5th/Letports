@@ -20,8 +20,11 @@ protocol GatheringUploadDelegate: AnyObject {
 class GatheringUploadVC: UIViewController {
     
     private(set) lazy var navigationView: CustomNavigationView = {
+        let isEditMode = viewModel.isEditMode
+        let screenType: ScreenType = .smallUploadGathering(btnName: viewModel.isEditMode ? .update : .create, 
+                                                           isUpdate: viewModel.isEditMode)
         let cnv = CustomNavigationView(isLargeNavi: .small,
-                                       screenType: .smallCreateGathering(btnName: .create))
+                                       screenType: screenType)
         
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
@@ -52,16 +55,14 @@ class GatheringUploadVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    let imagePickerController = UIImagePickerController()
-    
+        
     private var viewModel: GatheringUploadVM
     
     private let buttonTapSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: GatheringUploadVM) {
-        self.viewModel = GatheringUploadVM()
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,23 +73,25 @@ class GatheringUploadVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
-        bindViewModel()
-        setupTapGesture()
-        setupDelegate()
-        uploadDebounce()
-        
+        self.setupUI()
+        self.bindViewModel()
+        self.setupTapGesture()
+        self.uploadDebounce()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), 
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), 
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, 
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, 
+                                                  object: nil)
     }
     
     //MARK: - Setup
@@ -118,20 +121,21 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$selectedImage
+        self.viewModel.$selectedImage
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
         
-        viewModel.$addButtonEnable
+        self.viewModel.$addButtonEnable
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
                 self?.navigationView.rightButtonIsEnable(enable)
             }
             .store(in: &cancellables)
         
-        viewModel.$isUploading
+        self.viewModel.$isUploading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isUploading in
                 if isUploading {
@@ -144,17 +148,14 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func setupTapGesture() {
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    private func setupDelegate() {
-        imagePickerController.delegate = self
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     
@@ -164,7 +165,10 @@ class GatheringUploadVC: UIViewController {
             UIView.animate(
                 withDuration: 0.3,
                 animations: {
-                    self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardRectangle.height, right: 0)
+                    self.tableView.contentInset = UIEdgeInsets(top: 0, 
+                                                               left: 0,
+                                                               bottom: keyboardRectangle.height,
+                                                               right: 0)
                     self.tableView.scrollIndicatorInsets = self.tableView.contentInset
                 }
             )
@@ -182,7 +186,7 @@ class GatheringUploadVC: UIViewController {
     }
     
     private func uploadDebounce() {
-        buttonTapSubject
+        self.buttonTapSubject
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .sink { [weak self] in
                 self?.viewModel.gatheringUpload()
@@ -193,7 +197,7 @@ class GatheringUploadVC: UIViewController {
 
 extension GatheringUploadVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        buttonTapSubject.send(())
+        self.buttonTapSubject.send(())
     }
     
     func sportsSelectButtonDidTap() {
@@ -201,7 +205,7 @@ extension GatheringUploadVC: CustomNavigationDelegate {
     }
     
     func backButtonDidTap() {
-        self.dismiss(animated: true)
+        self.viewModel.didTapDismiss()
     }
 }
 
@@ -214,6 +218,7 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .main:
             if let cell: GatheringUploadMainTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configureCell(sportsTeam: self.viewModel.sportsTeam)
                 return cell
             }
         case .separator:
@@ -224,27 +229,31 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
         case .uploadImage:
             if let cell: GatheringUplaodImageTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configureCell(image: viewModel.selectedImage)
+                cell.configureCell(image: self.viewModel.selectedImage)
                 return cell
             }
         case .gatherName:
             if let cell: GatheringUplaodTitleTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(title: self.viewModel.gatherNameText)
                 return cell
             }
         case .gatherMemberCount:
             if let cell: GatheringUploadMemCntTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(nowCount: self.viewModel.memMaxCount)
                 return cell
             }
         case .gatherInfo:
             if let cell: GatheringUploadInfoTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(infoText: self.viewModel.gatherInfoText)
                 return cell
             }
         case .gatherQuestion:
             if let cell: GatheringUploadQuestionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                cell.configureCell(question: self.viewModel.gatherQuestionText)
                 return cell
             }
         }
@@ -254,33 +263,24 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
 
 extension GatheringUploadVC: GatheringUploadDelegate {
     func didTapUploadImage() {
-        self.imagePickerController.sourceType = .photoLibrary
-        self.present(imagePickerController, animated: true)
+        self.viewModel.photoUploadButtonTapped()
     }
     
     func checkMemberCount(count: Int) {
-        viewModel.checkMemeberMaxCount(count: count)
+        self.viewModel.checkMemeberMaxCount(count: count)
     }
     
     func sendGatehrInfo(content: String) {
-        viewModel.writeGatherInfo(content: content)
+        self.viewModel.writeGatherInfo(content: content)
     }
     
     func sendGatherQuestion(content: String) {
-        viewModel.writeGatherQuestion(content: content)
+        self.viewModel.writeGatherQuestion(content: content)
     }
     
     func sendGatherName(content: String) {
-        viewModel.writeGatehrName(content: content)
+        self.viewModel.writeGatehrName(content: content)
     }
 }
 
-extension GatheringUploadVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        if let selectedImage = info[.originalImage] as? UIImage {
-            viewModel.selectedImage = selectedImage
-        }
-    }
-}
+

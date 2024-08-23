@@ -6,24 +6,32 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
-    var mainCoordinator: TabBarCoordinator?
+    var appCoordinator: AppCoordinator?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        window = UIWindow(windowScene: windowScene)
-        
-//        let navigationController = UINavigationController()
-        
-//        mainCoordinator = TabBarCoordinator(navigationController: navigationController)
-//        mainCoordinator?.start()
-		let viewModel = GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser)
-		window?.rootViewController = GatheringDetailVC(viewModel: viewModel)
-        window?.makeKeyAndVisible()
+
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+
+        let navigationController = UINavigationController()
+
+        appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator?.start()
+
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+
+    }
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+
+        appCoordinator?.handleURL(url)
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

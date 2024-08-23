@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class GatheringUploadMainTVCell: UITableViewCell {
     private(set) var teamLogo: UIImageView = {
@@ -61,8 +62,10 @@ class GatheringUploadMainTVCell: UITableViewCell {
     }
     
     
-    func configureCell() {
-        
+    func configureCell(sportsTeam: SampleSportsTeam) {
+        self.teamName.text = sportsTeam.teamName
+        let url = URL(string: sportsTeam.teamLogo)
+        self.teamLogo.kf.setImage(with: url, options: [.cacheOriginalImage])
     }
     
     
