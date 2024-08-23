@@ -11,10 +11,8 @@ import Combine
 protocol GatheringDetailDelegate: AnyObject {
 	func didTapEditBtn()
 	func didTapProfileImage()
-	func didTapJoinBtn()
 	func didTapSettingBtn()
-	func didTapCell()
-	func gatheringDetailVC(_ viewController: GatheringDetailVC, didSelectBoardPost boardPost: BoardPost)
+	func didTapCell(boardPost: Post)
 }
 
 final class GatheringDetailVC: UIViewController {
@@ -72,6 +70,8 @@ final class GatheringDetailVC: UIViewController {
 	private var viewModel: GatheringDetailVM
 	private var cancellables: Set<AnyCancellable> = []
 	weak var delegate: GatheringDetailDelegate?
+	private var joinBackground: JoinBackgroundView?
+	private var joinView: JoinView?
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -87,6 +87,7 @@ final class GatheringDetailVC: UIViewController {
 		setupUI()
 		bindViewModel()
 		viewModel.loadData()
+		self.delegate = self
 		print("Join button action set: \(joinBtn.actions(forTarget: self, forControlEvent: .touchUpInside) ?? [])")
 	}
 	
@@ -120,7 +121,7 @@ final class GatheringDetailVC: UIViewController {
 	private func updateUI(with gathering: Gathering?) {
 		guard let gathering = gathering else { return }
 		
-		let gatheringName = gathering.gatherName ?? "모임"
+		let gatheringName = gathering.gatherName
 		let screenType: ScreenType
 		
 		if viewModel.isMaster {
@@ -160,47 +161,7 @@ final class GatheringDetailVC: UIViewController {
 			postBtn.setVisible(true)
 		}
 	}
-	
-	// 가입화면 임시 주석처리
-	//	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
-	//		// 이미 화면에 해당 뷰가 있는지 확인
-	//		if existingView == nil {
-	//			let joinBackView = JoinViewBackgroundView(frame: self.view.bounds)
-	//			self.joinBackView = joinBackView
-	//			self.view.addSubview(joinBackView)
-	//			NSLayoutConstraint.activate([
-	//				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
-	//				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-	//				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-	//				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-	//			])
-	//			// 뷰를 생성하고 설정
-	//			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
-	//			existingView = T(frame: userViewFrame)
-	//
-	//			if let userView = existingView as? PendingUserView  {
-	//				userView.configure(with: user, with: gathering, viewModel: viewModel)
-	//			}
-	//
-	//			if let userView = existingView as? JoiningUserView {
-	//				userView.configure(with: user, with: gathering)
-	//			}
-	//
-	//			if let userView = existingView {
-	//				userView.center = view.center
-	//
-	//				self.view.addSubview(userView)
-	//				userView.translatesAutoresizingMaskIntoConstraints = false
-	//
-	//				NSLayoutConstraint.activate([
-	//					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-	//					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-	//					userView.widthAnchor.constraint(equalToConstant: width),
-	//					userView.heightAnchor.constraint(equalToConstant: height)
-	//				])
-	//			}
-	//		}
-	//	}
+
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -234,6 +195,33 @@ final class GatheringDetailVC: UIViewController {
 }
 
 // MARK: - extension
+
+extension GatheringDetailVC: GatheringDetailDelegate {
+	func didTapEditBtn() {
+		// 모임장편집버튼
+	}
+	
+	func didTapProfileImage() {
+		// 프로필버튼
+	}
+
+	
+	func didTapSettingBtn() {
+		// 셋팅버튼
+	}
+	
+	func didTapCell(boardPost: Post) {
+		viewModel.didTapBoardCell(boardPost: boardPost)
+		print("[\(Date())]GatheringDetailVC: 셀 탭 이벤트 전달받음")
+	}
+}
+
+extension GatheringDetailVC: BoardButtonTVCellDelegate {
+	func didSelectBoardType(_ type: BoardButtonType) {
+		viewModel.selectedBoardType = type
+		tableView.reloadData()
+	}
+}
 
 extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightButtonDidTap() {
@@ -285,7 +273,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringBoard:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
 														for: indexPath) as? GatheringDetailBoardTVCell {
-				cell.boardPosts = viewModel.filteredBoardData
+				cell.board = viewModel.filteredBoardData
 				cell.delegate = self
 				return cell
 			}
@@ -326,31 +314,53 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 	
+//	 가입화면 임시 주석처리
+		private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+			// 이미 화면에 해당 뷰가 있는지 확인
+			if existingView == nil {
+				let joinBackView = JoinBackgroundView(frame: self.view.bounds)
+				self.joinBackground = joinBackView
+				self.view.addSubview(joinBackView)
+				NSLayoutConstraint.activate([
+					joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
+					joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+					joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+					joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+				])
+				// 뷰를 생성하고 설정
+				let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+				existingView = T(frame: userViewFrame)
+
+	
+				if let userView = existingView as? JoinView {
+					userView.configure(with: gathering)
+				}
+	
+				if let userView = existingView {
+					userView.center = view.center
+	
+					self.view.addSubview(userView)
+					userView.translatesAutoresizingMaskIntoConstraints = false
+	
+					NSLayoutConstraint.activate([
+						userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+						userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+						userView.widthAnchor.constraint(equalToConstant: width),
+						userView.heightAnchor.constraint(equalToConstant: height)
+					])
+				}
+			}
+		}
 	// MARK: - objc메소드
 	
 	@objc private func joinButtonTap() {
 		print("버튼이 눌렸다")
+		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
+		
 	}
 	
 	@objc private func editBtnTap() {
 		print("편집버튼")
-	}
-	
-	
-}
-
-// MARK: - extention
-
-extension GatheringDetailVC: GatheringDetailBoardTVCellDelegate {
-	func gatheringDetailBoardTVCell(_ cell: GatheringDetailBoardTVCell, didSelectBoardPost boardPost: BoardPost) {
-		viewModel.didSelectBoardPost(boardPost)
-	}
-}
-
-extension GatheringDetailVC: BoardButtonTVCellDelegate {
-	func didSelectBoardType(_ type: BoardButtonType) {
-		viewModel.selectedBoardType = type
-		tableView.reloadData()
 	}
 }
 

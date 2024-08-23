@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	
@@ -26,7 +27,6 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	private let nickNameLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 18, weight: .semibold)
-		lb.text = "기성용"
 		lb.isUserInteractionEnabled = false
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -80,15 +80,5 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 			nameDateSV.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
 			nameDateSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
 		])
-	}
-	
-	func configureCell(data: GatheringBoardDetailVM.BoardDetailTitle) {
-		if let image = UIImage(named: data.image) {
-			profileImageView.image = image
-		} else {
-			print("이미지를 찾을 수 없습니다")
-		}
-		nickNameLabel.text = data.nickName
-		createDateLabel.text = data.createDate
 	}
 }

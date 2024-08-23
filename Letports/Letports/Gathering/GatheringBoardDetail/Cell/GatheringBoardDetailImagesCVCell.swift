@@ -42,4 +42,10 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 			imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 		])
 	}
+	
+	func configure(with imageUrl: String) {
+		  if let url = URL(string: imageUrl) {
+			  imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
+		  }
+	  }
 }

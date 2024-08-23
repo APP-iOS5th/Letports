@@ -7,14 +7,10 @@
 
 import UIKit
 
-protocol GatheringDetailBoardTVCellDelegate: AnyObject {
-	func gatheringDetailBoardTVCell(_ cell: GatheringDetailBoardTVCell, didSelectBoardPost boardPost: BoardPost)
-}
-
-final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
+final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource, BoardTVCellDelegate {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
-	weak var delegate: GatheringDetailBoardTVCellDelegate?
+	weak var delegate: GatheringDetailDelegate?
 	
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
@@ -39,12 +35,12 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var boardPosts: [BoardPost] = [] {
-		  didSet {
-			  tableView.reloadData()
-			  updateTableViewHeight()
-		  }
-	  }
+	var board: [Post] = [] {
+		didSet {
+			tableView.reloadData()
+			updateTableViewHeight()
+		}
+	}
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -62,7 +58,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 	
 	// MARK: - 높이계산
 	public func calculateTableViewHeight() -> CGFloat {
-		let numberOfRows = boardPosts.count
+		let numberOfRows = board.count
 		let cellHeight: CGFloat = 50 + 12
 		return CGFloat(numberOfRows) * cellHeight
 	}
@@ -72,9 +68,10 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		tableViewHeightConstraint?.constant = newHeight
 		layoutIfNeeded()
 	}
+
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return boardPosts.count
+		return board.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,17 +79,19 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 													   for: indexPath) as? BoardTVCell else {
 			return UITableViewCell()
 		}
-		let boardPost = boardPosts[indexPath.row]
-		cell.configureCell(data: boardPost) { [weak self] in
-			guard let self = self else { return }
-			self.delegate?.gatheringDetailBoardTVCell(self, didSelectBoardPost: boardPost)
-		}
+		cell.configureCell(data: board[indexPath.row])
+		cell.delegate = self
 		return cell
 	}
+	
+	func didTapCell(boardPost: Post) {
+		delegate?.didTapCell(boardPost: boardPost)
+		print("GatheringDetailBoardTVCell: 셀 탭 이벤트 전달받음")
+	}
 }
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return 50 + 12
+	}
 
-func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-	return 50 + 12
-}
 
 

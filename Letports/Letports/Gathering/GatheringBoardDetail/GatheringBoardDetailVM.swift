@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 enum GatheringBoardDetailCellType {
 	case boardProfileTitle
@@ -17,12 +18,45 @@ enum GatheringBoardDetailCellType {
 }
 
 final class GatheringBoardDetailVM {
-	
-	private let boardPost: BoardPost
-	  
-	  init(boardPost: BoardPost) {
-		  self.boardPost = boardPost
-	  }
+		@Published private(set) var boardPost: Post?
+		private var cancellables = Set<AnyCancellable>()
+		
+		init(postUID: String) {
+			fetchBoardPost(postUID: postUID)
+		}
+		
+		private func fetchBoardPost(postUID: String) {
+			FirestoreManager.shared.getDocument(collection: "Board", documentId: postUID, type: Post.self)
+				.sink(receiveCompletion: { completion in
+					switch completion {
+					case .finished:
+						print("게시글 데이터 가져오기 완료")
+					case .failure(let error):
+						print("게시글 데이터 가져오기 에러: \(error)")
+					}
+				}, receiveValue: { [weak self] post in
+					self?.boardPost = post
+					self?.printBoardPostDetails()
+				})
+				.store(in: &cancellables)
+		}
+		
+		private func printBoardPostDetails() {
+			guard let post = boardPost else {
+				print("게시글 데이터가 없습니다.")
+				return
+			}
+			
+			print("=== 게시글 상세 정보 ===")
+			print("postUID: \(post.postUID)")
+			print("제목: \(post.title)")
+			print("내용: \(post.contents)")
+			print("게시판 타입: \(post.boardType)")
+			print("작성자 UID: \(post.userUID)")
+			print("이미지 URL 개수: \(post.imageUrls.count)")
+			print("댓글 개수: \(post.comments.count)")
+			print("========================")
+		}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
@@ -44,17 +78,7 @@ final class GatheringBoardDetailVM {
 		return self.cellType
 	}
 	
-	// 닉네임, 생성날짜,(삭제예정)
-	struct BoardDetailTitle {
-		let image: String
-		let nickName: String
-		let createDate: String
-	}
-	
-	// 게시판상세이미지들(삭제예정)
-	struct BoardDetailImage {
-		let images: [String]
-	}
+
 	// 댓글(삭제예정)
 	struct Comment { // 퍼블리셔로
 		let nickName: String

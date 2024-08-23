@@ -12,21 +12,27 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
+	// 되돌리기
+	weak var parentCoordinator: TabBarCoordinator?
 	
-	init(navigationController: UINavigationController, currentUser: User) {
+	init(navigationController: UINavigationController, currentUser: LetportsUser) {
 		self.navigationController = navigationController
 		self.viewModel = GatheringDetailVM(currentUser: currentUser)
+		self.viewModel.coordinatorDelegate = self
 	}
 	
 	func start() {
+		viewModel.coordinatorDelegate = self
 		let vc = GatheringDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(vc, animated: true)
 	}
 	
-	func showBoardDetail(for boardPost: BoardPost) {
-		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, 
-																	 boardPost: boardPost)
+	func showBoardDetail(boardPost: Post) {
+		print("GatheringDetailCoordinator: showBoardDetail called with boardPost: \(boardPost.postUID)")
+		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, postUID: boardPost.postUID)
 		childCoordinators.append(boardDetailCoordinator)
 		boardDetailCoordinator.start()
+		print("GatheringDetailCoordinator: 새 화면으로 전환")
 	}
 }
+

@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol BoardTVCellDelegate: AnyObject {
+	func didTapCell(boardPost: Post)
+}
+
 final class BoardTVCell: UITableViewCell {
-	var onTap: (() -> Void)?
+	
+	weak var delegate: BoardTVCellDelegate?
+	private var boardPost: Post?
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -99,9 +105,9 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: BoardPost, onTap: @escaping () -> Void) {
+	func configureCell(data: Post) {
 		//		createDateLabel.text = data.createDate (데이터 없음)
-		self.onTap = onTap
+		self.boardPost = data
 		switch data.boardType {
 		case "Free":
 			boardTypeLabel.text = "자유"
@@ -114,8 +120,9 @@ final class BoardTVCell: UITableViewCell {
 	}
 	
 	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
-		onTap?()
+		print("[\(Date())] BoardTVCell: 셀이 탭되었습니다.")
+		guard let boardPost = boardPost else { return }
+		delegate?.didTapCell(boardPost: boardPost)
 	}
 }
 

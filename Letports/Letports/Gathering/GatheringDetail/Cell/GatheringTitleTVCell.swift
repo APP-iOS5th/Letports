@@ -119,16 +119,16 @@ final class GatheringTitleTVCell: UITableViewCell {
 		])
 	}
 	
-	func configureCell(data: Gathering, currentUser: LeportsUser, masterNickname: String) {
+	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
 		print(titleLabel.text ?? "없음")
 		masterNameLabel.text = "모임장: \(masterNickname)"
 		print(masterNameLabel.text ?? "없음")
-		gatherNowMemberLabel.text = "\(data.gatherNowMember ?? 0)"
+		gatherNowMemberLabel.text = "\(data.gatherNowMember)"
 		print(gatherNowMemberLabel.text ?? "없음")
-		gatherMaxMemberLabel.text = "\(data.gatherMaxMember ?? 0)"
+		gatherMaxMemberLabel.text = "\(data.gatherMaxMember)"
 		print(gatherMaxMemberLabel.text ?? "없음")
-		let isMaster = currentUser.UID == data.gatheringMaster
+		let isMaster = currentUser.uid == data.gatheringMaster
 		print(isMaster)
 		editButton.isHidden = !isMaster
 	}

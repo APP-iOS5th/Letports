@@ -12,15 +12,16 @@ import UIKit
 class GatheringBoardDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
-	var viewModel: GatheringBoardDetailVM
-
-	init(navigationController: UINavigationController, boardPost: BoardPost) {
+	let postUID: String
+	
+	init(navigationController: UINavigationController, postUID: String) {
 		self.navigationController = navigationController
-		self.viewModel = GatheringBoardDetailVM(boardPost: boardPost)
+		self.postUID = postUID
 	}
 	
 	func start() {
-		let vc = GatheringBoardDetailVC(viewModel: viewModel)
-		navigationController.pushViewController(vc, animated: true)
+		let viewModel = GatheringBoardDetailVM(postUID: postUID)
+		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
+		navigationController.pushViewController(viewController, animated: true)
 	}
 }

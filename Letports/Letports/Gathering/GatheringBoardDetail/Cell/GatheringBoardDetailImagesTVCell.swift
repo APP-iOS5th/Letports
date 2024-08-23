@@ -36,6 +36,12 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	var post: Post? {
+		didSet {
+			collectionView.reloadData()
+		}
+	}
+	
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -53,20 +59,22 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 
 extension GatheringBoardDetailImagesTVCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 3
+		return post?.imageUrls.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringBoardDetailImagesCVCell",
-															for: indexPath) as? GatheringBoardDetailImagesCVCell else {
+															for: indexPath) as? GatheringBoardDetailImagesCVCell,
+				let imageUrl = post?.imageUrls[indexPath.item] else {
 			return UICollectionViewCell()
 		}
+		cell.configure(with: imageUrl)
 		return cell
 	}
 }
 
 extension GatheringBoardDetailImagesTVCell: UICollectionViewDelegateFlowLayout {
-	func collectionView(_ collectionView: UICollectionView, 
+	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let height = collectionView.frame.height
