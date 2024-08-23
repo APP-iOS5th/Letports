@@ -19,7 +19,7 @@ class GatherUserTVCell: UITableViewCell {
     
     private lazy var profileIV: UIImageView = {
         let iv = UIImageView()
-        iv.layer.cornerRadius = 20
+        iv.layer.cornerRadius = 10
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,7 @@ class GatherUserTVCell: UITableViewCell {
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +54,6 @@ class GatherUserTVCell: UITableViewCell {
         setupUI()
     }
     
-    
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
@@ -64,22 +63,22 @@ class GatherUserTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
+            containerView.heightAnchor.constraint(equalToConstant: 70),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
-            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
-            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            profileIV.widthAnchor.constraint(equalToConstant: 70),
-            profileIV.heightAnchor.constraint(equalToConstant: 70),
+            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
+            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            profileIV.widthAnchor.constraint(equalToConstant: 60),
+            profileIV.heightAnchor.constraint(equalToConstant: 60),
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
-            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
 
-            simpleInfoLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
-            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 15),
+            simpleInfoLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
+            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
         ])
     }

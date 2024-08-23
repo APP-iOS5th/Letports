@@ -7,14 +7,14 @@
 import UIKit
 import Combine
 
+
 class GatherSettingVC: UIViewController {
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
     private var pendingUserView: PendingUserView?
     private var joiningUserView: JoiningUserView?
     private var dimmingView: DimmedBackgroundView?
-    weak var coordinator: GatherSettingCoordinator?
-    
+  
     init(viewModel: GatherSettingVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -59,15 +59,14 @@ class GatherSettingVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         NSLayoutConstraint.activate([
-            navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navigationView.heightAnchor.constraint(equalToConstant: 90),
+            navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            navigationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -83,7 +82,7 @@ class GatherSettingVC: UIViewController {
         .store(in: &cancellables)
     }
     
-    private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+    private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering) {
         
         if existingView == nil {
             let dimmingView = DimmedBackgroundView(frame: self.view.bounds)
@@ -96,15 +95,17 @@ class GatherSettingVC: UIViewController {
                 dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             
-            let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+            let userViewFrame = CGRect(x: 0, y: 0, width: 361, height: 468)
             existingView = T(frame: userViewFrame)
             
             if let userView = existingView as? PendingUserView  {
-                userView.configure(with: user, with: gathering, viewModel: viewModel)
+                userView.configure(with: user, with: gathering)
+                userView.delegate = self
             }
             
             if let userView = existingView as? JoiningUserView {
                 userView.configure(with: user, with: gathering)
+                userView.delegate = self
             }
             
             if let userView = existingView {
@@ -116,14 +117,33 @@ class GatherSettingVC: UIViewController {
                 NSLayoutConstraint.activate([
                     userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
                     userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-                    userView.widthAnchor.constraint(equalToConstant: width),
-                    userView.heightAnchor.constraint(equalToConstant: height)
+                    userView.widthAnchor.constraint(equalToConstant: 361),
+                    userView.heightAnchor.constraint(equalToConstant: 468)
                 ])
             }
         }
     }
     
+}
+
+extension GatherSettingVC: JoinUserViewDelegate, PendingUserViewDelegate {
+    func denyButtonTapped() {
+        self.viewModel.denyUser()
+        
+    }
     
+    func approveButtonTapped() {
+        self.viewModel.approveUser()
+        
+    }
+    
+    func cancelButtonTapped() {
+        self.viewModel.cancel()
+    }
+    
+    func expelButtonTapped() {
+        self.viewModel.expelUser()
+    }
 }
 
 extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
@@ -135,9 +155,9 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
         case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
-            return 50.0
+            return 40.0
         case .pendingGatheringUser, .joiningGatheringUser:
-            return 60.0
+            return 80.0
         }
     }
     
@@ -153,7 +173,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         case .joiningGatheringUser:
-            let startIndex = 2 + viewModel.joiningGatheringMembers.count
+            let startIndex = 2 + viewModel.pendingGatheringMembers.count
             let userIndex = indexPath.row - startIndex
             if userIndex < viewModel.joiningGatheringMembers.count {
                 let user = viewModel.joiningGatheringMembers[userIndex]
@@ -189,6 +209,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.pendingGatheringMembers.count {
                     let user = viewModel.pendingGatheringMembers[userIndex]
+                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
                     cell.configure(with: user)
                 }
                 return cell
@@ -200,10 +221,11 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .joiningGatheringUser:
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 3 + viewModel.joiningGatheringMembers.count
+                let startIndex = 2 + viewModel.pendingGatheringMembers.count
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.joiningGatheringMembers.count {
                     let user = viewModel.joiningGatheringMembers[userIndex]
+                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
                     cell.configure(with: user)
                 }
                 return cell

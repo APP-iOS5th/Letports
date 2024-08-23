@@ -7,19 +7,45 @@
 
 import UIKit
 
+protocol GatherSettingCoordinatorDelegate: AnyObject {
+    func approveJoinGathering()
+    func denyJoinGathering()
+    func expelGathering()
+    func cancel()
+}
+
 class GatherSettingCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    var gatherSettingVC: GatherSettingVC?
+    var viewModel: GatherSettingVM
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, viewModel: GatherSettingVM) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {
-        let gatherSettingVM = GatherSettingVM()
-        let gatherSettingVC = GatherSettingVC(viewModel: gatherSettingVM)
-        gatherSettingVC.coordinator = self
-        navigationController.pushViewController(gatherSettingVC, animated: false)
+        let profileVC = GatherSettingVC(viewModel: viewModel)
+        viewModel.delegate = self
+        navigationController.pushViewController(profileVC, animated: false)
+    }
+
+}
+
+extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
+    func cancel() {
+        print("취소")
+    }
+    
+    func approveJoinGathering() {
+        print("가입승인")
+    }
+    
+    func denyJoinGathering() {
+        print("가입거절")
+    }
+    
+    func expelGathering() {
+        print("가입거절")
     }
 }
