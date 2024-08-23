@@ -21,7 +21,7 @@ class ProfileTVCell: UITableViewCell {
     
     private lazy var profileIV: UIImageView = {
         let iv = UIImageView()
-        iv.layer.cornerRadius = 20
+        iv.layer.cornerRadius = 12
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -76,14 +76,14 @@ class ProfileTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+         
             
-            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
-            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             profileIV.widthAnchor.constraint(equalToConstant: 70),
             profileIV.heightAnchor.constraint(equalToConstant: 70),
             
@@ -92,7 +92,7 @@ class ProfileTVCell: UITableViewCell {
             nickNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: editProfileButton.leadingAnchor, constant: -10),
             
             simpleInfoLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
-            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 15),
+            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 10),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
             
             editProfileButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),

@@ -53,7 +53,7 @@ class ProfileVM {
     }
     
     func loadUser() {
-        FM.getData(collection: "Users", document: "user006", type: LetportsUser.self)
+        FM.getData(collection: "Users", document: "user010", type: LetportsUser.self)
             .sink { completion in
                 switch completion {
                 case .finished:

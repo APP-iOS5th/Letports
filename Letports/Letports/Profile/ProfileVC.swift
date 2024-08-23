@@ -14,7 +14,6 @@ class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
     
-    
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -59,15 +58,14 @@ class ProfileVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         NSLayoutConstraint.activate([
-            navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navigationView.heightAnchor.constraint(equalToConstant: 90),
+            navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            navigationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -104,15 +102,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
         case .profile:
-            return 100.0
+            return 120.0
         case .myGatheringHeader:
-            return 50.0
+            return 40.0
         case .myGatherings:
-            return 80.0
+            return 100.0
         case .pendingGatheringHeader:
-            return 50.0
+            return 40.0
         case .pendingGatherings:
-            return 80.0
+            return 100.0
         }
     }
     
