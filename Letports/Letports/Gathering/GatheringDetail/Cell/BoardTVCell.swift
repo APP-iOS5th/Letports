@@ -7,14 +7,8 @@
 
 import UIKit
 
-protocol BoardTVCellDelegate: AnyObject {
-	func didTapBoardCell(_ cell: BoardTVCell, boardPost: BoardPost)
-}
-
 final class BoardTVCell: UITableViewCell {
-	
-	weak var delegate: BoardTVCellDelegate?
-	private var boardPost: BoardPost?
+	var onTap: (() -> Void)?
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -62,7 +56,7 @@ final class BoardTVCell: UITableViewCell {
 		setupUI()
 		tapGesture()
 		self.selectionStyle = .none
-		self.backgroundColor = .clear 
+		self.backgroundColor = .clear
 		self.contentView.backgroundColor = .clear
 	}
 	
@@ -105,23 +99,23 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: BoardPost) {
-//		createDateLabel.text = data.createDate (데이터 없음)
-		self.boardPost = data
+	func configureCell(data: BoardPost, onTap: @escaping () -> Void) {
+		//		createDateLabel.text = data.createDate (데이터 없음)
+		self.onTap = onTap
 		switch data.boardType {
-		   case "Free":
-			   boardTypeLabel.text = "자유"
-		   case "Noti":
-			   boardTypeLabel.text = "공지"
-		   default:
-			   boardTypeLabel.text = "전체"
-		   }
+		case "Free":
+			boardTypeLabel.text = "자유"
+		case "Noti":
+			boardTypeLabel.text = "공지"
+		default:
+			boardTypeLabel.text = "전체"
+		}
 		titleLabel.text = data.contents
 	}
 	
 	@objc private func cellTap() {
-		guard let boardPost = boardPost else { return }
-		delegate?.didTapBoardCell(self, boardPost: boardPost)
+		print("셀이 눌렸습니다")
+		onTap?()
 	}
 }
 

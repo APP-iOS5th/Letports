@@ -8,62 +8,25 @@
 import Foundation
 import UIKit
 
-protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func didSettingBtnTap()
-	func didJoinBtnTap()
-	func didEditBtnTap()
-	func didNotiRegiBtnTap()
-	func didBoardRegiBtnTap()
-	func didBackBtnTap()
-	func didCellTap(boardPost: BoardPost)
-}
-
-class GatheringDetailCoordinator: Coordinator {
+class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegate {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
+	var viewModel: GatheringDetailVM
 	
-	init(navigationController: UINavigationController) {
+	init(navigationController: UINavigationController, currentUser: User) {
 		self.navigationController = navigationController
+		self.viewModel = GatheringDetailVM(currentUser: currentUser)
 	}
 	
 	func start() {
-		let viewModel = GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser)
-		let viewController = GatheringDetailVC(viewModel: viewModel)
-		viewController.delegate = self
-		navigationController.pushViewController(viewController, animated: true)
+		let vc = GatheringDetailVC(viewModel: viewModel)
+		navigationController.pushViewController(vc, animated: true)
 	}
 	
-	func didSettingBtnTap() {
-		
-	}
-	
-	func didJoinBtnTap() {
-		
-	}
-	
-	func didEditBtnTap() {
-		
-	}
-	
-	func didBackBtnTap() {
-		
+	func showBoardDetail(for boardPost: BoardPost) {
+		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, 
+																	 boardPost: boardPost)
+		childCoordinators.append(boardDetailCoordinator)
+		boardDetailCoordinator.start()
 	}
 }
-
-extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
-	func didCellTap(boardPost: BoardPost) {
-			let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController)
-			childCoordinators.append(boardDetailCoordinator)
-		boardDetailCoordinator.startWithBoardPost(boardPost: boardPost)
-		}
-	
-	func didNotiRegiBtnTap() {
-		
-	}
-	
-	func didBoardRegiBtnTap() {
-		
-	}
-}
-
-

@@ -8,6 +8,15 @@
 import UIKit
 import Combine
 
+protocol GatheringDetailDelegate: AnyObject {
+	func didTapEditBtn()
+	func didTapProfileImage()
+	func didTapJoinBtn()
+	func didTapSettingBtn()
+	func didTapCell()
+	func gatheringDetailVC(_ viewController: GatheringDetailVC, didSelectBoardPost boardPost: BoardPost)
+}
+
 final class GatheringDetailVC: UIViewController {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
@@ -62,7 +71,7 @@ final class GatheringDetailVC: UIViewController {
 	
 	private var viewModel: GatheringDetailVM
 	private var cancellables: Set<AnyCancellable> = []
-	weak var delegate: GatheringDetailCoordinatorDelegate?
+	weak var delegate: GatheringDetailDelegate?
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -78,7 +87,6 @@ final class GatheringDetailVC: UIViewController {
 		setupUI()
 		bindViewModel()
 		viewModel.loadData()
-		
 		print("Join button action set: \(joinBtn.actions(forTarget: self, forControlEvent: .touchUpInside) ?? [])")
 	}
 	
@@ -153,6 +161,7 @@ final class GatheringDetailVC: UIViewController {
 		}
 	}
 	
+	// 가입화면 임시 주석처리
 	//	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
 	//		// 이미 화면에 해당 뷰가 있는지 확인
 	//		if existingView == nil {
@@ -228,12 +237,10 @@ final class GatheringDetailVC: UIViewController {
 
 extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightButtonDidTap() {
-		delegate?.didSettingBtnTap()
 		print("samll")
 	}
 	
 	func backButtonDidTap() {
-		delegate?.didBackBtnTap()
 	}
 }
 
@@ -278,7 +285,8 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringBoard:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
 														for: indexPath) as? GatheringDetailBoardTVCell {
-				cell.board = viewModel.filteredBoardData
+				cell.boardPosts = viewModel.filteredBoardData
+				cell.delegate = self
 				return cell
 			}
 		case .currentMemLabel:
@@ -316,19 +324,11 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .currentMemLabel:
 			return UITableView.automaticDimension
 		}
-		
-		// 셀이 눌렸을 떄
-		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-			guard indexPath.row < viewModel.filteredBoardData.count else { return }
-			let selectedBoardPost = viewModel.filteredBoardData[indexPath.row]
-			delegate?.didCellTap(boardPost: selectedBoardPost)
-		}
 	}
 	
 	// MARK: - objc메소드
 	
 	@objc private func joinButtonTap() {
-		delegate?.didJoinBtnTap()
 		print("버튼이 눌렸다")
 	}
 	
@@ -339,7 +339,13 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	
 }
 
+// MARK: - extention
 
+extension GatheringDetailVC: GatheringDetailBoardTVCellDelegate {
+	func gatheringDetailBoardTVCell(_ cell: GatheringDetailBoardTVCell, didSelectBoardPost boardPost: BoardPost) {
+		viewModel.didSelectBoardPost(boardPost)
+	}
+}
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
 	func didSelectBoardType(_ type: BoardButtonType) {

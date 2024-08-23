@@ -20,6 +20,7 @@ protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
+
 enum GatheringDetailCellType {
 	case gatheringImage
 	case gatheringTitle
@@ -149,18 +150,23 @@ class FirebaseService: FirebaseServiceProtocol {
 		.eraseToAnyPublisher()
 	}
 }
+
+protocol GatheringDetailCoordinatorDelegate: AnyObject {
+	func showBoardDetail(for boardPost: BoardPost)
+}
+
 class GatheringDetailVM {
-	@Published var gathering: Gathering?
-	@Published var membershipStatus: MembershipStatus = .joined
+	@Published private(set) var gathering: Gathering?
+	@Published private(set) var membershipStatus: MembershipStatus = .joined
+	@Published private(set) var boardData: [BoardPost] = []
+	@Published private(set) var masterNickname: String = ""
+	@Published private(set) var isMaster: Bool = false
 	@Published var selectedBoardType: BoardButtonType = .all
-	@Published var boardData: [BoardPost] = []
-	@Published var masterNickname: String = ""
-	@Published var isMaster: Bool = false
-	
+	private(set) var cancellables = Set<AnyCancellable>()
 	private let currentUser: User // 현재 사용자 정보
 	private let firebaseService: FirebaseServiceProtocol
 	
-	var cancellables = Set<AnyCancellable>()
+	weak var coordinatorDelegate: GatheringDetailCoordinatorDelegate?
 	
 	init(currentUser: User, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
 		self.currentUser = currentUser
@@ -171,6 +177,11 @@ class GatheringDetailVM {
 		fetchGatheringData()
 		fetchBoardData()
 	}
+	// 게시글 선택
+	func didSelectBoardPost(_ boardPost: BoardPost) {
+		coordinatorDelegate?.showBoardDetail(for: boardPost)
+	}
+	
 	// 게시판 데이터
 	private func fetchBoardData() {
 		firebaseService.fetchBoardData()
