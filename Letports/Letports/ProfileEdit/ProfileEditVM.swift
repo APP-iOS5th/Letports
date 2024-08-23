@@ -71,7 +71,6 @@ class ProfileEditVM {
     }
 
     private func loadImage(from urlString: String) {
-        print("테스트123")
         guard selectedImage == nil else { return }
         // URL 문자열을 URL 객체로 변환
         guard let url = URL(string: urlString) else { return }
