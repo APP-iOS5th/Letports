@@ -195,6 +195,68 @@ final class GatheringDetailVC: UIViewController {
 }
 
 // MARK: - extension
+extension GatheringDetailVC: JoinViewDelegate {
+	func joinViewDidTapCancel(_ joinView: JoinView) {
+		dismissJoinView()
+	}
+	
+	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
+		// 여기에 가입 로직을 구현합니다.
+		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
+		// 가입 처리 후 뷰를 닫습니다.
+		dismissJoinView()
+	}
+	
+	func dismissJoinView() {
+		UIView.animate(withDuration: 0.3, animations: {
+			self.joinView?.alpha = 0
+			self.joinBackground?.alpha = 0
+		}) { _ in
+			self.joinView?.removeFromSuperview()
+			self.joinBackground?.removeFromSuperview()
+			self.joinView = nil
+			self.joinBackground = nil
+		}
+	}
+
+	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+		// 이미 화면에 해당 뷰가 있는지 확인
+		if existingView == nil {
+			let joinBackView = JoinBackgroundView(frame: self.view.bounds)
+			self.joinBackground = joinBackView
+			self.view.addSubview(joinBackView)
+			NSLayoutConstraint.activate([
+				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
+				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+			])
+			// 뷰를 생성하고 설정
+			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+			existingView = T(frame: userViewFrame)
+			
+			
+			if let userView = existingView as? JoinView {
+				userView.configure(with: gathering)
+				userView.delegate = self
+			}
+			
+			if let userView = existingView {
+				userView.center = view.center
+				
+				self.view.addSubview(userView)
+				userView.translatesAutoresizingMaskIntoConstraints = false
+				
+				NSLayoutConstraint.activate([
+					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+					userView.widthAnchor.constraint(equalToConstant: width),
+					userView.heightAnchor.constraint(equalToConstant: height)
+				])
+			}
+		}
+	}
+}
 
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapCell(boardPost: Post) {
@@ -315,49 +377,11 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 	
-	// 가입화면
-	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
-		// 이미 화면에 해당 뷰가 있는지 확인
-		if existingView == nil {
-			let joinBackView = JoinBackgroundView(frame: self.view.bounds)
-			self.joinBackground = joinBackView
-			self.view.addSubview(joinBackView)
-			NSLayoutConstraint.activate([
-				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
-				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-			])
-			// 뷰를 생성하고 설정
-			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
-			existingView = T(frame: userViewFrame)
-			
-			
-			if let userView = existingView as? JoinView {
-				userView.configure(with: gathering)
-			}
-			
-			if let userView = existingView {
-				userView.center = view.center
-				
-				self.view.addSubview(userView)
-				userView.translatesAutoresizingMaskIntoConstraints = false
-				
-				NSLayoutConstraint.activate([
-					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-					userView.widthAnchor.constraint(equalToConstant: width),
-					userView.heightAnchor.constraint(equalToConstant: height)
-				])
-			}
-		}
-	}
 	// MARK: - objc메소드
 	
 	@objc private func joinButtonTap() {
 		print("버튼이 눌렸다")
 		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
-		
 	}
 	
 	@objc private func editBtnTap() {

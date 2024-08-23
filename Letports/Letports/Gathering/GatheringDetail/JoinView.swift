@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol JoinViewDelegate: AnyObject {
+	func joinViewDidTapCancel(_ joinView: JoinView)
+	func joinViewDidTapJoin(_ joinView: JoinView, answer: String)
+}
+
 class JoinView: UIView {
+	weak var delegate: JoinViewDelegate?
 	
 	private lazy var containerView: UIView = {
 		let view = UIView()
@@ -59,7 +65,7 @@ class JoinView: UIView {
 	private lazy var cancelButton: UIButton = {
 		let btn = UIButton()
 		btn.setTitle("취소하기", for: .normal)
-		btn.backgroundColor = UIColor(named: "lp_gray")
+		btn.backgroundColor = UIColor(named: "lp_tint")
 		btn.layer.cornerRadius = 10
 		btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -68,8 +74,8 @@ class JoinView: UIView {
 	
 	private lazy var deleteUserButton: UIButton = {
 		let btn = UIButton()
-		btn.setTitle("추방하기", for: .normal)
-		btn.backgroundColor = UIColor(named: "lp_tint")
+		btn.setTitle("가입하기", for: .normal)
+		btn.backgroundColor = UIColor(named: "lp_main")
 		btn.layer.cornerRadius = 10
 		btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -95,43 +101,56 @@ class JoinView: UIView {
 		NSLayoutConstraint.activate([
 			containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-					   containerView.widthAnchor.constraint(equalToConstant: 361),
-					   containerView.heightAnchor.constraint(equalToConstant: 468)
+			containerView.widthAnchor.constraint(equalToConstant: 361),
+			containerView.heightAnchor.constraint(equalToConstant: 468)
 		])
 		
 		NSLayoutConstraint.activate([
-				   titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-				   titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-				   titleLabel.heightAnchor.constraint(equalToConstant: 20),
-
-				   plzAnswerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-				   plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-				   plzAnswerLabel.heightAnchor.constraint(equalToConstant: 16),
-
-				   questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 14),
-				   questionTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-				   questionTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-				   questionTextView.heightAnchor.constraint(equalToConstant: 72),
-
-				   answerTextView.topAnchor.constraint(equalTo: questionTextView.bottomAnchor, constant: 10),
-				   answerTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-				   answerTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-				   answerTextView.heightAnchor.constraint(equalToConstant: 252),
-
-				   cancelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-				   cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-				   cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-				   cancelButton.widthAnchor.constraint(equalToConstant: 162),
-				   cancelButton.heightAnchor.constraint(equalToConstant: 30),
-
-				   deleteUserButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-				   deleteUserButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-				   deleteUserButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-				   deleteUserButton.widthAnchor.constraint(equalToConstant: 162),
-				   deleteUserButton.heightAnchor.constraint(equalToConstant: 30),
-			   ])
+			titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+			titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+			titleLabel.heightAnchor.constraint(equalToConstant: 20),
+			
+			plzAnswerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+			plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
+			plzAnswerLabel.heightAnchor.constraint(equalToConstant: 16),
+			
+			questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 14),
+			questionTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+			questionTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+			questionTextView.heightAnchor.constraint(equalToConstant: 72),
+			
+			answerTextView.topAnchor.constraint(equalTo: questionTextView.bottomAnchor, constant: 10),
+			answerTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+			answerTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+			answerTextView.heightAnchor.constraint(equalToConstant: 252),
+			
+			cancelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+			cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+			cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+			cancelButton.widthAnchor.constraint(equalToConstant: 162),
+			cancelButton.heightAnchor.constraint(equalToConstant: 30),
+			
+			deleteUserButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+			deleteUserButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+			deleteUserButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+			deleteUserButton.widthAnchor.constraint(equalToConstant: 162),
+			deleteUserButton.heightAnchor.constraint(equalToConstant: 30),
+		])
+		
+		cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+		deleteUserButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
 	}
-	 
+	
+	@objc private func cancelButtonTapped() {
+		delegate?.joinViewDidTapCancel(self)
+	}
+	
+	@objc private func joinButtonTapped() {
+		let answer = answerTextView.text ?? ""
+		delegate?.joinViewDidTapJoin(self, answer: answer)
+	}
+	
+	
 	func configure(with gathering: Gathering) {
 		titleLabel.text = gathering.gatherName
 		questionTextView.text = gathering.gatherQuestion
