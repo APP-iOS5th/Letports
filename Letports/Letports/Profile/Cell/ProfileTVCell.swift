@@ -82,10 +82,10 @@ class ProfileTVCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
          
             
-            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            profileIV.widthAnchor.constraint(equalToConstant: 70),
-            profileIV.heightAnchor.constraint(equalToConstant: 70),
+            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
+            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            profileIV.widthAnchor.constraint(equalToConstant: 80),
+            profileIV.heightAnchor.constraint(equalToConstant: 80),
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
