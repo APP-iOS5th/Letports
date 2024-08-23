@@ -165,7 +165,7 @@ class HomeVC: UIViewController {
     }()
     
     lazy var gatheringStackView: UIStackView = {
-        let gatheringView = createStackView(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 2)
+        let gatheringView = createStackView(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 6)
         
         let image1 = UIImageView()
         image1.contentMode = .scaleAspectFit
@@ -228,6 +228,35 @@ class HomeVC: UIViewController {
                 }
             }
             .store(in: &cancellables)
+        
+        viewModel.$gatherings
+            .sink { [weak self] gatherings in
+                guard let self = self else { return }
+                self.updateGatheringImages(gatherings)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateGatheringImages(_ gatherings: [Gathering]) {
+        gatheringStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        gatherings.forEach { gathering in
+            if let url = gathering.gatheringImage {
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.kf.setImage(with: url, completionHandler: { result in
+                    switch result {
+                    case .success(let value):
+                        print("Image loaded successfully: \(value.source.url?.absoluteString ?? "")")
+                    case .failure(let error):
+                        print("Error loading image: \(error.localizedDescription)")
+                    }
+                })
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+                imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+                gatheringStackView.addArrangedSubview(imageView)
+            }
+        }
     }
     
     func setupUI() {

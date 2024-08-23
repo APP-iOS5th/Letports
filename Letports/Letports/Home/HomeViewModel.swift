@@ -18,8 +18,40 @@ struct Team {
     var youtubeURL: URL?
 }
 
+struct YoutubeVideo {
+    let title: String
+    let thumbnailURL: URL
+    let videoURL: URL
+}
+
+struct YoutubeAPIResponse: Codable {
+    struct Item: Codable {
+        struct ID: Codable {
+            let videoId: String?
+        }
+        struct Snippet: Codable {
+            let title: String
+            struct Thumbnails: Codable {
+                struct Default: Codable {
+                    let url: String
+                }
+                let medium: Default
+            }
+            let thumbnails: Thumbnails
+        }
+        let id: ID
+        let snippet: Snippet
+    }
+    let items: [Item]
+}
+
+struct Gathering {
+    var gatheringImage: URL?
+}
+
 protocol FirebaseServiceProtocol {
     func fetchTeamData(teamUID: String) -> AnyPublisher<Team, Error>
+    func fetchGatherings(forTeam teamName: String) -> AnyPublisher<[Gathering], Error>
 }
 
 class FirebaseService: FirebaseServiceProtocol {
@@ -56,39 +88,45 @@ class FirebaseService: FirebaseServiceProtocol {
         }
         .eraseToAnyPublisher()
     }
-}
-
-struct YoutubeVideo {
-    let title: String
-    let thumbnailURL: URL
-    let videoURL: URL
-}
-
-struct YoutubeAPIResponse: Codable {
-    struct Item: Codable {
-        struct ID: Codable {
-            let videoId: String?
-        }
-        struct Snippet: Codable {
-            let title: String
-            struct Thumbnails: Codable {
-                struct Default: Codable {
-                    let url: String
+    
+    func fetchGatherings(forTeam teamName: String) -> AnyPublisher<[Gathering], Error> {
+        return Future { promise in
+            let db = Firestore.firestore()
+            db.collection("Gatherings")
+                .getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        promise(.failure(error))
+                    } else {
+                        var gatherings: [Gathering] = []
+                        querySnapshot?.documents.forEach { document in
+                            let data = document.data()
+                            if let sportsTeam = data["GatheringSportsTeam"] as? String, sportsTeam == teamName {
+                                if let imageURLString = data["GatherImage"] as? String {
+                                    if let imageURL = URL(string: imageURLString) {
+                                        print("Valid Image URL for document \(document.documentID): \(imageURLString)")
+                                        let gathering = Gathering(gatheringImage: imageURL)
+                                        gatherings.append(gathering)
+                                    } else {
+                                        print("Invalid image URL format for document: \(document.documentID)")
+                                    }
+                                } else {
+                                    print("Missing GatherImage field for document: \(document.documentID)")
+                                }
+                            }
+                        }
+                        promise(.success(gatherings))
+                    }
                 }
-                let medium: Default
-            }
-            let thumbnails: Thumbnails
         }
-        let id: ID
-        let snippet: Snippet
+        .eraseToAnyPublisher()
     }
-    let items: [Item]
 }
 
 class HomeViewModel {
     
     @Published var team: Team?
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
+    @Published var gatherings: [Gathering] = []
     
     private var cancellables = Set<AnyCancellable>()
     private let firebaseService: FirebaseServiceProtocol
@@ -97,6 +135,7 @@ class HomeViewModel {
     init(firebaseService: FirebaseServiceProtocol = FirebaseService()) {
         self.firebaseService = firebaseService
         fetchTeamData()
+        fetchGatherings(forTeam: "LG 트윈스")
     }
     
     func fetchTeamData() {
@@ -183,6 +222,7 @@ class HomeViewModel {
         return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
     }
     
+    // 유튜브 채널 아이디 가져오기
     private func fetchChannelID(for usernameOrCustomURL: String) -> AnyPublisher<String, Error> {
         let apiUrlString = "https://www.googleapis.com/youtube/v3/channels?key=\(youtubeAPIKey)&forUsername=\(usernameOrCustomURL)&part=id"
         
@@ -208,4 +248,20 @@ class HomeViewModel {
         }
         let items: [Item]
     }
+    
+    func fetchGatherings(forTeam teamName: String) {
+        firebaseService.fetchGatherings(forTeam: teamName)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching gatherings: \(error)")
+                case .finished:
+                    break
+                }
+            }, receiveValue: { [weak self] gatherings in
+                self?.gatherings = gatherings
+            })
+            .store(in: &cancellables)
+    }
+    
 }
