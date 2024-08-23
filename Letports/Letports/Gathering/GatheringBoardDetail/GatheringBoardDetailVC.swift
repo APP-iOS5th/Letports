@@ -119,6 +119,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 		switch self.viewModel.getBoardDetailCellTypes()[indexPath.row] {
 		case .boardProfileTitle:
 			if let cell: GatheringBoardDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
+				cell.configure(with: viewModel.postAuthor)
 				return cell
 			}
 		case .boardContents:

@@ -194,14 +194,13 @@ class GatheringDetailVM {
 	static let dummyUser = LetportsUser(
 		 email: "user005@example.com",
 		 image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		 myGathering: ["gathering015", "gathering010"],
+		 myGathering: ["gathering012"],
 		 nickname: "완벽수비",
 		 simpleInfo: "빠른 속도를 좋아합니다",
 		 uid: "user015",
 		 userSports: "KBO",
 		 userSportsTeam: "두산 베어스"
 	 )
-	
 	
 	// 게시판 분류
 	var filteredBoardData: [Post] {
