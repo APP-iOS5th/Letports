@@ -46,7 +46,8 @@ struct YoutubeAPIResponse: Codable {
 }
 
 struct Gathering {
-    var gatheringImage: URL?
+    var gatherImage: URL?
+    var gatherName: String?
 }
 
 protocol FirebaseServiceProtocol {
@@ -101,10 +102,11 @@ class FirebaseService: FirebaseServiceProtocol {
                         querySnapshot?.documents.forEach { document in
                             let data = document.data()
                             if let sportsTeam = data["GatheringSportsTeam"] as? String, sportsTeam == teamName {
+                                let gatherName = data["GatherName"] as? String
                                 if let imageURLString = data["GatherImage"] as? String {
                                     if let imageURL = URL(string: imageURLString) {
                                         print("Valid Image URL for document \(document.documentID): \(imageURLString)")
-                                        let gathering = Gathering(gatheringImage: imageURL)
+                                        let gathering = Gathering(gatherImage: imageURL, gatherName: gatherName)
                                         gatherings.append(gathering)
                                     } else {
                                         print("Invalid image URL format for document: \(document.documentID)")

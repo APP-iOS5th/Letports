@@ -240,21 +240,48 @@ class HomeVC: UIViewController {
     private func updateGatheringImages(_ gatherings: [Gathering]) {
         gatheringStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         gatherings.forEach { gathering in
-            if let url = gathering.gatheringImage {
+            if let url = gathering.gatherImage {
+                // 컨테이너 뷰 생성
+                let containerView = UIView()
+                containerView.translatesAutoresizingMaskIntoConstraints = false
+                containerView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+                containerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+                
+                // 이미지 뷰 생성 및 추가
                 let imageView = UIImageView()
                 imageView.contentMode = .scaleAspectFill
-                imageView.kf.setImage(with: url, completionHandler: { result in
-                    switch result {
-                    case .success(let value):
-                        print("Image loaded successfully: \(value.source.url?.absoluteString ?? "")")
-                    case .failure(let error):
-                        print("Error loading image: \(error.localizedDescription)")
-                    }
-                })
+                imageView.kf.setImage(with: url)
                 imageView.translatesAutoresizingMaskIntoConstraints = false
-                imageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-                imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-                gatheringStackView.addArrangedSubview(imageView)
+                containerView.addSubview(imageView)
+                
+                // 이름 라벨 생성 및 추가
+                if let gatherName = gathering.gatherName {
+                    let nameLabel = UILabel()
+                    nameLabel.text = gatherName
+                    nameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+                    nameLabel.textColor = .white
+                    nameLabel.textAlignment = .center
+                    nameLabel.translatesAutoresizingMaskIntoConstraints = false
+                    containerView.addSubview(nameLabel)
+                    
+                    // 이름 라벨 레이아웃 설정
+                    NSLayoutConstraint.activate([
+                        nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+                        nameLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
+                        nameLabel.heightAnchor.constraint(equalToConstant: 40)
+                    ])
+                }
+                
+                // 이미지 뷰 레이아웃 설정
+                NSLayoutConstraint.activate([
+                    imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                    imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+                ])
+                
+                // 컨테이너 뷰를 stackView에 추가
+                gatheringStackView.addArrangedSubview(containerView)
             }
         }
     }
