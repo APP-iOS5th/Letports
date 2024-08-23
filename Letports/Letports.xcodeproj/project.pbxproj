@@ -120,6 +120,7 @@
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
 		F703EC2F2C78694A003C994C /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F703EC2E2C786949003C994C /* Auth.xcconfig */; };
+		F703EC322C788272003C994C /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F703EC2E2C786949003C994C /* Auth.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
 		F703EC302C78695E003C994C /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
+		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,6 +400,7 @@
 				BFFFD3E92C7331140053A86B /* GatheringBoardDetail */,
 				BFE5B5722C6B7ECB00C0103F /* GatheringDetail */,
 				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
+				F703EC312C788272003C994C /* GatheringVM.swift */,
 				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
 				BFD9AEF72C76F21A000C3A20 /* CustomActionSheetView.swift */,
 			);
@@ -813,6 +816,7 @@
 				BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */,
 				BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */,
 				BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */,
+				F703EC322C788272003C994C /* GatheringVM.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
 				BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */,
 				BFFFD3E82C7328130053A86B /* currentMemTVCell.swift in Sources */,
