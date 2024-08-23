@@ -42,6 +42,12 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		}
 	}
 	
+	var membershipStatus: MembershipStatus = .notJoined {
+		didSet {
+			tableView.reloadData()
+		}
+	}
+	
 	// MARK: - Setup
 	private func setupUI() {
 		self.contentView.addSubview(tableView)
@@ -79,9 +85,10 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 													   for: indexPath) as? BoardTVCell else {
 			return UITableViewCell()
 		}
-		cell.configureCell(data: board[indexPath.row])
-		cell.delegate = self
-		return cell
+		let isActive = membershipStatus == .joined
+			cell.configureCell(data: board[indexPath.row], isActive: isActive)
+			cell.delegate = self
+			return cell
 	}
 	
 	func didTapCell(boardPost: Post) {

@@ -105,7 +105,7 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: Post) {
+	func configureCell(data: Post, isActive: Bool) {
 		//		createDateLabel.text = data.createDate (데이터 없음)
 		self.boardPost = data
 		switch data.boardType {
@@ -117,6 +117,8 @@ final class BoardTVCell: UITableViewCell {
 			boardTypeLabel.text = "전체"
 		}
 		titleLabel.text = data.contents
+		
+		self.isUserInteractionEnabled = isActive
 	}
 	
 	@objc private func cellTap() {

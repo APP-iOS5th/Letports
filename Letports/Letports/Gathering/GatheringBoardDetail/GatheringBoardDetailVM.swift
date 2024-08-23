@@ -89,7 +89,7 @@ final class GatheringBoardDetailVM {
 	}
 	
 	let comment: [Comment] = [
-		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견댓글 내용 1 - 황희찬님의 의견"),
+		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
 		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
 		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),
 		Comment(nickName: "김민재", writeDate: "2024-07-10 14:12", content: "댓글 내용 4 - 김민재님의 의견"),

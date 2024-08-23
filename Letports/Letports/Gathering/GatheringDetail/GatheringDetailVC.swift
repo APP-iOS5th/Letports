@@ -274,6 +274,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
 														for: indexPath) as? GatheringDetailBoardTVCell {
 				cell.board = viewModel.filteredBoardData
+				cell.membershipStatus = viewModel.membershipStatus
 				cell.delegate = self
 				return cell
 			}
@@ -314,7 +315,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 	
-	//	 가입화면 임시 주석처리
+	// 가입화면
 	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
 		// 이미 화면에 해당 뷰가 있는지 확인
 		if existingView == nil {
