@@ -51,6 +51,7 @@
 		B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
 		B85FD83C2C75AC2B007B4962 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD83B2C75AC2B007B4962 /* AppCoordinator.swift */; };
 		B85FD84F2C7855DE007B4962 /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B85FD84E2C7855DE007B4962 /* Auth.xcconfig */; };
+		B85FD8532C7864DC007B4962 /* SelectTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
 		B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C12C746AE90039D33B /* AuthVM.swift */; };
@@ -179,6 +180,7 @@
 		B85FD83B2C75AC2B007B4962 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B85FD84E2C7855DE007B4962 /* Auth.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
 		B85FD8502C7855EA007B4962 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
+		B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamVC.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B8D4D0C12C746AE90039D33B /* AuthVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVM.swift; sourceTree = "<group>"; };
@@ -413,6 +415,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		B85FD8512C7864C4007B4962 /* SelectTeam */ = {
+			isa = PBXGroup;
+			children = (
+				B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */,
+			);
+			path = SelectTeam;
+			sourceTree = "<group>";
+		};
 		B8D4D0B92C74693D0039D33B /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +530,7 @@
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
+				B85FD8512C7864C4007B4962 /* SelectTeam */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
 				B8D4D0B92C74693D0039D33B /* Service */,
 				B824714A2C6C34360067BD09 /* Auth */,
@@ -780,6 +791,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF1283D52C72170B00BEAE4C /* BoardButtonCVCell.swift in Sources */,
+				B85FD8532C7864DC007B4962 /* SelectTeamVC.swift in Sources */,
 				410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */,
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
