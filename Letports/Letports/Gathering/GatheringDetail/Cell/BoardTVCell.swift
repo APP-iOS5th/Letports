@@ -122,7 +122,6 @@ final class BoardTVCell: UITableViewCell {
 	}
 	
 	@objc private func cellTap() {
-		print("[\(Date())] BoardTVCell: 셀이 탭되었습니다.")
 		guard let boardPost = boardPost else { return }
 		delegate?.didTapCell(boardPost: boardPost)
 	}

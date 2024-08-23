@@ -17,6 +17,7 @@ protocol ButtonStateDelegate: AnyObject {
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showBoardDetail(boardPost: Post, gathering: Gathering)
+	func dismissJoinView()
 }
 
 
@@ -65,6 +66,10 @@ class GatheringDetailVM {
 		fetchGatheringData()
 		fetchBoardData()
 	}
+	
+	func dismissJoinView() {
+			coordinatorDelegate?.dismissJoinView()
+		}
 	
 	func didTapBoardCell(boardPost: Post) {
 		self.coordinatorDelegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)

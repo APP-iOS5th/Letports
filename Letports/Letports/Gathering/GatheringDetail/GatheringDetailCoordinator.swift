@@ -29,14 +29,17 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	}
 	
 	func showBoardDetail(boardPost: Post, gathering: Gathering) {
-		print("GatheringDetailCoordinator: showBoardDetail called with boardPost: \(boardPost.postUID)")
-		print("GatheringDetailCoordinator: showBoardDetail called with boardPost: \(gathering)")
 		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, 
-																	 postUID: boardPost.postUID, 
+																	 postUID: boardPost.postUID,
 																	 gathering: gathering)
 		childCoordinators.append(boardDetailCoordinator)
 		boardDetailCoordinator.start()
-		print("GatheringDetailCoordinator: 새 화면으로 전환")
+	}
+	
+	func dismissJoinView() {
+		if let viewController = navigationController.viewControllers.last as? GatheringDetailVC {
+			viewController.dismissJoinViewFromCoordinator()
+		}
 	}
 }
 

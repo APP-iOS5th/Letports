@@ -93,7 +93,6 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 	
 	func didTapCell(boardPost: Post) {
 		delegate?.didTapCell(boardPost: boardPost)
-		print("GatheringDetailBoardTVCell: 셀 탭 이벤트 전달받음")
 	}
 }
 func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
