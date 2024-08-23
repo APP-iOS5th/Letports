@@ -7,6 +7,9 @@
 .AppleDouble
 .LSOverride
 GoogleService-Info.plist
+*.xcconfig
+*.entitlements
+
 
 # Icon must end with two \r
 Icon

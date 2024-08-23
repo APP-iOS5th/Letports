@@ -110,6 +110,7 @@ class HomeVC: UIViewController {
     lazy var firstThumbnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .lpGray
         image.layer.cornerRadius = 10
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -120,7 +121,7 @@ class HomeVC: UIViewController {
     //썸네일1 제목
     lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
-        label.text = "제목1"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 10)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -136,6 +137,7 @@ class HomeVC: UIViewController {
     lazy var secondThumbnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .lpGray
         image.layer.cornerRadius = 10
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -146,7 +148,7 @@ class HomeVC: UIViewController {
     //썸네일2 제목
     lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
-        label.text = "제목2"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 10)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -408,7 +410,7 @@ class HomeVC: UIViewController {
     }
     
     //썸네일 이미지 업로드
-    private func updateGatheringImages(_ gatherings: [Gathering]) {
+    private func updateGatheringImages(_ gatherings: [SampleGathering2]) {
         gatheringSV.arrangedSubviews.forEach { $0.removeFromSuperview() }
         gatherings.forEach { gathering in
             if let url = gathering.gatherImage {

@@ -8,6 +8,7 @@
 import UIKit
 
 class TabBarCoordinator: Coordinator {
+    weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
@@ -19,6 +20,7 @@ class TabBarCoordinator: Coordinator {
     }
     
     func start() {
+        
         let homeNavController = UINavigationController()
         let gatheringNavController = UINavigationController()
         let profileNavController = UINavigationController()
@@ -27,9 +29,11 @@ class TabBarCoordinator: Coordinator {
         let gatheringCoordinator = GatheringCoordinator(navigationController: gatheringNavController)
         let profileCoordinator = ProfileCoordinator(navigationController: profileNavController)
         
-        childCoordinators.append(homeCoordinator)
-        childCoordinators.append(gatheringCoordinator)
-        childCoordinators.append(profileCoordinator)
+        homeCoordinator.parentCoordinator = self
+        gatheringCoordinator.parentCoordinator = self
+        profileCoordinator.parentCoordinator = self
+        
+        childCoordinators = [homeCoordinator, gatheringCoordinator, profileCoordinator]
         
         homeCoordinator.start()
         gatheringCoordinator.start()
@@ -61,5 +65,9 @@ class TabBarCoordinator: Coordinator {
         profileTab.selectedImage = UIImage(systemName: "person.fill")
         
         tabBarController.tabBar.tintColor = .lpMain
+    }
+    
+    func userDidLogout() {
+        parentCoordinator?.userDidLogout()
     }
 }
