@@ -84,7 +84,7 @@ class GatherSettingVC: UIViewController {
     }
     
     private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, user: GatheringMember, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
-        // 이미 화면에 해당 뷰가 있는지 확인
+        
         if existingView == nil {
             let dimmingView = DimmedBackgroundView(frame: self.view.bounds)
             self.dimmingView = dimmingView
@@ -95,7 +95,7 @@ class GatherSettingVC: UIViewController {
                 dimmingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
-            // 뷰를 생성하고 설정
+            
             let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
             existingView = T(frame: userViewFrame)
             
@@ -127,12 +127,23 @@ class GatherSettingVC: UIViewController {
 }
 
 extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getCellCount()
+    }
     
-    // 셀이 클릭되었을 때 호출되는 메서드
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = self.viewModel.getCellTypes()[indexPath.row]
+        switch cellType {
+        case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
+            return 50.0
+        case .pendingGatheringUser, .joiningGatheringUser:
+            return 60.0
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellType = viewModel.getCellTypes()[indexPath.row]
-        
-        if cellType == .pendingGatheringUser {
+        switch self.viewModel.getCellTypes()[indexPath.row] {
+        case .pendingGatheringUser:
             let startIndex = 1
             let userIndex = indexPath.row - startIndex
             if userIndex < viewModel.pendingGatheringMembers.count {
@@ -141,8 +152,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                     showUserView(viewType: PendingUserView.self, existingView: &pendingUserView, user: user, gathering: gathering)
                 }
             }
-        }
-        if cellType == .joiningGatheringUser {
+        case .joiningGatheringUser:
             let startIndex = 2 + viewModel.joiningGatheringMembers.count
             let userIndex = indexPath.row - startIndex
             if userIndex < viewModel.joiningGatheringMembers.count {
@@ -150,13 +160,10 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 if let gathering = viewModel.gathering {
                     showUserView(viewType: JoiningUserView.self, existingView: &joiningUserView, user: user, gathering: gathering)
                 }
-                
             }
+        default:
+            break
         }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getCellCount()
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -168,6 +175,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .pendingGatheringUserTtitle:
@@ -192,7 +200,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .joiningGatheringUser:
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.joiningGatheringMembers.count
+                let startIndex = 3 + viewModel.joiningGatheringMembers.count
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.joiningGatheringMembers.count {
                     let user = viewModel.joiningGatheringMembers[userIndex]
@@ -212,15 +220,4 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         }
         return UITableViewCell()
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellType = self.viewModel.getCellTypes()[indexPath.row]
-        switch cellType {
-        case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
-            return 50.0
-        case .pendingGatheringUser, .joiningGatheringUser:
-            return 60.0
-        }
-    }
-    
 }

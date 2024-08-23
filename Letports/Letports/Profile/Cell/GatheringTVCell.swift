@@ -1,6 +1,7 @@
 import UIKit
 
 class GatheringTVCell: UITableViewCell {
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
@@ -174,5 +175,4 @@ class GatheringTVCell: UITableViewCell {
         gatheringIV.kf.setImage(with: url, placeholder: placeholder)
         gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
     }
-    
 }

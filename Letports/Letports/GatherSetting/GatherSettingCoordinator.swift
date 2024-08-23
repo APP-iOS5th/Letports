@@ -22,6 +22,4 @@ class GatherSettingCoordinator: Coordinator {
         gatherSettingVC.coordinator = self
         navigationController.pushViewController(gatherSettingVC, animated: false)
     }
-    
-  
 }

@@ -70,8 +70,6 @@ class ProfileEditVC: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
-        
     }
     
     private func bindViewModel() {
@@ -97,7 +95,6 @@ extension ProfileEditVC: CustomNavigationDelegate {
 }
 
 extension ProfileEditVC: ProfileEditDelegate {
-    
     func editUserNickName(content: String) {
         self.viewModel.editUserNickName(content: content)
     }
@@ -106,14 +103,12 @@ extension ProfileEditVC: ProfileEditDelegate {
         self.viewModel.editUserSimpleInfo(content: content)
     }
     
-    
     func didTapEditProfileImage() {
         self.viewModel.photoUploadButtonTapped()
     }
 }
 
 extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getCellCount()
     }
@@ -124,12 +119,11 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         case .profileImage:
             return 150.0
         case .nickName:
-            return 80.0
+            return 100.0
         case .simpleInfo:
-            return 80.0
+            return 100.0
         }
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
@@ -137,7 +131,6 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: ProfileImageTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 cell.configure(with: viewModel)
-                //cell.configure(with: viewModel.user?.image)
                 return cell
             }
         case .nickName:

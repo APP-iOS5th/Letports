@@ -17,12 +17,12 @@ class ProfileEditCoordinator: NSObject, Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var viewModel: ProfileEditVM
-
+    
     init(navigationController: UINavigationController , viewModel: ProfileEditVM) {
         self.navigationController = navigationController
         self.viewModel = viewModel
     }
-
+    
     func start() {
         viewModel.delegate = self
         let profileEditVC = ProfileEditVC(viewModel: viewModel)
@@ -49,7 +49,7 @@ class ProfileEditCoordinator: NSObject, Coordinator {
     }
     
     func topMostViewController() -> UIViewController? {
-        // 활성화된 UIWindowScene을 찾습니다.
+        
         guard let windowScene = UIApplication.shared.connectedScenes
             .filter({ $0.activationState == .foregroundActive })
             .compactMap({ $0 as? UIWindowScene })
@@ -57,14 +57,12 @@ class ProfileEditCoordinator: NSObject, Coordinator {
             return nil
         }
         
-        // 해당 UIWindowScene에서 topViewController를 찾습니다.
         var topViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController
         while let presentedViewController = topViewController?.presentedViewController {
             topViewController = presentedViewController
         }
         return topViewController
     }
-    
 }
 
 
@@ -96,11 +94,9 @@ extension ProfileEditCoordinator: ProfileEditCoordinatorDelegate {
             self.albumAccessDeniedAlert()
         }
     }
-    
 }
 
 extension ProfileEditCoordinator: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
- 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {

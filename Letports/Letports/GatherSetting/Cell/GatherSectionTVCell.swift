@@ -28,7 +28,6 @@ class GatherSectionTVCell: UITableViewCell {
     }
     
     func setupUI() {
-        
         contentView.addSubview(titleLabel)
         contentView.backgroundColor = .lp_background_white
         
@@ -37,7 +36,6 @@ class GatherSectionTVCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
         ])
     }
     

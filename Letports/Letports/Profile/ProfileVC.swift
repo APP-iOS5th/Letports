@@ -13,7 +13,7 @@ protocol ProfileDelegate: AnyObject {
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
-
+    
     
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
@@ -44,11 +44,10 @@ class ProfileVC: UIViewController {
         return tv
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-         bindViewModel()
+        bindViewModel()
         
     }
     
@@ -83,7 +82,7 @@ class ProfileVC: UIViewController {
         }
         .store(in: &cancellables)
     }
-
+    
 }
 
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
@@ -93,16 +92,14 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cellType = viewModel.getCellTypes()[indexPath.row]
-        
-        // profile, myGatherings, pendingGatherings 셀만 선택 가능하도록 설정
         switch cellType {
         case .profile, .myGatherings, .pendingGatherings:
-            return indexPath // 선택 가능
+            return indexPath
         default:
-            return nil // 선택 불가
+            return nil
         }
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
@@ -115,7 +112,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .pendingGatheringHeader:
             return 50.0
         case .pendingGatherings:
-            return 80.0 
+            return 80.0
         }
     }
     
@@ -160,7 +157,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
         return UITableViewCell()
     }
-    
 }
 
 extension ProfileVC: ProfileDelegate {

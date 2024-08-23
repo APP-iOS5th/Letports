@@ -2,8 +2,6 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
-
-
 enum GatheringSettingCellType {
     case pendingGatheringUserTtitle
     case pendingGatheringUser
@@ -35,6 +33,10 @@ class GatherSettingVM {
         return cellTypes
     }
     
+    init() {
+        loadGathering(with: "gathering040")
+    }
+    
     func getCellTypes() -> [GatheringSettingCellType] {
         return self.cellType
     }
@@ -42,11 +44,6 @@ class GatherSettingVM {
     func getCellCount() -> Int {
         return self.cellType.count
     }
-    
-    init() {
-        loadGathering(with: "gathering040")
-    }
-    
     
     func processUserAction(for user: GatheringMember, with gathering: Gathering, action: UserAction) {
         switch action {
@@ -62,7 +59,7 @@ class GatherSettingVM {
     }
     
     func handleApprove(for user: GatheringMember, in gathering: Gathering) {
-      print("가입승인")
+        print("가입승인")
     }
     
     func loadGathering(with GatheringUid: String) {
@@ -92,7 +89,6 @@ class GatherSettingVM {
         }
         FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
             .map { gathering in
-                // 유저의 joinStatus에 따라 배열을 나눔
                 let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
                 let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }
                 return (joining, pending)
@@ -111,6 +107,4 @@ class GatherSettingVM {
             })
             .store(in: &cancellables)
     }
-    
-    
 }

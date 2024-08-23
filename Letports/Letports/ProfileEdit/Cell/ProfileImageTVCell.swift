@@ -14,14 +14,6 @@ class ProfileImageTVCell: UITableViewCell {
     weak var delegate: ProfileEditDelegate?
     private var cancellables = Set<AnyCancellable>()
     
-    private lazy var containerView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 12
-        view.backgroundColor = .lp_white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 20
@@ -56,7 +48,7 @@ class ProfileImageTVCell: UITableViewCell {
     
     private func setupUI() {
         contentView.backgroundColor = .lp_background_white
-       
+        
         [profileImageView, profileImageButton].forEach {
             contentView.addSubview($0)
         }
@@ -71,7 +63,6 @@ class ProfileImageTVCell: UITableViewCell {
             profileImageButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             profileImageButton.widthAnchor.constraint(equalToConstant: 120),
             profileImageButton.heightAnchor.constraint(equalToConstant: 120),
-            
         ])
     }
     
@@ -87,5 +78,4 @@ class ProfileImageTVCell: UITableViewCell {
     @objc func imageButtonTapped() {
         delegate?.didTapEditProfileImage()
     }
-    
 }

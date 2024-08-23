@@ -46,12 +46,12 @@ class SimpleInfoTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            simpleInfoLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            simpleInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            simpleInfoLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            simpleInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             simpleInfoTextField.topAnchor.constraint(equalTo: simpleInfoLabel.bottomAnchor, constant: 10),
-            simpleInfoTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            simpleInfoTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            simpleInfoTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            simpleInfoTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
     }
     

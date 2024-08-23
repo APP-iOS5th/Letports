@@ -25,9 +25,7 @@ class ProfileCoordinator: Coordinator {
     }
 }
 
-
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
-    
     func presentEditProfileController(user: LetportsUser) {
         let coordinator = ProfileEditCoordinator(navigationController: navigationController, viewModel: ProfileEditVM(user: user))
         childCoordinators.append(coordinator)
@@ -37,5 +35,4 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func dismissViewController() {
         self.navigationController.dismiss(animated: true)
     }
-    
 }

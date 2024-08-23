@@ -48,12 +48,12 @@ class NickNameTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            nickNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            nickNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            nickNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            nickNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             nickNameTextField.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 10),
-            nickNameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            nickNameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            nickNameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            nickNameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
     }
     

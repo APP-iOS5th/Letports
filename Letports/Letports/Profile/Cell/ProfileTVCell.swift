@@ -39,7 +39,7 @@ class ProfileTVCell: UITableViewCell {
     private lazy var simpleInfoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = UIColor(named: "lp_gray")
+        label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,7 +48,7 @@ class ProfileTVCell: UITableViewCell {
         let btn = UIButton()
         btn.setTitle("프로필 변경", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_sub")
-        btn.layer.cornerRadius = 10
+        btn.layer.cornerRadius = 8
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         btn.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +68,6 @@ class ProfileTVCell: UITableViewCell {
     }
     
     private func setupUI() {
-        
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
@@ -83,8 +82,8 @@ class ProfileTVCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.heightAnchor.constraint(equalToConstant: 100),
             
-            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
+            profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
             profileIV.widthAnchor.constraint(equalToConstant: 70),
             profileIV.heightAnchor.constraint(equalToConstant: 70),
             
@@ -93,7 +92,7 @@ class ProfileTVCell: UITableViewCell {
             nickNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: editProfileButton.leadingAnchor, constant: -10),
             
             simpleInfoLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
-            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
+            simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 15),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
             
             editProfileButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
@@ -117,5 +116,4 @@ class ProfileTVCell: UITableViewCell {
         let placeholder = UIImage(systemName: "person.circle")
         profileIV.kf.setImage(with: url, placeholder: placeholder)
     }
-    
 }
