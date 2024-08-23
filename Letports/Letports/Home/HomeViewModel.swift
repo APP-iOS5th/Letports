@@ -10,12 +10,30 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
-struct Team {
-    var teamLogo: URL?
-    var teamName: String?
-    var homepageURL: URL?
-    var instagramURL: URL?
-    var youtubeURL: URL?
+struct SampleTeam: Codable {
+    var homepage: String
+    var instagram: String
+    var sportsUID: String
+    var teamHomeTown: String
+    var teamLogo: String
+    var teamName: String
+    var teamStadium: String
+    var teamStartDate: String
+    var teamUID: String
+    var youtube: String
+    
+    enum CodingKeys: String, CodingKey {
+        case homepage = "Homepage"
+        case instagram = "Instagram"
+        case sportsUID = "SportsUID"
+        case teamHomeTown = "TeamHomeTown"
+        case teamLogo = "TeamLogo"
+        case teamName = "TeamName"
+        case teamStadium = "TeamStadium"
+        case teamStartDate = "TeamStartDate"
+        case teamUID = "TeamUID"
+        case youtube = "Youtube"
+    }
 }
 
 struct YoutubeVideo {
@@ -50,117 +68,40 @@ struct Gathering {
     var gatherName: String?
 }
 
-protocol FirebaseServiceProtocol {
-    func fetchTeamData(teamUID: String) -> AnyPublisher<Team, Error>
-    func fetchGatherings(forTeam teamName: String) -> AnyPublisher<[Gathering], Error>
-}
-
-class FirebaseService: FirebaseServiceProtocol {
-    func fetchTeamData(teamUID: String) -> AnyPublisher<Team, Error> {
-        return Future { promise in
-            let db = Firestore.firestore()
-            let docRef = db.collection("SportsTeams").document(teamUID)
-                .collection("TeamSNS").document("G9wIwb9nfFEJm5nNIcML")
-            
-            docRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let data = document.data()
-                    
-                    let teamName = (data?["TeamName"] as? String)
-                    let teamLogoURL = (data?["TeamLogo"] as? String).flatMap { URL(string: $0) }
-                    let homepageURL = (data?["Homepage"] as? String).flatMap { URL(string: $0) }
-                    let instagramURL = (data?["Instagram"] as? String).flatMap { URL(string: $0) }
-                    let youtubeURL = (data?["Youtube"] as? String).flatMap { URL(string: $0) }
-                    
-                    let team = Team(
-                        teamLogo: teamLogoURL,
-                        teamName: teamName,
-                        homepageURL: homepageURL,
-                        instagramURL: instagramURL,
-                        youtubeURL: youtubeURL
-                    )
-                    promise(.success(team))
-                } else if let error = error {
-                    promise(.failure(error))
-                } else {
-                    promise(.failure(NSError(domain: "Firestore", code: -1,
-                                             userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
-                }
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    func fetchGatherings(forTeam teamName: String) -> AnyPublisher<[Gathering], Error> {
-        return Future { promise in
-            let db = Firestore.firestore()
-            db.collection("Gatherings")
-                .getDocuments { (querySnapshot, error) in
-                    if let error = error {
-                        promise(.failure(error))
-                    } else {
-                        var gatherings: [Gathering] = []
-                        querySnapshot?.documents.forEach { document in
-                            let data = document.data()
-                            if let sportsTeam = data["GatheringSportsTeam"] as? String, sportsTeam == teamName {
-                                let gatherName = data["GatherName"] as? String
-                                if let imageURLString = data["GatherImage"] as? String {
-                                    if let imageURL = URL(string: imageURLString) {
-                                        print("Valid Image URL for document \(document.documentID): \(imageURLString)")
-                                        let gathering = Gathering(gatherImage: imageURL, gatherName: gatherName)
-                                        gatherings.append(gathering)
-                                    } else {
-                                        print("Invalid image URL format for document: \(document.documentID)")
-                                    }
-                                } else {
-                                    print("Missing GatherImage field for document: \(document.documentID)")
-                                }
-                            }
-                        }
-                        promise(.success(gatherings))
-                    }
-                }
-        }
-        .eraseToAnyPublisher()
-    }
-}
-
 class HomeViewModel {
     
-    @Published var team: Team?
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
     @Published var gatherings: [Gathering] = []
     
+    @Published var sampleTeam: SampleTeam?
+    
     private var cancellables = Set<AnyCancellable>()
-    private let firebaseService: FirebaseServiceProtocol
     private let youtubeAPIKey = ""
     
-    init(firebaseService: FirebaseServiceProtocol = FirebaseService()) {
-        self.firebaseService = firebaseService
-        fetchTeamData()
-        fetchGatherings(forTeam: "LG 트윈스")
+    init() {
+        getTeamData()
+        //fetchGatherings(forTeam: "LG 트윈스")
     }
     
-    func fetchTeamData() {
-        let teamUID = "YcXsJAgoFtqS3XZ0HdZu"
-        
-        firebaseService.fetchTeamData(teamUID: teamUID)
-            .sink(receiveCompletion: { completion in
+    func getTeamData() {
+        FM.getData(collection: "SportsTeams", documnet: "90uZPXcm9FNFRvXAyIND", type: SampleTeam.self)
+            .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    print("Error fetching team data: \(error)")
+                    print("에러!!: Error fetching gatherings: \(error)")
                 case .finished:
                     break
                 }
-            }, receiveValue: { [weak self] team in
-                self?.team = team
-                self?.fetchLatestYoutubeVideos()
-            })
+            } receiveValue: { [weak self] team in
+                print("가져온 데이터: ", team)
+                self?.sampleTeam = team
+                self?.fetchLatestYoutubeVideos(urlStr: team.youtube)
+            }
             .store(in: &cancellables)
     }
     
-    private func fetchLatestYoutubeVideos() {
-        guard let youtubeURL = team?.youtubeURL else { return }
+    private func fetchLatestYoutubeVideos(urlStr: String) {
+        guard let team = sampleTeam, let youtubeURL = URL(string: team.youtube) else { return }
         
         extractChannelID(from: youtubeURL)
             .flatMap { channelID -> AnyPublisher<[YoutubeVideo], Error> in
@@ -256,19 +197,18 @@ class HomeViewModel {
         let items: [Item]
     }
     
-    func fetchGatherings(forTeam teamName: String) {
-        firebaseService.fetchGatherings(forTeam: teamName)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error fetching gatherings: \(error)")
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [weak self] gatherings in
-                self?.gatherings = gatherings
-            })
-            .store(in: &cancellables)
-    }
-    
+//    func fetchGatherings(forTeam teamName: String) {
+//        firebaseService.fetchGatherings(forTeam: teamName)
+//            .sink(receiveCompletion: { completion in
+//                switch completion {
+//                case .failure(let error):
+//                    print("Error fetching gatherings: \(error)")
+//                case .finished:
+//                    break
+//                }
+//            }, receiveValue: { [weak self] gatherings in
+//                self?.gatherings = gatherings
+//            })
+//            .store(in: &cancellables)
+//    }
 }

@@ -371,16 +371,12 @@ class HomeVC: UIViewController {
     
     //데이터 바인딩
     private func bindViewModel() {
-        viewModel.$team
+        viewModel.$sampleTeam
             .sink { [weak self] team in
                 guard let self = self, let team = team else { return }
-                if let logoURL = team.teamLogo {
-                    self.teamLogo.kf.setImage(with: logoURL)
-                } else {
-                    self.teamLogo.image = UIImage(named: "home")
-                }
+                self.teamLogo.kf.setImage(with: URL(string: team.teamLogo))
                 self.teamName.text = team.teamName
-                self.latestTeamVideoLabel.text = "\(team.teamName ?? "")의 최신 영상"
+                self.latestTeamVideoLabel.text = "\(team.teamName)의 최신 영상"
             }
             .store(in: &cancellables)
         
@@ -485,21 +481,21 @@ class HomeVC: UIViewController {
     //MARK: -Objc Methods
     //url 탭 액션
     @objc func handleHomeTap() {
-        if let url = viewModel.team?.homepageURL {
+        if let team = viewModel.sampleTeam ,let url = URL(string: team.homepage) {
             presentBottomSheet(with: url)
         }
         print("홈페이지")
     }
     
     @objc func handleInstaTap() {
-        if let url = viewModel.team?.instagramURL {
+        if let team = viewModel.sampleTeam, let url = URL(string: team.instagram) {
             presentBottomSheet(with: url)
         }
         print("인스타그램")
     }
     
     @objc func handleYoutubeTap() {
-        if let url = viewModel.team?.youtubeURL {
+        if let team = viewModel.sampleTeam, let url = URL(string: team.youtube) {
             presentBottomSheet(with: url)
         }
         print("유튜브")
