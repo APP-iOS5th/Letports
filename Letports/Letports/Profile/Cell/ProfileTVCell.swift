@@ -9,15 +9,17 @@ import Kingfisher
 
 class ProfileTVCell: UITableViewCell {
     
-    private lazy var containerView: UIView = {
-       let view = UIView()
-       view.layer.cornerRadius = 12
-        view.backgroundColor = .lp_white
-       view.translatesAutoresizingMaskIntoConstraints = false
-       return view
-   }()
+    weak var delegate: ProfileDelegate?
     
-     private lazy var profileIV: UIImageView = {
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = .lp_white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var profileIV: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 20
         iv.clipsToBounds = true
@@ -48,6 +50,7 @@ class ProfileTVCell: UITableViewCell {
         btn.backgroundColor = UIColor(named: "lp_sub")
         btn.layer.cornerRadius = 10
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        btn.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -65,7 +68,10 @@ class ProfileTVCell: UITableViewCell {
     }
     
     private func setupUI() {
+        
         contentView.addSubview(containerView)
+        contentView.backgroundColor = .lp_background_white
+        
         [profileIV, nickNameLabel, simpleInfoLabel, editProfileButton].forEach {
             containerView.addSubview($0)
         }
@@ -75,7 +81,6 @@ class ProfileTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 100),
             
             profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
@@ -98,21 +103,19 @@ class ProfileTVCell: UITableViewCell {
         ])
     }
     
-    func setEditButtonAction(target: Any?, action: Selector) {
-           editProfileButton.addTarget(target, action: action, for: .touchUpInside)
-       }
+    @objc func editButtonTapped () {
+        delegate?.didTapEditProfileButton()
+    }
     
     func configure(with user: LetportsUser) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
-                return
-            }
-            let placeholder = UIImage(systemName: "person.circle")
-        profileIV.kf.setImage(with: url, placeholder: placeholder)
-            
+            return
         }
+        let placeholder = UIImage(systemName: "person.circle")
+        profileIV.kf.setImage(with: url, placeholder: placeholder)
+    }
     
-   
 }

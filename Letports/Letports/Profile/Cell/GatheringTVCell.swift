@@ -102,6 +102,7 @@ class GatheringTVCell: UITableViewCell {
     
     private func setupUI() {
         contentView.addSubview(containerView)
+        contentView.backgroundColor = .lp_background_white
         
         [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
             containerView.addSubview($0)
@@ -112,7 +113,6 @@ class GatheringTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 80),
             
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
