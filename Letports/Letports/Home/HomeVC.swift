@@ -25,7 +25,7 @@ class HomeVC: UIViewController {
         return title
     }()
     
-    let teamChangeButton: UIButton = {
+    let teamChangeBtn: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("팀 변경", for: .normal)
         button.setTitleColor(.lpBlack, for: .normal)
@@ -39,9 +39,12 @@ class HomeVC: UIViewController {
         return button
     }()
     
-    lazy var firstContainerView = createWhiteBox()
+    lazy var profileContainerView = createBackgroundWhiteBox()
     
-    lazy var teamProfileStackView = createStackView(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 16)
+    lazy var teamProfileHorizontalSV = createSV(axis: .horizontal,
+                                                alignment: .center,
+                                                distribution: .fillProportionally,
+                                                spacing: 16)
     
     lazy var teamLogo: UIImageView = {
         let imageView = UIImageView()
@@ -53,29 +56,37 @@ class HomeVC: UIViewController {
     }()
     
     // 팀 이름 있는 세로 스택뷰
-    lazy var teamProfileStackView2 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 16)
+    lazy var teamProfileVerticalSV = createSV(axis: .vertical,
+                                              alignment: .fill,
+                                              distribution: .fillProportionally,
+                                              spacing: 16)
     
     lazy var teamName = createLabel(text: "", fontSize: 30, fontWeight: .bold)
     
     // URL스택뷰
-    lazy var urlStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    lazy var urlSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
     
     // 홈 아이콘, 이름 스택뷰
-    lazy var homeURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    lazy var homeURLSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
     let homeIcon = UIImageView(image: UIImage(named: "Home"))
     lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 12)
     
     // 인스타 아이콘, 이름 스택뷰
-    lazy var instagramURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    lazy var instagramURLSV = createSV(axis: .horizontal,
+                                       alignment: .fill,
+                                       distribution: .fillProportionally,
+                                       spacing: 4)
+    
     let instagramIcon = UIImageView(image: UIImage(named: "Instagram"))
     lazy var instagramLabel = createLabel(text: "공식 인스타", fontSize: 12)
     
     // 유튜뷰 아이콘, 이름 스택뷰
-    lazy var youtubeURLStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    lazy var youtubeURLSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
     let youtubeIcon = UIImageView(image: UIImage(named: "Youtube"))
     lazy var youtubeLabel = createLabel(text: "공식 유튜브", fontSize: 12)
     
-    let secondLabel: UILabel = {
+    //"oo의 최신 영상"라벨
+    let latestTeamVideoLabel: UILabel = {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -87,16 +98,16 @@ class HomeVC: UIViewController {
     }()
     
     //유튜브 썸네일 흰 배경
-    lazy var secondContainerView = createWhiteBox()
+    lazy var thumbnailContainerView = createBackgroundWhiteBox()
     
     //썸네일 전체 스택뷰
-    lazy var thumbnailStackView = createStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 20)
+    lazy var thumbnailSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 20)
     
     //썸네일1 스택뷰
-    lazy var firstThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
+    lazy var firstThumbnailSV = createSV(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
     
     //썸네일1 이미지
-    lazy var thumbnail1: UIImageView = {
+    lazy var firstThumbnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 10
@@ -107,7 +118,7 @@ class HomeVC: UIViewController {
     }()
     
     //썸네일1 제목
-    lazy var thumbnailTitle1: UILabel = {
+    lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = "제목1"
         label.font = UIFont.systemFont(ofSize: 10)
@@ -119,10 +130,10 @@ class HomeVC: UIViewController {
     }()
     
     //썸네일2 스택뷰
-    lazy var secondThumbnailStackView = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
+    lazy var secondThumbnailSV = createSV(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 5)
     
     //썸네일2 이미지
-    lazy var thumbnail2: UIImageView = {
+    lazy var secondThumbnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 10
@@ -133,7 +144,7 @@ class HomeVC: UIViewController {
     }()
     
     //썸네일2 제목
-    lazy var thumbnailTitle2: UILabel = {
+    lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = "제목2"
         label.font = UIFont.systemFont(ofSize: 10)
@@ -145,7 +156,7 @@ class HomeVC: UIViewController {
     }()
     
     //추천 소모임 뷰
-    let thirdLabel: UILabel = {
+    let recommendGatheringLabel: UILabel = {
         let label = UILabel()
         label.text = "추천 소모임🔥"
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -164,31 +175,13 @@ class HomeVC: UIViewController {
         return gatheringScroll
     }()
     
-    lazy var gatheringStackView: UIStackView = {
-        let gatheringView = createStackView(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 6)
-        
-        let image1 = UIImageView()
-        image1.contentMode = .scaleAspectFit
-        image1.image = UIImage(systemName: "circle")
-        image1.tintColor = .lpMain
-        image1.translatesAutoresizingMaskIntoConstraints = false
-        image1.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        image1.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        let image2 = UIImageView()
-        image2.contentMode = .scaleAspectFit
-        image2.image = UIImage(systemName: "star")
-        image2.tintColor = .lpMain
-        image2.translatesAutoresizingMaskIntoConstraints = false
-        image2.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        image2.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        gatheringView.addArrangedSubview(image1)
-        gatheringView.addArrangedSubview(image2)
+    lazy var gatheringSV: UIStackView = {
+        let gatheringView = createSV(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 6)
         
         return gatheringView
     }()
     
+    //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -196,225 +189,15 @@ class HomeVC: UIViewController {
         bindViewModel()
     }
     
-    private func bindViewModel() {
-        viewModel.$team
-            .sink { [weak self] team in
-                guard let self = self, let team = team else { return }
-                if let logoURL = team.teamLogo {
-                    self.teamLogo.kf.setImage(with: logoURL)
-                } else {
-                    self.teamLogo.image = UIImage(named: "home")
-                }
-                self.teamName.text = team.teamName
-                self.secondLabel.text = "\(team.teamName ?? "")의 최신 영상"
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$latestYoutubeVideos
-            .sink { [weak self] videos in
-                guard let self = self else { return }
-                
-                if let video1 = videos.first {
-                    self.thumbnail1.kf.setImage(with: video1.thumbnailURL)
-                    self.thumbnailTitle1.text = video1.title
-                    self.thumbnail1.tag = 0
-                }
-                
-                if videos.count > 1 {
-                    let video2 = videos[1]
-                    self.thumbnail2.kf.setImage(with: video2.thumbnailURL)
-                    self.thumbnailTitle2.text = video2.title
-                    self.thumbnail2.tag = 1
-                }
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$gatherings
-            .sink { [weak self] gatherings in
-                guard let self = self else { return }
-                self.updateGatheringImages(gatherings)
-            }
-            .store(in: &cancellables)
-    }
+    //MARK: -Methods
     
-    private func updateGatheringImages(_ gatherings: [Gathering]) {
-        gatheringStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        gatherings.forEach { gathering in
-            if let url = gathering.gatherImage {
-                // 컨테이너 뷰 생성
-                let containerView = UIView()
-                containerView.translatesAutoresizingMaskIntoConstraints = false
-                containerView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-                containerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-                
-                // 이미지 뷰 생성 및 추가
-                let imageView = UIImageView()
-                imageView.contentMode = .scaleAspectFill
-                imageView.kf.setImage(with: url)
-                imageView.translatesAutoresizingMaskIntoConstraints = false
-                containerView.addSubview(imageView)
-                
-                // 이름 라벨 생성 및 추가
-                if let gatherName = gathering.gatherName {
-                    let nameLabel = UILabel()
-                    nameLabel.text = gatherName
-                    nameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-                    nameLabel.textColor = .white
-                    nameLabel.textAlignment = .center
-                    nameLabel.translatesAutoresizingMaskIntoConstraints = false
-                    containerView.addSubview(nameLabel)
-                    
-                    // 이름 라벨 레이아웃 설정
-                    NSLayoutConstraint.activate([
-                        nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-                        nameLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
-                        nameLabel.heightAnchor.constraint(equalToConstant: 40)
-                    ])
-                }
-                
-                // 이미지 뷰 레이아웃 설정
-                NSLayoutConstraint.activate([
-                    imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                    imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                    imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-                    imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-                ])
-                
-                // 컨테이너 뷰를 stackView에 추가
-                gatheringStackView.addArrangedSubview(containerView)
-            }
-        }
-    }
-    
-    func setupUI() {
-        view.backgroundColor = .lpBackgroundWhite
-        
-        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeButton)
-        
-        profileLayout()
-        view.addSubview(secondLabel)
-        youtubeThumbnailLayout()
-        secondContainerView.addSubview(thumbnailStackView)
-        view.addSubview(secondContainerView)
-        view.addSubview(thirdLabel)
-        view.addSubview(gatheringScrollView)
-        gatheringScrollView.addSubview(gatheringStackView)
-        
-        layoutVC()
-    }
-    
-    // 제목, 팀변경 버튼
-    func profileLayout() {
-        homeURLStackView.addArrangedSubview(homeIcon)
-        homeURLStackView.addArrangedSubview(homeLabel)
-        instagramURLStackView.addArrangedSubview(instagramIcon)
-        instagramURLStackView.addArrangedSubview(instagramLabel)
-        youtubeURLStackView.addArrangedSubview(youtubeIcon)
-        youtubeURLStackView.addArrangedSubview(youtubeLabel)
-        urlStackView.addArrangedSubview(homeURLStackView)
-        urlStackView.addArrangedSubview(instagramURLStackView)
-        urlStackView.addArrangedSubview(youtubeURLStackView)
-        
-        teamProfileStackView2.addArrangedSubview(teamName)
-        teamProfileStackView2.addArrangedSubview(urlStackView)
-        
-        teamProfileStackView.addArrangedSubview(teamLogo)
-        teamProfileStackView.addArrangedSubview(teamProfileStackView2)
-        
-        firstContainerView.addSubview(teamProfileStackView)
-        view.addSubview(firstContainerView)
-        
-        lazy var homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
-        homeURLStackView.addGestureRecognizer(homeTapGesture)
-        homeURLStackView.isUserInteractionEnabled = true
-        
-        lazy var instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
-        instagramURLStackView.addGestureRecognizer(instaTapGesture)
-        instagramURLStackView.isUserInteractionEnabled = true
-        
-        lazy var youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
-        youtubeURLStackView.addGestureRecognizer(youtubeTapGesture)
-        youtubeURLStackView.isUserInteractionEnabled = true
-    }
-    
-    //썸네일 레이아웃
-    func youtubeThumbnailLayout() {
-        firstThumbnailStackView.addArrangedSubview(thumbnail1)
-        firstThumbnailStackView.addArrangedSubview(thumbnailTitle1)
-        secondThumbnailStackView.addArrangedSubview(thumbnail2)
-        secondThumbnailStackView.addArrangedSubview(thumbnailTitle2)
-        
-        //첫번째 썸네일 탭 제스쳐
-        let thumbnail1TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
-        firstThumbnailStackView.addGestureRecognizer(thumbnail1TapGesture)
-        firstThumbnailStackView.isUserInteractionEnabled = true
-        
-        //두번째 썸네일
-        let thumbnail2TapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
-        secondThumbnailStackView.addGestureRecognizer(thumbnail2TapGesture)
-        secondThumbnailStackView.isUserInteractionEnabled = true
-        
-        NSLayoutConstraint.activate([
-            thumbnail1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.75),
-            thumbnailTitle1.heightAnchor.constraint(equalTo: firstThumbnailStackView.heightAnchor, multiplier: 0.25),
-            thumbnail2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.75),
-            thumbnailTitle2.heightAnchor.constraint(equalTo: secondThumbnailStackView.heightAnchor, multiplier: 0.25)
-        ])
-        
-        thumbnailStackView.addArrangedSubview(firstThumbnailStackView)
-        thumbnailStackView.addArrangedSubview(secondThumbnailStackView)
-    }
-    
-    // VC레이아웃
-    func layoutVC() {
-        NSLayoutConstraint.activate([
-            firstContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            firstContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            firstContainerView.widthAnchor.constraint(equalToConstant: 361),
-            firstContainerView.heightAnchor.constraint(equalToConstant: 110),
-            
-            teamProfileStackView.topAnchor.constraint(equalTo: firstContainerView.topAnchor, constant: 10),
-            teamProfileStackView.leftAnchor.constraint(equalTo: firstContainerView.leftAnchor, constant: 10),
-            teamProfileStackView.rightAnchor.constraint(equalTo: firstContainerView.rightAnchor, constant: -10),
-            teamProfileStackView.bottomAnchor.constraint(equalTo: firstContainerView.bottomAnchor, constant: -10),
-            
-            secondLabel.topAnchor.constraint(equalTo: firstContainerView.bottomAnchor, constant: 20),
-            secondLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-            
-            secondContainerView.topAnchor.constraint(equalTo: secondLabel.bottomAnchor, constant: 20),
-            secondContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            secondContainerView.widthAnchor.constraint(equalToConstant: 361),
-            secondContainerView.heightAnchor.constraint(equalToConstant: 120),
-            
-            thumbnailStackView.topAnchor.constraint(equalTo: secondContainerView.topAnchor, constant: 10),
-            thumbnailStackView.leftAnchor.constraint(equalTo: secondContainerView.leftAnchor, constant: 30),
-            thumbnailStackView.widthAnchor.constraint(equalToConstant: 300),
-            thumbnailStackView.heightAnchor.constraint(equalToConstant: 100),
-            
-            thirdLabel.topAnchor.constraint(equalTo: secondContainerView.bottomAnchor, constant: 20),
-            thirdLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-            
-            gatheringScrollView.topAnchor.constraint(equalTo: thirdLabel.bottomAnchor, constant: 20),
-            gatheringScrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            gatheringScrollView.widthAnchor.constraint(equalToConstant: 450),
-            gatheringScrollView.heightAnchor.constraint(equalToConstant: 200),
-            
-            gatheringStackView.topAnchor.constraint(equalTo: gatheringScrollView.topAnchor),
-            gatheringStackView.leadingAnchor.constraint(equalTo: gatheringScrollView.leadingAnchor),
-            gatheringStackView.trailingAnchor.constraint(equalTo: gatheringScrollView.trailingAnchor),
-            gatheringStackView.bottomAnchor.constraint(equalTo: gatheringScrollView.bottomAnchor),
-            gatheringStackView.heightAnchor.constraint(equalTo: gatheringScrollView.heightAnchor)
-        ])
-    }
-    
-    // 배경 흰 네모
-    func createWhiteBox(backgroundColor: UIColor = .white,
-                        cornerRadius: CGFloat = 15,
-                        shadowColor: UIColor = .black,
-                        shadowOpacity: Float = 0.1,
-                        shadowOffset: CGSize = CGSize(width: 0, height: 2),
-                        shadowRadius: CGFloat = 5) -> UIView {
+    // 배경 흰 박스 만들기
+    func createBackgroundWhiteBox(backgroundColor: UIColor = .white,
+                                  cornerRadius: CGFloat = 15,
+                                  shadowColor: UIColor = .black,
+                                  shadowOpacity: Float = 0.1,
+                                  shadowOffset: CGSize = CGSize(width: 0, height: 2),
+                                  shadowRadius: CGFloat = 5) -> UIView {
         let whiteBox = UIView()
         whiteBox.backgroundColor = backgroundColor
         whiteBox.layer.cornerRadius = cornerRadius
@@ -428,10 +211,10 @@ class HomeVC: UIViewController {
     }
     
     // 스택뷰 만들기
-    func createStackView(axis: NSLayoutConstraint.Axis,
-                         alignment: UIStackView.Alignment,
-                         distribution: UIStackView.Distribution,
-                         spacing: CGFloat) -> UIStackView {
+    func createSV(axis: NSLayoutConstraint.Axis,
+                  alignment: UIStackView.Alignment,
+                  distribution: UIStackView.Distribution,
+                  spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.alignment = alignment
@@ -463,6 +246,244 @@ class HomeVC: UIViewController {
         return label
     }
     
+    //UISetting
+    func setupUI() {
+        view.backgroundColor = .lpBackgroundWhite
+        
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: titleLabel)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: teamChangeBtn)
+        
+        profileLayout()
+        view.addSubview(latestTeamVideoLabel)
+        youtubeThumbnailLayout()
+        thumbnailContainerView.addSubview(thumbnailSV)
+        view.addSubview(thumbnailContainerView)
+        view.addSubview(recommendGatheringLabel)
+        view.addSubview(gatheringScrollView)
+        gatheringScrollView.addSubview(gatheringSV)
+        
+        layoutVC()
+    }
+    
+    //프로필 레이아웃
+    func profileLayout() {
+        homeURLSV.addArrangedSubview(homeIcon)
+        homeURLSV.addArrangedSubview(homeLabel)
+        instagramURLSV.addArrangedSubview(instagramIcon)
+        instagramURLSV.addArrangedSubview(instagramLabel)
+        youtubeURLSV.addArrangedSubview(youtubeIcon)
+        youtubeURLSV.addArrangedSubview(youtubeLabel)
+        urlSV.addArrangedSubview(homeURLSV)
+        urlSV.addArrangedSubview(instagramURLSV)
+        urlSV.addArrangedSubview(youtubeURLSV)
+        
+        teamProfileVerticalSV.addArrangedSubview(teamName)
+        teamProfileVerticalSV.addArrangedSubview(urlSV)
+        
+        teamProfileHorizontalSV.addArrangedSubview(teamLogo)
+        teamProfileHorizontalSV.addArrangedSubview(teamProfileVerticalSV)
+        
+        profileContainerView.addSubview(teamProfileHorizontalSV)
+        view.addSubview(profileContainerView)
+        
+        lazy var homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
+        homeURLSV.addGestureRecognizer(homeTapGesture)
+        homeURLSV.isUserInteractionEnabled = true
+        
+        lazy var instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
+        instagramURLSV.addGestureRecognizer(instaTapGesture)
+        instagramURLSV.isUserInteractionEnabled = true
+        
+        lazy var youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
+        youtubeURLSV.addGestureRecognizer(youtubeTapGesture)
+        youtubeURLSV.isUserInteractionEnabled = true
+    }
+    
+    //썸네일 레이아웃
+    func youtubeThumbnailLayout() {
+        firstThumbnailSV.addArrangedSubview(firstThumbnail)
+        firstThumbnailSV.addArrangedSubview(firstThumbnailTitle)
+        secondThumbnailSV.addArrangedSubview(secondThumbnail)
+        secondThumbnailSV.addArrangedSubview(secondThumbnailTitle)
+        
+        //첫번째 썸네일 탭 제스쳐
+        let firstThumbnailTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
+        firstThumbnailSV.addGestureRecognizer(firstThumbnailTapGesture)
+        firstThumbnailSV.isUserInteractionEnabled = true
+        
+        //두번째 썸네일
+        let secondThumbnailTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
+        secondThumbnailSV.addGestureRecognizer(secondThumbnailTapGesture)
+        secondThumbnailSV.isUserInteractionEnabled = true
+        
+        NSLayoutConstraint.activate([
+            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.75),
+            firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.25),
+            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.75),
+            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.25)
+        ])
+        
+        thumbnailSV.addArrangedSubview(firstThumbnailSV)
+        thumbnailSV.addArrangedSubview(secondThumbnailSV)
+    }
+    
+    // VC레이아웃
+    func layoutVC() {
+        NSLayoutConstraint.activate([
+            profileContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            profileContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileContainerView.widthAnchor.constraint(equalToConstant: 361),
+            profileContainerView.heightAnchor.constraint(equalToConstant: 110),
+            
+            teamProfileHorizontalSV.topAnchor.constraint(equalTo: profileContainerView.topAnchor, constant: 10),
+            teamProfileHorizontalSV.leftAnchor.constraint(equalTo: profileContainerView.leftAnchor, constant: 10),
+            teamProfileHorizontalSV.rightAnchor.constraint(equalTo: profileContainerView.rightAnchor, constant: -10),
+            teamProfileHorizontalSV.bottomAnchor.constraint(equalTo: profileContainerView.bottomAnchor, constant: -10),
+            
+            latestTeamVideoLabel.topAnchor.constraint(equalTo: profileContainerView.bottomAnchor, constant: 20),
+            latestTeamVideoLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+            
+            thumbnailContainerView.topAnchor.constraint(equalTo: latestTeamVideoLabel.bottomAnchor, constant: 20),
+            thumbnailContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            thumbnailContainerView.widthAnchor.constraint(equalToConstant: 361),
+            thumbnailContainerView.heightAnchor.constraint(equalToConstant: 120),
+            
+            thumbnailSV.topAnchor.constraint(equalTo: thumbnailContainerView.topAnchor, constant: 10),
+            thumbnailSV.leftAnchor.constraint(equalTo: thumbnailContainerView.leftAnchor, constant: 30),
+            thumbnailSV.widthAnchor.constraint(equalToConstant: 300),
+            thumbnailSV.heightAnchor.constraint(equalToConstant: 100),
+            
+            recommendGatheringLabel.topAnchor.constraint(equalTo: thumbnailContainerView.bottomAnchor, constant: 20),
+            recommendGatheringLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+            
+            gatheringScrollView.topAnchor.constraint(equalTo: recommendGatheringLabel.bottomAnchor, constant: 20),
+            gatheringScrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            gatheringScrollView.widthAnchor.constraint(equalToConstant: 450),
+            gatheringScrollView.heightAnchor.constraint(equalToConstant: 200),
+            
+            gatheringSV.topAnchor.constraint(equalTo: gatheringScrollView.topAnchor),
+            gatheringSV.leadingAnchor.constraint(equalTo: gatheringScrollView.leadingAnchor),
+            gatheringSV.trailingAnchor.constraint(equalTo: gatheringScrollView.trailingAnchor),
+            gatheringSV.bottomAnchor.constraint(equalTo: gatheringScrollView.bottomAnchor),
+            gatheringSV.heightAnchor.constraint(equalTo: gatheringScrollView.heightAnchor)
+        ])
+    }
+    
+    //데이터 바인딩
+    private func bindViewModel() {
+        viewModel.$team
+            .sink { [weak self] team in
+                guard let self = self, let team = team else { return }
+                if let logoURL = team.teamLogo {
+                    self.teamLogo.kf.setImage(with: logoURL)
+                } else {
+                    self.teamLogo.image = UIImage(named: "home")
+                }
+                self.teamName.text = team.teamName
+                self.latestTeamVideoLabel.text = "\(team.teamName ?? "")의 최신 영상"
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$latestYoutubeVideos
+            .sink { [weak self] videos in
+                guard let self = self else { return }
+                
+                if let video1 = videos.first {
+                    self.firstThumbnail.kf.setImage(with: video1.thumbnailURL)
+                    self.firstThumbnailTitle.text = video1.title
+                    self.firstThumbnail.tag = 0
+                }
+                
+                if videos.count > 1 {
+                    let video2 = videos[1]
+                    self.secondThumbnail.kf.setImage(with: video2.thumbnailURL)
+                    self.secondThumbnailTitle.text = video2.title
+                    self.secondThumbnail.tag = 1
+                }
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$gatherings
+            .sink { [weak self] gatherings in
+                guard let self = self else { return }
+                self.updateGatheringImages(gatherings)
+            }
+            .store(in: &cancellables)
+    }
+    
+    //썸네일 이미지 업로드
+    private func updateGatheringImages(_ gatherings: [Gathering]) {
+        gatheringSV.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        gatherings.forEach { gathering in
+            if let url = gathering.gatherImage {
+                // 컨테이너 뷰 생성
+                let containerView = UIView()
+                containerView.translatesAutoresizingMaskIntoConstraints = false
+                containerView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+                containerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+                
+                // 이미지 뷰 생성 및 추가
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.kf.setImage(with: url)
+                imageView.layer.cornerRadius = 10
+                imageView.clipsToBounds = true
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                containerView.addSubview(imageView)
+                
+                // 이름 라벨 생성 및 추가
+                if let gatherName = gathering.gatherName {
+                    let nameLabel = UILabel()
+                    nameLabel.text = gatherName
+                    nameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+                    nameLabel.textColor = .white
+                    nameLabel.textAlignment = .center
+                    nameLabel.translatesAutoresizingMaskIntoConstraints = false
+                    containerView.addSubview(nameLabel)
+                    
+                    // 이름 라벨 레이아웃 설정
+                    NSLayoutConstraint.activate([
+                        nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+                        nameLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
+                        nameLabel.heightAnchor.constraint(equalToConstant: 40)
+                    ])
+                }
+                
+                // 이미지 뷰 레이아웃 설정
+                NSLayoutConstraint.activate([
+                    imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                    imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+                ])
+                
+                // 컨테이너 뷰를 stackView에 추가
+                gatheringSV.addArrangedSubview(containerView)
+            }
+        }
+    }
+    
+    //url 탭 바텀시트
+    func presentBottomSheet(with url: URL) {
+        let bottomSheetVC = URLVC(url: url)
+        bottomSheetVC.modalPresentationStyle = .pageSheet
+        
+        if let sheet = bottomSheetVC.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
+        present(bottomSheetVC, animated: true, completion: nil)
+    }
+    
+    //유튜브 썸네일 오픈
+    private func openYoutubeVideo(at index: Int) {
+        guard index < viewModel.latestYoutubeVideos.count else { return }
+        let video = viewModel.latestYoutubeVideos[index]
+        presentBottomSheet(with: video.videoURL)
+    }
+    
+    //MARK: -Objc Methods
+    //url 탭 액션
     @objc func handleHomeTap() {
         if let url = viewModel.team?.homepageURL {
             presentBottomSheet(with: url)
@@ -484,28 +505,12 @@ class HomeVC: UIViewController {
         print("유튜브")
     }
     
-    func presentBottomSheet(with url: URL) {
-        let bottomSheetVC = URLVC(url: url)
-        bottomSheetVC.modalPresentationStyle = .pageSheet
-        
-        if let sheet = bottomSheetVC.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
-            sheet.prefersGrabberVisible = true
-        }
-        present(bottomSheetVC, animated: true, completion: nil)
-    }
-    
+    //썸네일 탭 액션
     @objc func handleThumbnail1Tap() {
         openYoutubeVideo(at: 0)
     }
     
     @objc func handleThumbnail2Tap() {
         openYoutubeVideo(at: 1)
-    }
-    
-    private func openYoutubeVideo(at index: Int) {
-        guard index < viewModel.latestYoutubeVideos.count else { return }
-        let video = viewModel.latestYoutubeVideos[index]
-        presentBottomSheet(with: video.videoURL)
     }
 }

@@ -59,12 +59,12 @@ class FirebaseService: FirebaseServiceProtocol {
     func fetchTeamData(teamUID: String) -> AnyPublisher<Team, Error> {
         return Future { promise in
             let db = Firestore.firestore()
-            let docRef = db.collection("SportsTeams").document(teamUID).collection("TeamSNS").document("G9wIwb9nfFEJm5nNIcML")
+            let docRef = db.collection("SportsTeams").document(teamUID)
+                .collection("TeamSNS").document("G9wIwb9nfFEJm5nNIcML")
             
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
-                    print(data)
                     
                     let teamName = (data?["TeamName"] as? String)
                     let teamLogoURL = (data?["TeamLogo"] as? String).flatMap { URL(string: $0) }
@@ -83,7 +83,8 @@ class FirebaseService: FirebaseServiceProtocol {
                 } else if let error = error {
                     promise(.failure(error))
                 } else {
-                    promise(.failure(NSError(domain: "Firestore", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
+                    promise(.failure(NSError(domain: "Firestore", code: -1,
+                                             userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
                 }
             }
         }
@@ -163,7 +164,8 @@ class HomeViewModel {
         
         extractChannelID(from: youtubeURL)
             .flatMap { channelID -> AnyPublisher<[YoutubeVideo], Error> in
-                let apiUrlString = "https://www.googleapis.com/youtube/v3/search?key=\(self.youtubeAPIKey)&channelId=\(channelID)&part=snippet&order=date&maxResults=2"
+                let apiUrlString = "https://www.googleapis.com/youtube/v3/search?key=\(self.youtubeAPIKey)&channelId=" +
+                "\(channelID)&part=snippet&order=date&maxResults=2"
                 
                 guard let apiUrl = URL(string: apiUrlString) else {
                     return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
@@ -184,7 +186,9 @@ class HomeViewModel {
                                   let videoURL = URL(string: "https://www.youtube.com/watch?v=\(videoId)") else {
                                 return nil
                             }
-                            return YoutubeVideo(title: item.snippet.title, thumbnailURL: thumbnailURL, videoURL: videoURL)
+                            return YoutubeVideo(title: item.snippet.title,
+                                                thumbnailURL: thumbnailURL,
+                                                videoURL: videoURL)
                         }
                     }
                     .eraseToAnyPublisher()
@@ -226,7 +230,8 @@ class HomeViewModel {
     
     // 유튜브 채널 아이디 가져오기
     private func fetchChannelID(for usernameOrCustomURL: String) -> AnyPublisher<String, Error> {
-        let apiUrlString = "https://www.googleapis.com/youtube/v3/channels?key=\(youtubeAPIKey)&forUsername=\(usernameOrCustomURL)&part=id"
+        let apiUrlString =
+        "https://www.googleapis.com/youtube/v3/channels?key=\(youtubeAPIKey)&forUsername=\(usernameOrCustomURL)&part=id"
         
         guard let apiUrl = URL(string: apiUrlString) else {
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
