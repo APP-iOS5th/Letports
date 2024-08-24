@@ -12,7 +12,7 @@ protocol JoinViewDelegate: AnyObject {
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String)
 }
 
-class JoinView: UIView {
+class JoinView: UIView, UITextViewDelegate {
 	weak var delegate: JoinViewDelegate?
 	
 	private lazy var containerView: UIView = {
@@ -57,9 +57,21 @@ class JoinView: UIView {
 		textView.clipsToBounds = true
 		textView.layer.cornerRadius = 20
 		textView.backgroundColor = .lp_white
-		textView.textColor = .lp_gray
+		textView.textColor = .black
 		textView.translatesAutoresizingMaskIntoConstraints = false
+		textView.delegate = self
+		textView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+		textView.textContainer.lineFragmentPadding = 0
 		return textView
+	}()
+	
+	private let placeholderLabel: UILabel = {
+		let label = UILabel()
+		label.text = "답변을 입력해주세요"
+		label.font = .systemFont(ofSize: 14)
+		label.textColor = .lightGray
+		label.translatesAutoresizingMaskIntoConstraints = false
+		return label
 	}()
 	
 	private lazy var cancelButton: UIButton = {
@@ -85,12 +97,16 @@ class JoinView: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
+		setupTapGesture()
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		setupUI()
+		setupTapGesture()
 	}
+	
+	// MARK: - setupUI
 	
 	private func setupUI() {
 		self.addSubview(containerView)
@@ -98,6 +114,8 @@ class JoinView: UIView {
 		[titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, deleteUserButton].forEach {
 			containerView.addSubview($0)
 		}
+		answerTextView.addSubview(placeholderLabel)
+		
 		NSLayoutConstraint.activate([
 			containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -135,11 +153,40 @@ class JoinView: UIView {
 			deleteUserButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
 			deleteUserButton.widthAnchor.constraint(equalToConstant: 162),
 			deleteUserButton.heightAnchor.constraint(equalToConstant: 30),
+			
+			placeholderLabel.topAnchor.constraint(equalTo: answerTextView.topAnchor, constant: 8),
+			placeholderLabel.leadingAnchor.constraint(equalTo: answerTextView.leadingAnchor, constant: 16),
+			placeholderLabel.trailingAnchor.constraint(equalTo: answerTextView.trailingAnchor, constant: -16)
 		])
 		
 		cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
 		deleteUserButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
 	}
+	
+	private func setupTapGesture() {
+		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+		 tapGesture.cancelsTouchesInView = false
+		 self.addGestureRecognizer(tapGesture)
+	 }
+	
+	// UITextViewDelegate 메서드
+	func textViewDidChange(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+	
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+	
+	func textViewDidEndEditing(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+	
+	// MARK: - @objc
+	
+	@objc private func handleTap() {
+		 self.endEditing(true)
+	 }
 	
 	@objc private func cancelButtonTapped() {
 		delegate?.joinViewDidTapCancel(self)
@@ -150,9 +197,9 @@ class JoinView: UIView {
 		delegate?.joinViewDidTapJoin(self, answer: answer)
 	}
 	
-	
 	func configure(with gathering: Gathering) {
 		titleLabel.text = gathering.gatherName
 		questionTextView.text = gathering.gatherQuestion
+		placeholderLabel.isHidden = !answerTextView.text.isEmpty
 	}
 }

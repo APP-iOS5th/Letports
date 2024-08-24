@@ -77,7 +77,6 @@ final class GatheringTitleTVCell: UITableViewCell {
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.addTarget(GatheringTitleTVCell.self, action: #selector(editBtnTap), for: .touchUpInside)
 		return btn
 	}()
 	
@@ -117,6 +116,8 @@ final class GatheringTitleTVCell: UITableViewCell {
 			editButton.widthAnchor.constraint(equalToConstant: 36),
 			editButton.heightAnchor.constraint(equalToConstant: 36)
 		])
+		
+		editButton.addTarget(self, action: #selector(editBtnTap), for: .touchUpInside)
 	}
 	
 	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {

@@ -78,7 +78,6 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	}
 	func dismissAndUpdateUI() {
 		navigationController.popViewController(animated: true)
-		// 필요한 경우 여기에 추가적인 UI 업데이트 로직을 구현하세요
 	}
 	
 	func showError(message: String) {

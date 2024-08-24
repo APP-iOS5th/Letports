@@ -60,6 +60,7 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
+	private let gatheringId: String = "gathering012"
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
@@ -67,6 +68,7 @@ class GatheringDetailVM {
 	
 	init(currentUser: LetportsUser) {
 		self.currentUser = currentUser
+		//		self.gatheringId = gatheringId
 	}
 	
 	func loadData() {
@@ -94,82 +96,11 @@ class GatheringDetailVM {
 		// 신고하기 로직 구현
 		print("신고하기")
 	}
-	// 모임 나가기 확인
-	func confirmLeaveGathering() {
-		guard let gathering = gathering else {
-			coordinatorDelegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
-			return
-		}
-
-		let removeFromUser = removeGatheringFromUser()
-		let updateGathering = updateGatheringAfterLeaving(gathering: gathering)
-
-		Publishers.Zip(removeFromUser, updateGathering)
-			.sink(receiveCompletion: { [weak self] completion in
-				switch completion {
-				case .finished:
-					print("Successfully left the gathering")
-					self?.membershipStatus = .notJoined
-					self?.gathering?.gatherNowMember -= 1
-					self?.gathering?.gatheringMembers.removeAll { $0.userUID == self?.currentUser.uid }
-					self?.coordinatorDelegate?.dismissAndUpdateUI()
-				case .failure(let error):
-					print("Error leaving gathering: \(error)")
-					self?.coordinatorDelegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
-				}
-			}, receiveValue: { _ in })
-			.store(in: &cancellables)
-	}
-
-	// 탈퇴후 업데이트
-	private func updateGatheringAfterLeaving(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
-		let updatedMembers = gathering.gatheringMembers.filter { $0.userUID != currentUser.uid }
-		let updatedNowMember = gathering.gatherNowMember - 1
-
-		// GatheringMember 객체를 Dictionary로 변환
-		let updatedMembersDicts = updatedMembers.map { member -> [String: Any] in
-			return [
-				"Answer": member.answer,
-				"Image": member.image,
-				"JoinDate": member.joinDate,
-				"JoinStatus": member.joinStatus,
-				"NickName": member.nickName,
-				"UserUID": member.userUID,
-				"SimpleInfo": member.simpleInfo
-			]
-		}
-
-		return FirestoreManager.shared.updateData(
-			collection: "Gatherings",
-			document: gathering.gatheringUid,
-			fields: [
-				"GatheringMembers": updatedMembersDicts,
-				"GatherNowMember": updatedNowMember
-			]
-		)
-	}
 	
 	
-	// 게시판데이터
-	private func fetchBoardData() {
-		FirestoreManager.shared.getAllDocuments(collection: "Board", type: Post.self)
-			.sink(receiveCompletion: { completion in
-				switch completion {
-				case .finished:
-					print("게시판 데이터 가져오기 완료")
-				case .failure(let error):
-					print("게시판 데이터 가져오기 에러: \(error)")
-				}
-			}, receiveValue: { [weak self] posts in
-				self?.boardData = posts
-				print("가져온 Post 객체:")
-				print(posts)
-			})
-			.store(in: &cancellables)
-	}
 	//모임데이터
 	private func fetchGatheringData() {
-		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: "gathering012", type: Gathering.self)
+		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: gatheringId, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -188,23 +119,131 @@ class GatheringDetailVM {
 			.store(in: &cancellables)
 	}
 	
-	func removeGatheringFromUser() -> AnyPublisher<Void, FirestoreError> {
-		  guard let gathering = gathering else {
-			  return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
-		  }
-
-		  return FirestoreManager.shared.getDocument(collection: "Users", documentId: currentUser.uid, type: LetportsUser.self)
-			  .flatMap { user -> AnyPublisher<Void, FirestoreError> in
-				  var updatedMyGathering = user.myGathering
-				  updatedMyGathering.removeAll { $0 == gathering.gatheringUid }
-				  
-				  return FirestoreManager.shared.updateData(collection: "Users",
-															document: self.currentUser.uid,
-															fields: ["MyGathering": updatedMyGathering])
-			  }
-			  .eraseToAnyPublisher()
-	  }
+	// 게시판데이터
+	private func fetchBoardData() {
+		FirestoreManager.shared.getAllDocuments(collection: "Board", type: Post.self)
+			.sink(receiveCompletion: { completion in
+				switch completion {
+				case .finished:
+					print("게시판 데이터 가져오기 완료")
+				case .failure(let error):
+					print("게시판 데이터 가져오기 에러: \(error)")
+				}
+			}, receiveValue: { [weak self] posts in
+				self?.boardData = posts
+				print("가져온 Post 객체:")
+				print(posts)
+			})
+			.store(in: &cancellables)
+	}
 	
+	// 모임탈퇴
+	func removeGatheringFromUser() -> AnyPublisher<Void, FirestoreError> {
+		guard let gathering = gathering else {
+			return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+		}
+		
+		return FirestoreManager.shared.getDocument(collection: "Users", documentId: currentUser.uid, type: LetportsUser.self)
+			.flatMap { user -> AnyPublisher<Void, FirestoreError> in
+				var updatedMyGathering = user.myGathering
+				updatedMyGathering.removeAll { $0 == gathering.gatheringUid }
+				
+				return FirestoreManager.shared.updateData(collection: "Users",
+														  document: self.currentUser.uid,
+														  fields: ["MyGathering": updatedMyGathering])
+			}
+			.eraseToAnyPublisher()
+	}
+	
+	// 모임 나가기 확인
+	func confirmLeaveGathering() {
+		guard let gathering = gathering else {
+			coordinatorDelegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			return
+		}
+		
+		let removeFromUser = removeGatheringFromUser()
+		let updateGathering = updateGatheringAfterLeaving(gathering: gathering)
+		
+		Publishers.Zip(removeFromUser, updateGathering)
+			.sink(receiveCompletion: { [weak self] completion in
+				switch completion {
+				case .finished:
+					print("Successfully left the gathering")
+					self?.membershipStatus = .notJoined
+					self?.gathering?.gatherNowMember -= 1
+					self?.gathering?.gatheringMembers.removeAll { $0.userUID == self?.currentUser.uid }
+					self?.coordinatorDelegate?.dismissAndUpdateUI()
+				case .failure(let error):
+					print("Error leaving gathering: \(error)")
+					self?.coordinatorDelegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
+				}
+			}, receiveValue: { _ in })
+			.store(in: &cancellables)
+	}
+	
+	// 탈퇴후 업데이트
+	private func updateGatheringAfterLeaving(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
+		let updatedMembers = gathering.gatheringMembers.filter { $0.userUID != currentUser.uid }
+		let updatedNowMember = gathering.gatherNowMember - 1
+		
+		// GatheringMember 객체를 Dictionary로 변환
+		let updatedMembersDicts = updatedMembers.map { member -> [String: Any] in
+			return [
+				"Answer": member.answer,
+				"Image": member.image,
+				"JoinDate": member.joinDate,
+				"JoinStatus": member.joinStatus,
+				"NickName": member.nickName,
+				"UserUID": member.userUID,
+				"SimpleInfo": member.simpleInfo
+			]
+		}
+		
+		return FirestoreManager.shared.updateData(
+			collection: "Gatherings",
+			document: gathering.gatheringUid,
+			fields: [
+				"GatheringMembers": updatedMembersDicts,
+				"GatherNowMember": updatedNowMember
+			]
+		)
+	}
+	// 모임 가입
+	func joinGathering(answer: String) -> AnyPublisher<Void, FirestoreError> {
+		guard let gathering = gathering else {
+			return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+		}
+		
+		let newMember: [String: Any] = [
+			"Answer": answer,
+			"Image": currentUser.image,
+			"JoinDate": Date().timeIntervalSince1970,
+			"JoinStatus": "pending",
+			"NickName": currentUser.nickname,
+			"UserUID": currentUser.uid,
+			"SimpleInfo": currentUser.simpleInfo
+		]
+		
+		let updatedNowMember = gathering.gatherNowMember + 1
+		
+		return FirestoreManager.shared.updateData(
+			collection: "Gatherings",
+			document: gathering.gatheringUid,
+			fields: [
+				"GatheringMembers": FieldValue.arrayUnion([newMember]),
+				"GatherNowMember": updatedNowMember
+			]
+		)
+		.flatMap { _ in
+			FirestoreManager.shared.updateData(
+				collection: "Users",
+				document: self.currentUser.uid,
+				fields: ["MyGathering": FieldValue.arrayUnion([self.gatheringId])]
+			)
+		}
+		.eraseToAnyPublisher()
+	}
 	
 	// 모임장 닉네임
 	private func getMasterNickname() {
@@ -286,12 +325,12 @@ class GatheringDetailVM {
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
-		email: "user005@example.com",
+		email: "user014@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering012", "gathering011"],
-		nickname: "홈런타자",
-		simpleInfo: "홈런으로 경기의 흐름을 바꾸는 선수",
-		uid: "user016",
+		myGathering: ["gathering010", "gathering011"],
+		nickname: "이글스영웅",
+		simpleInfo: "한화 이글스를 위한 영웅",
+		uid: "user014",
 		userSports: "KBO",
 		userSportsTeam: "한화 이글스"
 	)

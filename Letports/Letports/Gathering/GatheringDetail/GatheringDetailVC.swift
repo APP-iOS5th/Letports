@@ -212,7 +212,19 @@ extension GatheringDetailVC: JoinViewDelegate {
 	}
 	
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
-		// 여기에 가입 로직을 구현합니다.
+		viewModel.joinGathering(answer: answer)
+			.sink(receiveCompletion: { [weak self] completion in
+				switch completion {
+				case .finished:
+					print("가입 처리가 완료되었습니다.")
+					self?.viewModel.dismissJoinView()
+					self?.viewModel.loadData() // 데이터 새로고침
+				case .failure(let error):
+					print("가입 처리 중 오류 발생: \(error)")
+					self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
+				}
+			}, receiveValue: { _ in })
+			.store(in: &cancellables)
 		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
 		// 가입 처리 후 뷰를 닫습니다.
 		viewModel.dismissJoinView()
@@ -270,6 +282,12 @@ extension GatheringDetailVC: JoinViewDelegate {
 				])
 			}
 		}
+	}
+	
+	private func showError(message: String) {
+		let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+		present(alert, animated: true, completion: nil)
 	}
 }
 
