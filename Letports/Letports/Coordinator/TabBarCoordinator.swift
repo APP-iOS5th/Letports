@@ -26,7 +26,9 @@ class TabBarCoordinator: Coordinator {
         let profileNavController = UINavigationController()
         
         let homeCoordinator = HomeCoordinator(navigationController: homeNavController)
-        let gatheringCoordinator = GatheringCoordinator(navigationController: gatheringNavController)
+		// 되돌리기
+//        let gatheringCoordinator = GatheringCoordinator(navigationController: gatheringNavController)
+		let gatheringCoordinator = GatheringDetailCoordinator(navigationController: gatheringNavController, currentUser: GatheringDetailVM.dummyUser)
         let profileCoordinator = ProfileCoordinator(navigationController: profileNavController)
         
         homeCoordinator.parentCoordinator = self

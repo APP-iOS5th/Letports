@@ -22,6 +22,8 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func leaveGathering()
 	func reportGathering()
 	func showLeaveGatheringConfirmation()
+	func dismissAndUpdateUI()
+	func showError(message: String)
 }
 
 
@@ -94,12 +96,60 @@ class GatheringDetailVM {
 	}
 	// 모임 나가기 확인
 	func confirmLeaveGathering() {
-		// 실제 모임 나가기 로직 구현
-		print("모임 나가기 실행")
-		// 여기에 모임 나가기 관련 데이터 처리
+		guard let gathering = gathering else {
+			coordinatorDelegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			return
+		}
+
+		let removeFromUser = removeGatheringFromUser()
+		let updateGathering = updateGatheringAfterLeaving(gathering: gathering)
+
+		Publishers.Zip(removeFromUser, updateGathering)
+			.sink(receiveCompletion: { [weak self] completion in
+				switch completion {
+				case .finished:
+					print("Successfully left the gathering")
+					self?.membershipStatus = .notJoined
+					self?.gathering?.gatherNowMember -= 1
+					self?.gathering?.gatheringMembers.removeAll { $0.userUID == self?.currentUser.uid }
+					self?.coordinatorDelegate?.dismissAndUpdateUI()
+				case .failure(let error):
+					print("Error leaving gathering: \(error)")
+					self?.coordinatorDelegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
+				}
+			}, receiveValue: { _ in })
+			.store(in: &cancellables)
 	}
 
+	// 탈퇴후 업데이트
+	private func updateGatheringAfterLeaving(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
+		let updatedMembers = gathering.gatheringMembers.filter { $0.userUID != currentUser.uid }
+		let updatedNowMember = gathering.gatherNowMember - 1
 
+		// GatheringMember 객체를 Dictionary로 변환
+		let updatedMembersDicts = updatedMembers.map { member -> [String: Any] in
+			return [
+				"Answer": member.answer,
+				"Image": member.image,
+				"JoinDate": member.joinDate,
+				"JoinStatus": member.joinStatus,
+				"NickName": member.nickName,
+				"UserUID": member.userUID,
+				"SimpleInfo": member.simpleInfo
+			]
+		}
+
+		return FirestoreManager.shared.updateData(
+			collection: "Gatherings",
+			document: gathering.gatheringUid,
+			fields: [
+				"GatheringMembers": updatedMembersDicts,
+				"GatherNowMember": updatedNowMember
+			]
+		)
+	}
+	
+	
 	// 게시판데이터
 	private func fetchBoardData() {
 		FirestoreManager.shared.getAllDocuments(collection: "Board", type: Post.self)
@@ -137,6 +187,24 @@ class GatheringDetailVM {
 			})
 			.store(in: &cancellables)
 	}
+	
+	func removeGatheringFromUser() -> AnyPublisher<Void, FirestoreError> {
+		  guard let gathering = gathering else {
+			  return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+		  }
+
+		  return FirestoreManager.shared.getDocument(collection: "Users", documentId: currentUser.uid, type: LetportsUser.self)
+			  .flatMap { user -> AnyPublisher<Void, FirestoreError> in
+				  var updatedMyGathering = user.myGathering
+				  updatedMyGathering.removeAll { $0 == gathering.gatheringUid }
+				  
+				  return FirestoreManager.shared.updateData(collection: "Users",
+															document: self.currentUser.uid,
+															fields: ["MyGathering": updatedMyGathering])
+			  }
+			  .eraseToAnyPublisher()
+	  }
+	
 	
 	// 모임장 닉네임
 	private func getMasterNickname() {
@@ -220,12 +288,12 @@ class GatheringDetailVM {
 	static let dummyUser = LetportsUser(
 		email: "user005@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering012"],
-		nickname: "완벽수비",
-		simpleInfo: "빠른 속도를 좋아합니다",
-		uid: "user015",
+		myGathering: ["gathering012", "gathering011"],
+		nickname: "홈런타자",
+		simpleInfo: "홈런으로 경기의 흐름을 바꾸는 선수",
+		uid: "user016",
 		userSports: "KBO",
-		userSportsTeam: "두산 베어스"
+		userSportsTeam: "한화 이글스"
 	)
 	
 	// 게시판 분류

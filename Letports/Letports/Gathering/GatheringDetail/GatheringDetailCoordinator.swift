@@ -12,6 +12,8 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
+	// 되돌리기
+	weak var parentCoordinator: TabBarCoordinator?
 	
 	init(navigationController: UINavigationController, currentUser: LetportsUser) {
 		self.navigationController = navigationController
@@ -66,7 +68,7 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 		let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-			self?.leaveGathering()
+			self?.viewModel.confirmLeaveGathering()
 		}
 		
 		alertController.addAction(cancelAction)
@@ -74,11 +76,21 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
+	func dismissAndUpdateUI() {
+		navigationController.popViewController(animated: true)
+		// 필요한 경우 여기에 추가적인 UI 업데이트 로직을 구현하세요
+	}
+	
+	func showError(message: String) {
+		let alertController = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+		alertController.addAction(okAction)
+		navigationController.present(alertController, animated: true, completion: nil)
+	}
+	
 	
 	func leaveGathering() {
 		viewModel.leaveGathering()
-		// 추가적인 처리 화면 갱신
-		// 예: navigationController.popViewController(animated: true)
 	}
 	
 	func reportGathering() {
