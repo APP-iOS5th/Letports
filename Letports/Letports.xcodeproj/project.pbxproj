@@ -52,6 +52,9 @@
 		B85FD83C2C75AC2B007B4962 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD83B2C75AC2B007B4962 /* AppCoordinator.swift */; };
 		B85FD84F2C7855DE007B4962 /* Auth.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B85FD84E2C7855DE007B4962 /* Auth.xcconfig */; };
 		B85FD8532C7864DC007B4962 /* SelectTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */; };
+		B85FD8842C79C539007B4962 /* SelectTeamVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8832C79C539007B4962 /* SelectTeamVM.swift */; };
+		B85FD8862C79CCD0007B4962 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8852C79CCD0007B4962 /* CategoryCell.swift */; };
+		B85FD8882C79CCF3007B4962 /* SelectTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
 		B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C12C746AE90039D33B /* AuthVM.swift */; };
@@ -179,8 +182,11 @@
 		B82471442C6499590067BD09 /* GatheringCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringCoordinator.swift; sourceTree = "<group>"; };
 		B85FD83B2C75AC2B007B4962 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B85FD84E2C7855DE007B4962 /* Auth.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
-		B85FD8502C7855EA007B4962 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamVC.swift; sourceTree = "<group>"; };
+		B85FD8782C788783007B4962 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
+		B85FD8832C79C539007B4962 /* SelectTeamVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamVM.swift; sourceTree = "<group>"; };
+		B85FD8852C79CCD0007B4962 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamCell.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B8D4D0C12C746AE90039D33B /* AuthVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVM.swift; sourceTree = "<group>"; };
@@ -418,9 +424,20 @@
 		B85FD8512C7864C4007B4962 /* SelectTeam */ = {
 			isa = PBXGroup;
 			children = (
+				B85FD8892C79CD04007B4962 /* Cell */,
 				B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */,
+				B85FD8832C79C539007B4962 /* SelectTeamVM.swift */,
 			);
 			path = SelectTeam;
+			sourceTree = "<group>";
+		};
+		B85FD8892C79CD04007B4962 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B85FD8852C79CCD0007B4962 /* CategoryCell.swift */,
+				B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B8D4D0B92C74693D0039D33B /* Service */ = {
@@ -525,12 +542,12 @@
 				410BBCC42C77B5B300FE2E18 /* Model */,
 				41AA052E2C730001009FF289 /* Common */,
 				41AA05272C72D9D9009FF289 /* FirebaseService */,
+				B85FD8512C7864C4007B4962 /* SelectTeam */,
 				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
-				B85FD8512C7864C4007B4962 /* SelectTeam */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
 				B8D4D0B92C74693D0039D33B /* Service */,
 				B824714A2C6C34360067BD09 /* Auth */,
@@ -545,8 +562,8 @@
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				B85FD84E2C7855DE007B4962 /* Auth.xcconfig */,
-				B85FD8502C7855EA007B4962 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
+				B85FD8782C788783007B4962 /* Letports.entitlements */,
 				410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
 			);
@@ -794,6 +811,7 @@
 				B85FD8532C7864DC007B4962 /* SelectTeamVC.swift in Sources */,
 				410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */,
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
+				B85FD8862C79CCD0007B4962 /* CategoryCell.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
 				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
 				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
@@ -843,10 +861,12 @@
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
+				B85FD8842C79C539007B4962 /* SelectTeamVM.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */,
 				BFD9AF012C76F7A2000C3A20 /* ActionSheetVC.swift in Sources */,
 				BFFFD3F22C7341720053A86B /* GatheringBoardDetailContentTVCell.swift in Sources */,
+				B85FD8882C79CCF3007B4962 /* SelectTeamCell.swift in Sources */,
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				BFFFD3F42C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift in Sources */,
 				410BBCB62C778F1D00FE2E18 /* BoardEditorVC.swift in Sources */,
