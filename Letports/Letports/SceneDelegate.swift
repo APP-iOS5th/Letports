@@ -26,13 +26,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		        window.rootViewController = navigationController
 		        window.makeKeyAndVisible()
 		
-		
-//		window = UIWindow(windowScene: windowScene)
-//		
-//		let viewModel = GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser)
-//		= GatheringDetailVC(viewModel: viewModel)
-//		window?.makeKeyAndVisible()
-		
 	}
 	
 	func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
