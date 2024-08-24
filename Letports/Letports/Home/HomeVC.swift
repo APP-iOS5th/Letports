@@ -373,7 +373,7 @@ class HomeVC: UIViewController {
     
     //데이터 바인딩
     private func bindViewModel() {
-        viewModel.$sampleTeam
+        viewModel.$team
             .sink { [weak self] team in
                 guard let self = self, let team = team else { return }
                 self.teamLogo.kf.setImage(with: URL(string: team.teamLogo))
@@ -483,21 +483,21 @@ class HomeVC: UIViewController {
     //MARK: -Objc Methods
     //url 탭 액션
     @objc func handleHomeTap() {
-        if let team = viewModel.sampleTeam ,let url = URL(string: team.homepage) {
+        if let team = viewModel.team ,let url = URL(string: team.homepage) {
             presentBottomSheet(with: url)
         }
         print("홈페이지")
     }
     
     @objc func handleInstaTap() {
-        if let team = viewModel.sampleTeam, let url = URL(string: team.instagram) {
+        if let team = viewModel.team, let url = URL(string: team.instagram) {
             presentBottomSheet(with: url)
         }
         print("인스타그램")
     }
     
     @objc func handleYoutubeTap() {
-        if let team = viewModel.sampleTeam, let url = URL(string: team.youtube) {
+        if let team = viewModel.team, let url = URL(string: team.youtube) {
             presentBottomSheet(with: url)
         }
         print("유튜브")
