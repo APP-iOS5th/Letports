@@ -37,45 +37,41 @@ struct YoutubeAPIResponse: Codable {
     let items: [Item]
 }
 
-struct SampleGathering2 {
-    var gatherImage: URL?
-    var gatherName: String?
-}
-
 class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
-    @Published var gatherings: [SampleGathering2] = []
+    @Published var gatherings: [Gathering] = []
     
     @Published var team: Team?
     
     private var cancellables = Set<AnyCancellable>()
+    private let db = Firestore.firestore()
     private let youtubeAPIKey = ""
     
     init() {
         getTeamData()
-        //fetchGatherings(forTeam: "LG 트윈스")
     }
     
     func getTeamData() {
-            FM.getDataSubCollection(collection: "Sports",
-                                    document: "Letports_soccer",
-                                    subCollection: "SportsTeam",
-                                    subdocument: "GangwonFC",
-                                    type: Team.self)
-                .sink { completion in
-                    switch completion {
-                    case .failure(let error):
-                        print("Error fetching gatherings: \(error)")
-                    case .finished:
-                        break
-                    }
-                } receiveValue: { [weak self] team in
-                    self?.team = team
-                    self?.fetchLatestYoutubeVideos()
-                }
-                .store(in: &cancellables)
+        FM.getDataSubCollection(collection: "Sports",
+                                document: "Letports_baseball",
+                                subCollection: "SportsTeam",
+                                subdocument: "KIATigers",
+                                type: Team.self)
+        .sink { completion in
+            switch completion {
+            case .failure(let error):
+                print("Error fetching gatherings: \(error)")
+            case .finished:
+                break
+            }
+        } receiveValue: { [weak self] team in
+            self?.team = team
+            self?.fetchLatestYoutubeVideos()
+            self?.fetchGatherings(forTeam: team.teamName)
         }
+        .store(in: &cancellables)
+    }
     
     private func fetchLatestYoutubeVideos() {
         guard let team = team else { return }
@@ -120,18 +116,24 @@ class HomeViewModel {
             .store(in: &cancellables)
     }
     
-//    func fetchGatherings(forTeam teamName: String) {
-//        firebaseService.fetchGatherings(forTeam: teamName)
-//            .sink(receiveCompletion: { completion in
-//                switch completion {
-//                case .failure(let error):
-//                    print("Error fetching gatherings: \(error)")
-//                case .finished:
-//                    break
-//                }
-//            }, receiveValue: { [weak self] gatherings in
-//                self?.gatherings = gatherings
-//            })
-//            .store(in: &cancellables)
-//    }
+    func fetchGatherings(forTeam teamName: String) {
+        db.collection("Gatherings")
+            .whereField("GatheringSportsTeam", isEqualTo: teamName)
+            .getDocuments { [weak self] (snapshot, error) in
+                if let error = error {
+                    print("Error fetching gatherings: \(error)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    print("No documents found")
+                    return
+                }
+                
+                // Gathering 객체로 변환하여 gatherings 배열에 저장
+                self?.gatherings = documents.compactMap { document in
+                    try? document.data(as: Gathering.self)
+                }
+            }
+    }
 }

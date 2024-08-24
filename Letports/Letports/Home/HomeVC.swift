@@ -177,11 +177,7 @@ class HomeVC: UIViewController {
         return gatheringScroll
     }()
     
-    lazy var gatheringSV: UIStackView = {
-        let gatheringView = createSV(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 6)
-        
-        return gatheringView
-    }()
+    lazy var gatheringSV = createSV(axis: .horizontal, alignment: .center, distribution: .fill, spacing: 6)
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -404,16 +400,19 @@ class HomeVC: UIViewController {
         viewModel.$gatherings
             .sink { [weak self] gatherings in
                 guard let self = self else { return }
+                
+                print("Gatherings: \(gatherings)")
+                
                 self.updateGatheringImages(gatherings)
             }
             .store(in: &cancellables)
     }
     
-    //썸네일 이미지 업로드
-    private func updateGatheringImages(_ gatherings: [SampleGathering2]) {
+    //소모임 이미지 업로드
+    private func updateGatheringImages(_ gatherings: [Gathering]) {
         gatheringSV.arrangedSubviews.forEach { $0.removeFromSuperview() }
         gatherings.forEach { gathering in
-            if let url = gathering.gatherImage {
+            let url = gathering.gatherImage
                 // 컨테이너 뷰 생성
                 let containerView = UIView()
                 containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -423,14 +422,14 @@ class HomeVC: UIViewController {
                 // 이미지 뷰 생성 및 추가
                 let imageView = UIImageView()
                 imageView.contentMode = .scaleAspectFill
-                imageView.kf.setImage(with: url)
+                imageView.kf.setImage(with: URL(string: url))
                 imageView.layer.cornerRadius = 10
                 imageView.clipsToBounds = true
                 imageView.translatesAutoresizingMaskIntoConstraints = false
                 containerView.addSubview(imageView)
                 
                 // 이름 라벨 생성 및 추가
-                if let gatherName = gathering.gatherName {
+                let gatherName = gathering.gatherName
                     let nameLabel = UILabel()
                     nameLabel.text = gatherName
                     nameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -445,7 +444,7 @@ class HomeVC: UIViewController {
                         nameLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
                         nameLabel.heightAnchor.constraint(equalToConstant: 40)
                     ])
-                }
+                
                 
                 // 이미지 뷰 레이아웃 설정
                 NSLayoutConstraint.activate([
@@ -457,7 +456,7 @@ class HomeVC: UIViewController {
                 
                 // 컨테이너 뷰를 stackView에 추가
                 gatheringSV.addArrangedSubview(containerView)
-            }
+            
         }
     }
     
