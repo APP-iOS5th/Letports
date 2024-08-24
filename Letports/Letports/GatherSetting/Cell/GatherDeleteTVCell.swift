@@ -8,7 +8,7 @@ import UIKit
 
 class GatherDeleteTVCell: UITableViewCell {
     
-    private lazy var TitleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .lp_tint
@@ -28,15 +28,14 @@ class GatherDeleteTVCell: UITableViewCell {
     }
     
     func setupUI() {
-        self.backgroundColor = .lp_background_white
-        contentView.addSubview(TitleLabel)
+        contentView.addSubview(titleLabel)
+        contentView.backgroundColor = .lp_background_white
+        
         NSLayoutConstraint.activate([
-            TitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            TitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            TitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            TitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
- 
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
-    
 }
