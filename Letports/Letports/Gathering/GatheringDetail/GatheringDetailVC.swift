@@ -11,7 +11,6 @@ import Combine
 protocol GatheringDetailDelegate: AnyObject {
 	func didTapEditBtn()
 	func didTapProfileImage()
-	func didTapSettingBtn()
 	func didTapCell(boardPost: Post)
 }
 
@@ -88,7 +87,6 @@ final class GatheringDetailVC: UIViewController {
 		bindViewModel()
 		viewModel.loadData()
 		self.delegate = self
-		print("Join button action set: \(joinBtn.actions(forTarget: self, forControlEvent: .touchUpInside) ?? [])")
 	}
 	
 	// MARK: - bindVm
@@ -116,24 +114,6 @@ final class GatheringDetailVC: UIViewController {
 				self?.view.layoutIfNeeded()
 			}
 			.store(in: &cancellables)
-	}
-	
-	private func updateUI(with gathering: Gathering?) {
-		guard let gathering = gathering else { return }
-		
-		let gatheringName = gathering.gatherName
-		let screenType: ScreenType
-		
-		if viewModel.isMaster {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
-		} else if viewModel.membershipStatus == .joined {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
-		} else {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
-		}
-		
-		navigationView.screenType = screenType
-		tableView.reloadData()
 	}
 	
 	private func updateJoinBtn(for status: MembershipStatus) {
@@ -176,6 +156,25 @@ final class GatheringDetailVC: UIViewController {
 	
 	
 	// MARK: - Setup
+	// 커스텀네비
+	private func updateUI(with gathering: Gathering?) {
+		guard let gathering = gathering else { return }
+		
+		let gatheringName = gathering.gatherName
+		let screenType: ScreenType
+		
+		if viewModel.isMaster {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+		} else if viewModel.membershipStatus == .joined {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+		} else {
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
+		}
+		
+		navigationView.screenType = screenType
+		tableView.reloadData()
+	}
+	// 레이아웃
 	private func setupUI() {
 		self.view.backgroundColor = .lp_background_white
 		
@@ -230,8 +229,12 @@ extension GatheringDetailVC: JoinViewDelegate {
 			self.joinBackground = nil
 		}
 	}
-	
-	private func showUserView<T: UIView>(viewType: T.Type, existingView: inout T?, gathering: Gathering, width: CGFloat = 361, height: CGFloat = 468) {
+	// 가입뷰 처리
+	private func showUserView<T: UIView>(viewType: T.Type,
+										 existingView: inout T?,
+										 gathering: Gathering,
+										 width: CGFloat = 361,
+										 height: CGFloat = 468) {
 		// 이미 화면에 해당 뷰가 있는지 확인
 		if existingView == nil {
 			let joinBackView = JoinBackgroundView(frame: self.view.bounds)
@@ -282,11 +285,6 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapProfileImage() {
 		// 프로필버튼
 	}
-	
-	
-	func didTapSettingBtn() {
-		// 셋팅버튼
-	}
 }
 
 extension GatheringDetailVC: BoardButtonTVCellDelegate {
@@ -298,10 +296,16 @@ extension GatheringDetailVC: BoardButtonTVCellDelegate {
 
 extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightButtonDidTap() {
-		print("samll")
-	}
-	
-	func backButtonDidTap() {
+		if viewModel.membershipStatus == .joined {
+			if viewModel.isMaster {
+				// 모임장일때 시트
+			} else {
+				viewModel.showActionSheet()
+			}
+		}
+		
+		func backButtonDidTap() {
+		}
 	}
 }
 

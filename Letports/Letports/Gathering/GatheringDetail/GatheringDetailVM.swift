@@ -18,6 +18,10 @@ protocol ButtonStateDelegate: AnyObject {
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showBoardDetail(boardPost: Post, gathering: Gathering)
 	func dismissJoinView()
+	func presentActionSheet()
+	func leaveGathering()
+	func reportGathering()
+	func showLeaveGatheringConfirmation()
 }
 
 
@@ -44,6 +48,7 @@ enum MembershipStatus {
 	case joined
 }
 
+
 class GatheringDetailVM {
 	@Published private(set) var gathering: Gathering?
 	@Published private(set) var membershipStatus: MembershipStatus = .joined
@@ -68,13 +73,34 @@ class GatheringDetailVM {
 	}
 	
 	func dismissJoinView() {
-			coordinatorDelegate?.dismissJoinView()
-		}
+		coordinatorDelegate?.dismissJoinView()
+	}
 	
 	func didTapBoardCell(boardPost: Post) {
 		self.coordinatorDelegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
 	}
 	
+	func showActionSheet() {
+		coordinatorDelegate?.presentActionSheet()
+	}
+	
+	func leaveGathering() {
+		coordinatorDelegate?.showLeaveGatheringConfirmation()
+	}
+	
+	func reportGathering() {
+		// 신고하기 로직 구현
+		print("신고하기")
+	}
+	// 모임 나가기 확인
+	func confirmLeaveGathering() {
+		// 실제 모임 나가기 로직 구현
+		print("모임 나가기 실행")
+		// 여기에 모임 나가기 관련 데이터 처리
+	}
+
+
+	// 게시판데이터
 	private func fetchBoardData() {
 		FirestoreManager.shared.getAllDocuments(collection: "Board", type: Post.self)
 			.sink(receiveCompletion: { completion in
@@ -91,7 +117,7 @@ class GatheringDetailVM {
 			})
 			.store(in: &cancellables)
 	}
-	
+	//모임데이터
 	private func fetchGatheringData() {
 		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: "gathering012", type: Gathering.self)
 			.sink(receiveCompletion: { completion in
@@ -183,7 +209,7 @@ class GatheringDetailVM {
 	func getDetailCellTypes() -> [GatheringDetailCellType] {
 		return self.cellType
 	}
-	
+	// 게시판 높이계산
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
 		let cellHeight: CGFloat = 50 + 12
@@ -192,15 +218,15 @@ class GatheringDetailVM {
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
-		 email: "user005@example.com",
-		 image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		 myGathering: ["gathering012"],
-		 nickname: "완벽수비",
-		 simpleInfo: "빠른 속도를 좋아합니다",
-		 uid: "user015",
-		 userSports: "KBO",
-		 userSportsTeam: "두산 베어스"
-	 )
+		email: "user005@example.com",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
+		myGathering: ["gathering012"],
+		nickname: "완벽수비",
+		simpleInfo: "빠른 속도를 좋아합니다",
+		uid: "user015",
+		userSports: "KBO",
+		userSportsTeam: "두산 베어스"
+	)
 	
 	// 게시판 분류
 	var filteredBoardData: [Post] {
