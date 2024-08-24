@@ -215,10 +215,15 @@ class GatheringDetailVM {
 			return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
 		}
 		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let joinDate = dateFormatter.string(from: Date())
+		
+		
 		let newMember: [String: Any] = [
 			"Answer": answer,
 			"Image": currentUser.image,
-			"JoinDate": Date().timeIntervalSince1970,
+			"JoinDate": joinDate,
 			"JoinStatus": "pending",
 			"NickName": currentUser.nickname,
 			"UserUID": currentUser.uid,
