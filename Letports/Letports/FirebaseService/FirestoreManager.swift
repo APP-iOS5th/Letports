@@ -115,6 +115,35 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+    //Read SubCollection
+        ///Collection 안에 있는 Collection 조회
+        func getDataSubCollection<T: Decodable>(collection: String,
+                                                document: String,
+                                                subCollection: String,
+                                                subdocument: String,
+                                                type: T.Type) -> AnyPublisher<T, FirestoreError> {
+            
+            return Future<T, FirestoreError> { promise in
+                let document = FIRESTORE.collection(collection).document(document)
+                document.collection(subCollection).document(subdocument).getDocument { snapShot, error in
+                    
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                    } else if let snapShot = snapShot, snapShot.exists {
+                        do {
+                            let data = try snapShot.data(as: T.self)
+                            promise(.success(data))
+                        } catch {
+                            promise(.failure(.dataDecodingFailed))
+                        }
+                    } else {
+                        promise(.failure(.documentNotFound))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+    
     //UPDATE
     ///Field update
     ///Fields Update Method

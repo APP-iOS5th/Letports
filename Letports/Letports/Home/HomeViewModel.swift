@@ -58,21 +58,24 @@ class HomeViewModel {
     }
     
     func getTeamData() {
-        FM.getData(collection: "SportsTeams", document: "XrNMkdeu9OHkZDF7yG9N", type: Team.self)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print("에러!!: Error fetching gatherings: \(error)")
-                case .finished:
-                    break
+            FM.getDataSubCollection(collection: "Sports",
+                                    document: "Letports_soccer",
+                                    subCollection: "SportsTeam",
+                                    subdocument: "GangwonFC",
+                                    type: Team.self)
+                .sink { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Error fetching gatherings: \(error)")
+                    case .finished:
+                        break
+                    }
+                } receiveValue: { [weak self] team in
+                    self?.team = team
+                    self?.fetchLatestYoutubeVideos()
                 }
-            } receiveValue: { [weak self] team in
-                print("가져온 데이터: ", team)
-                self?.team = team
-                self?.fetchLatestYoutubeVideos()
-            }
-            .store(in: &cancellables)
-    }
+                .store(in: &cancellables)
+        }
     
     private func fetchLatestYoutubeVideos() {
         guard let team = team else { return }
