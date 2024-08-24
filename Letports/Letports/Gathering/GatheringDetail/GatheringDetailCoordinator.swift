@@ -12,8 +12,6 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
-	// 되돌리기
-	weak var parentCoordinator: TabBarCoordinator?
 	
 	init(navigationController: UINavigationController, currentUser: LetportsUser) {
 		self.navigationController = navigationController
