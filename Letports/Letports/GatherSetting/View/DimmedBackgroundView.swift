@@ -9,7 +9,6 @@ import UIKit
 
 class DimmedBackgroundView: UIView {
     
-    // 초기화 메서드
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -20,9 +19,8 @@ class DimmedBackgroundView: UIView {
         setupView()
     }
     
-    // 뷰 설정 메서드
     private func setupView() {
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.5) // 반투명한 검정색 배경
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
