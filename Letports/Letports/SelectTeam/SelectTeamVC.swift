@@ -187,6 +187,7 @@ extension TeamSelectionViewController {
         case .sports:
             guard let sports = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Sports else { return }
             viewModel.selectSports(sports)
+            updateTeamsSnapshot()
         case .teams:
             if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team {
                 print("Selected team: \(team.name), TeamUID: \(team.teamUID), Sports: \(team.sports)")

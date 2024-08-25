@@ -8,7 +8,7 @@
 import UIKit
 
 class SportsCell: UICollectionViewCell {
-    static let reuseIdentifier = "CategoryCell"
+    static let reuseIdentifier = "SportsCell"
     
     private let titleLabel: UILabel = {
         let label = UILabel()

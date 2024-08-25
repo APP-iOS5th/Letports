@@ -59,6 +59,16 @@ class TeamCell: UICollectionViewCell {
     
     func configure(with team: TeamSelectionViewModel.Team) {
         nameLabel.text = team.name
-        logoImageView.kf.setImage(with: URL(string: team.logoUrl), placeholder: UIImage(named: "placeholder_logo"))
+        let url = URL(string: team.logoUrl)
+        print("Team logo URL: \(team.logoUrl)")
+        logoImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
+        { result in
+            switch result {
+            case .success(let value):
+                print("Image successfully loaded: \(value.image)")
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+        }
     }
 }
