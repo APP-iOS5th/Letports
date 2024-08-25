@@ -12,8 +12,8 @@ import FirebaseFirestore
 enum GatheringCellType {
     case recommendGatheringHeader
     case recommendGatherings
-    case GatheringListHeader
-    case GatheringLists
+    case gatheringListHeader
+    case gatheringLists
 }
 
 class GatheringVM {
@@ -23,15 +23,26 @@ class GatheringVM {
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
     
+    weak var delegate: GatheringCoordinatorDelegate?
+    
+    func presentTeamChangeController() {
+        
+    }
+    
+    func pushGatheringDetailController() {
+        self.delegate?.pushGatheringDetailController()
+    }
+    
+    
     private var cellType: [GatheringCellType] {
         var cellTypes: [GatheringCellType] = []
         cellTypes.append(.recommendGatheringHeader)
         for _ in recommendGatherings {
             cellTypes.append(.recommendGatherings)
         }
-        cellTypes.append(.GatheringListHeader)
+        cellTypes.append(.gatheringListHeader)
         for _ in gatheringLists {
-            cellTypes.append(.GatheringLists)
+            cellTypes.append(.gatheringLists)
         }
         return cellTypes
     }
@@ -45,14 +56,14 @@ class GatheringVM {
     }
     
     init() {
-        loadGathering(with GatheringUID: String)
+        loadGatherings(forTeam: "한화이글스")
     }
     
-    //Gathering 정보 가져오기 <도움 요청>
+    //Gathering 정보 가져오기
     func loadGatherings(forTeam teamName: String) {
         db.collection("Gatherings")
             .whereField("GatheringSportsTeam", isEqualTo: teamName)
-            .getDocument { [weak self] (snapshot, error) in
+            .getDocuments { [weak self] (snapshot, error) in
                 if let error = error {
                     print("Error fetching gatherings: \(error)")
                     return
@@ -63,22 +74,23 @@ class GatheringVM {
                     return
                 }
                 
-                // Gathering 객체로 변환하여 allGatherings 배열에 저장
-                self?.allGatherings = documents.compactMap { document in
+                // Gathering 객체로 변환하여 recommendGatherings 및 gatheringLists에 저장
+                let gatherings = documents.compactMap { document in
                     try? document.data(as: Gathering.self)
                 }
                 
-                // 여기서 추천 소모임을 별도로 필터링할 수 있습니다.
-                self?.recommendedGatherings = self?.allGatherings.filter { gathering in
-                    // 예: 현재 사용자와 관련된 추천 소모임만 필터링
-                    // 사용자와 관련된 필터링 로직을 추가하세요.
-                    // 지금은 예시로 allGatherings에서 임의의 하나를 추천 소모임으로 설정합니다.
+                self?.recommendGatherings = gatherings.filter { gathering in
+                    // 예시: 특정 조건에 맞는 소모임을 추천 소모임으로 필터링
                     gathering.gatherNowMember < gathering.gatherMaxMember // 임의 조건
-                } ?? []
+                }
+                
+                self?.gatheringLists = gatherings
             }
     }
     
-    
-    
-    
+    func getRecommendGatheringCount() -> Int {
+        return self.recommendGatherings.count
+    }
 }
+
+

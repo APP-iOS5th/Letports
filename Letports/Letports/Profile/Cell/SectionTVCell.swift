@@ -19,6 +19,7 @@ class SectionTVCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,6 @@ class SectionTVCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
- 
         ])
     }
     

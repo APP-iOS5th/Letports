@@ -251,8 +251,8 @@
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F703EC2E2C786949003C994C /* Auth.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Auth.xcconfig; sourceTree = "<group>"; };
-		F703EC302C78695E003C994C /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
+		F75894EF2C7B75DF00E684DF /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Letports.entitlements; path = ../../../../../Downloads/Letports.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,8 +539,8 @@
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				F703EC2E2C786949003C994C /* Auth.xcconfig */,
+				F75894EF2C7B75DF00E684DF /* Letports.entitlements */,
 				410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */,
-				F703EC302C78695E003C994C /* Letports.entitlements */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
 				D8299F5E2C776331003D29AC /* GoogleService-Info.plist */,
 			);

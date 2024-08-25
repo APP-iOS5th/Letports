@@ -37,8 +37,8 @@ class GatheringVC: UIViewController {
     
     private(set) lazy var tableView: UITableView = {
         let tv = UITableView()
-        //tv.delegate = self
-        //tv.dataSource = self
+        tv.delegate = self
+        tv.dataSource = self
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,12 @@ class GatheringVC: UIViewController {
         NSLayoutConstraint.activate([
             navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -81,72 +86,76 @@ class GatheringVC: UIViewController {
 }
 
 extension GatheringVC: CustomNavigationDelegate {
-    
+    func sportsSelectButtonDidTap() {
+        print("TeamChangeView")
+    }
 }
 
+extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getCellCount()
+    }
 
-
-//extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
-//    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.getCellCount()
-//    }
-//
-//    func tableView(_ tableView: UITableView, willSelectRowAt: IndexPath) -> IndexPath? {
-//        let cellType = viewModel.getCellTypes()[indexPath.row]
-//        
-//        switch cellType {
-//        case .recommendGatherings, .GatheringLists:
-//            return indexPath
-//        default:
-//            return nil
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let cellType = viewModel.getCellTypes()[indexPath.row]
-//        
-//        switch cellType {
-//        case .GatheringLists:
-//            cell.contentView.layoutMargins = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-//            cell.contentView.backgroundColor = .clear
-//
-//        default:
-//            break
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let cellType = self.viewModel.getCellTypes()[indexPath.row]
-//        switch cellType {
-//        case .recommendGatheringHeader:
-//            return 100.0
-//        case .recommendGatherings:
-//            return 80.0
-//        case .GatheringListHeader:
-//            return 100.0
-//        case .GatheringLists:
-//            return 80
-//        }
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch viewModel.getCellTypes()[indexPath.row] {
+        case .recommendGatherings, .gatheringLists: viewModel.pushGatheringDetailController()
+        default:
+            break
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = self.viewModel.getCellTypes()[indexPath.row]
+        switch cellType {
+        case .recommendGatheringHeader:
+            return 80.0
+        case .recommendGatherings:
+            return 90.0
+        case .gatheringListHeader:
+            return 80.0
+        case .gatheringLists:
+            return 90.0
+        }
+    }
         
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        switch self.viewModel.getCellTypes()[indexPath.row] {
-//        case .recommendGatheringHeader:
-//            if let cell:
-//                case.
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-//        <#code#>
-//    }
-//    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let cellType = self.viewModel.
-//    }
-//}
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch self.viewModel.getCellTypes()[indexPath.row] {
+        case .recommendGatheringHeader:
+            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "추천 소모임")
+                cell.backgroundColor = .lp_background_white
+                return cell
+            }
+        case .recommendGatherings:
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.backgroundColor = .lp_background_white
+                let startIndex = 1
+                let gatheringIndex = indexPath.row - startIndex
+                if gatheringIndex < viewModel.recommendGatherings.count {
+                    let gathering = viewModel.recommendGatherings[gatheringIndex]
+                    cell.configure(with: gathering)
+                }
+                return cell
+            }
+        case .gatheringListHeader:
+            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.backgroundColor = .lp_background_white
+                cell.configure(withTitle: "소모임 리스트")
+                return cell
+            }
+        case .gatheringLists:
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.backgroundColor = .lp_background_white
+                let startIndex = viewModel.getRecommendGatheringCount() + 2
+                let gatheringIndex = indexPath.row - startIndex
+                if gatheringIndex < viewModel.gatheringLists.count {
+                    let gathering = viewModel.gatheringLists[gatheringIndex]
+                    cell.configure(with: gathering)
+                }
+                return cell
+            }
+        }
+        return UITableViewCell()
+    }
+}
