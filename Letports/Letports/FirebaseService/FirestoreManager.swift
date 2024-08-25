@@ -211,25 +211,6 @@ class FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
-    
-    func getCollectionData<T: Decodable>(collection: String, type: T.Type) -> AnyPublisher<[T], FirestoreError> {
-        Future { promise in
-            FIRESTORE.collection(collection).getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    promise(.failure(.unknownError(error)))
-                } else if let querySnapshot = querySnapshot {
-                    let documents = querySnapshot.documents.compactMap { document -> T? in
-                        try? document.data(as: T.self)
-                    }
-                    promise(.success(documents))
-                } else {
-                    promise(.failure(.documentNotFound))
-                }
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-    
 }
 
 extension Encodable {
@@ -237,5 +218,55 @@ extension Encodable {
         let data = try JSONEncoder().encode(self)
         let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
         return dictionary ?? [:]
+    }
+}
+
+extension FirestoreManager {
+    func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                    return
+                }
+                
+                let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Sports? in
+                    let id = document.documentID.replacingOccurrences(of: "Letports_", with: "")
+                    let name = document.get("sports") as? String ?? id
+                    return TeamSelectionViewModel.Sports(id: id, name: name)
+                } ?? []
+                
+                promise(.success(sportsCategories))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+
+    func getTeamsForSports(_ sports: String) -> AnyPublisher<[TeamSelectionViewModel.Team], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Team], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").document("Letports_\(sports)")
+                .collection("SportsTeam").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                        return
+                    }
+                    
+                    let teams = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Team? in
+                        guard let teamName = document.get("TeamName") as? String,
+                              let teamLogo = document.get("TeamLogo") as? String,
+                              let teamUID = document.get("TeamUID") as? String else { return nil }
+                        return TeamSelectionViewModel.Team(
+                            id: document.documentID,
+                            name: teamName,
+                            logoUrl: teamLogo,
+                            sports: sports,
+                            teamUID: teamUID
+                        )
+                    } ?? []
+                    
+                    promise(.success(teams))
+                }
+        }
+        .eraseToAnyPublisher()
     }
 }

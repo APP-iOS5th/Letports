@@ -58,7 +58,7 @@ class TeamCell: UICollectionViewCell {
     }
     
     func configure(with team: TeamSelectionViewModel.Team) {
-        logoImageView.image = UIImage(named: team.logoName)
         nameLabel.text = team.name
+        logoImageView.kf.setImage(with: URL(string: team.logoUrl), placeholder: UIImage(named: "placeholder_logo"))
     }
 }
