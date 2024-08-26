@@ -164,7 +164,7 @@ extension ProfileVC: ProfileDelegate {
 }
 
 extension ProfileVC: CustomNavigationDelegate {
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         print("셋팅뷰이동")
     }
 }

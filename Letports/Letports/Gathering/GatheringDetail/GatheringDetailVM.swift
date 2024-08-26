@@ -38,7 +38,7 @@ enum GatheringDetailCellType {
 	case separator
 }
 // 게시판버튼 유형
-enum BoardButtonType: String {
+enum BoardBtnType: String {
 	case all = "All"
 	case noti = "Noti"
 	case free = "Free"
@@ -55,12 +55,12 @@ class GatheringDetailVM {
 	@Published private(set) var gathering: Gathering?
 	@Published private(set) var membershipStatus: MembershipStatus = .joined
 	@Published private(set) var boardData: [Post] = []
-	@Published var selectedBoardType: BoardButtonType = .all
+	@Published var selectedBoardType: BoardBtnType = .all
 	@Published var masterNickname: String = ""
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let gatheringId: String = "gathering012"
+	private let gatheringId: String = "gathering009"
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
@@ -324,20 +324,20 @@ class GatheringDetailVM {
 	// 게시판 높이계산
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
-		let cellHeight: CGFloat = 50 + 12
+		let cellHeight: CGFloat = 70 + 12
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
-		email: "user014@example.com",
+		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering010", "gathering011"],
-		nickname: "이글스영웅",
-		simpleInfo: "한화 이글스를 위한 영웅",
-		uid: "user014",
+		myGathering: ["gathering009"],
+		nickname: "타격왕",
+		simpleInfo: "탁월한 타격 능력을 가진 선수",
+		uid: "user010",
 		userSports: "KBO",
-		userSportsTeam: "한화 이글스"
+		userSportsTeam: "기아 타이거즈"
 	)
 	
 	// 게시판 분류

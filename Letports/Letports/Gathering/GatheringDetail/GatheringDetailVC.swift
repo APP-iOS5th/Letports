@@ -18,16 +18,7 @@ final class GatheringDetailVC: UIViewController {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
 		let gatheringName = viewModel.gathering?.gatherName ?? "모임"
-		
-		if viewModel.isMaster {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
-		} else if viewModel.membershipStatus == .joined {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
-		} else {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
-		}
-		
-		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: screenType)
+		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "모임", btnName: .ellipsis))
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white
 		cnv.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +28,7 @@ final class GatheringDetailVC: UIViewController {
 	private lazy var joinBtn: JoinBtn = {
 		let btn = JoinBtn()
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.addTarget(self, action: #selector(joinButtonTap), for: .touchUpInside)
+		btn.addTarget(self, action: #selector(joinBtnTap), for: .touchUpInside)
 		return btn
 	}()
 	
@@ -57,9 +48,9 @@ final class GatheringDetailVC: UIViewController {
 						 GatheringTitleTVCell.self,
 						 SeperatorLineTVCell.self,
 						 GatheringDetailInfoTVCell.self,
-						 currentMemTVCell.self,
+						 CurrentMemTVCell.self,
 						 GatheringDetailProfileTVCell.self,
-						 BoardButtonTVCell.self,
+						 BoardBtnTVCell.self,
 						 GatheringDetailBoardTVCell.self)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.rowHeight = UITableView.automaticDimension
@@ -121,15 +112,12 @@ final class GatheringDetailVC: UIViewController {
 		case .notJoined:
 			joinBtn.setTitle("가입하기", for: .normal)
 			joinBtn.isHidden = false
-			print("Join button visible: not joined")
 		case .pending:
 			joinBtn.setTitle("가입대기", for: .normal)
 			joinBtn.backgroundColor = .lightGray
 			joinBtn.isHidden = false
-			print("Join button visible: pending")
 		case .joined:
 			joinBtn.isHidden = true
-			print("Join button hidden: already joined")
 		}
 	}
 	
@@ -170,12 +158,12 @@ final class GatheringDetailVC: UIViewController {
 		} else {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		}
-		
 		navigationView.screenType = screenType
 		tableView.reloadData()
 	}
 	// 레이아웃
 	private func setupUI() {
+		self.navigationController?.isNavigationBarHidden = true
 		self.view.backgroundColor = .lp_background_white
 		
 		[navigationView, tableView, joinBtn, postBtn].forEach {
@@ -305,15 +293,15 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 	}
 }
 
-extension GatheringDetailVC: BoardButtonTVCellDelegate {
-	func didSelectBoardType(_ type: BoardButtonType) {
+extension GatheringDetailVC: BoardBtnTVCellDelegate {
+	func didSelectBoardType(_ type: BoardBtnType) {
 		viewModel.selectedBoardType = type
 		tableView.reloadData()
 	}
 }
 
 extension GatheringDetailVC: CustomNavigationDelegate {
-	func smallRightButtonDidTap() {
+	func smallRightBtnDidTap() {
 		if viewModel.membershipStatus == .joined {
 			if viewModel.isMaster {
 				// 모임장일때 시트
@@ -361,7 +349,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .boardButtonType:
-			if let cell: BoardButtonTVCell = tableView.loadCell(indexPath: indexPath) {
+			if let cell: BoardBtnTVCell = tableView.loadCell(indexPath: indexPath) {
 				cell.delegate = self
 				return cell
 			}
@@ -374,7 +362,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .currentMemLabel:
-			if let cell: currentMemTVCell = tableView.loadCell(indexPath: indexPath) {
+			if let cell: CurrentMemTVCell = tableView.loadCell(indexPath: indexPath) {
 				return cell
 			}
 		}
@@ -412,7 +400,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	
 	// MARK: - objc메소드
 	
-	@objc private func joinButtonTap() {
+	@objc private func joinBtnTap() {
 		print("버튼이 눌렸다")
 		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
 	}
@@ -420,8 +408,4 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	@objc private func editBtnTap() {
 		print("편집버튼")
 	}
-}
-
-#Preview {
-	GatheringDetailVC(viewModel: GatheringDetailVM(currentUser: GatheringDetailVM.dummyUser))
 }

@@ -164,10 +164,10 @@ class JoinView: UIView, UITextViewDelegate {
 	}
 	
 	private func setupTapGesture() {
-		 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-		 tapGesture.cancelsTouchesInView = false
-		 self.addGestureRecognizer(tapGesture)
-	 }
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+		tapGesture.cancelsTouchesInView = false
+		self.addGestureRecognizer(tapGesture)
+	}
 	
 	// UITextViewDelegate 메서드
 	func textViewDidChange(_ textView: UITextView) {
@@ -185,8 +185,8 @@ class JoinView: UIView, UITextViewDelegate {
 	// MARK: - @objc
 	
 	@objc private func handleTap() {
-		 self.endEditing(true)
-	 }
+		self.endEditing(true)
+	}
 	
 	@objc private func cancelButtonTapped() {
 		delegate?.joinViewDidTapCancel(self)

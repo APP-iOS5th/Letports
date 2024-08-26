@@ -7,17 +7,17 @@
 
 import UIKit
 
-class BoardButtonCVCell: UICollectionViewCell {
+class BoardBtnCVCell: UICollectionViewCell {
 	
-	private var boardButtonType: BoardButtonType = .all
+	private var boardButtonType: BoardBtnType = .all
 	
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
-		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
 		let btn = UIButton(configuration: config, primaryAction: nil)
 		btn.clipsToBounds = true
-		btn.layer.cornerRadius = 11
-		btn.layer.borderWidth = 0.5
+		btn.layer.cornerRadius = 10
+		btn.layer.borderWidth = 0.2
 		btn.layer.borderColor = UIColor.lp_black.cgColor
 		btn.backgroundColor = .lp_white
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,7 @@ class BoardButtonCVCell: UICollectionViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configure(with type: BoardButtonType) {
+	func configure(with type: BoardBtnType) {
 		self.boardButtonType = type
 	}
 	

@@ -65,7 +65,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 	// MARK: - 높이계산
 	public func calculateTableViewHeight() -> CGFloat {
 		let numberOfRows = board.count
-		let cellHeight: CGFloat = 50 + 12
+		let cellHeight: CGFloat = 70 + 12
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
@@ -96,7 +96,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 	}
 }
 func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-	return 50 + 12
+	return 70 + 12
 }
 
 

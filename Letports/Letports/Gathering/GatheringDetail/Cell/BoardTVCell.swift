@@ -54,6 +54,7 @@ final class BoardTVCell: UITableViewCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		containerView.addShadow()
 		contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
 	}
 	
@@ -84,7 +85,7 @@ final class BoardTVCell: UITableViewCell {
 			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-			containerView.heightAnchor.constraint(equalToConstant: 50),
+			containerView.heightAnchor.constraint(equalToConstant: 70),
 			
 			boardTypeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
 			boardTypeLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -127,5 +128,13 @@ final class BoardTVCell: UITableViewCell {
 	}
 }
 
-
+extension UIView {
+	func addShadow() {
+		self.layer.shadowColor = UIColor.black.cgColor
+		self.layer.shadowOpacity = 0.3
+		self.layer.shadowOffset = CGSize(width: 0, height: 5)
+		self.layer.shadowRadius = 2
+		self.layer.masksToBounds = false
+	}
+}
 

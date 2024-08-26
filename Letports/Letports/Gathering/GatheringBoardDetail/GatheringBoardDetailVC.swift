@@ -103,13 +103,13 @@ final class GatheringBoardDetailVC: UIViewController {
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
-	func smallRightButtonDidTap() {
+	func smallRightBtnDidTap() {
 		print("samll")
 	}
-	func sportsSelectButtonDidTap() {
+	func sportsSelectBtnDidTap() {
 		
 	}
-	func backButtonDidTap() {
+	func backBtnDidTap() {
 		
 	}
 }
