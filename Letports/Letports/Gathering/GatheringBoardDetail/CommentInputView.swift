@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CommentInputDelegate: AnyObject {
+    func addComment(comment: String)
+}
+
 class CommentInputView: UIView {
 	
 	private let textField: UITextField = {
@@ -19,13 +23,14 @@ class CommentInputView: UIView {
 		return tf
 	}()
 	
-	private let registBtn: UIButton = {
+	private lazy var registBtn: UIButton = {
 		let btn = UIButton()
 		btn.setTitle("등록", for: .normal)
 		btn.setTitleColor(.black, for: .normal)
 		btn.clipsToBounds = true
 		btn.layer.cornerRadius = 10
 		btn.backgroundColor = .lp_white
+        btn.addTarget(self, action: #selector(registCommentDidTap), for: .touchUpInside)
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -39,6 +44,8 @@ class CommentInputView: UIView {
 		return sv
 	}()
 	
+    weak var delegate: CommentInputDelegate?
+    
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
@@ -62,8 +69,18 @@ class CommentInputView: UIView {
 			textFieldSV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 			textFieldSV.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
 			
-			registBtn.widthAnchor.constraint(equalToConstant: 60)
+			registBtn.widthAnchor.constraint(equalToConstant: 50)
 		])
 	}
+    
+    @objc func registCommentDidTap() {
+
+        if let text = textField.text {
+            print("touchaddButton \(text)")
+            self.delegate?.addComment(comment: text)
+            
+        }
+        
+    }
 	
 }

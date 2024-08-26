@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class GatheringBoardDetailVC: UIViewController {
 	
@@ -36,14 +37,16 @@ final class GatheringBoardDetailVC: UIViewController {
 		return tv
 	}()
 	
-	private let commentInputView: CommentInputView = {
+	private lazy var commentInputView: CommentInputView = {
 		let view = CommentInputView()
+        view.delegate = self
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	
 	private var viewModel: GatheringBoardDetailVM
-	
+    private var cancellables = Set<AnyCancellable>()
+    
 	init(viewModel: GatheringBoardDetailVM) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -56,6 +59,7 @@ final class GatheringBoardDetailVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
+        bindKeyboard()
 	}
 	
 	// MARK: - setupUI()
@@ -79,9 +83,48 @@ final class GatheringBoardDetailVC: UIViewController {
 			commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-			commentInputView.heightAnchor.constraint(equalToConstant: 70)
+			commentInputView.heightAnchor.constraint(equalToConstant: 50)
 		])
 	}
+    
+    private func bindKeyboard() {
+        // 키보드가 나타날 때의 이벤트를 구독
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+            .sink { [weak self] keyboardFrame in
+                guard let self = self else { return }
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.contentInset = UIEdgeInsets(top: 0,
+                                                               left: 0,
+                                                               bottom: keyboardFrame.height,
+                                                               right: 0)
+                    self.tableView.scrollIndicatorInsets = self.tableView.contentInset
+                }
+            }
+            .store(in: &cancellables)
+        
+        // 키보드가 사라질 때의 이벤트를 구독
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.contentInset = .zero
+                    self.tableView.scrollIndicatorInsets = .zero
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func setupTapGesture() {
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
@@ -153,6 +196,12 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 			return UITableView.automaticDimension
 		}
 	}
+}
+
+extension GatheringBoardDetailVC: CommentInputDelegate {
+    func addComment(comment: String) {
+        viewModel.addComment(comment: comment)
+    }
 }
 
 #Preview {

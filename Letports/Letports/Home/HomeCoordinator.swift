@@ -17,8 +17,9 @@ class HomeCoordinator: Coordinator {
     }
 
     func start() {
-        let homeVC = HomeVC()
-        homeVC.coordinator = self
+        let homeVC = GatheringBoardDetailVC(viewModel: GatheringBoardDetailVM())
+//        let homeVC = HomeVC()
+//        homeVC.coordinator = self
         navigationController.setViewControllers([homeVC], animated: false)
     }
 }
