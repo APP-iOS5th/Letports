@@ -111,9 +111,10 @@ class GatheringTVCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 90),
             
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),

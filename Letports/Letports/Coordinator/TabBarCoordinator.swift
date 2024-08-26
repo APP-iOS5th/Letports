@@ -17,6 +17,8 @@ class TabBarCoordinator: Coordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         self.tabBarController = UITabBarController()
+        
+        self.navigationController.isNavigationBarHidden = true
     }
     
     func start() {
@@ -26,7 +28,7 @@ class TabBarCoordinator: Coordinator {
         let profileNavController = UINavigationController()
         
         let homeCoordinator = HomeCoordinator(navigationController: homeNavController)
-        let gatheringCoordinator = GatheringCoordinator(navigationController: gatheringNavController)
+        let gatheringCoordinator = GatheringCoordinator(navigationController: gatheringNavController, viewModel: GatheringVM())
         let profileCoordinator = ProfileCoordinator(navigationController: profileNavController)
         
         homeCoordinator.parentCoordinator = self
