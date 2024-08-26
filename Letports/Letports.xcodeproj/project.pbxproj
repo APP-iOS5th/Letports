@@ -93,15 +93,13 @@
 		D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FC52C606935004DF06C /* LetportsTests.swift */; };
 		D8201FD02C606935004DF06C /* LetportsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FCF2C606935004DF06C /* LetportsUITests.swift */; };
 		D8201FD22C606935004DF06C /* LetportsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */; };
-		D8299F332C776219003D29AC /* DimmedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2B2C776219003D29AC /* DimmedBackgroundView.swift */; };
 		D8299F342C776219003D29AC /* GatherSectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F282C776219003D29AC /* GatherSectionTVCell.swift */; };
 		D8299F352C776219003D29AC /* GatherSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2F2C776219003D29AC /* GatherSettingCoordinator.swift */; };
 		D8299F362C776219003D29AC /* GatherSettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F312C776219003D29AC /* GatherSettingVM.swift */; };
 		D8299F372C776219003D29AC /* GatherSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F302C776219003D29AC /* GatherSettingVC.swift */; };
-		D8299F382C776219003D29AC /* PendingUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2D2C776219003D29AC /* PendingUserView.swift */; };
 		D8299F392C776219003D29AC /* GatherUserTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F292C776219003D29AC /* GatherUserTVCell.swift */; };
 		D8299F3A2C776219003D29AC /* GatherDeleteTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */; };
-		D8299F3B2C776219003D29AC /* JoiningUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2C2C776219003D29AC /* JoiningUserView.swift */; };
+		D8299F3B2C776219003D29AC /* ManageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2C2C776219003D29AC /* ManageUserView.swift */; };
 		D8299F472C77622C003D29AC /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F442C77622C003D29AC /* ProfileVM.swift */; };
 		D8299F4A2C77622C003D29AC /* ProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */; };
 		D8299F4C2C77622C003D29AC /* GatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */; };
@@ -227,9 +225,7 @@
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
 		D8299F282C776219003D29AC /* GatherSectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSectionTVCell.swift; sourceTree = "<group>"; };
 		D8299F292C776219003D29AC /* GatherUserTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherUserTVCell.swift; sourceTree = "<group>"; };
-		D8299F2B2C776219003D29AC /* DimmedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmedBackgroundView.swift; sourceTree = "<group>"; };
-		D8299F2C2C776219003D29AC /* JoiningUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningUserView.swift; sourceTree = "<group>"; };
-		D8299F2D2C776219003D29AC /* PendingUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingUserView.swift; sourceTree = "<group>"; };
+		D8299F2C2C776219003D29AC /* ManageUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUserView.swift; sourceTree = "<group>"; };
 		D8299F2F2C776219003D29AC /* GatherSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingCoordinator.swift; sourceTree = "<group>"; };
 		D8299F302C776219003D29AC /* GatherSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingVC.swift; sourceTree = "<group>"; };
 		D8299F312C776219003D29AC /* GatherSettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingVM.swift; sourceTree = "<group>"; };
@@ -574,9 +570,7 @@
 		D8299F2E2C776219003D29AC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D8299F2B2C776219003D29AC /* DimmedBackgroundView.swift */,
-				D8299F2C2C776219003D29AC /* JoiningUserView.swift */,
-				D8299F2D2C776219003D29AC /* PendingUserView.swift */,
+				D8299F2C2C776219003D29AC /* ManageUserView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -865,16 +859,14 @@
 				D8299F5B2C776313003D29AC /* ProfileEditCoordinator.swift in Sources */,
 				D8299F5C2C776313003D29AC /* ProfileEditVC.swift in Sources */,
 				D8299F5D2C776313003D29AC /* ProfileEditVM.swift in Sources */,
-				D8299F332C776219003D29AC /* DimmedBackgroundView.swift in Sources */,
 				D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */,
 				D8299F342C776219003D29AC /* GatherSectionTVCell.swift in Sources */,
 				D8299F352C776219003D29AC /* GatherSettingCoordinator.swift in Sources */,
 				D8299F362C776219003D29AC /* GatherSettingVM.swift in Sources */,
 				D8299F372C776219003D29AC /* GatherSettingVC.swift in Sources */,
-				D8299F382C776219003D29AC /* PendingUserView.swift in Sources */,
 				D8299F392C776219003D29AC /* GatherUserTVCell.swift in Sources */,
 				D8299F3A2C776219003D29AC /* GatherDeleteTVCell.swift in Sources */,
-				D8299F3B2C776219003D29AC /* JoiningUserView.swift in Sources */,
+				D8299F3B2C776219003D29AC /* ManageUserView.swift in Sources */,
 				410BBCC22C77B17500FE2E18 /* Extension+Color.swift in Sources */,
 				D8299F712C777D2A003D29AC /* SportsTeam.swift in Sources */,
 				D8299F772C777DA7003D29AC /* Comment.swift in Sources */,
