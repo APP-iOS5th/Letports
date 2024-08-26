@@ -183,6 +183,7 @@ class GatheringUploadVM {
                     .sink { _ in
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
+                        self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
             } else {
@@ -191,6 +192,7 @@ class GatheringUploadVM {
                     } receiveValue: { [weak self] _ in
                         print("Data Save")
                         self?.isUploading = false
+                        self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
             }

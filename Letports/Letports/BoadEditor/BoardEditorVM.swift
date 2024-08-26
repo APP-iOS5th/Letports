@@ -93,14 +93,14 @@ class BoardEditorVM {
         if let title = boardTitle,
            let contents = boardContents {
             
-            let uuid = UUID().uuidString
+            let boardUuid = UUID().uuidString
             guard let myUserUid = Auth.auth().currentUser?.uid else { return }
             
             
-            let post = Post(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
+            let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
                                   userUID: myUserUid,
                                   title: title, contents: contents,
-                                  imageUrls: images, comments: [], boardType: "Free")
+                            imageUrls: images, comments: [], boardType: .free)
             
             if isEditMode {
                 FM.updateData(collection: "Board", document: post.postUID, data: post)
@@ -108,6 +108,7 @@ class BoardEditorVM {
                     } receiveValue: { [weak self] _ in
                         print("Data Update")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
                     
@@ -117,6 +118,7 @@ class BoardEditorVM {
                     } receiveValue: { [weak self] _ in
                         print("Data Save")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
             }
