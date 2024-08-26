@@ -44,6 +44,8 @@ class HomeViewModel {
     
     @Published var team: Team?
     
+    weak var delegate: HomeCoordinatorDelegate?
+    
     private var cancellables = Set<AnyCancellable>()
     private let db = Firestore.firestore()
     private let youtubeAPIKey = ""
@@ -135,5 +137,18 @@ class HomeViewModel {
                     try? document.data(as: Gathering.self)
                 }
             }
+    }
+    
+    //화면 전환
+    func presentURLController(with url: URL) {
+        self.delegate?.presentURLController(with: url)
+    }
+    
+    func teamChangeContorller() {
+        
+    }
+    
+    func pushGatheringDetailController() {
+        self.delegate?.pushGatheringDetailController()
     }
 }
