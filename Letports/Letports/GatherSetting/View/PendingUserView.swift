@@ -7,16 +7,14 @@
 
 import UIKit
 
-enum UserAction {
-    case deny
-    case approve
+protocol PendingUserViewDelegate: AnyObject {
+    func denyButtonTapped()
+    func approveButtonTapped()
 }
 
 class PendingUserView: UIView {
     
-    private var viewModel: GatherSettingVM!
-    private var currentUser: GatheringMember?
-    private var currentGathering: Gathering?
+    weak var delegate: PendingUserViewDelegate?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -53,7 +51,6 @@ class PendingUserView: UIView {
         return textView
     }()
     
-    
     private lazy var answerTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 14)
@@ -61,7 +58,7 @@ class PendingUserView: UIView {
         textView.isEditable = false
         textView.layer.cornerRadius = 20
         textView.backgroundColor = .lp_white
-        textView.textColor = .lp_gray
+        textView.textColor = .lp_black
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -77,12 +74,12 @@ class PendingUserView: UIView {
         return btn
     }()
     
-    private lazy var applyButton: UIButton = {
+    private lazy var approveButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("가입승인", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_main")
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(approveButtonTapped), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -101,7 +98,7 @@ class PendingUserView: UIView {
     private func setupUI() {
         self.addSubview(containerView)
         
-        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, denyButton, applyButton].forEach {
+        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, denyButton, approveButton].forEach {
             containerView.addSubview($0)
         }
         
@@ -113,11 +110,9 @@ class PendingUserView: UIView {
             
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             plzAnswerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-            plzAnswerLabel.heightAnchor.constraint(equalToConstant: 16),
             
             questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 14),
             questionTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
@@ -135,29 +130,24 @@ class PendingUserView: UIView {
             denyButton.widthAnchor.constraint(equalToConstant: 162),
             denyButton.heightAnchor.constraint(equalToConstant: 30),
             
-            applyButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            applyButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            applyButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            applyButton.widthAnchor.constraint(equalToConstant: 162),
-            applyButton.heightAnchor.constraint(equalToConstant: 30),
+            approveButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            approveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            approveButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            approveButton.widthAnchor.constraint(equalToConstant: 162),
+            approveButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     
     @objc private func denyButtonTapped() {
-        guard let user = currentUser, let gathering = currentGathering else { return }
-        viewModel.processUserAction(for: user, with: gathering, action: .deny)
+        delegate?.denyButtonTapped()
     }
     
-    @objc private func applyButtonTapped() {
-        guard let user = currentUser, let gathering = currentGathering else { return }
-        viewModel.processUserAction(for: user, with: gathering, action: .approve)
+    @objc private func approveButtonTapped() {
+        delegate?.approveButtonTapped()
     }
     
-    func configure(with user: GatheringMember, with gathering: Gathering, viewModel: GatherSettingVM) {
-        self.currentUser = user
-        self.currentGathering = gathering
-        self.viewModel = viewModel
-        titleLabel.text =  gathering.gatherName
+    func configure(with user: GatheringMember, with gathering: Gathering) {
+        titleLabel.text = gathering.gatherName
         questionTextView.text = gathering.gatherQuestion
         answerTextView.text = user.answer
     }

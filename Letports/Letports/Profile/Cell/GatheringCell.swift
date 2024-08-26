@@ -1,19 +1,26 @@
 import UIKit
 
-class GatheringTVCell: UITableViewCell {
+class GatheringCell: UITableViewCell {
+    
+    // 셀간 간격을 만들어주는 작업
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
+    }
     
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
-        view.backgroundColor = .lp_white
+        view.backgroundColor = .lp_background_white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    
     private lazy var gatheringIV: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 12
-        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = .lp_sub
         iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -38,12 +45,11 @@ class GatheringTVCell: UITableViewCell {
         return label
     }()
     
-    
-    private  lazy var gatheringMasterIV: UIImageView = {
+   
+    private lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
-        iv.layer.cornerRadius = 5
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
+        iv.image = UIImage(systemName: "person.circle")
+        iv.tintColor = UIColor(named: "lp_black")
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -91,37 +97,42 @@ class GatheringTVCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.selectionStyle = .none
         setupUI()
     }
     
     private func setupUI() {
         contentView.addSubview(containerView)
-        contentView.backgroundColor = .lp_background_white
         
-        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
-            containerView.addSubview($0)
-        }
+        containerView.addSubview(gatheringIV)
+        containerView.addSubview(gatheringName)
+        containerView.addSubview(gatheringInfo)
+        containerView.addSubview(gatheringMasterIV)
+        containerView.addSubview(gatheringMasterName)
+        containerView.addSubview(personIV)
+        containerView.addSubview(memberCount)
+        containerView.addSubview(calendarIV)
+        containerView.addSubview(createGatheringDate)
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 90),
-            
-            gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
-            gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-            gatheringIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
+            containerView.heightAnchor.constraint(equalToConstant: 80)
+        ])
+        
+        NSLayoutConstraint.activate([
+            gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            gatheringIV.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             gatheringIV.widthAnchor.constraint(equalToConstant: 120),
-    
+            gatheringIV.heightAnchor.constraint(equalToConstant: 70),
+            
             gatheringName.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
             gatheringName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             
@@ -161,18 +172,13 @@ class GatheringTVCell: UITableViewCell {
     }
     
     func configure(with gathering: Gathering) {
-        gatheringName.text = gathering.gatherName
+        gatheringName.text = gathering.gatheringName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-        createGatheringDate.text = gathering.gatheringCreateDate
-        guard let url = URL(string: gathering.gatherImage) else {
-            gatheringIV.image = UIImage(systemName: "person.circle")
-            gatheringMasterIV.image = UIImage(systemName: "person.circle")
-            return
-        }
-        let placeholder = UIImage(systemName: "person.circle")
-        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
-        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
+        createGatheringDate.text = "2023-08-01"
+        gatheringIV.image = UIImage(named: "defaultImage")
+        gatheringMasterIV.image = UIImage(named: "leaderImage")
     }
+    
 }

@@ -29,6 +29,8 @@ class SectionTVCell: UITableViewCell {
     
     func setupUI() {
         contentView.addSubview(titleLabel)
+        contentView.backgroundColor = .lp_background_white
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -38,6 +40,6 @@ class SectionTVCell: UITableViewCell {
     }
     
     func configure(withTitle title: String) {
-            titleLabel.text = title
-        }
+        titleLabel.text = title
+    }
 }

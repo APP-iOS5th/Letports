@@ -2,8 +2,6 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
-
-
 enum GatheringSettingCellType {
     case pendingGatheringUserTtitle
     case pendingGatheringUser
@@ -19,6 +17,7 @@ class GatherSettingVM {
     @Published var joiningGatheringMembers: [GatheringMember] = []
     
     private var cancellables = Set<AnyCancellable>()
+    weak var delegate: GatherSettingCoordinatorDelegate?
     
     private var cellType: [GatheringSettingCellType] {
         var cellTypes: [GatheringSettingCellType] = []
@@ -35,6 +34,26 @@ class GatherSettingVM {
         return cellTypes
     }
     
+    init() {
+        loadGathering(with: "gathering040")
+    }
+    
+    func denyUser() {
+        delegate?.denyJoinGathering()
+    }
+    
+    func approveUser() {
+        delegate?.approveJoinGathering()
+    }
+    
+    func expelUser() {
+        delegate?.expelGathering()
+    }
+    
+    func cancel() {
+        delegate?.cancel()
+    }
+    
     func getCellTypes() -> [GatheringSettingCellType] {
         return self.cellType
     }
@@ -43,30 +62,8 @@ class GatherSettingVM {
         return self.cellType.count
     }
     
-    init() {
-        loadGathering(with: "gathering040")
-    }
-    
-    
-    func processUserAction(for user: GatheringMember, with gathering: Gathering, action: UserAction) {
-        switch action {
-        case .deny:
-            handleDeny(for: user, in: gathering)
-        case .approve:
-            handleApprove(for: user, in: gathering)
-        }
-    }
-    
-    func handleDeny(for user: GatheringMember, in gathering: Gathering) {
-        print("가입거절")
-    }
-    
-    func handleApprove(for user: GatheringMember, in gathering: Gathering) {
-      print("가입승인")
-    }
-    
     func loadGathering(with GatheringUid: String) {
-        FM.getData(collection: "Gatherings", document: "GatheringUid", type: Gathering.self)
+        FM.getData(collection: "Gatherings", document: GatheringUid, type: Gathering.self)
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -77,7 +74,6 @@ class GatherSettingVM {
                 }
             } receiveValue: { [weak self] fetchedGathering in
                 print("loadGathering->finished")
-                print(fetchedGathering)
                 self?.gathering = fetchedGathering
                 self?.fetchGatheringMembers(for: fetchedGathering)
             }
@@ -92,7 +88,6 @@ class GatherSettingVM {
         }
         FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
             .map { gathering in
-                // 유저의 joinStatus에 따라 배열을 나눔
                 let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
                 let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }
                 return (joining, pending)
@@ -111,6 +106,4 @@ class GatherSettingVM {
             })
             .store(in: &cancellables)
     }
-    
-    
 }
