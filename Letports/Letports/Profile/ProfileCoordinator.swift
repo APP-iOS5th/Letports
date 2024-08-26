@@ -5,6 +5,7 @@ import FirebaseAuth
 protocol ProfileCoordinatorDelegate: AnyObject {
     func dismissViewController()
     func presentEditProfileController(user: LetportsUser)
+    func presentSettingViewController()
 }
 
 class ProfileCoordinator: Coordinator {
@@ -26,6 +27,11 @@ class ProfileCoordinator: Coordinator {
 }
 
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
+    func presentSettingViewController() {
+        print("셋팅뷰 출력")
+        navigationController.pushViewController(SettingVC(), animated: false)
+    }
+    
     func presentEditProfileController(user: LetportsUser) {
         let coordinator = ProfileEditCoordinator(navigationController: navigationController, viewModel: ProfileEditVM(user: user))
         childCoordinators.append(coordinator)
