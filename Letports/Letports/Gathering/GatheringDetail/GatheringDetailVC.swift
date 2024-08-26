@@ -58,8 +58,7 @@ final class GatheringDetailVC: UIViewController {
 	private var viewModel: GatheringDetailVM
 	private var cancellables: Set<AnyCancellable> = []
 	weak var delegate: GatheringDetailDelegate?
-	private var joinBackground: JoinBackgroundView?
-	private var joinView: JoinView?
+	var joinView: JoinView?
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -113,6 +112,7 @@ final class GatheringDetailVC: UIViewController {
 		case .pending:
 			joinBtn.setTitle("가입대기", for: .normal)
 			joinBtn.backgroundColor = .lightGray
+			joinBtn.isUserInteractionEnabled = false
 			joinBtn.isHidden = false
 		case .joined:
 			joinBtn.isHidden = true
@@ -128,19 +128,6 @@ final class GatheringDetailVC: UIViewController {
 		}
 	}
 	
-	func dismissJoinViewFromCoordinator() {
-		UIView.animate(withDuration: 0.3, animations: {
-			self.joinView?.alpha = 0
-			self.joinBackground?.alpha = 0
-		}) { _ in
-			self.joinView?.removeFromSuperview()
-			self.joinBackground?.removeFromSuperview()
-			self.joinView = nil
-			self.joinBackground = nil
-		}
-	}
-	
-	
 	// MARK: - Setup
 	// 커스텀네비
 	private func updateUI(with gathering: Gathering?) {
@@ -153,6 +140,8 @@ final class GatheringDetailVC: UIViewController {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
 		} else if viewModel.membershipStatus == .joined {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+		} else if viewModel.membershipStatus == .pending{
+			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		} else {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		}
@@ -212,59 +201,23 @@ extension GatheringDetailVC: JoinViewDelegate {
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
 		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
-		viewModel.dismissJoinView()
 	}
 	
-	func dismissJoinView() {
-		UIView.animate(withDuration: 0.3, animations: {
-			self.joinView?.alpha = 0
-			self.joinBackground?.alpha = 0
-		}) { _ in
-			self.joinView?.removeFromSuperview()
-			self.joinBackground?.removeFromSuperview()
-			self.joinView = nil
-			self.joinBackground = nil
-		}
-	}
 	// 가입뷰 처리
-	private func showUserView<T: UIView>(viewType: T.Type,
-										 existingView: inout T?,
-										 gathering: Gathering,
-										 width: CGFloat = 361,
-										 height: CGFloat = 468) {
-		// 이미 화면에 해당 뷰가 있는지 확인
+	private func showUserView<T: UIView>(existingView: inout T?, gathering: Gathering) {
 		if existingView == nil {
-			let joinBackView = JoinBackgroundView(frame: self.view.bounds)
-			self.joinBackground = joinBackView
-			self.view.addSubview(joinBackView)
+			let manageUserView = JoinView()
+			manageUserView.delegate = self
+			manageUserView.configure(with: gathering)
+			self.view.addSubview(manageUserView)
 			NSLayoutConstraint.activate([
-				joinBackView.topAnchor.constraint(equalTo: view.topAnchor),
-				joinBackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-				joinBackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-				joinBackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+				manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
+				manageUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				manageUserView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				manageUserView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 			])
-			// 뷰를 생성하고 설정
-			let userViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
-			existingView = T(frame: userViewFrame)
-			
-			
-			if let userView = existingView as? JoinView {
-				userView.configure(with: gathering)
-				userView.delegate = self
-			}
-			
-			if let userView = existingView {
-				userView.center = view.center
-				
-				self.view.addSubview(userView)
-				userView.translatesAutoresizingMaskIntoConstraints = false
-				
-				NSLayoutConstraint.activate([
-					userView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-					userView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-					userView.widthAnchor.constraint(equalToConstant: width),
-					userView.heightAnchor.constraint(equalToConstant: height)
-				])
+			DispatchQueue.main.async {
+				self.joinView = manageUserView
 			}
 		}
 	}
@@ -302,10 +255,10 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 			}
 		}
 	}
-		func backBtnDidTap() {
-			viewModel.gatheringDetailBackBtnTap()
-		}
+	func backBtnDidTap() {
+		viewModel.gatheringDetailBackBtnTap()
 	}
+}
 
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
@@ -394,6 +347,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinBtnTap() {
-		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
+		showUserView(existingView: &joinView, gathering: viewModel.gathering!)
 	}
 }

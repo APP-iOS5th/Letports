@@ -60,7 +60,7 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let gatheringId: String = "gathering009"
+	private let gatheringId: String = "gathering008"
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
@@ -283,19 +283,26 @@ class GatheringDetailVM {
 	}
 	// 현재 사용자 정보
 	func getCurrentUserInfo() -> LetportsUser {
+		print("현재 사용자 정보: \(currentUser)")
 		return currentUser
 	}
 	// 가입중인지 아닌지
 	private func updateMembershipStatus() {
 		guard let gathering = self.gathering else {
 			self.membershipStatus = .notJoined
+			print("가입중인지 아닌지: \(self.membershipStatus)")
 			return
 		}
 		
-		if currentUser.myGathering.contains(gathering.gatheringUid) {
-			self.membershipStatus = .joined
-		} else {
-			self.membershipStatus = .notJoined
+		if let member = gathering.gatheringMembers.first(where: { $0.userUID == currentUser.uid }) {
+			switch member.joinStatus {
+			case "joined":
+				self.membershipStatus = .joined
+			case "pending":
+				self.membershipStatus = .pending
+			default:
+				self.membershipStatus = .notJoined
+			}
 		}
 	}
 	// 모임 멤버들 정보
@@ -335,10 +342,10 @@ class GatheringDetailVM {
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
-		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg기",
 		myGathering: ["gathering009"],
 		nickname: "타이거팬",
-		simpleInfo: "탁월한 타격 능력을 가진 선수",
+		simpleInfo: "ㅁㅁㅁ",
 		uid: "user012",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"

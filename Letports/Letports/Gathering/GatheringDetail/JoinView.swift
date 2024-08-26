@@ -110,6 +110,8 @@ class JoinView: UIView, UITextViewDelegate {
 	
 	private func setupUI() {
 		self.addSubview(containerView)
+		self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+		self.translatesAutoresizingMaskIntoConstraints = false
 		
 		[titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, deleteUserButton].forEach {
 			containerView.addSubview($0)
