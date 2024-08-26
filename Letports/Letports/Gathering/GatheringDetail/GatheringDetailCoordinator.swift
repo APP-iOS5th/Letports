@@ -12,17 +12,15 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
-	// 되돌리기
-	weak var parentCoordinator: TabBarCoordinator?
 	
 	init(navigationController: UINavigationController, currentUser: LetportsUser) {
 		self.navigationController = navigationController
 		self.viewModel = GatheringDetailVM(currentUser: currentUser)
-		self.viewModel.coordinatorDelegate = self
+		self.viewModel.delegate = self
 	}
 	
 	func start() {
-		viewModel.coordinatorDelegate = self
+		viewModel.delegate = self
 		let vc = GatheringDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(vc, animated: true)
 	}
@@ -95,5 +93,9 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	func reportGathering() {
 		viewModel.reportGathering()
 		// 추가적인 처리 (예: 신고 화면으로 이동 등)
+	}
+	
+	func gatheringDetailBackBtnTap() {
+		navigationController.popViewController(animated: true)
 	}
 }

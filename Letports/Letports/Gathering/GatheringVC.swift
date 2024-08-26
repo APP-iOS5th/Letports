@@ -11,7 +11,7 @@ import Kingfisher
 
 class GatheringVC: UIViewController {
     
-    private var viewModel: GatheringVM
+	private var viewModel: GatheringVM
     private var cancellables: Set<AnyCancellable> = []
     weak var coordinator: GatheringCoordinator?
     

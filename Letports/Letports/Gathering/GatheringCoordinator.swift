@@ -40,7 +40,7 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
     
     func pushGatheringDetailController() {
         print("pushGathering")
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController)
+		let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: GatheringDetailVM.dummyUser)
         coordinator.start()
         childCoordinators.append(coordinator)
     }

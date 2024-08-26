@@ -17,8 +17,8 @@ enum GatheringBoardDetailCellType {
 	case comment
 }
 
-protocol GatheringBoardDetailVMDelegate: AnyObject {
-	func didTapBackButton()
+protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
+	func boardDetailBackBtnTap()
 }
 
 final class GatheringBoardDetailVM {
@@ -26,7 +26,7 @@ final class GatheringBoardDetailVM {
 	@Published private(set) var postAuthor: GatheringMember?
 	private(set) var gathering: Gathering
 	private var cancellables = Set<AnyCancellable>()
-	weak var delegate: GatheringBoardDetailVMDelegate?
+	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
 	init(postUID: String, gathering: Gathering) {
 		self.gathering = gathering
@@ -108,8 +108,8 @@ final class GatheringBoardDetailVM {
 		return self.cellType
 	}
 	
-	func backButtonTapped() {
-		delegate?.didTapBackButton()
+	func boardDetailBackBtnTap() {
+		delegate?.boardDetailBackBtnTap()
 	}
 	
 	// 댓글(삭제예정)

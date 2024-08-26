@@ -106,11 +106,8 @@ extension GatheringBoardDetailVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		print("samll")
 	}
-	func sportsSelectBtnDidTap() {
-		
-	}
 	func backBtnDidTap() {
-		viewModel.backButtonTapped()
+		viewModel.boardDetailBackBtnTap()
 	}
 }
 

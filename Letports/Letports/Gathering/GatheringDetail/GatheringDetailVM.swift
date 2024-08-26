@@ -24,6 +24,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showLeaveGatheringConfirmation()
 	func dismissAndUpdateUI()
 	func showError(message: String)
+	func gatheringDetailBackBtnTap()
 }
 
 enum GatheringDetailCellType {
@@ -63,7 +64,7 @@ class GatheringDetailVM {
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
-	weak var coordinatorDelegate: GatheringDetailCoordinatorDelegate?
+	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
 	init(currentUser: LetportsUser) {
 		self.currentUser = currentUser
@@ -76,24 +77,28 @@ class GatheringDetailVM {
 	}
 	
 	func dismissJoinView() {
-		coordinatorDelegate?.dismissJoinView()
+		delegate?.dismissJoinView()
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
-		self.coordinatorDelegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
+		self.delegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
 	}
 	
 	func showActionSheet() {
-		coordinatorDelegate?.presentActionSheet()
+		delegate?.presentActionSheet()
 	}
 	
 	func leaveGathering() {
-		coordinatorDelegate?.showLeaveGatheringConfirmation()
+		delegate?.showLeaveGatheringConfirmation()
 	}
 	
 	func reportGathering() {
 		// 신고하기 로직 구현
 		print("신고하기")
+	}
+	
+	func gatheringDetailBackBtnTap() {
+		delegate?.gatheringDetailBackBtnTap()
 	}
 	
 	
@@ -157,7 +162,7 @@ class GatheringDetailVM {
 	// 모임 나가기 확인
 	func confirmLeaveGathering() {
 		guard let gathering = gathering else {
-			coordinatorDelegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			delegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
 			return
 		}
 		
@@ -172,10 +177,10 @@ class GatheringDetailVM {
 					self?.membershipStatus = .notJoined
 					self?.gathering?.gatherNowMember -= 1
 					self?.gathering?.gatheringMembers.removeAll { $0.userUID == self?.currentUser.uid }
-					self?.coordinatorDelegate?.dismissAndUpdateUI()
+					self?.delegate?.dismissAndUpdateUI()
 				case .failure(let error):
 					print("Error leaving gathering: \(error)")
-					self?.coordinatorDelegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
+					self?.delegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
 				}
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
@@ -332,9 +337,9 @@ class GatheringDetailVM {
 		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
 		myGathering: ["gathering009"],
-		nickname: "타격왕",
+		nickname: "타이거팬",
 		simpleInfo: "탁월한 타격 능력을 가진 선수",
-		uid: "user009",
+		uid: "user012",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

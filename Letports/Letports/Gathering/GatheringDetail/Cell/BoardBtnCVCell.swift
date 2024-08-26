@@ -75,13 +75,12 @@ class BoardBtnCVCell: UICollectionViewCell {
 	func configure(with type: BoardBtnType) {
 		self.boardButtonType = type
 	}
-	
+	// 게시판 선택 버튼(3개)
 	@objc private func boardBtnTap() {
 		delegate?.didChangeButtonState(boardSelectButton, isSelected: true)
 	}
-	
+	// 게시글 셀 클릭
 	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
 		boardBtnTap()
 	}
 }

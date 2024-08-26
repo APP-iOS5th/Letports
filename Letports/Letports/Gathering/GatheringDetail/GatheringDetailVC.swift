@@ -16,7 +16,6 @@ protocol GatheringDetailDelegate: AnyObject {
 final class GatheringDetailVC: UIViewController {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
-		let gatheringName = viewModel.gathering?.gatherName ?? "모임"
 		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "모임", btnName: .ellipsis))
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white
@@ -302,11 +301,12 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 				viewModel.showActionSheet()
 			}
 		}
-		
-		func backButtonDidTap() {
+	}
+		func backBtnDidTap() {
+			viewModel.gatheringDetailBackBtnTap()
 		}
 	}
-}
+
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
