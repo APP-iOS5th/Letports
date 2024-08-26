@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import FirebaseAuth
 
 enum BoardEditorCellType {
     case title
@@ -46,7 +47,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(post: SamplePost? = nil) {
+    init(post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -93,9 +94,11 @@ class BoardEditorVM {
            let contents = boardContents {
             
             let uuid = UUID().uuidString
+            guard let myUserUid = Auth.auth().currentUser?.uid else { return }
             
-            let post = SamplePost(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
-                                  userUID: "몰루",
+            
+            let post = Post(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
+                                  userUID: myUserUid,
                                   title: title, contents: contents,
                                   imageUrls: images, comments: [], boardType: "Free")
             
