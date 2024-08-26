@@ -117,6 +117,10 @@
 		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
+		D845E0D22C79CBCC006DD879 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */; };
+		D845E0D42C79CBE1006DD879 /* UserProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */; };
+		D845E0D62C79CC17006DD879 /* UserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */; };
+		D8638D782C7C264900AC0107 /* UserProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */; };
 		D877C9712C7866A2008C4695 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D877C9702C7866A2008C4695 /* GoogleService-Info.plist */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
@@ -248,6 +252,10 @@
 		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
+		D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVM.swift; sourceTree = "<group>"; };
+		D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCoordinator.swift; sourceTree = "<group>"; };
+		D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTVCell.swift; sourceTree = "<group>"; };
 		D877C9702C7866A2008C4695 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
@@ -529,9 +537,10 @@
 				B82471382C647F600067BD09 /* Gathering */,
 				D8299F322C776219003D29AC /* GatherSetting */,
 				D8299F462C77622C003D29AC /* Profile */,
-				413BE64D2C65F1990070D6F9 /* Extension */,
 				D8299F592C776313003D29AC /* ProfileEdit */,
+				D845E0D02C79CBAC006DD879 /* UserProfile */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
+				413BE64D2C65F1990070D6F9 /* Extension */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
@@ -631,6 +640,25 @@
 				D8299F452C77622C003D29AC /* SettingVC.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		D845E0D02C79CBAC006DD879 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0D72C79CC20006DD879 /* Cell */,
+				D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */,
+				D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */,
+				D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		D845E0D72C79CC20006DD879 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		D877C9742C789A8F008C4695 /* Cell */ = {
@@ -813,6 +841,7 @@
 				B85FD83C2C75AC2B007B4962 /* AppCoordinator.swift in Sources */,
 				D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */,
 				D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */,
+				D845E0D62C79CC17006DD879 /* UserProfileCoordinator.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
@@ -839,6 +868,7 @@
 				B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */,
 				410BBCB82C778F6A00FE2E18 /* BoardEditorTitleCVCell.swift in Sources */,
 				B8D4D0C42C746B3D0039D33B /* AuthCoordinator.swift in Sources */,
+				D845E0D42C79CBE1006DD879 /* UserProfileVM.swift in Sources */,
 				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
@@ -879,6 +909,8 @@
 				D8299F712C777D2A003D29AC /* SportsTeam.swift in Sources */,
 				D8299F772C777DA7003D29AC /* Comment.swift in Sources */,
 				4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */,
+				D845E0D22C79CBCC006DD879 /* UserProfileVC.swift in Sources */,
+				D8638D782C7C264900AC0107 /* UserProfileTVCell.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */,
 				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
