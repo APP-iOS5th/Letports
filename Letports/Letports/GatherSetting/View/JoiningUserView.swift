@@ -7,7 +7,15 @@
 
 import UIKit
 
+
+protocol JoinUserViewDelegate: AnyObject {
+    func cancelButtonTapped()
+    func expelButtonTapped()
+}
+
 class JoiningUserView: UIView {
+    
+    weak var delegate: JoinUserViewDelegate?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -44,7 +52,6 @@ class JoiningUserView: UIView {
         return textView
     }()
     
-    
     private lazy var answerTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 14)
@@ -52,7 +59,7 @@ class JoiningUserView: UIView {
         textView.isEditable = false
         textView.layer.cornerRadius = 20
         textView.backgroundColor = .lp_white
-        textView.textColor = .lp_gray
+        textView.textColor = .lp_black
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -62,16 +69,18 @@ class JoiningUserView: UIView {
         btn.setTitle("취소하기", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_gray")
         btn.layer.cornerRadius = 10
+        btn.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
-    private lazy var deleteUserButton: UIButton = {
+    private lazy var expelButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("추방하기", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_tint")
         btn.layer.cornerRadius = 10
+        btn.addTarget(self, action: #selector(expelButtonTapped), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -90,7 +99,7 @@ class JoiningUserView: UIView {
     private func setupUI() {
         self.addSubview(containerView)
         
-        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, deleteUserButton].forEach {
+        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, expelButton].forEach {
             containerView.addSubview($0)
         }
         
@@ -102,12 +111,10 @@ class JoiningUserView: UIView {
             
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             plzAnswerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-            plzAnswerLabel.heightAnchor.constraint(equalToConstant: 16),
-            
+          
             questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 14),
             questionTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             questionTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
@@ -124,12 +131,20 @@ class JoiningUserView: UIView {
             cancelButton.widthAnchor.constraint(equalToConstant: 162),
             cancelButton.heightAnchor.constraint(equalToConstant: 30),
             
-            deleteUserButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            deleteUserButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            deleteUserButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            deleteUserButton.widthAnchor.constraint(equalToConstant: 162),
-            deleteUserButton.heightAnchor.constraint(equalToConstant: 30),
+            expelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            expelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            expelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            expelButton.widthAnchor.constraint(equalToConstant: 162),
+            expelButton.heightAnchor.constraint(equalToConstant: 30),
         ])
+    }
+    
+    @objc private func cancelButtonTapped() {
+        delegate?.cancelButtonTapped()
+    }
+    
+    @objc private func expelButtonTapped() {
+        delegate?.expelButtonTapped()
     }
     
     func configure(with user: GatheringMember, with gathering: Gathering) {
