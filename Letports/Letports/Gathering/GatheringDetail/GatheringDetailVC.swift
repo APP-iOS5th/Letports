@@ -9,7 +9,6 @@ import UIKit
 import Combine
 
 protocol GatheringDetailDelegate: AnyObject {
-	func didTapEditBtn()
 	func didTapProfileImage()
 	func didTapCell(boardPost: Post)
 }
@@ -206,7 +205,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 				case .finished:
 					print("가입 처리가 완료되었습니다.")
 					self?.viewModel.dismissJoinView()
-					self?.viewModel.loadData() 
+					self?.viewModel.loadData() // 데이터 새로고침
 				case .failure(let error):
 					print("가입 처리 중 오류 발생: \(error)")
 					self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
@@ -282,11 +281,6 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapCell(boardPost: Post) {
 		viewModel.didTapBoardCell(boardPost: boardPost)
 	}
-	
-	func didTapEditBtn() {
-		// 모임장편집버튼
-	}
-	
 	func didTapProfileImage() {
 		// 프로필버튼
 	}
@@ -402,9 +396,5 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	@objc private func joinBtnTap() {
 		print("버튼이 눌렸다")
 		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
-	}
-	
-	@objc private func editBtnTap() {
-		print("편집버튼")
 	}
 }

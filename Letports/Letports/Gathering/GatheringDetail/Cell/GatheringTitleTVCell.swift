@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol GatheringTitleTVCellDelegate: AnyObject {
+	func didTapEditButton()
+}
+
+
 final class GatheringTitleTVCell: UITableViewCell {
+	weak var delegate: GatheringTitleTVCellDelegate?
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
@@ -122,19 +128,15 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
-		print(titleLabel.text ?? "없음")
 		masterNameLabel.text = "모임장: \(masterNickname)"
-		print(masterNameLabel.text ?? "없음")
 		gatherNowMemberLabel.text = "\(data.gatherNowMember)"
-		print(gatherNowMemberLabel.text ?? "없음")
 		gatherMaxMemberLabel.text = "\(data.gatherMaxMember)"
-		print(gatherMaxMemberLabel.text ?? "없음")
 		let isMaster = currentUser.uid == data.gatheringMaster
-		print(isMaster)
 		editBtn.isHidden = !isMaster
 	}
 	
 	@objc func editBtnTap() {
 		print("편집버튼")
+		delegate?.didTapEditButton()
 	}
 }

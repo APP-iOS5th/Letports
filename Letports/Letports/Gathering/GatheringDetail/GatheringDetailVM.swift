@@ -26,7 +26,6 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showError(message: String)
 }
 
-
 enum GatheringDetailCellType {
 	case gatheringImage
 	case gatheringTitle
@@ -335,7 +334,7 @@ class GatheringDetailVM {
 		myGathering: ["gathering009"],
 		nickname: "타격왕",
 		simpleInfo: "탁월한 타격 능력을 가진 선수",
-		uid: "user010",
+		uid: "user009",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

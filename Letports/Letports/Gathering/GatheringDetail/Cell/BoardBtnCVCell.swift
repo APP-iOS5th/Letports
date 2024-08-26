@@ -82,6 +82,6 @@ class BoardBtnCVCell: UICollectionViewCell {
 	
 	@objc private func cellTap() {
 		print("셀이 눌렸습니다")
-		buttonTap() // 기존의 버튼 탭 동작도 유지
+		buttonTap()
 	}
 }
