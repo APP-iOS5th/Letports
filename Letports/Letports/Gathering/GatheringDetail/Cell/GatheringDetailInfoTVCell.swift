@@ -98,7 +98,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		
 		UIView.animate(withDuration: 0.3) {
 			self.updateTextViewHeight()
-			self.toggleBtn.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
+			self.toggleBtn.setTitle(self.isExpanded ? "▼" : "▲", for: .normal)
 			self.layoutIfNeeded()
 		}
 		(superview as? UITableView)?.beginUpdates()
