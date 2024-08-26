@@ -206,7 +206,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 				case .finished:
 					print("가입 처리가 완료되었습니다.")
 					self?.viewModel.dismissJoinView()
-					self?.viewModel.loadData() // 데이터 새로고침
+					self?.viewModel.loadData() 
 				case .failure(let error):
 					print("가입 처리 중 오류 발생: \(error)")
 					self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
@@ -214,7 +214,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
 		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
-		// 가입 처리 후 뷰를 닫습니다.
 		viewModel.dismissJoinView()
 	}
 	

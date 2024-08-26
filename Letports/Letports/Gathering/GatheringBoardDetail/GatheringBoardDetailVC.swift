@@ -110,7 +110,7 @@ extension GatheringBoardDetailVC: CustomNavigationDelegate {
 		
 	}
 	func backBtnDidTap() {
-		
+		viewModel.backButtonTapped()
 	}
 }
 

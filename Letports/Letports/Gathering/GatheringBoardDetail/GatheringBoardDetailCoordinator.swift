@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class GatheringBoardDetailCoordinator: Coordinator {
+class GatheringBoardDetailCoordinator: Coordinator, GatheringBoardDetailVMDelegate {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	let postUID: String
@@ -23,7 +23,12 @@ class GatheringBoardDetailCoordinator: Coordinator {
 	
 	func start() {
 		let viewModel = GatheringBoardDetailVM(postUID: postUID, gathering: gathering)
+		viewModel.delegate = self
 		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(viewController, animated: true)
+	}
+	
+	func didTapBackButton() {
+		navigationController.popViewController(animated: true)
 	}
 }
