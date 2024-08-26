@@ -136,7 +136,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	}
 	
 	@objc func editBtnTap() {
-		print("편집버튼")
+		print("모임장편집버튼")
 		delegate?.didTapEditButton()
 	}
 }

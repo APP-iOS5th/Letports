@@ -71,7 +71,6 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	}
 	
 	@objc private func imageTap() {
-		// 이미지 버튼 클릭 시 동작 정의
 		print("이미지 버튼이 클릭되었습니다.")
 	}
 }

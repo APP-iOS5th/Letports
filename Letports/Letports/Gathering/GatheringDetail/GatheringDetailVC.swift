@@ -394,7 +394,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinBtnTap() {
-		print("버튼이 눌렸다")
 		showUserView(viewType: JoinView.self, existingView: &joinView, gathering: viewModel.gathering!)
 	}
 }

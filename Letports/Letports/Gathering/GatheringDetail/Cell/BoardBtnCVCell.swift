@@ -38,7 +38,7 @@ class BoardBtnCVCell: UICollectionViewCell {
 	// MARK: - Setup
 	private func setupUI() {
 		contentView.addSubview(boardSelectButton)
-		boardSelectButton.addTarget(self, action: #selector(buttonTap), for: .touchUpInside)
+		boardSelectButton.addTarget(self, action: #selector(boardBtnTap), for: .touchUpInside)
 		
 		NSLayoutConstraint.activate([
 			boardSelectButton.heightAnchor.constraint(equalToConstant: 22),
@@ -76,12 +76,12 @@ class BoardBtnCVCell: UICollectionViewCell {
 		self.boardButtonType = type
 	}
 	
-	@objc private func buttonTap() {
+	@objc private func boardBtnTap() {
 		delegate?.didChangeButtonState(boardSelectButton, isSelected: true)
 	}
 	
 	@objc private func cellTap() {
 		print("셀이 눌렸습니다")
-		buttonTap()
+		boardBtnTap()
 	}
 }

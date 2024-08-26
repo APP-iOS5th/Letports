@@ -348,6 +348,5 @@ class GatheringDetailVM {
 			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
 		}
 	}
-	
 }
 
