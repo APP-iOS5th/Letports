@@ -93,8 +93,6 @@
 		D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FC52C606935004DF06C /* LetportsTests.swift */; };
 		D8201FD02C606935004DF06C /* LetportsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FCF2C606935004DF06C /* LetportsUITests.swift */; };
 		D8201FD22C606935004DF06C /* LetportsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */; };
-		F7C1AA652C746A7C009D0728 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */; };
-		F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA662C746A94009D0728 /* URLVC.swift */; };
 		D8299F332C776219003D29AC /* DimmedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2B2C776219003D29AC /* DimmedBackgroundView.swift */; };
 		D8299F342C776219003D29AC /* GatherSectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F282C776219003D29AC /* GatherSectionTVCell.swift */; };
 		D8299F352C776219003D29AC /* GatherSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2F2C776219003D29AC /* GatherSettingCoordinator.swift */; };
@@ -123,6 +121,9 @@
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
+		F78A24C22C7C4C8E00471331 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78A24C12C7C4C8E00471331 /* Team.swift */; };
+		F7C1AA652C746A7C009D0728 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */; };
+		F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA662C746A94009D0728 /* URLVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,8 +227,6 @@
 		D8201FCB2C606935004DF06C /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		F7C1AA662C746A94009D0728 /* URLVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
 		D8299F282C776219003D29AC /* GatherSectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSectionTVCell.swift; sourceTree = "<group>"; };
 		D8299F292C776219003D29AC /* GatherUserTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherUserTVCell.swift; sourceTree = "<group>"; };
@@ -256,6 +255,9 @@
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
+		F78A24C12C7C4C8E00471331 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F7C1AA662C746A94009D0728 /* URLVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +301,7 @@
 				D8299F722C777D4B003D29AC /* Gathering.swift */,
 				D8299F702C777D27003D29AC /* SportsTeam.swift */,
 				410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */,
+				F78A24C12C7C4C8E00471331 /* Team.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -539,7 +542,6 @@
 				D8299F592C776313003D29AC /* ProfileEdit */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
-				F76ACF2D2C75A65900816DC5 /* GoogleService-Info.plist */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				410BBCA22C778D5E00FE2E18 /* Letports.entitlements */,
@@ -825,6 +827,7 @@
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				BF358EAA2C766D27007F507D /* GatheringDetailModel.swift in Sources */,
 				BFD9AEF82C76F21A000C3A20 /* CustomActionSheetView.swift in Sources */,
+				F78A24C22C7C4C8E00471331 /* Team.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */,
@@ -889,7 +892,7 @@
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */,
 				F7C1AA652C746A7C009D0728 /* HomeViewModel.swift in Sources */,
-				4143E4592C6B47DF001AB3E0 /* BoarderEditorVM.swift in Sources */,
+				4143E4592C6B47DF001AB3E0 /* BoardEditorVM.swift in Sources */,
 				BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */,
 				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
 				410BBC9D2C778C9B00FE2E18 /* Coordinator.swift in Sources */,
@@ -900,7 +903,6 @@
 				410BBC9E2C778C9B00FE2E18 /* TabBarCoordinator.swift in Sources */,
 				BF1283D32C72155000BEAE4C /* BoardButtonTVCell.swift in Sources */,
 				BFFFD3F62C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift in Sources */,
-				D8299F6F2C777D09003D29AC /* Sports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1298,14 +1300,6 @@
 				minimumVersion = 11.1.0;
 			};
 		};
-		F76ACF2F2C75BA5800816DC5 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.12.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1343,11 +1337,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 410BBCAD2C778E5E00FE2E18 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
-		};
-		F76ACF302C75BA5800816DC5 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F76ACF2F2C75BA5800816DC5 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
