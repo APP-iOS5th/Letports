@@ -55,7 +55,6 @@
 		B85FD8842C79C539007B4962 /* SelectTeamVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8832C79C539007B4962 /* SelectTeamVM.swift */; };
 		B85FD8862C79CCD0007B4962 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8852C79CCD0007B4962 /* CategoryCell.swift */; };
 		B85FD8882C79CCF3007B4962 /* SelectTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */; };
-		B88D9FAA2C7B7E9E00123410 /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = B88D9FA92C7B7E9E00123410 /* SVGKit */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
 		B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C12C746AE90039D33B /* AuthVM.swift */; };
@@ -272,7 +271,6 @@
 				410BBCA92C778E0300FE2E18 /* KoTextCountLimit in Frameworks */,
 				410BBCAF2C778E5E00FE2E18 /* FirebaseAnalytics in Frameworks */,
 				410BBCB52C778E5E00FE2E18 /* FirebaseStorage in Frameworks */,
-				B88D9FAA2C7B7E9E00123410 /* SVGKit in Frameworks */,
 				410BBCB32C778E5E00FE2E18 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -686,7 +684,6 @@
 				410BBCB02C778E5E00FE2E18 /* FirebaseAuth */,
 				410BBCB22C778E5E00FE2E18 /* FirebaseFirestore */,
 				410BBCB42C778E5E00FE2E18 /* FirebaseStorage */,
-				B88D9FA92C7B7E9E00123410 /* SVGKit */,
 			);
 			productName = Letports;
 			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
@@ -765,7 +762,6 @@
 				410BBCA72C778E0300FE2E18 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */,
 				410BBCAA2C778E1500FE2E18 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				410BBCAD2C778E5E00FE2E18 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				B88D9FA82C7B7E9E00123410 /* XCRemoteSwiftPackageReference "SVGKit" */,
 			);
 			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
 			projectDirPath = "";
@@ -1311,14 +1307,6 @@
 				minimumVersion = 11.1.0;
 			};
 		};
-		B88D9FA82C7B7E9E00123410 /* XCRemoteSwiftPackageReference "SVGKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SVGKit/SVGKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1356,11 +1344,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 410BBCAD2C778E5E00FE2E18 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
-		};
-		B88D9FA92C7B7E9E00123410 /* SVGKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B88D9FA82C7B7E9E00123410 /* XCRemoteSwiftPackageReference "SVGKit" */;
-			productName = SVGKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

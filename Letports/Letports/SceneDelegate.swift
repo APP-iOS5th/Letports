@@ -18,12 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
-//        let navigationController = UINavigationController()
+        let navigationController = UINavigationController()
 
-//        appCoordinator = AppCoordinator(navigationController: navigationController)
-//        appCoordinator?.start()
+        appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator?.start()
 
-        window.rootViewController = TeamSelectionViewController()
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
 
     }

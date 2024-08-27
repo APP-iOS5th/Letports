@@ -211,17 +211,7 @@ class FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
-}
-
-extension Encodable {
-    func asDictionary() throws -> [String: Any] {
-        let data = try JSONEncoder().encode(self)
-        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        return dictionary ?? [:]
-    }
-}
-
-extension FirestoreManager {
+    
     func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
         return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
             FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in
@@ -232,7 +222,7 @@ extension FirestoreManager {
                 
                 let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Sports? in
                     let id = document.documentID.replacingOccurrences(of: "Letports_", with: "")
-                    let name = document.get("sports") as? String ?? id
+                    let name = document.get("SportsName") as? String ?? id
                     return TeamSelectionViewModel.Sports(id: id, name: name)
                 } ?? []
                 
@@ -241,7 +231,7 @@ extension FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
-
+    
     func getTeamsForSports(_ sports: String) -> AnyPublisher<[TeamSelectionViewModel.Team], FirestoreError> {
         return Future<[TeamSelectionViewModel.Team], FirestoreError> { promise in
             FIRESTORE.collection("Sports").document("Letports_\(sports)")
@@ -269,5 +259,13 @@ extension FirestoreManager {
                 }
         }
         .eraseToAnyPublisher()
+    }
+}
+
+extension Encodable {
+    func asDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        return dictionary ?? [:]
     }
 }

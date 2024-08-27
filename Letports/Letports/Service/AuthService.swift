@@ -1,6 +1,7 @@
 
 
 import Foundation
+import Combine
 import FirebaseAuth
 import GoogleSignIn
 import FirebaseCore
@@ -14,6 +15,7 @@ protocol AuthServiceProtocol {
 
 class AuthService: AuthServiceProtocol {
     static let shared = AuthService()
+    private var cancellables = Set<AnyCancellable>()
     
     private init() {}
     
@@ -63,7 +65,7 @@ class AuthService: AuthServiceProtocol {
         }
         
         GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
-            
+        
         GIDSignIn.sharedInstance.signIn(withPresenting: presenting) { [weak self] result, error in
             if let error = error {
                 completion(.failure(error))
@@ -86,11 +88,20 @@ class AuthService: AuthServiceProtocol {
     }
     
     private func signInWithFirebase(credential: AuthCredential, completion: @escaping (Result<User, Error>) -> Void) {
-        Auth.auth().signIn(with: credential) { authResult, error in
+        Auth.auth().signIn(with: credential) { [weak self] authResult, error in
             if let error = error {
                 completion(.failure(error))
             } else if let user = authResult?.user {
-                completion(.success(user))
+                self?.createNewUser(user: user)
+                    .sink(receiveCompletion: { result in
+                        switch result {
+                        case .finished:
+                            completion(.success(user))
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
+                    }, receiveValue: { _ in })
+                    .store(in: &self!.cancellables)
             } else {
                 completion(.failure(NSError(domain: "AuthService",
                                             code: 2,
@@ -98,6 +109,20 @@ class AuthService: AuthServiceProtocol {
             }
         }
     }
+    
+    private func createNewUser(user: User) -> AnyPublisher<Void, FirestoreError> {
+            let newUser = LetportsUser(
+                email: user.email ?? "",
+                image: user.photoURL?.absoluteString ?? "",
+                nickname: user.displayName ?? "",
+                simpleInfo: "",
+                uid: user.uid,
+                userSports: "",
+                userSportsTeam: ""
+            )
+            
+            return FM.setData(collection: "Users", document: user.uid, data: newUser)
+        }
     
     func signOut() throws {
         try Auth.auth().signOut()
