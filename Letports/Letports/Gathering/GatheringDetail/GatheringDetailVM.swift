@@ -10,85 +10,22 @@ import Combine
 import FirebaseFirestore
 
 
-protocol FirebaseServiceProtocol {
-	func fetchGatheringData(gatheringUid: String) -> AnyPublisher<Gathering, Error>
-}
-
-class FirebaseService: FirebaseServiceProtocol {
-	func fetchGatheringData(gatheringUid: String) -> AnyPublisher<Gathering, Error> {
-		return Future { promise in
-			let db = Firestore.firestore()
-			let docRef = db.collection("Gatherings").document(gatheringUid)
-			
-			docRef.getDocument { (document, error) in
-				if let error = error {
-					print("Error fetching document: \(error)")
-					promise(.failure(error))
-					return
-				}
-				
-				guard let document = document, document.exists else {
-					print("Document does not exist")
-					promise(.failure(NSError(domain: "Firestore",
-											 code: -1,
-											 userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
-					return
-				}
-				
-				let data = document.data()
-				
-				// 데이터 출력
-				print("Fetched Data:")
-				print(data ?? [:])
-				
-				let gatherImage = data?["GatherImage"] as? String
-				let gatherName = data?["GatherName"] as? String
-				let gatherMaxMember = data?["GatherMaxMember"] as? Int
-				let gatherInfo = data?["GatherInfo"] as? String
-				let gatheringCreateDate = data?["GatheringCreateDate"] as? String
-				let gatheringMaster = data?["GatheringMaster"] as? String
-				let gatheringUid = document.documentID
-				
-				// GatheringMembers 데이터 파싱
-				var gatheringMembers: [GatheringMember] = []
-				if let membersData = data?["GatheringMembers"] as? [[String: Any]] {
-					for memberData in membersData {
-						let member = GatheringMember(
-							answer: memberData["Answer"] as? String ?? "",
-							image: memberData["Image"] as? String ?? "",
-							joinDate: memberData["JoinDate"] as? String ?? "",
-							joinStatus: memberData["JoinStatus"] as? String ?? "",
-							nickName: memberData["NickName"] as? String ?? "",
-                            userUID: memberData["UserUID"] as? String ?? "", 
-                            simpleInfo: ""
-						)
-						gatheringMembers.append(member)
-					}
-				}
-
-				let gathering = Gathering(gatherImage: gatherImage ?? "",
-                                          gatherInfo: gatherInfo ?? "",
-                                          gatherMaxMember: gatherMaxMember ?? 0,
-                                          gatherName: gatherName ?? "",
-                                          gatherNowMember: gatheringMembers.count,
-                                          gatherQuestion: "",
-                                          gatheringCreateDate: gatheringCreateDate ?? "",
-                                          gatheringMaster: gatheringMaster ?? "",
-                                          gatheringMembers: gatheringMembers,
-                                          gatheringSports: "",
-                                          gatheringSportsTeam: "", gatheringUid: gatheringUid)
-				promise(.success(gathering))
-			}
-		}
-		.eraseToAnyPublisher()
-	}
-}
-
 // 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
+protocol GatheringDetailCoordinatorDelegate: AnyObject {
+	func showBoardDetail(boardPost: Post, gathering: Gathering)
+	func dismissJoinView()
+	func presentActionSheet()
+	func leaveGathering()
+	func reportGathering()
+	func showLeaveGatheringConfirmation()
+	func dismissAndUpdateUI()
+	func showError(message: String)
+	func gatheringDetailBackBtnTap()
+}
 
 enum GatheringDetailCellType {
 	case gatheringImage
@@ -101,10 +38,10 @@ enum GatheringDetailCellType {
 	case separator
 }
 // 게시판버튼 유형
-enum BoardButtonType {
-	case all
-	case noti
-	case free
+enum BoardBtnType: String {
+	case all = "All"
+	case noti = "Noti"
+	case free = "Free"
 }
 // 가입상태
 enum MembershipStatus {
@@ -113,29 +50,61 @@ enum MembershipStatus {
 	case joined
 }
 
+
 class GatheringDetailVM {
-	@Published var gathering: Gathering?
-	@Published var membershipStatus: MembershipStatus = .joined
-	@Published var selectedBoardType: BoardButtonType = .all
+	@Published private(set) var gathering: Gathering?
+	@Published private(set) var membershipStatus: MembershipStatus = .joined
+	@Published private(set) var boardData: [Post] = []
+	@Published var selectedBoardType: BoardBtnType = .all
 	@Published var masterNickname: String = ""
 	@Published var isMaster: Bool = false
 	
-	private let currentUser: LeportsUser // 현재 사용자 정보
-	private let firebaseService: FirebaseServiceProtocol
+	private let currentUser: LetportsUser
+	private let gatheringId: String = "gathering008"
+	private var cancellables = Set<AnyCancellable>()
+	var updateUI: (() -> Void)?
 	
-	var cancellables = Set<AnyCancellable>()
+	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
-	init(currentUser: LeportsUser, firebaseService: FirebaseServiceProtocol = FirebaseService()) {
+	init(currentUser: LetportsUser) {
 		self.currentUser = currentUser
-		self.firebaseService = firebaseService
+		//		self.gatheringId = gatheringId
 	}
 	
 	func loadData() {
 		fetchGatheringData()
+		fetchBoardData()
 	}
 	
+	func dismissJoinView() {
+		delegate?.dismissJoinView()
+	}
+	
+	func didTapBoardCell(boardPost: Post) {
+		self.delegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
+	}
+	
+	func showActionSheet() {
+		delegate?.presentActionSheet()
+	}
+	
+	func leaveGathering() {
+		delegate?.showLeaveGatheringConfirmation()
+	}
+	
+	func reportGathering() {
+		// 신고하기 로직 구현
+		print("신고하기")
+	}
+	
+	func gatheringDetailBackBtnTap() {
+		delegate?.gatheringDetailBackBtnTap()
+	}
+	
+	
+	//모임데이터
 	private func fetchGatheringData() {
-		firebaseService.fetchGatheringData(gatheringUid: "gathering012")
+		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: gatheringId, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -154,16 +123,145 @@ class GatheringDetailVM {
 			.store(in: &cancellables)
 	}
 	
+	// 게시판데이터
+	private func fetchBoardData() {
+		FirestoreManager.shared.getAllDocuments(collection: "Board", type: Post.self)
+			.sink(receiveCompletion: { completion in
+				switch completion {
+				case .finished:
+					print("게시판 데이터 가져오기 완료")
+				case .failure(let error):
+					print("게시판 데이터 가져오기 에러: \(error)")
+				}
+			}, receiveValue: { [weak self] posts in
+				self?.boardData = posts
+				print("가져온 Post 객체:")
+				print(posts)
+			})
+			.store(in: &cancellables)
+	}
+	
+	// 모임탈퇴
+	func removeGatheringFromUser() -> AnyPublisher<Void, FirestoreError> {
+		guard let gathering = gathering else {
+			return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+		}
+		
+		return FirestoreManager.shared.getDocument(collection: "Users", documentId: currentUser.uid, type: LetportsUser.self)
+			.flatMap { user -> AnyPublisher<Void, FirestoreError> in
+				var updatedMyGathering = user.myGathering
+				updatedMyGathering.removeAll { $0 == gathering.gatheringUid }
+				
+				return FirestoreManager.shared.updateData(collection: "Users",
+														  document: self.currentUser.uid,
+														  fields: ["MyGathering": updatedMyGathering])
+			}
+			.eraseToAnyPublisher()
+	}
+	
+	// 모임 나가기 확인
+	func confirmLeaveGathering() {
+		guard let gathering = gathering else {
+			delegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			return
+		}
+		
+		let removeFromUser = removeGatheringFromUser()
+		let updateGathering = updateGatheringAfterLeaving(gathering: gathering)
+		
+		Publishers.Zip(removeFromUser, updateGathering)
+			.sink(receiveCompletion: { [weak self] completion in
+				switch completion {
+				case .finished:
+					print("Successfully left the gathering")
+					self?.membershipStatus = .notJoined
+					self?.gathering?.gatherNowMember -= 1
+					self?.gathering?.gatheringMembers.removeAll { $0.userUID == self?.currentUser.uid }
+					self?.delegate?.dismissAndUpdateUI()
+				case .failure(let error):
+					print("Error leaving gathering: \(error)")
+					self?.delegate?.showError(message: "모임을 나가는데 실패했습니다: \(error.localizedDescription)")
+				}
+			}, receiveValue: { _ in })
+			.store(in: &cancellables)
+	}
+	
+	// 탈퇴후 업데이트
+	private func updateGatheringAfterLeaving(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
+		let updatedMembers = gathering.gatheringMembers.filter { $0.userUID != currentUser.uid }
+		let updatedNowMember = gathering.gatherNowMember - 1
+		
+		// GatheringMember 객체를 Dictionary로 변환
+		let updatedMembersDicts = updatedMembers.map { member -> [String: Any] in
+			return [
+				"Answer": member.answer,
+				"Image": member.image,
+				"JoinDate": member.joinDate,
+				"JoinStatus": member.joinStatus,
+				"NickName": member.nickName,
+				"UserUID": member.userUID,
+				"SimpleInfo": member.simpleInfo
+			]
+		}
+		
+		return FirestoreManager.shared.updateData(
+			collection: "Gatherings",
+			document: gathering.gatheringUid,
+			fields: [
+				"GatheringMembers": updatedMembersDicts,
+				"GatherNowMember": updatedNowMember
+			]
+		)
+	}
+	// 모임 가입
+	func joinGathering(answer: String) -> AnyPublisher<Void, FirestoreError> {
+		guard let gathering = gathering else {
+			return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+		}
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let joinDate = dateFormatter.string(from: Date())
+		
+		
+		let newMember: [String: Any] = [
+			"Answer": answer,
+			"Image": currentUser.image,
+			"JoinDate": joinDate,
+			"JoinStatus": "pending",
+			"NickName": currentUser.nickname,
+			"UserUID": currentUser.uid,
+			"SimpleInfo": currentUser.simpleInfo
+		]
+		
+		let updatedNowMember = gathering.gatherNowMember + 1
+		
+		return FirestoreManager.shared.updateData(
+			collection: "Gatherings",
+			document: gathering.gatheringUid,
+			fields: [
+				"GatheringMembers": FieldValue.arrayUnion([newMember]),
+				"GatherNowMember": updatedNowMember
+			]
+		)
+		.flatMap { _ in
+			FirestoreManager.shared.updateData(
+				collection: "Users",
+				document: self.currentUser.uid,
+				fields: ["MyGathering": FieldValue.arrayUnion([self.gatheringId])]
+			)
+		}
+		.eraseToAnyPublisher()
+	}
+	
 	// 모임장 닉네임
 	private func getMasterNickname() {
 		guard let gathering = self.gathering else {
 			self.masterNickname = "알 수 없음"
 			return
 		}
-        
-        
-      let masterUID = gathering.gatheringMaster
-      let members = gathering.gatheringMembers
+		let masterUID = gathering.gatheringMaster
+		let members = gathering.gatheringMembers
 		
 		if let masterMember = members.first(where: { $0.userUID == masterUID }) {
 			self.masterNickname = masterMember.nickName
@@ -177,25 +275,32 @@ class GatheringDetailVM {
 			isMaster = false
 			return
 		}
-        
-        let gatheringMaster = gathering.gatheringMaster
-		isMaster = currentUser.UID == gatheringMaster
+		
+		let gatheringMaster = gathering.gatheringMaster
+		isMaster = currentUser.uid == gatheringMaster
 	}
 	// 현재 사용자 정보
-	func getCurrentUserInfo() -> LeportsUser {
+	func getCurrentUserInfo() -> LetportsUser {
+		print("현재 사용자 정보: \(currentUser)")
 		return currentUser
 	}
 	// 가입중인지 아닌지
 	private func updateMembershipStatus() {
 		guard let gathering = self.gathering else {
 			self.membershipStatus = .notJoined
+			print("가입중인지 아닌지: \(self.membershipStatus)")
 			return
 		}
 		
-		if currentUser.myGathering.contains(gathering.gatheringUid) {
-			self.membershipStatus = .joined
-		} else {
-			self.membershipStatus = .notJoined
+		if let member = gathering.gatheringMembers.first(where: { $0.userUID == currentUser.uid }) {
+			switch member.joinStatus {
+			case "joined":
+				self.membershipStatus = .joined
+			case "pending":
+				self.membershipStatus = .pending
+			default:
+				self.membershipStatus = .notJoined
+			}
 		}
 	}
 	// 모임 멤버들 정보
@@ -225,60 +330,33 @@ class GatheringDetailVM {
 	func getDetailCellTypes() -> [GatheringDetailCellType] {
 		return self.cellType
 	}
-	
+	// 게시판 높이계산
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
-		let cellHeight: CGFloat = 50 + 12
+		let cellHeight: CGFloat = 70 + 12
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
 	// 예시 사용자
-	static let dummyUser = LeportsUser (
-		UID: "user013",
-		nickName: "완벽수비",
-		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		email: "user005@example.com",
-		myGathering: ["gathering012", "gathering010"],
-		simpleInfo: "빠른 속도를 좋아합니다",
+	static let dummyUser = LetportsUser(
+		email: "user010@example.com",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg기",
+		myGathering: ["gathering012"],
+		nickname: "타이거팬",
+		simpleInfo: "ㅁㅁㅁ",
+		uid: "user005",
 		userSports: "KBO",
-		userSportsTeam: "두산 베어스",
-		answer: "속도가 빠르기 때문입니다.",
-		joinDate: "2024-01-21",
-		joinStatus: "가입중"
+		userSportsTeam: "기아 타이거즈"
 	)
 	
-	struct BoardData {
-		let title: String
-		let createDate: String
-		let boardType: BoardButtonType
-	}
-	
-	var filteredBoardData: [BoardData] {
+	// 게시판 분류
+	var filteredBoardData: [Post] {
 		switch selectedBoardType {
 		case .all:
 			return boardData
 		case .noti, .free:
-			return boardData.filter { $0.boardType == selectedBoardType }
-		}
-	}
-	
-	// 게시판 더미데이터(삭제예정)
-	let boardData = [
-		BoardData(title: "자유게시", createDate: "2024/09/05", boardType: .free),
-		BoardData(title: "공지게시", createDate: "2024/11/05", boardType: .noti),
-	]
-}
-
-
-extension BoardButtonType {
-	var description: String {
-		switch self {
-		case .all:
-			return "전체"
-		case .noti:
-			return "공지"
-		case .free:
-			return "자유"
+			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
 		}
 	}
 }
+

@@ -40,11 +40,9 @@ class GatheringImageTVCell: UITableViewCell {
 		])
 	}
 	
-	// 안됨 
 	func configureCell(data: String?) {
 		if let imageUrlString = data,
 		   let url = URL(string: imageUrlString) {
-			print("URL 확인: \(url)")
 			gatheringImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
 		}
 	}

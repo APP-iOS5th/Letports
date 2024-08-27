@@ -7,17 +7,17 @@
 
 import UIKit
 
-class BoardButtonCVCell: UICollectionViewCell {
+class BoardBtnCVCell: UICollectionViewCell {
 	
-	private var boardButtonType: BoardButtonType = .all
+	private var boardButtonType: BoardBtnType = .all
 	
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
-		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
 		let btn = UIButton(configuration: config, primaryAction: nil)
 		btn.clipsToBounds = true
-		btn.layer.cornerRadius = 11
-		btn.layer.borderWidth = 0.5
+		btn.layer.cornerRadius = 10
+		btn.layer.borderWidth = 0.2
 		btn.layer.borderColor = UIColor.lp_black.cgColor
 		btn.backgroundColor = .lp_white
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class BoardButtonCVCell: UICollectionViewCell {
 	// MARK: - Setup
 	private func setupUI() {
 		contentView.addSubview(boardSelectButton)
-		boardSelectButton.addTarget(self, action: #selector(buttonTap), for: .touchUpInside)
+		boardSelectButton.addTarget(self, action: #selector(boardBtnTap), for: .touchUpInside)
 		
 		NSLayoutConstraint.activate([
 			boardSelectButton.heightAnchor.constraint(equalToConstant: 22),
@@ -72,16 +72,15 @@ class BoardButtonCVCell: UICollectionViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configure(with type: BoardButtonType) {
+	func configure(with type: BoardBtnType) {
 		self.boardButtonType = type
 	}
-	
-	@objc private func buttonTap() {
+	// 게시판 선택 버튼(3개)
+	@objc private func boardBtnTap() {
 		delegate?.didChangeButtonState(boardSelectButton, isSelected: true)
 	}
-	
+	// 게시글 셀 클릭
 	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
-		buttonTap() // 기존의 버튼 탭 동작도 유지
+		boardBtnTap()
 	}
 }
