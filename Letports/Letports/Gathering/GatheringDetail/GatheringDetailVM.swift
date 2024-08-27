@@ -301,6 +301,9 @@ class GatheringDetailVM {
 			default:
 				self.membershipStatus = .notJoined
 			}
+		} else {
+			// 사용자가 모임 멤버 목록에 없는 경우
+			self.membershipStatus = .notJoined
 		}
 	}
 	// 모임 멤버들 정보
