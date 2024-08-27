@@ -24,8 +24,8 @@ class UserProfileVC: UIViewController {
     }
     
     private lazy var navigationView: CustomNavigationView = {
-        let btnName: NaviButtonType
-        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile)
+        let username = viewModel.user?.nickname
+        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile(userName: username ?? ""))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
