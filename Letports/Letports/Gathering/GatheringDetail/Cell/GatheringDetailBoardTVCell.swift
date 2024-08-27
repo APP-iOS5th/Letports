@@ -7,9 +7,10 @@
 
 import UIKit
 
-final class GatheringDetailBoardTVCell: UITableViewCell {
+final class GatheringDetailBoardTVCell: UITableViewCell, BoardTVCellDelegate {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
+	weak var delegate: GatheringDetailDelegate?
 	
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
@@ -34,10 +35,16 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var board: [GatheringDetailVM.BoardData] = [] {
+	var board: [Post] = [] {
 		didSet {
 			tableView.reloadData()
 			updateTableViewHeight()
+		}
+	}
+	
+	var membershipStatus: MembershipStatus = .notJoined {
+		didSet {
+			tableView.reloadData()
 		}
 	}
 	
@@ -58,7 +65,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	// MARK: - 높이계산
 	public func calculateTableViewHeight() -> CGFloat {
 		let numberOfRows = board.count
-		let cellHeight: CGFloat = 50 + 12
+		let cellHeight: CGFloat = 70 + 12
 		return CGFloat(numberOfRows) * cellHeight
 	}
 	
@@ -68,29 +75,36 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		layoutIfNeeded()
 	}
 }
-
-// MARK: -  extension
-
-extension GatheringDetailBoardTVCell: UITableViewDataSource {
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return board.count
-	}
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTVCell",
-													   for: indexPath) as? BoardTVCell else {
-			return UITableViewCell()
+	// MARK: - UITableViewDataSource
+	extension GatheringDetailBoardTVCell: UITableViewDataSource {
+		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+			return board.count
 		}
-		cell.configureCell(data: board[indexPath.row])
-		return cell
+		
+		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+			guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTVCell",
+														   for: indexPath) as? BoardTVCell else {
+				return UITableViewCell()
+			}
+			let isActive = membershipStatus == .joined
+			cell.configureCell(data: board[indexPath.row], isActive: isActive)
+			cell.delegate = self
+			return cell
+		}
 	}
-}
 
-extension GatheringDetailBoardTVCell: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 50 + 12
+	// MARK: - UITableViewDelegate
+	extension GatheringDetailBoardTVCell: UITableViewDelegate {
+		func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+			return 70 + 12
+		}
 	}
-}
 
-
+	// MARK: - BoardTVCellDelegate
+	extension GatheringDetailBoardTVCell: BoardTVCellDelegate {
+		func didTapCell(boardPost: Post) {
+			delegate?.didTapCell(boardPost: boardPost)
+		}
+	}

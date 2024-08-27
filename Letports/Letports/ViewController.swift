@@ -59,7 +59,7 @@ class viewController: UIViewController {
 }
 
 extension viewController: CustomNavigationDelegate {
-	func smallRightButtonDidTap() {
+	func smallRightBtnDidTap() {
 		
 	}
 }

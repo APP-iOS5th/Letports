@@ -33,7 +33,7 @@ class ProfileVM {
     }
     
     init() {
-        loadUser()
+        loadUser(with: "user011")
     }
     
     func getCellTypes() -> [ProfileCellType] {
@@ -48,12 +48,16 @@ class ProfileVM {
         self.delegate?.dismissViewController()
     }
     
-    func photoUploadButtonTapped() {
+    func profileEditButtonTapped() {
         self.delegate?.presentEditProfileController(user: user!)
     }
     
-    func loadUser() {
-        FM.getData(collection: "Users", document: "user010", type: LetportsUser.self)
+    func settingButtonTapped() {
+        self.delegate?.presentSettingViewController()
+    }
+    
+    func loadUser(with user: String) {
+        FM.getData(collection: "Users", document: user, type: LetportsUser.self)
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -68,7 +72,6 @@ class ProfileVM {
             }
             .store(in: &cancellables)
     }
-    
     
     func fetchUserGatherings(for user: LetportsUser) {
         
@@ -91,9 +94,9 @@ class ProfileVM {
                 guard let self = self else { return }
                 
                 let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
-                
                 self.myGatherings = myGatherings
                 self.pendingGatherings = pendingGatherings
+               
             })
             .store(in: &cancellables)
     }
@@ -113,5 +116,6 @@ class ProfileVM {
         myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
         return (myGatherings, pendingGatherings)
     }
+    
 }
 

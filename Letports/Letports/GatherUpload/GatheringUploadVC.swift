@@ -131,7 +131,7 @@ class GatheringUploadVC: UIViewController {
         self.viewModel.$addButtonEnable
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
-                self?.navigationView.rightButtonIsEnable(enable)
+                self?.navigationView.rightBtnIsEnable(enable)
             }
             .store(in: &cancellables)
         
@@ -196,15 +196,15 @@ class GatheringUploadVC: UIViewController {
 }
 
 extension GatheringUploadVC: CustomNavigationDelegate {
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         self.buttonTapSubject.send(())
     }
     
-    func sportsSelectButtonDidTap() {
+    func sportsSelectBtnDidTap() {
         
     }
     
-    func backButtonDidTap() {
+    func backBtnDidTap() {
         self.viewModel.didTapDismiss()
     }
 }
