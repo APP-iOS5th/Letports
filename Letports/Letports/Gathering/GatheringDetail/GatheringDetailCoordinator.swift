@@ -94,11 +94,6 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
 	
-	
-	func leaveGathering() {
-		viewModel.leaveGathering()
-	}
-	
 	func reportGathering() {
 		viewModel.reportGathering()
 		// 추가적인 처리 (예: 신고 화면으로 이동 등)
