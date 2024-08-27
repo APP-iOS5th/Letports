@@ -32,7 +32,7 @@ class PostBtn: UIView {
 		return btn
 	}()
 	
-	private let optionsStackView: UIStackView = {
+	let optionsStackView: UIStackView = {
 		let sv = UIStackView()
 		sv.axis = .vertical
 		sv.spacing = 10
@@ -42,7 +42,7 @@ class PostBtn: UIView {
 		return sv
 	}()
 	
-	private let postButton: UIButton = {
+	let postButton: UIButton = {
 		let btn = UIButton(type: .system)
 		btn.setTitle("게시글 등록", for: .normal)
 		btn.backgroundColor = .white
@@ -55,7 +55,7 @@ class PostBtn: UIView {
 		return btn
 	}()
 	
-	private let noticeButton: UIButton = {
+	let noticeButton: UIButton = {
 		let btn = UIButton(type: .system)
 		btn.setTitle("공지사항 등록", for: .normal)
 		btn.backgroundColor = .white
@@ -72,6 +72,11 @@ class PostBtn: UIView {
 		didSet {
 			updateButtonVisibility()
 		}
+	}
+	
+	var isOptionsStackViewHidden: Bool {
+		get { optionsStackView.isHidden }
+		set { optionsStackView.isHidden = newValue }
 	}
 	
 	override init(frame: CGRect) {
@@ -100,9 +105,9 @@ class PostBtn: UIView {
 			optionsStackView.bottomAnchor.constraint(equalTo: floatingButton.topAnchor, constant: -10)
 		])
 		
-		floatingButton.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
-		postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-		noticeButton.addTarget(self, action: #selector(noticeButtonTapped), for: .touchUpInside)
+		floatingButton.addTarget(self, action: #selector(floatingBtnTapped), for: .touchUpInside)
+		postButton.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
+		noticeButton.addTarget(self, action: #selector(noticeBtnTapped), for: .touchUpInside)
 	}
 	
 	private func updateButtonVisibility() {
@@ -113,19 +118,19 @@ class PostBtn: UIView {
 		self.isHidden = !isVisible
 	}
 	
-	@objc private func floatingButtonTapped() {
+	@objc func floatingBtnTapped() {
 		UIView.animate(withDuration: 0.3) {
 			self.optionsStackView.isHidden.toggle()
 		}
 	}
 	
-	@objc private func postButtonTapped() {
+	@objc func postBtnTapped() {
 		print("게시글 등록 버튼이 탭되었습니다.")
-		optionsStackView.isHidden = true
+		isOptionsStackViewHidden = true
 	}
 	
-	@objc private func noticeButtonTapped() {
+	@objc func noticeBtnTapped() {
 		print("공지사항 등록 버튼이 탭되었습니다.")
-		optionsStackView.isHidden = true
+		isOptionsStackViewHidden = true
 	}
 }

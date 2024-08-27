@@ -11,11 +11,11 @@ struct Gathering: Codable {
     let gatherInfo: String
     let gatherMaxMember: Int
     let gatherName: String
-    let gatherNowMember: Int
+    var gatherNowMember: Int
     let gatherQuestion: String
     let gatheringCreateDate: String
     let gatheringMaster: String
-    let gatheringMembers: [GatheringMember]
+    var gatheringMembers: [GatheringMember]
     let gatheringSports: String
     let gatheringSportsTeam: String
     let gatheringUid: String

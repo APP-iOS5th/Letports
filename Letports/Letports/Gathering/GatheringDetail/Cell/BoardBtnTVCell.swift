@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol BoardButtonTVCellDelegate: AnyObject {
-	func didSelectBoardType(_ type: BoardButtonType)
+protocol BoardBtnTVCellDelegate: AnyObject {
+	func didSelectBoardType(_ type: BoardBtnType)
 }
 
-final class BoardButtonTVCell: UITableViewCell {
+final class BoardBtnTVCell: UITableViewCell {
 	
-	private let boardButtonTypes: [BoardButtonType] = [.all, .noti, .free]
+	private let boardButtonTypes: [BoardBtnType] = [.all, .noti, .free]
 	private var selectedButtonIndex: Int?
-	weak var delegate: BoardButtonTVCellDelegate?
+	weak var delegate: BoardBtnTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
@@ -36,8 +36,8 @@ final class BoardButtonTVCell: UITableViewCell {
 		collectionView.backgroundColor = .lp_background_white
 		collectionView.dataSource = self
 		collectionView.delegate = self
-		collectionView.register(BoardButtonCVCell.self,
-								forCellWithReuseIdentifier: "BoardButtonCVCell")
+		collectionView.register(BoardBtnCVCell.self,
+								forCellWithReuseIdentifier: "BoardBtnCVCell")
 	}
 	
 	required init?(coder: NSCoder) {
@@ -57,14 +57,14 @@ final class BoardButtonTVCell: UITableViewCell {
 	}
 }
 
-extension BoardButtonTVCell: UICollectionViewDataSource {
+extension BoardBtnTVCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return boardButtonTypes.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardButtonCVCell",
-															for: indexPath) as? BoardButtonCVCell else {
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardBtnCVCell",
+															for: indexPath) as? BoardBtnCVCell else {
 			return UICollectionViewCell()
 		}
 		
@@ -79,7 +79,7 @@ extension BoardButtonTVCell: UICollectionViewDataSource {
 	}
 }
 
-extension BoardButtonTVCell: UICollectionViewDelegateFlowLayout {
+extension BoardBtnTVCell: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -91,8 +91,8 @@ extension BoardButtonTVCell: UICollectionViewDelegateFlowLayout {
 		case .free: title = "자유게시판"
 		}
 		
-		let font = UIFont.systemFont(ofSize: 14)
-		let width = title.size(withAttributes: [.font: font]).width + 30
+		let font = UIFont.systemFont(ofSize: 14, weight: .regular)
+		let width = title.size(withAttributes: [.font: font]).width + 50
 		return CGSize(width: width, height: 25)
 	}
 	
@@ -103,7 +103,7 @@ extension BoardButtonTVCell: UICollectionViewDelegateFlowLayout {
 	}
 }
 
-extension BoardButtonTVCell: ButtonStateDelegate {
+extension BoardBtnTVCell: ButtonStateDelegate {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool) {
 		if let indexPath = collectionView.indexPath(for: button.superview?.superview as! UICollectionViewCell) {
 			selectedButtonIndex = indexPath.item

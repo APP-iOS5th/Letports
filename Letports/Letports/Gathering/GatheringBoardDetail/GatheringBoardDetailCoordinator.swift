@@ -8,17 +8,29 @@
 import Foundation
 import UIKit
 
+
 class GatheringBoardDetailCoordinator: Coordinator {
-	var childCoordinators: [any Coordinator] = []
-	
+	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
+	let postUID: String
+	let gathering: Gathering
+	
+	init(navigationController: UINavigationController, postUID: String, gathering: Gathering) {
+		self.navigationController = navigationController
+		self.postUID = postUID
+		self.gathering = gathering
+	}
 	
 	func start() {
+		let viewModel = GatheringBoardDetailVM(postUID: postUID, gathering: gathering)
+		viewModel.delegate = self
+		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
+		navigationController.pushViewController(viewController, animated: true)
+	}
+}
 
+extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelegate {
+	func boardDetailBackBtnTap() {
+		navigationController.popViewController(animated: true)
 	}
-	
-	init(navigationController: UINavigationController) {
-		self.navigationController = navigationController
-	}
-	
 }

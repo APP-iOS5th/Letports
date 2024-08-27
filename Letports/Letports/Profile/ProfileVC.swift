@@ -26,6 +26,7 @@ class ProfileVC: UIViewController {
     private lazy var navigationView: CustomNavigationView = {
         let btnName: NaviButtonType
         let view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -159,12 +160,12 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
 extension ProfileVC: ProfileDelegate {
     func didTapEditProfileButton() {
-        self.viewModel.photoUploadButtonTapped()
+        self.viewModel.profileEditButtonTapped()
     }
 }
 
 extension ProfileVC: CustomNavigationDelegate {
     func smallRightButtonDidTap() {
-        print("셋팅뷰이동")
+        self.viewModel.settingButtonTapped()
     }
 }
