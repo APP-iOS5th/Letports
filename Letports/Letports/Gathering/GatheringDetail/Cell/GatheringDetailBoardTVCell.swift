@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GatheringDetailBoardTVCell: UITableViewCell, BoardTVCellDelegate {
+final class GatheringDetailBoardTVCell: UITableViewCell {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
 	weak var delegate: GatheringDetailDelegate?
