@@ -10,6 +10,15 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
+enum HomeCellType {
+    case profile
+    case latestVideoTitleLabel
+    case youtubeThumbnails
+    case recommendGatheringTitleLabel
+    case recommendGatheringLists
+}
+
+
 struct YoutubeVideo {
     let title: String
     let thumbnailURL: URL
@@ -49,6 +58,24 @@ class HomeViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let db = Firestore.firestore()
     private let youtubeAPIKey = ""
+    
+    private var cellType: [HomeCellType] {
+        var cellTypes: [HomeCellType] = []
+        cellTypes.append(.profile)
+        cellTypes.append(.latestVideoTitleLabel)
+        cellTypes.append(.youtubeThumbnails)
+        cellTypes.append(.recommendGatheringTitleLabel)
+        cellTypes.append(.recommendGatheringLists)
+        return cellTypes
+    }
+    
+    func getCellTypes() -> [HomeCellType] {
+        return self.cellType
+    }
+    
+    func getCellCount() -> Int {
+        return self.cellType.count
+    }
     
     init() {
         getTeamData()
