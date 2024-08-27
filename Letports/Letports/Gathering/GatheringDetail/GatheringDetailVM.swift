@@ -260,8 +260,6 @@ class GatheringDetailVM {
 			self.masterNickname = "알 수 없음"
 			return
 		}
-		
-		
 		let masterUID = gathering.gatheringMaster
 		let members = gathering.gatheringMembers
 		
@@ -343,10 +341,10 @@ class GatheringDetailVM {
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg기",
-		myGathering: ["gathering009"],
+		myGathering: ["gathering012"],
 		nickname: "타이거팬",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user012",
+		uid: "user005",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

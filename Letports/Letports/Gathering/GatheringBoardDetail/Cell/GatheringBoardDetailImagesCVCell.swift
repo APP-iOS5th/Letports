@@ -46,13 +46,11 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 	
 	func configure(with imageUrl: String) {
 		guard let url = URL(string: imageUrl) else {
-			imageView.image = UIImage(named: "placeholder_image")
 			return
 		}
 		
 		imageView.kf.setImage(
 			with: url,
-			placeholder: UIImage(named: "placeholder_image"),
 			options: [
 				.transition(.fade(0.3)),
 				.cacheOriginalImage

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class GatheringBoardDetailCoordinator: Coordinator, GatheringBoardDetailCoordinatorDelegate {
+class GatheringBoardDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	let postUID: String
@@ -27,7 +27,9 @@ class GatheringBoardDetailCoordinator: Coordinator, GatheringBoardDetailCoordina
 		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(viewController, animated: true)
 	}
-	
+}
+
+extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelegate {
 	func boardDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}

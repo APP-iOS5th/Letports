@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource, BoardTVCellDelegate {
+final class GatheringDetailBoardTVCell: UITableViewCell, BoardTVCellDelegate {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
 	weak var delegate: GatheringDetailDelegate?
@@ -74,30 +74,37 @@ final class GatheringDetailBoardTVCell: UITableViewCell, UITableViewDelegate, UI
 		tableViewHeightConstraint?.constant = newHeight
 		layoutIfNeeded()
 	}
+}
 	
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return board.count
-	}
-	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTVCell",
-													   for: indexPath) as? BoardTVCell else {
-			return UITableViewCell()
+	// MARK: - UITableViewDataSource
+	extension GatheringDetailBoardTVCell: UITableViewDataSource {
+		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+			return board.count
 		}
-		let isActive = membershipStatus == .joined
+		
+		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+			guard let cell = tableView.dequeueReusableCell(withIdentifier: "BoardTVCell",
+														   for: indexPath) as? BoardTVCell else {
+				return UITableViewCell()
+			}
+			let isActive = membershipStatus == .joined
 			cell.configureCell(data: board[indexPath.row], isActive: isActive)
 			cell.delegate = self
 			return cell
+		}
 	}
-	
-	func didTapCell(boardPost: Post) {
-		delegate?.didTapCell(boardPost: boardPost)
+
+	// MARK: - UITableViewDelegate
+	extension GatheringDetailBoardTVCell: UITableViewDelegate {
+		func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+			return 70 + 12
+		}
 	}
-}
-func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-	return 70 + 12
-}
 
-
-
+	// MARK: - BoardTVCellDelegate
+	extension GatheringDetailBoardTVCell: BoardTVCellDelegate {
+		func didTapCell(boardPost: Post) {
+			delegate?.didTapCell(boardPost: boardPost)
+		}
+	}

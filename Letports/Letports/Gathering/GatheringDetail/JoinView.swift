@@ -61,7 +61,6 @@ class JoinView: UIView, UITextViewDelegate {
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.delegate = self
 		textView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-		textView.textContainer.lineFragmentPadding = 0
 		return textView
 	}()
 	
@@ -102,8 +101,6 @@ class JoinView: UIView, UITextViewDelegate {
 	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		setupUI()
-		setupTapGesture()
 	}
 	
 	// MARK: - setupUI
