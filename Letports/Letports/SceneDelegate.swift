@@ -22,8 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         appCoordinator = AppCoordinator(navigationController: navigationController)
         appCoordinator?.start()
-        window.rootViewController = GatherSettingVC(viewModel: GatherSettingVM())
-        //window.rootViewController = navigationController
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
 
     }
