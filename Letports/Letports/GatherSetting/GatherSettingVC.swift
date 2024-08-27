@@ -7,13 +7,21 @@
 import UIKit
 import Combine
 
+protocol ManageViewPendingDelegate: AnyObject {
+    func denyJoinGathering()
+    func apporveJoinGathering()
+}
+protocol ManageViewJoinDelegate: AnyObject {
+    func cancelAction()
+    func expelGathering()
+}
 
 class GatherSettingVC: UIViewController {
-   
+    
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
     private var manageUserView: ManageUserView?
-
+    
     init(viewModel: GatherSettingVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -81,8 +89,7 @@ class GatherSettingVC: UIViewController {
         .store(in: &cancellables)
     }
     
-    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering,     joinDelegate: ManageViewJoinDelegate?,
-                                         pendingDelegate: ManageViewJoinDelegate?) {
+    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering,joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
         if existingView == nil {
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate

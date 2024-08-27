@@ -8,19 +8,10 @@
 import UIKit
 
 
-protocol ManageViewPendingDelegate: AnyObject {
-    func denyJoinGathering()
-    func apporveJoinGathering()
-}
-protocol ManageViewJoinDelegate: AnyObject {
-    func cancelAction()
-    func expelGathering()
-}
-
 class ManageUserView: UIView {
     
     weak var joindelegate: ManageViewJoinDelegate?
-    weak var pendingdelegate: ManageViewJoinDelegate?
+    weak var pendingdelegate: ManageViewPendingDelegate?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -147,7 +138,7 @@ class ManageUserView: UIView {
             joindelegate?.expelGathering()
         }
         if pendingdelegate != nil {
-            pendingdelegate?.expelGathering()
+            pendingdelegate?.denyJoinGathering()
         }
     }
     
@@ -156,7 +147,7 @@ class ManageUserView: UIView {
             joindelegate?.expelGathering()
         }
         if pendingdelegate != nil {
-            pendingdelegate?.cancelAction()
+            pendingdelegate?.apporveJoinGathering()
         }
     }
     
