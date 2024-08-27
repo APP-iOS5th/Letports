@@ -183,7 +183,7 @@ final class GatheringDetailVC: UIViewController {
 // MARK: - extension
 extension GatheringDetailVC: JoinViewDelegate {
 	func joinViewDidTapCancel(_ joinView: JoinView) {
-		viewModel.dismissJoinView()
+		removeJoinView()
 	}
 	
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
@@ -192,7 +192,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 				switch completion {
 				case .finished:
 					print("가입 처리가 완료되었습니다.")
-					self?.viewModel.dismissJoinView()
+					self?.removeJoinView()
 					self?.viewModel.loadData() // 데이터 새로고침
 				case .failure(let error):
 					print("가입 처리 중 오류 발생: \(error)")
@@ -218,6 +218,19 @@ extension GatheringDetailVC: JoinViewDelegate {
 			])
 			DispatchQueue.main.async {
 				self.joinView = manageUserView
+			}
+		}
+	}
+	
+	private func removeJoinView() {
+		if let joinView = self.joinView {
+			self.view.bringSubviewToFront(joinView)
+			// 애니메이션과 함께 JoinView를 제거
+			UIView.animate(withDuration: 0.3, animations: {
+				joinView.alpha = 0
+			}) { _ in
+				joinView.removeFromSuperview()
+				self.joinView = nil
 			}
 		}
 	}

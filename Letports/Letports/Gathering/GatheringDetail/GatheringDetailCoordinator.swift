@@ -33,21 +33,6 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		boardDetailCoordinator.start()
 	}
 	
-	func dismissJoinView() {
-		if let viewController = navigationController.viewControllers.last as? GatheringDetailVC,
-		   let joinView = viewController.joinView {
-			viewController.view.bringSubviewToFront(joinView)
-			// 애니메이션과 함께 JoinView를 제거
-			UIView.animate(withDuration: 0.3, animations: {
-				joinView.alpha = 0
-			}) { _ in
-				joinView.removeFromSuperview()
-				viewController.joinView = nil
-			}
-		}
-	}
-	
-	
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
