@@ -15,7 +15,6 @@ class GatheringVC: UIViewController {
     private var cancellables: Set<AnyCancellable> = []
     weak var coordinator: GatheringCoordinator?
     
-    
     init(viewModel: GatheringVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -47,6 +46,20 @@ class GatheringVC: UIViewController {
         return tv
     }()
     
+    private lazy var floatingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+        let largePencil = UIImage(systemName: "pencil", withConfiguration: largeConfig)
+        button.setImage(largePencil, for: .normal)
+        button.backgroundColor = .lp_main
+        button.tintColor = .lp_white
+        button.layer.cornerRadius = 30
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -54,7 +67,7 @@ class GatheringVC: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .lpBackgroundWhite
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, floatingButton].forEach {
             self.view.addSubview($0)
         }
         
@@ -66,7 +79,12 @@ class GatheringVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            floatingButton.widthAnchor.constraint(equalToConstant: 60),
+            floatingButton.heightAnchor.constraint(equalToConstant: 60),
+            floatingButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            floatingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -96,7 +114,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getCellCount()
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch viewModel.getCellTypes()[indexPath.row] {
         case .recommendGatherings, .gatheringLists: viewModel.pushGatheringDetailController()
@@ -109,16 +127,16 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
         case .recommendGatheringHeader:
-            return 80.0
+            return 50.0
         case .recommendGatherings:
             return 90.0
         case .gatheringListHeader:
-            return 80.0
+            return 50.0
         case .gatheringLists:
             return 90.0
         }
     }
-        
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .recommendGatheringHeader:
@@ -157,5 +175,11 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         return UITableViewCell()
+    }
+    
+    // MARK: objc 함수
+    //소모임 생성 버튼 동작 함수
+    @objc private func floatingButtonTapped() {
+        viewModel.pushGatheringUploadController()
     }
 }

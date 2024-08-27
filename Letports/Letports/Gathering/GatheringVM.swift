@@ -33,6 +33,10 @@ class GatheringVM {
         self.delegate?.pushGatheringDetailController()
     }
     
+    func pushGatheringUploadController() {
+        self.delegate?.pushGatheringUploadController()
+    }
+    
     
     private var cellType: [GatheringCellType] {
         var cellTypes: [GatheringCellType] = []
