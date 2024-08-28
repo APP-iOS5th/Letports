@@ -90,9 +90,7 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 		}
 		nickNameLabel.text = member.nickName
 		if let url = URL(string: member.image) {
-			profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
-		} else {
-			profileImageView.image = UIImage(named: "placeholder_image")
-		}
+			profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "person.circle.fill"))
+		} 
 	}
 }

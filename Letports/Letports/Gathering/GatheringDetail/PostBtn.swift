@@ -84,6 +84,18 @@ class PostBtn: UIView {
 		setupUI()
 	}
 	
+	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+		if let hitView = optionsStackView.hitTest(convert(point, to: optionsStackView), with: event), !optionsStackView.isHidden {
+			return hitView
+		}
+		
+		if let hitView = floatingButton.hitTest(convert(point, to: floatingButton), with: event) {
+			return hitView
+		}
+		
+		return super.hitTest(point, with: event)
+	}
+	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

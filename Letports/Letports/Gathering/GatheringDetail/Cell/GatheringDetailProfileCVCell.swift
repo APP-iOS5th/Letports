@@ -72,7 +72,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		self.profile = member
 		self.userNickName.text = member.nickName
 		if let url = URL(string: member.image) {
-			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
+			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "person.circle.fill"))
 		}
 	}
 	
