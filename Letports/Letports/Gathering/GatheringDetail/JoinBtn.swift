@@ -19,9 +19,9 @@ class JoinBtn: UIButton {
 	
 	private func setupBtn() {
 		self.setTitle("가입하기", for: .normal)
-		self.backgroundColor = .black
+		self.backgroundColor = .lp_main
 		self.setTitleColor(.white, for: .normal)
-		self.layer.cornerRadius = 0
+		self.layer.cornerRadius = 22.5
 		self.clipsToBounds = true
 	}
 }

@@ -114,4 +114,3 @@ extension BoardBtnTVCell: ButtonStateDelegate {
 	}
 }
 
-

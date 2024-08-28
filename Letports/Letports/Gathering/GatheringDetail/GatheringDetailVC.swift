@@ -317,6 +317,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringBoard:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
 														for: indexPath) as? GatheringDetailBoardTVCell {
+				cell.viewModel = viewModel
 				cell.board = viewModel.filteredBoardData
 				cell.membershipStatus = viewModel.membershipStatus
 				cell.delegate = self
