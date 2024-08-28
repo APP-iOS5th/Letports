@@ -9,6 +9,8 @@ import UIKit
 
 final class GatheringDetailProfileTVCell: UITableViewCell {
 	
+	weak var delegate: GatheringDetailDelegate?
+	
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -65,6 +67,7 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 			return UICollectionViewCell()
 		}
 		cell.configure(member: members[indexPath.item])
+		cell.delegate = self
 		return cell
 	}
 }
@@ -75,5 +78,13 @@ extension GatheringDetailProfileTVCell: UICollectionViewDelegateFlowLayout {
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		return CGSize(width: 60, height: 80) // 셀 크기 설정
+	}
+}
+
+extension GatheringDetailProfileTVCell: GatheringDetailProfileCVCellDelegate {
+	func didTapProfile(member: GatheringMember) {
+		print("TVCell로 전달")
+		print("TVCell: \(member)")
+		delegate?.didTapProfileImage(profile: member)
 	}
 }

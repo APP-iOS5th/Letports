@@ -33,6 +33,13 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		boardDetailCoordinator.start()
 	}
 	
+	func showProfileView(member: GatheringMember) {
+		print("코디네이터로 전달")
+//		let profileCoordinator = ProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
+//		childCoordinators.append()
+//		profileCoordinator.start()
+	}
+	
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		

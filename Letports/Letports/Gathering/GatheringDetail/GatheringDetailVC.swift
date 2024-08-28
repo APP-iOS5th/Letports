@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 protocol GatheringDetailDelegate: AnyObject {
-	func didTapProfileImage()
+	func didTapProfileImage(profile: GatheringMember)
 	func didTapCell(boardPost: Post)
 }
 
@@ -243,11 +243,13 @@ extension GatheringDetailVC: JoinViewDelegate {
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
+	func didTapProfileImage(profile: GatheringMember) {
+		viewModel.didTapProfile(member: profile)
+		print("뷰컨트롤러로 전달")
+	}
+	
 	func didTapCell(boardPost: Post) {
 		viewModel.didTapBoardCell(boardPost: boardPost)
-	}
-	func didTapProfileImage() {
-		// 프로필버튼
 	}
 }
 
@@ -305,6 +307,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
 				cell.members = viewModel.gathering?.gatheringMembers ?? []
+				cell.delegate = self
 				return cell
 			}
 		case .boardButtonType:

@@ -17,6 +17,7 @@ protocol ButtonStateDelegate: AnyObject {
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showBoardDetail(boardPost: Post, gathering: Gathering)
+	func showProfileView(member: GatheringMember)
 	func presentActionSheet()
 	func reportGathering()
 	func showLeaveGatheringConfirmation()
@@ -76,6 +77,10 @@ class GatheringDetailVM {
 	
 	func didTapBoardCell(boardPost: Post) {
 		self.delegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
+	}
+	
+	func didTapProfile(member: GatheringMember) {
+		self.delegate?.showProfileView(member: member)
 	}
 	
 	func showActionSheet() {
