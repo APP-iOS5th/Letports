@@ -64,7 +64,6 @@
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
 		BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
 		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
-		BF358EAA2C766D27007F507D /* GatheringDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF358EA92C766D27007F507D /* GatheringDetailModel.swift */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
@@ -196,7 +195,6 @@
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
 		BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinBtn.swift; sourceTree = "<group>"; };
 		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
-		BF358EA92C766D27007F507D /* GatheringDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailModel.swift; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
@@ -481,7 +479,6 @@
 				BF7BBE272C6B7F360094C29C /* Cell */,
 				BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */,
 				BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */,
-				BF358EA92C766D27007F507D /* GatheringDetailModel.swift */,
 				BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */,
 				BFFFD3E52C7316D40053A86B /* PostBtn.swift */,
 				BFD9AF002C76F7A2000C3A20 /* ActionSheetVC.swift */,
@@ -541,6 +538,7 @@
 			children = (
 				410BBCC42C77B5B300FE2E18 /* Model */,
 				41AA052E2C730001009FF289 /* Common */,
+				411D4E512C6337AE00B07D84 /* UserManager.swift */,
 				41AA05272C72D9D9009FF289 /* FirebaseService */,
 				B85FD8512C7864C4007B4962 /* SelectTeam */,
 				4143E4532C6B478D001AB3E0 /* BoadEditor */,
@@ -565,7 +563,6 @@
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				B85FD8782C788783007B4962 /* Letports.entitlements */,
 				410BBCBB2C779B6700FE2E18 /* GoogleService-Info.plist */,
-				411D4E512C6337AE00B07D84 /* UserManager.swift */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -833,7 +830,6 @@
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
-				BF358EAA2C766D27007F507D /* GatheringDetailModel.swift in Sources */,
 				BFD9AEF82C76F21A000C3A20 /* CustomActionSheetView.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,

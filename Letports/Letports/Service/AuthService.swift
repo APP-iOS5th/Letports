@@ -92,7 +92,19 @@ class AuthService: AuthServiceProtocol {
             if let error = error {
                 completion(.failure(error))
             } else if let user = authResult?.user {
-                self?.createNewUser(user: user)
+                let letportsUser = LetportsUser(
+                    email: user.email ?? "",
+                    image: user.photoURL?.absoluteString ?? "",
+                    nickname: user.displayName ?? "",
+                    simpleInfo: "",
+                    uid: user.uid,
+                    userSports: "",
+                    userSportsTeam: ""
+                    )
+                
+                UserManager.shared.login(user: letportsUser)
+                
+                self?.createNewUser(letportsUser: letportsUser)
                     .sink(receiveCompletion: { result in
                         switch result {
                         case .finished:
@@ -110,22 +122,13 @@ class AuthService: AuthServiceProtocol {
         }
     }
     
-    private func createNewUser(user: User) -> AnyPublisher<Void, FirestoreError> {
-            let newUser = LetportsUser(
-                email: user.email ?? "",
-                image: user.photoURL?.absoluteString ?? "",
-                nickname: user.displayName ?? "",
-                simpleInfo: "",
-                uid: user.uid,
-                userSports: "",
-                userSportsTeam: ""
-            )
-            
-            return FM.setData(collection: "Users", document: user.uid, data: newUser)
+    private func createNewUser(letportsUser: LetportsUser) -> AnyPublisher<Void, FirestoreError> {
+            return FM.setData(collection: "Users", document: letportsUser.uid, data: letportsUser)
         }
     
     func signOut() throws {
         try Auth.auth().signOut()
         GIDSignIn.sharedInstance.signOut()
+        UserManager.shared.logout()
     }
 }

@@ -18,14 +18,20 @@ class UserManager {
     
     private(set) var isLoggedIn: Bool = false
     private(set) var userRole: UserRole = .guest
+    private(set) var currentUser: LetportsUser?
     
-    func login(as role: UserRole) {
+    private init() {}
+    
+    // userRole을 하면전환화면서
+    func login(user: LetportsUser) {
         isLoggedIn = true
-        userRole = role
+        userRole = .guest
+        currentUser = user
     }
     
     func logout() {
         isLoggedIn = false
         userRole = .guest
+        currentUser = nil
     }
 }
