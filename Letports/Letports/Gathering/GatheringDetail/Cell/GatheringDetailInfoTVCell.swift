@@ -10,7 +10,10 @@ import UIKit
 final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	private var isExpanded = true
-	private var expandedHeight: CGFloat = 0
+	private var expandedHeight: CGFloat = 200
+	private let collapsedHeight: CGFloat = 100
+	private let defaultHeight: CGFloat = 200
+	
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
@@ -23,20 +26,23 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		let sizeThatFitsTextView = gatheringInfoTextView.sizeThatFits(CGSize(
 			width: gatheringInfoTextView.frame.width,
 			height: CGFloat.greatestFiniteMagnitude))
-		expandedHeight = sizeThatFitsTextView.height
+		expandedHeight = max(sizeThatFitsTextView.height, defaultHeight)
 	}
 	
 	private func updateTextViewHeight() {
-		let newHeight = isExpanded ? expandedHeight : 100
+		let newHeight = isExpanded ? expandedHeight : collapsedHeight
 		gatheringInfoTextView.constraints.forEach { constraint in
 			if constraint.firstAttribute == .height {
 				constraint.constant = newHeight
 			}
 		}
+		
+		toggleBtn.isHidden = expandedHeight <= defaultHeight
+		toggleBtn.setTitle(isExpanded ? "▲" : "▼", for: .normal)
 	}
 	
 	func getHeight() -> CGFloat {
-		return isExpanded ? expandedHeight + 60 : 160
+		return isExpanded ? expandedHeight : collapsedHeight + 60
 	}
 	
 	private let gatheringInfoTextView: UITextView = {
@@ -55,6 +61,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		btn.setTitle("▲", for: .normal)
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		btn.setTitleColor(.lpBlack, for: .normal)
+		btn.isHidden = true
 		return btn
 	}()
 	
@@ -89,7 +96,8 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	func configure(with gatherInfo: String?) {
 		gatheringInfoTextView.text = gatherInfo
-		print("소개글 \(gatheringInfoTextView)")
+		calculateExpandedHeight()
+		updateTextViewHeight()
 	}
 	
 	// 접기버튼
@@ -98,11 +106,13 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		
 		UIView.animate(withDuration: 0.3) {
 			self.updateTextViewHeight()
-			self.toggleBtn.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
 			self.layoutIfNeeded()
 		}
-		(superview as? UITableView)?.beginUpdates()
-		(superview as? UITableView)?.endUpdates()
+		
+		if let tableView = superview as? UITableView {
+			tableView.beginUpdates()
+			tableView.endUpdates()
+		}
 	}
 }
 

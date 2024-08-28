@@ -45,8 +45,10 @@ final class GatheringBoardDetailVC: UIViewController {
 	}()
 	
 	private var viewModel: GatheringBoardDetailVM
-    private var cancellables = Set<AnyCancellable>()
-    
+
+	private var cancellables = Set<AnyCancellable>()
+	
+
 	init(viewModel: GatheringBoardDetailVM) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -60,7 +62,23 @@ final class GatheringBoardDetailVC: UIViewController {
 		super.viewDidLoad()
 		setupUI()
         bindKeyboard()
+		bindViewModel()
 	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		tableView.reloadData()
+	}
+	
+	private func bindViewModel() {
+		viewModel.$boardPost
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] _ in
+				self?.tableView.reloadData()
+			}
+			.store(in: &cancellables)
+	}
+	
 	
 	// MARK: - setupUI()
 	private func setupUI() {
@@ -128,14 +146,11 @@ final class GatheringBoardDetailVC: UIViewController {
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
-	func smallRightButtonDidTap() {
+	func smallRightBtnDidTap() {
 		print("samll")
 	}
-	func sportsSelectButtonDidTap() {
-		
-	}
-	func backButtonDidTap() {
-		
+	func backBtnDidTap() {
+		viewModel.boardDetailBackBtnTap()
 	}
 }
 
@@ -144,10 +159,14 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 		switch self.viewModel.getBoardDetailCellTypes()[indexPath.row] {
 		case .boardProfileTitle:
 			if let cell: GatheringBoardDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
+				cell.configure(with: viewModel.postAuthor)
 				return cell
 			}
 		case .boardContents:
 			if let cell: GatheringBoardDetailContentTVCell  = tableView.loadCell(indexPath: indexPath) {
+				if let post = viewModel.boardPost {
+					cell.configure(with: post)
+				}
 				return cell
 			}
 		case .separator:
@@ -156,9 +175,13 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .images:
-			if let cell: GatheringBoardDetailImagesTVCell = tableView.loadCell(indexPath: indexPath) {
-				return cell
+			guard let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringBoardDetailImagesTVCell",
+														   for: indexPath) as? GatheringBoardDetailImagesTVCell else {
+				return UITableViewCell()
 			}
+			cell.post = viewModel.boardPost
+			return cell
+			
 		case .commentHeaderLabel:
 			if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
 				return cell
@@ -197,13 +220,8 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 }
-
 extension GatheringBoardDetailVC: CommentInputDelegate {
     func addComment(comment: String) {
         viewModel.addComment(comment: comment)
     }
-}
-
-#Preview {
-	GatheringBoardDetailVC(viewModel: GatheringBoardDetailVM())
 }

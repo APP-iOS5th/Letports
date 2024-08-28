@@ -33,7 +33,7 @@ class ProfileVM {
     }
     
     init() {
-        loadUser()
+        loadUser(with: "user009")
     }
     
     func getCellTypes() -> [ProfileCellType] {
@@ -48,12 +48,20 @@ class ProfileVM {
         self.delegate?.dismissViewController()
     }
     
-    func photoUploadButtonTapped() {
+    func profileEditButtonTapped() {
         self.delegate?.presentEditProfileController(user: user!)
     }
     
-    func loadUser() {
-        FM.getData(collection: "Users", document: "user010", type: LetportsUser.self)
+    func gatheringCellTapped(gatheringUID: String) {
+        self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
+    }
+    
+    func settingButtonTapped() {
+        self.delegate?.presentSettingViewController()
+    }
+    
+    func loadUser(with user: String) {
+        FM.getData(collection: "Users", document: user, type: LetportsUser.self)
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -69,6 +77,22 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
+    func loadMasterUser(with master: String) -> Future<LetportsUser, Error> {
+        return Future { promise in
+            FM.getData(collection: "Users", document: master, type: LetportsUser.self)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break // 완료된 경우, 별도의 처리가 필요하지 않음
+                    case .failure(let error):
+                        promise(.failure(error)) // Future 실패 시 전달
+                    }
+                } receiveValue: { fetchedUser in
+                    promise(.success(fetchedUser)) // Future 성공 시 전달
+                }
+                .store(in: &self.cancellables)
+        }
+    }
     
     func fetchUserGatherings(for user: LetportsUser) {
         
@@ -91,7 +115,6 @@ class ProfileVM {
                 guard let self = self else { return }
                 
                 let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
-                
                 self.myGatherings = myGatherings
                 self.pendingGatherings = pendingGatherings
             })
@@ -103,9 +126,9 @@ class ProfileVM {
         var pendingGatherings: [Gathering] = []
         
         for gathering in gatherings {
-            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
+            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "joined"}) {
                 myGatherings.append(gathering)
-            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "가입대기중" }) {
+            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "pending" }) {
                 pendingGatherings.append(gathering)
             }
         }
@@ -113,5 +136,6 @@ class ProfileVM {
         myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
         return (myGatherings, pendingGatherings)
     }
+    
 }
 
