@@ -18,7 +18,7 @@
 
 | **안성근** | **윤종찬** | **이충현** | **한상현** | **홍준범** |
 | :------: |  :------: | :------: | :------: | :------: |
-| [<img src="https://avatars.githubusercontent.com/u/72062051?v=4" height=200 width=200> <br/> @mo-si-dev](https://github.com/mo-si-dev) | [<img src="https://avatars.githubusercontent.com/u/79854784?v=4" height=200 width=200> <br/> @realdevyun](https://github.com/realdevyun) | [<img src="https://avatars.githubusercontent.com/u/67133244?v=4" height=200 width=200> <br/> @iOS-Ruel](https://github.com/iOS-Ruel) | [<img src="https://avatars.githubusercontent.com/u/104310516?v=4" height=200 width=200> <br/> @yachae96 · he/him](https://github.com/yachae96) | [<img src="https://avatars.githubusercontent.com/u/164896129?v=4" height=200 width=200> <br/> @KuKaH](https://github.com/KuKaH) | 
+| [<img src="https://avatars.githubusercontent.com/u/72062051?v=4" height=200 width=200> <br/> @mo-si-dev](https://github.com/mo-si-dev) | [<img src="https://avatars.githubusercontent.com/u/79854784?v=4" height=200 width=200> <br/> @allealleios](https://github.com/allealleios) | [<img src="https://avatars.githubusercontent.com/u/67133244?v=4" height=200 width=200> <br/> @iOS-Ruel](https://github.com/iOS-Ruel) | [<img src="https://avatars.githubusercontent.com/u/104310516?v=4" height=200 width=200> <br/> @yachae96 · he/him](https://github.com/yachae96) | [<img src="https://avatars.githubusercontent.com/u/164896129?v=4" height=200 width=200> <br/> @KuKaH](https://github.com/KuKaH) | 
 
 </div>
 

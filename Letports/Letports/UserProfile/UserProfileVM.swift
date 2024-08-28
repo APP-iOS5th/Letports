@@ -15,11 +15,16 @@ enum UserProfileCellType {
     case userGatherings
 }
 
+protocol UserProfileCoordinatorDelegate: AnyObject {
+	func userProfileBackBtn()
+}
+
 class UserProfileVM {
     @Published var user: LetportsUser?
     @Published var userGatherings: [Gathering] = []
  
     private var cancellables = Set<AnyCancellable>()
+	weak var delegate: UserProfileCoordinatorDelegate?
     
     private var cellType: [UserProfileCellType] {
         var cellTypes: [UserProfileCellType] = []
@@ -31,9 +36,9 @@ class UserProfileVM {
         return cellTypes
     }
     
-    init() {
-        loadUser(for: "user011")
-    }
+	init(userUID: String) {
+		loadUser(for: userUID)
+	}
     
     func getCellTypes() -> [UserProfileCellType] {
         return self.cellType
@@ -42,6 +47,10 @@ class UserProfileVM {
     func getCellCount() -> Int {
         return self.cellType.count
     }
+	
+	func userProfileBackBtn() {
+		delegate?.userProfileBackBtn()
+	}
     
     func loadUser(for user: String) {
         FM.getData(collection: "Users", document: user, type: LetportsUser.self)

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegate {
+class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
@@ -24,7 +24,10 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		let vc = GatheringDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(vc, animated: true)
 	}
-	
+}
+
+
+extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func showBoardDetail(boardPost: Post, gathering: Gathering) {
 		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
 																	 postUID: boardPost.postUID,
@@ -33,20 +36,11 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		boardDetailCoordinator.start()
 	}
 	
-	func dismissJoinView() {
-		if let viewController = navigationController.viewControllers.last as? GatheringDetailVC,
-		   let joinView = viewController.joinView {
-			viewController.view.bringSubviewToFront(joinView)
-			// 애니메이션과 함께 JoinView를 제거
-			UIView.animate(withDuration: 0.3, animations: {
-				joinView.alpha = 0
-			}) { _ in
-				joinView.removeFromSuperview()
-				viewController.joinView = nil
-			}
-		}
+	func showProfileView(member: GatheringMember) {
+		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
+		childCoordinators.append(coordinator)
+		coordinator.start()
 	}
-	
 	
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -94,11 +88,6 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
 	
-	
-	func leaveGathering() {
-		viewModel.leaveGathering()
-	}
-	
 	func reportGathering() {
 		viewModel.reportGathering()
 		// 추가적인 처리 (예: 신고 화면으로 이동 등)
@@ -107,4 +96,3 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}
-}
