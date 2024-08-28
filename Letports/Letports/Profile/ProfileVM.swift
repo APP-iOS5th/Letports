@@ -33,7 +33,7 @@ class ProfileVM {
     }
     
     init() {
-        loadUser(with: "user011")
+        loadUser(with: "user009")
     }
     
     func getCellTypes() -> [ProfileCellType] {
@@ -126,9 +126,9 @@ class ProfileVM {
         var pendingGatherings: [Gathering] = []
         
         for gathering in gatherings {
-            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
+            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "joined"}) {
                 myGatherings.append(gathering)
-            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "가입대기중" }) {
+            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "pending" }) {
                 pendingGatherings.append(gathering)
             }
         }
