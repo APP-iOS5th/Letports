@@ -99,6 +99,27 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch self.viewModel.getCellTypes()[indexPath.row] {
+        case .myGatherings:
+            let startIndex = 2
+            let userIndex = indexPath.row - startIndex
+            if userIndex < viewModel.myGatherings.count {
+                let user = viewModel.myGatherings[userIndex]
+                self.viewModel.gatheringCellTapped(gatheringUID: user.gatheringUid)
+            }
+        case .pendingGatherings:
+            let startIndex = 3 + viewModel.pendingGatherings.count
+            let userIndex = indexPath.row - startIndex
+            if userIndex < viewModel.pendingGatherings.count {
+                let user = viewModel.pendingGatherings[userIndex]
+                self.viewModel.gatheringCellTapped(gatheringUID: user.gatheringUid)
+            }
+        default:
+            break
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
@@ -119,8 +140,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.delegate = self
-                cell.configure(with: viewModel.user!)
+                if let user = viewModel.user {
+                    cell.delegate = self
+                    cell.configure(with: viewModel.user!)
+                }
                 return cell
             }
         case .myGatheringHeader:

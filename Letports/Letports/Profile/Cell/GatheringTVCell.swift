@@ -98,7 +98,6 @@ class GatheringTVCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.selectionStyle = .none
-        setupUI()
     }
     
     private func setupUI() {
@@ -121,7 +120,7 @@ class GatheringTVCell: UITableViewCell {
             gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             gatheringIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             gatheringIV.widthAnchor.constraint(equalToConstant: 120),
-    
+            
             gatheringName.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
             gatheringName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             
