@@ -77,6 +77,23 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
+    func loadMasterUser(with master: String) -> Future<LetportsUser, Error> {
+        return Future { promise in
+            FM.getData(collection: "Users", document: master, type: LetportsUser.self)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break // 완료된 경우, 별도의 처리가 필요하지 않음
+                    case .failure(let error):
+                        promise(.failure(error)) // Future 실패 시 전달
+                    }
+                } receiveValue: { fetchedUser in
+                    promise(.success(fetchedUser)) // Future 성공 시 전달
+                }
+                .store(in: &self.cancellables)
+        }
+    }
+    
     func fetchUserGatherings(for user: LetportsUser) {
         
         guard !user.myGathering.isEmpty else {
