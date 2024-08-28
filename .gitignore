@@ -9,6 +9,7 @@
 GoogleService-Info.plist
 *.xcconfig
 *.entitlements
+*.xcuserstate
 
 
 # Icon must end with two \r
