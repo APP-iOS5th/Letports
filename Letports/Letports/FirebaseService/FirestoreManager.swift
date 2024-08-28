@@ -16,7 +16,7 @@ enum FirestoreError: LocalizedError {
     case updateFailed
     case deleteFailed
     case unknownError(Error)
-
+    
     var errorDescription: String? {
         switch self {
         case .documentNotFound:
@@ -41,7 +41,7 @@ class FirestoreManager {
     private init() {}
     
     //CREATE
-    func setData<T: Encodable>(collection: String, 
+    func setData<T: Encodable>(collection: String,
                                document: String,
                                data: T) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
@@ -80,7 +80,7 @@ class FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
-
+    
     // 문서 여러 개 가져오기
     func getDocuments<T: Decodable>(collection: String, documentIds: [String], type: T.Type) -> AnyPublisher<[T], FirestoreError> {
         let publishers = documentIds.map { id in
@@ -93,7 +93,7 @@ class FirestoreManager {
     }
     
     //READ
-    func getData<T: Decodable>(collection: String, 
+    func getData<T: Decodable>(collection: String,
                                document: String,
                                type: T.Type) -> AnyPublisher<T, FirestoreError> {
         return Future<T, FirestoreError> { promise in
@@ -147,7 +147,7 @@ class FirestoreManager {
     //UPDATE
     ///Field update
     ///Fields Update Method
-    func updateData(collection: String, 
+    func updateData(collection: String,
                     document: String,
                     fields: [String: Any]) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
@@ -204,7 +204,7 @@ class FirestoreManager {
     
     ///Data Update
     ///All Data Update Method
-    func updateData<T: Encodable>(collection: String, 
+    func updateData<T: Encodable>(collection: String,
                                   document: String,
                                   data: T) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
@@ -225,7 +225,7 @@ class FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
-
+    
     
     //DELETE
     func deleteDocument(from collection: String, document: String) -> AnyPublisher<Void, FirestoreError> {
@@ -272,6 +272,54 @@ class FirestoreManager {
 		.eraseToAnyPublisher()
 	}
     
+    func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                    return
+                }
+                
+                let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Sports? in
+                    let id = document.documentID.replacingOccurrences(of: "Letports_", with: "")
+                    let name = document.get("SportsName") as? String ?? id
+                    return TeamSelectionViewModel.Sports(id: id, name: name)
+                } ?? []
+                
+                promise(.success(sportsCategories))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func getTeamsForSports(_ sports: String) -> AnyPublisher<[TeamSelectionViewModel.Team], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Team], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").document("Letports_\(sports)")
+                .collection("SportsTeam").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                        return
+                    }
+                    
+                    let teams = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Team? in
+                        guard let teamName = document.get("TeamName") as? String,
+                              let teamLogo = document.get("TeamLogo") as? String,
+                              let teamUID = document.get("TeamUID") as? String else { return nil }
+                        print("TeamLogo URL from Firestore: \(teamLogo)")
+                        return TeamSelectionViewModel.Team(
+                            id: document.documentID,
+                            name: teamName,
+                            logoUrl: teamLogo,
+                            sports: sports,
+                            teamUID: teamUID
+                        )
+                    } ?? []
+                    
+                    promise(.success(teams))
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }
 
 extension Encodable {
