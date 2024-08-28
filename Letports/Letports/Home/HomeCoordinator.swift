@@ -38,7 +38,7 @@ extension HomeCoordinator: HomeCoordinatorDelegate {
 	}
 	
 	func pushGatheringDetailController() {
-		let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: GatheringDetailVM.dummyUser)
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: GatheringDetailVM.dummyUser, currentGatheringUid: "")
 		coordinator.start()
 		childCoordinators.append(coordinator)
 	}

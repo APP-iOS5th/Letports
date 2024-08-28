@@ -25,15 +25,17 @@ class GatheringVM {
 	
 	weak var delegate: GatheringCoordinatorDelegate?
 	
+    init() {
+        loadGatherings(forTeam: "한화이글스")
+    }
+    
 	func presentTeamChangeController() {
-		
 	}
 	
-	func pushGatheringDetailController() {
-		self.delegate?.pushGatheringDetailController()
+    func pushGatheringDetailController(gatheringUid: String ) {
+        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
 	}
-	
-	
+    
 	private var cellType: [GatheringCellType] {
 		var cellTypes: [GatheringCellType] = []
 		cellTypes.append(.recommendGatheringHeader)
@@ -55,9 +57,7 @@ class GatheringVM {
 		return self.cellType.count
 	}
 	
-	init() {
-		loadGatherings(forTeam: "한화이글스")
-	}
+	
 	
 	//Gathering 정보 가져오기
 	func loadGatherings(forTeam teamName: String) {
