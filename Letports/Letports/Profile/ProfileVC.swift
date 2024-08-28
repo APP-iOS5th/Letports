@@ -158,7 +158,20 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if gatheringIndex < viewModel.myGatherings.count {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        cell.configure(with: gathering, with:user)
+                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
+                            .sink { completion in
+                                switch completion {
+                                case .finished:
+                                    break // 작업이 성공적으로 완료된 경우
+                                case .failure(let error):
+                                    print("Error loading master user: \(error.localizedDescription)")
+                                }
+                            } receiveValue: { masterUser in
+                                DispatchQueue.main.async {
+                                    cell.configure(with: gathering, with: user, with: masterUser)
+                                }
+                            }
+                            .store(in: &cancellables)
                     }
                 }
                 return cell
@@ -175,7 +188,20 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        cell.configure(with: gathering, with:user)
+                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
+                            .sink { completion in
+                                switch completion {
+                                case .finished:
+                                    break // 작업이 성공적으로 완료된 경우
+                                case .failure(let error):
+                                    print("Error loading master user: \(error.localizedDescription)")
+                                }
+                            } receiveValue: { masterUser in
+                                DispatchQueue.main.async {
+                                    cell.configure(with: gathering, with: user, with: masterUser)
+                                }
+                            }
+                            .store(in: &cancellables)
                     }
                 }
                 return cell
