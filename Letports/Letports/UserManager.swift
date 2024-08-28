@@ -15,7 +15,6 @@ class UserManager {
     
     private init() {}
     
-    // userRole을 하면전환화면서
     func login(user: LetportsUser) {
         isLoggedIn = true
         currentUser = user
