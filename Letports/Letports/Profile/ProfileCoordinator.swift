@@ -6,6 +6,7 @@ protocol ProfileCoordinatorDelegate: AnyObject {
     func dismissViewController()
     func presentEditProfileController(user: LetportsUser)
     func presentSettingViewController()
+    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String)
 }
 
 class ProfileCoordinator: Coordinator {
@@ -27,8 +28,13 @@ class ProfileCoordinator: Coordinator {
 }
 
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
+    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
+            childCoordinators.append(coordinator)
+            coordinator.start()
+        }
+
     func presentSettingViewController() {
-        print("셋팅뷰 출력")
         navigationController.pushViewController(SettingVC(), animated: false)
     }
     

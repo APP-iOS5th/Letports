@@ -60,16 +60,18 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let gatheringId: String = "gathering008"
+    private let currentGatheringUid: String
+    private let gatheringId: String = "gathering008"
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
-	init(currentUser: LetportsUser) {
-		self.currentUser = currentUser
-		//		self.gatheringId = gatheringId
-	}
+    init(currentUser: LetportsUser, currentGatheringUid: String) {
+            self.currentUser = currentUser
+            self.currentGatheringUid = currentGatheringUid
+        }
+
 	
 	func loadData() {
 		fetchGatheringData()
@@ -104,7 +106,7 @@ class GatheringDetailVM {
 	
 	//모임데이터
 	private func fetchGatheringData() {
-		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: gatheringId, type: Gathering.self)
+        FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
