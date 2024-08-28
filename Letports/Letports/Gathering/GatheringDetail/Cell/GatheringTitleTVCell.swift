@@ -8,9 +8,8 @@
 import UIKit
 
 protocol GatheringTitleTVCellDelegate: AnyObject {
-	func didTapEditButton()
+	func didTapEditBtn()
 }
-
 
 final class GatheringTitleTVCell: UITableViewCell {
 	weak var delegate: GatheringTitleTVCellDelegate?
@@ -137,6 +136,6 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	@objc func editBtnTap() {
 		print("모임장편집버튼")
-		delegate?.didTapEditButton()
+		delegate?.didTapEditBtn()
 	}
 }

@@ -9,7 +9,7 @@ import UIKit
 
 protocol GatheringCoordinatorDelegate: AnyObject {
 	func presentTeamChangeController()
-    func pushGatheringDetailController(gatheringUid: String)
+	func pushGatheringDetailController(gatheringUid: String)
 }
 
 class GatheringCoordinator: Coordinator {
@@ -38,9 +38,9 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
 		print("")
 	}
 	
-    func pushGatheringDetailController(gatheringUid: String) {
+	func pushGatheringDetailController(gatheringUid: String) {
 		print("pushGathering")
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, 
+		let coordinator = GatheringDetailCoordinator(navigationController: navigationController,
 													 currentUser: GatheringDetailVM.dummyUser,
 													 currentGatheringUid: gatheringUid)
 		coordinator.start()

@@ -25,17 +25,17 @@ class GatheringVM {
 	
 	weak var delegate: GatheringCoordinatorDelegate?
 	
-    init() {
-        loadGatherings(forTeam: "한화이글스")
-    }
-    
+	init() {
+		loadGatherings(forTeam: "한화이글스")
+	}
+	
 	func presentTeamChangeController() {
 	}
 	
-    func pushGatheringDetailController(gatheringUid: String ) {
-        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
+	func pushGatheringDetailController(gatheringUid: String ) {
+		self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
 	}
-    
+	
 	private var cellType: [GatheringCellType] {
 		var cellTypes: [GatheringCellType] = []
 		cellTypes.append(.recommendGatheringHeader)

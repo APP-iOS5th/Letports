@@ -8,6 +8,18 @@
 import Foundation
 import UIKit
 
+protocol GatheringDetailCoordinatorDelegate: AnyObject {
+	func pushBoardDetail(boardPost: Post, gathering: Gathering)
+	func pushProfileView(member: GatheringMember)
+	func presentActionSheet()
+	func reportGathering()
+	func presentLeaveGatheringConfirmation()
+	func dismissAndUpdateUI()
+	func showError(message: String)
+	func gatheringDetailBackBtnTap()
+	func pushGatherSettingView(gatheringUid: String)
+}
+
 class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
@@ -26,17 +38,23 @@ class GatheringDetailCoordinator: Coordinator {
 	}
 }
 
-
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
-	func showBoardDetail(boardPost: Post, gathering: Gathering) {
-		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
-																	 postUID: boardPost.postUID,
-																	 gathering: gathering)
-		childCoordinators.append(boardDetailCoordinator)
-		boardDetailCoordinator.start()
+	func pushGatherSettingView(gatheringUid: String) {
+		let coordinator = GatherSettingCoordinator(navigationController: navigationController,
+												   gatheringUid: gatheringUid)
+		childCoordinators.append(coordinator)
+		coordinator.start()
 	}
 	
-	func showProfileView(member: GatheringMember) {
+	func pushBoardDetail(boardPost: Post, gathering: Gathering) {
+		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
+														  postUID: boardPost.postUID,
+														  gathering: gathering)
+		childCoordinators.append(coordinator)
+		coordinator.start()
+	}
+	
+	func pushProfileView(member: GatheringMember) {
 		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
 		childCoordinators.append(coordinator)
 		coordinator.start()
@@ -46,7 +64,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
 		let leaveAction = UIAlertAction(title: "모임 나가기", style: .destructive) { [weak self] _ in
-			self?.showLeaveGatheringConfirmation()
+			self?.presentLeaveGatheringConfirmation()
 		}
 		
 		let reportAction = UIAlertAction(title: "신고하기", style: .default) { [weak self] _ in
@@ -62,7 +80,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
 	
-	func showLeaveGatheringConfirmation() {
+	func presentLeaveGatheringConfirmation() {
 		let alertController = UIAlertController(title: "모임 탈퇴",
 												message: "정말로 모임을 탈퇴하시겠습니까?",
 												preferredStyle: .alert)

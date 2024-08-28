@@ -229,7 +229,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 	private func removeJoinView() {
 		if let joinView = self.joinView {
 			self.view.bringSubviewToFront(joinView)
-			// 애니메이션과 함께 JoinView를 제거
 			UIView.animate(withDuration: 0.3, animations: {
 				joinView.alpha = 0
 			}) { _ in
@@ -247,6 +246,10 @@ extension GatheringDetailVC: JoinViewDelegate {
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
+	func didTapEditBtn(gathering: Gathering) {
+		viewModel.showGatherSettingView()
+	}
+	
 	func didTapProfileImage(profile: GatheringMember) {
 		viewModel.didTapProfile(member: profile)
 	}
@@ -278,6 +281,12 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	}
 }
 
+extension GatheringDetailVC: GatheringTitleTVCellDelegate {
+	func didTapEditBtn() {
+		viewModel.showGatherSettingView()
+	}
+}
+
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -294,6 +303,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				cell.configureCell(data: gathering,
 								   currentUser: viewModel.getCurrentUserInfo(),
 								   masterNickname: viewModel.masterNickname)
+				cell.delegate = self
 				return cell
 			}
 		case .separator:
@@ -374,3 +384,4 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		showUserView(existingView: &joinView, gathering: gathering)
 	}
 }
+

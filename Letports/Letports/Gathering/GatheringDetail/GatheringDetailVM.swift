@@ -15,17 +15,6 @@ protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
-protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func showBoardDetail(boardPost: Post, gathering: Gathering)
-	func showProfileView(member: GatheringMember)
-	func presentActionSheet()
-	func reportGathering()
-	func showLeaveGatheringConfirmation()
-	func dismissAndUpdateUI()
-	func showError(message: String)
-	func gatheringDetailBackBtnTap()
-}
-
 enum GatheringDetailCellType {
 	case gatheringImage
 	case gatheringTitle
@@ -71,6 +60,10 @@ class GatheringDetailVM {
 		self.currentGatheringUid = currentGatheringUid
 	}
 	
+	func showGatherSettingView() {
+		guard let gatheringUid = gathering?.gatheringUid else { return }
+		self.delegate?.pushGatherSettingView(gatheringUid: gatheringUid)
+	}
 	
 	func loadData() {
 		fetchGatheringData()
@@ -79,11 +72,12 @@ class GatheringDetailVM {
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
-		self.delegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
+		guard let gathering = self.gathering else { return}
+		self.delegate?.pushBoardDetail(boardPost: boardPost, gathering: gathering)
 	}
 	
 	func didTapProfile(member: GatheringMember) {
-		self.delegate?.showProfileView(member: member)
+		self.delegate?.pushProfileView(member: member)
 	}
 	
 	func showActionSheet() {
@@ -91,7 +85,7 @@ class GatheringDetailVM {
 	}
 	
 	func leaveGathering() {
-		delegate?.showLeaveGatheringConfirmation()
+		delegate?.presentLeaveGatheringConfirmation()
 	}
 	
 	func reportGathering() {
