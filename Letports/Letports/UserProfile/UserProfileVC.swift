@@ -132,7 +132,7 @@ extension UserProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.userGatherings.count {
                     let gathering = viewModel.userGatherings[gatheringIndex]
-					cell.configure(with: gathering, with: <#LetportsUser#>)
+					cell.configure(with: gathering)
                 }
                 return cell
             }

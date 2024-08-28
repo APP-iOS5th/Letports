@@ -13,9 +13,9 @@ class GatheringDetailCoordinator: Coordinator {
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
 	
-	init(navigationController: UINavigationController, currentUser: LetportsUser) {
+	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
 		self.navigationController = navigationController
-		self.viewModel = GatheringDetailVM(currentUser: currentUser)
+		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
 		self.viewModel.delegate = self
 	}
 	
