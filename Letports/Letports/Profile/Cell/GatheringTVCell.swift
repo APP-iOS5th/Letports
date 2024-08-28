@@ -19,6 +19,16 @@ class GatheringTVCell: UITableViewCell {
         return iv
     }()
     
+    private lazy var isGatheringMasterIV: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.image = UIImage(systemName: "crown.fill")
+        iv.tintColor = .lp_main
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
     private lazy var gatheringName: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
@@ -37,7 +47,6 @@ class GatheringTVCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     private  lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
@@ -104,7 +113,7 @@ class GatheringTVCell: UITableViewCell {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
+        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate, isGatheringMasterIV].forEach {
             containerView.addSubview($0)
         }
         
@@ -115,6 +124,11 @@ class GatheringTVCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 90),
+            
+            isGatheringMasterIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 18),
+            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 18),
             
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
@@ -129,8 +143,8 @@ class GatheringTVCell: UITableViewCell {
             gatheringInfo.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             
             gatheringMasterIV.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
-            gatheringMasterIV.widthAnchor.constraint(equalToConstant: 12),
-            gatheringMasterIV.heightAnchor.constraint(equalToConstant: 12),
+            gatheringMasterIV.widthAnchor.constraint(equalToConstant: 10),
+            gatheringMasterIV.heightAnchor.constraint(equalToConstant: 10),
             gatheringMasterIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             
             gatheringMasterName.leadingAnchor.constraint(equalTo: gatheringMasterIV.trailingAnchor, constant: 4),
@@ -159,7 +173,13 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Gathering) {
+    func configure(with gathering: Gathering, isGatheringMaster: Bool) {
+        if isGatheringMaster == false {
+            isGatheringMasterIV.isHidden = true
+        }
+        else if isGatheringMaster == true {
+            isGatheringMasterIV.isHidden = false
+        }
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

@@ -157,7 +157,16 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
                     let gathering = viewModel.myGatherings[gatheringIndex]
-                    cell.configure(with: gathering)
+                    if let user = viewModel.user {
+                        if user.uid == gathering.gatheringMaster {
+                            print("\(user.uid) - \(gathering.gatheringMaster)")
+                            cell.configure(with: gathering, isGatheringMaster: true)
+                        }
+                        else {
+                            print("\(user.uid) - \(gathering.gatheringMaster)")
+                            cell.configure(with: gathering, isGatheringMaster: false)
+                        }
+                    }
                 }
                 return cell
             }
@@ -172,7 +181,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
-                    cell.configure(with: gathering)
+                    cell.configure(with: gathering, isGatheringMaster: false)
                 }
                 return cell
             }
