@@ -59,7 +59,7 @@ enum ScreenType {
     /// Gathering Board Editor
     case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
     /// Profile Detail  Screen
-    case smallProfile
+    case smallProfile(userName: String)
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
     /// Gathering Upload, Update Screen
@@ -83,8 +83,8 @@ enum ScreenType {
             return gatheringName
         case .smallBoardEditor(_, let isUpload):
             return isUpload ? "게시글 작성" : "게시글 수정"
-        case .smallProfile:
-            return "프로필"
+        case .smallProfile(let userName):
+            return userName
         case .smallGatheringSetting:
             return "소모임 설정"
         case .smallUploadGathering(_, let isUpdate):
