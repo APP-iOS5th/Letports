@@ -245,7 +245,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapProfileImage(profile: GatheringMember) {
 		viewModel.didTapProfile(member: profile)
-		print("뷰컨트롤러로 전달")
 	}
 	
 	func didTapCell(boardPost: Post) {

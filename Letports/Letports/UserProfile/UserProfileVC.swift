@@ -11,6 +11,8 @@ import Kingfisher
 
 
 class UserProfileVC: UIViewController {
+
+	
     private var viewModel: UserProfileVM
     private var cancellables: Set<AnyCancellable> = []
     
@@ -26,6 +28,7 @@ class UserProfileVC: UIViewController {
     private lazy var navigationView: CustomNavigationView = {
         let username = viewModel.user?.nickname
         let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile(userName: username ?? ""))
+		view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -136,6 +139,18 @@ extension UserProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
             return UITableViewCell()
         }
-        
-    
+}
+
+extension UserProfileVC: CustomNavigationDelegate {
+	func smallRightBtnDidTap() {
+	
+	}
+	
+	func sportsSelectBtnDidTap() {
+	
+	}
+	
+	func backBtnDidTap() {
+		viewModel.userProfileBackBtn()
+	}
 }

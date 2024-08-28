@@ -34,10 +34,9 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	}
 	
 	func showProfileView(member: GatheringMember) {
-		print("코디네이터로 전달")
-//		let profileCoordinator = ProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
-//		childCoordinators.append()
-//		profileCoordinator.start()
+		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
+		childCoordinators.append(coordinator)
+		coordinator.start()
 	}
 	
 	func presentActionSheet() {

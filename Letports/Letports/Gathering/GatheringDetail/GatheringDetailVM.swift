@@ -341,11 +341,11 @@ class GatheringDetailVM {
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
-		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg기",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
 		myGathering: ["gathering012"],
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user011",
+		uid: "user012",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)
