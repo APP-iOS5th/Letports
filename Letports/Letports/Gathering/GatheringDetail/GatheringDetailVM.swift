@@ -354,7 +354,7 @@ class GatheringDetailVM {
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering015"],
+//		myGathering: ["gathering015"],
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
 		uid: "user011",

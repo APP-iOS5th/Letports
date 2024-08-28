@@ -583,6 +583,54 @@ let path: [FirestorePathComponent] = [
         .eraseToAnyPublisher()
     }
     
+    func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                    return
+                }
+                
+                let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Sports? in
+                    let id = document.documentID.replacingOccurrences(of: "Letports_", with: "")
+                    let name = document.get("SportsName") as? String ?? id
+                    return TeamSelectionViewModel.Sports(id: id, name: name)
+                } ?? []
+                
+                promise(.success(sportsCategories))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func getTeamsForSports(_ sports: String) -> AnyPublisher<[TeamSelectionViewModel.Team], FirestoreError> {
+        return Future<[TeamSelectionViewModel.Team], FirestoreError> { promise in
+            FIRESTORE.collection("Sports").document("Letports_\(sports)")
+                .collection("SportsTeam").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                        return
+                    }
+                    
+                    let teams = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Team? in
+                        guard let teamName = document.get("TeamName") as? String,
+                              let teamLogo = document.get("TeamLogo") as? String,
+                              let teamUID = document.get("TeamUID") as? String else { return nil }
+                        print("TeamLogo URL from Firestore: \(teamLogo)")
+                        return TeamSelectionViewModel.Team(
+                            id: document.documentID,
+                            name: teamName,
+                            logoUrl: teamLogo,
+                            sports: sports,
+                            teamUID: teamUID
+                        )
+                    } ?? []
+                    
+                    promise(.success(teams))
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }
 
 extension Encodable {
