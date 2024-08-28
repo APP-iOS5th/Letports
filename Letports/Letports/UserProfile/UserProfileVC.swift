@@ -111,7 +111,9 @@ extension UserProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
             if let cell: UserProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(with: viewModel.user!)
+                if let user = viewModel.user {
+                    cell.configure(with: user)
+                }
                 return cell
             }
         case .userGatheringHeader:

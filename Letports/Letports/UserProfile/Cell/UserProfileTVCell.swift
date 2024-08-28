@@ -51,7 +51,6 @@ class UserProfileTVCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.selectionStyle = .none
-        setupUI()
     }
     
     private func setupUI() {
