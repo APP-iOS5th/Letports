@@ -52,6 +52,10 @@ class ProfileVM {
         self.delegate?.presentEditProfileController(user: user!)
     }
     
+    func gatheringCellTapped(gatheringUID: String) {
+        self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
+    }
+    
     func settingButtonTapped() {
         self.delegate?.presentSettingViewController()
     }
