@@ -84,21 +84,14 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 	// MARK: - 높이계산
 	private func updateTableViewHeight() {
 		guard let viewModel = viewModel else { return }
-		let newHeight = board.isEmpty ? 300 : viewModel.calculateBoardHeight()
+		let newHeight = viewModel.calculateBoardHeight()
 		tableViewHeightConstraint?.constant = newHeight
 		layoutIfNeeded()
 	}
 	
 	private func updateEmptyState() {
 		emptyStateLabel.isHidden = !board.isEmpty
-		tableView.isHidden = board.isEmpty
 	}
-//	private func updateTableViewHeight() {
-//		guard let viewModel = viewModel else { return }
-//		let newHeight = viewModel.calculateBoardHeight()
-//		tableViewHeightConstraint?.constant = newHeight
-//		layoutIfNeeded()
-//	}
 }
 
 

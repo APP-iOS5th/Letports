@@ -83,7 +83,6 @@ extension GatheringDetailProfileTVCell: UICollectionViewDelegateFlowLayout {
 
 extension GatheringDetailProfileTVCell: GatheringDetailProfileCVCellDelegate {
 	func didTapProfile(member: GatheringMember) {
-		print("TVCell로 전달")
 		print("TVCell: \(member)")
 		delegate?.didTapProfileImage(profile: member)
 	}

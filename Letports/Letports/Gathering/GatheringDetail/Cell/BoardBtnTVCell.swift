@@ -14,7 +14,7 @@ protocol BoardBtnTVCellDelegate: AnyObject {
 final class BoardBtnTVCell: UITableViewCell {
 	
 	private let boardButtonTypes: [BoardBtnType] = [.all, .noti, .free]
-	private var selectedButtonIndex: Int?
+	private var selectedButtonIndex: Int
 	weak var delegate: BoardBtnTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
@@ -30,6 +30,7 @@ final class BoardBtnTVCell: UITableViewCell {
 	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		self.selectedButtonIndex = 1
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
 		contentView.backgroundColor = .lp_background_white
@@ -38,6 +39,10 @@ final class BoardBtnTVCell: UITableViewCell {
 		collectionView.delegate = self
 		collectionView.register(BoardBtnCVCell.self,
 								forCellWithReuseIdentifier: "BoardBtnCVCell")
+		// 초기 선택 상태를 delegate에 알림
+		DispatchQueue.main.async { [weak self] in
+			self?.delegate?.didSelectBoardType(.all)
+		}
 	}
 	
 	required init?(coder: NSCoder) {
@@ -107,7 +112,7 @@ extension BoardBtnTVCell: ButtonStateDelegate {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool) {
 		if let indexPath = collectionView.indexPath(for: button.superview?.superview as! UICollectionViewCell) {
 			selectedButtonIndex = indexPath.item
-			let selectedType = boardButtonTypes[selectedButtonIndex!]
+			let selectedType = boardButtonTypes[selectedButtonIndex]
 			delegate?.didSelectBoardType(selectedType)
 		}
 		collectionView.reloadData()

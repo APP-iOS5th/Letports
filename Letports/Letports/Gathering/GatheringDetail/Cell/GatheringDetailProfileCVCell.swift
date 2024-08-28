@@ -77,7 +77,6 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	}
 	
 	@objc private func imageTap() {
-		print("이미지 버튼이 클릭되었습니다.")
 		guard let profile = profile else { return }
 		delegate?.didTapProfile(member: profile)
 	}

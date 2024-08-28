@@ -105,6 +105,7 @@ final class GatheringDetailVC: UIViewController {
 	}
 	
 	private func updateJoinBtn(for status: MembershipStatus) {
+		print("status: \(status)")
 		switch status {
 		case .notJoined:
 			joinBtn.setTitle("가입하기", for: .normal)

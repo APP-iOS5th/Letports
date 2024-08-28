@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegate {
+class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
@@ -24,7 +24,10 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 		let vc = GatheringDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(vc, animated: true)
 	}
-	
+}
+
+
+extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func showBoardDetail(boardPost: Post, gathering: Gathering) {
 		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
 																	 postUID: boardPost.postUID,
@@ -93,4 +96,5 @@ class GatheringDetailCoordinator: Coordinator, GatheringDetailCoordinatorDelegat
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}
+	
 }

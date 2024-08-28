@@ -73,6 +73,7 @@ class GatheringDetailVM {
 	func loadData() {
 		fetchGatheringData()
 		fetchBoardData()
+		updateMembershipStatus()
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
@@ -286,7 +287,6 @@ class GatheringDetailVM {
 	private func updateMembershipStatus() {
 		guard let gathering = self.gathering else {
 			self.membershipStatus = .notJoined
-			print("가입중인지 아닌지: \(self.membershipStatus)")
 			return
 		}
 		
@@ -335,17 +335,20 @@ class GatheringDetailVM {
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
 		let cellHeight: CGFloat = 70 + 12
-		return CGFloat(numberOfRows) * cellHeight
+		let calculatedHeight = CGFloat(numberOfRows) * cellHeight
+		
+		// 기본 높이를 300으로 설정하고, 계산된 높이가 300을 초과할 경우에만 그 값을 반환
+		return max(300, calculatedHeight)
 	}
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering012"],
+		myGathering: ["gathering015"],
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user012",
+		uid: "user011",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)
