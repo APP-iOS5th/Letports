@@ -59,18 +59,18 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-    private let currentGatheringUid: String
-    private let gatheringId: String = "gathering008"
+	private let currentGatheringUid: String
+	private let gatheringId: String = "gathering008"
 	private var cancellables = Set<AnyCancellable>()
 	var updateUI: (() -> Void)?
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
-    init(currentUser: LetportsUser, currentGatheringUid: String) {
-            self.currentUser = currentUser
-            self.currentGatheringUid = currentGatheringUid
-        }
-
+	init(currentUser: LetportsUser, currentGatheringUid: String) {
+		self.currentUser = currentUser
+		self.currentGatheringUid = currentGatheringUid
+	}
+	
 	
 	func loadData() {
 		fetchGatheringData()
@@ -105,7 +105,7 @@ class GatheringDetailVM {
 	
 	//모임데이터
 	private func fetchGatheringData() {
-        FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
+		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -136,6 +136,7 @@ class GatheringDetailVM {
 				}
 			}, receiveValue: { [weak self] posts in
 				self?.boardData = posts
+				// 가져오면서 필터링하는 방법?
 				print("가져온 Post 객체:")
 				print(posts)
 			})
@@ -339,10 +340,9 @@ class GatheringDetailVM {
 		let cellHeight: CGFloat = 70 + 12
 		let calculatedHeight = CGFloat(numberOfRows) * cellHeight
 		
-		// 기본 높이를 300으로 설정하고, 계산된 높이가 300을 초과할 경우에만 그 값을 반환
-		return max(300, calculatedHeight)
+		// 기본 높이를 328으로 설정하고, 계산된 높이가 328을 초과할 경우에만 그 값을 반환
+		return max(328, calculatedHeight)
 	}
-	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
@@ -350,7 +350,7 @@ class GatheringDetailVM {
 		myGathering: ["gathering015"],
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user011",
+		uid: "user016",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

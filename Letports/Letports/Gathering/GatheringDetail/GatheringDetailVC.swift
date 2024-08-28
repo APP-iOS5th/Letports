@@ -59,6 +59,7 @@ final class GatheringDetailVC: UIViewController {
 	private var cancellables: Set<AnyCancellable> = []
 	weak var delegate: GatheringDetailDelegate?
 	var joinView: JoinView?
+	var isExpanded = false
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -75,6 +76,8 @@ final class GatheringDetailVC: UIViewController {
 		bindViewModel()
 		viewModel.loadData()
 		self.delegate = self
+		viewModel.selectedBoardType = .all
+		tableView.rowHeight = UITableView.automaticDimension
 	}
 	
 	// MARK: - bindVm
@@ -299,11 +302,15 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return cell
 			}
 		case .gatheringInfo:
-			if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath),
-			   let gathering = viewModel.gathering {
-				cell.configure(with: gathering.gatherInfo)
-				return cell
-			}
+			   if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath),
+				  let gathering = viewModel.gathering {
+				   cell.configure(with: gathering.gatherInfo)
+				   cell.expandBtnTap = { [weak self] isExpanded in
+					   self?.tableView.beginUpdates()
+					   self?.tableView.endUpdates()
+				   }
+				   return cell
+			   }
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
 				cell.members = viewModel.gathering?.gatheringMembers ?? []
@@ -344,9 +351,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringTitle:
 			return UITableView.automaticDimension
 		case .gatheringInfo:
-			if let cell = self.tableView.cellForRow(at: indexPath) as? GatheringDetailInfoTVCell {
-				return cell.getHeight()
-			}
 			return UITableView.automaticDimension
 		case .gatheringProfile:
 			return 80

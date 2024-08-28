@@ -14,7 +14,7 @@ protocol BoardBtnTVCellDelegate: AnyObject {
 final class BoardBtnTVCell: UITableViewCell {
 	
 	private let boardButtonTypes: [BoardBtnType] = [.all, .noti, .free]
-	private var selectedButtonIndex: Int
+	private var selectedButtonIndex: Int = 0
 	weak var delegate: BoardBtnTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
@@ -30,7 +30,6 @@ final class BoardBtnTVCell: UITableViewCell {
 	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-		self.selectedButtonIndex = 1
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
 		contentView.backgroundColor = .lp_background_white
