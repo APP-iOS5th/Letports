@@ -218,7 +218,7 @@ extension ProfileVC: ProfileDelegate {
 }
 
 extension ProfileVC: CustomNavigationDelegate {
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         self.viewModel.settingButtonTapped()
     }
 }
