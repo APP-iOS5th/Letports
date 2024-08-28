@@ -33,6 +33,7 @@ class BoardEditorVM {
     @Published private(set) var isUploading: Bool = false
     
     private(set) var postType: PostType = .free
+    private(set) var gathering: Gathering?
     
     private(set) var isEditMode: Bool
     private var postID: String?
@@ -49,7 +50,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(type: PostType, post: Post? = nil) {
+    init(type: PostType, gathering: Gathering, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -59,7 +60,7 @@ class BoardEditorVM {
         } else {
             self.isEditMode = false
         }
-        
+        self.gathering = gathering
         self.postType = type
         
         Publishers.CombineLatest($boardTitle, $boardContents)
@@ -115,8 +116,17 @@ class BoardEditorVM {
                     .store(in: &cancellables)
                     
             } else {
-                FM.setData(collection: "Board", document: post.postUID, data: post)
-                    .sink{ _ in
+                guard let gatheringUid = gathering?.gatheringUid else { return }
+                
+                let path: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(gatheringUid),
+                    .collection(.board),
+                    .document(post.postUID)
+                ]
+                
+                FM.setData(pathComponents: path, data: post)
+                    .sink { _ in
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
                         self?.delegate?.popViewController()
