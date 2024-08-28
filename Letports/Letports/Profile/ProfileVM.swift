@@ -2,7 +2,6 @@ import Foundation
 import Combine
 import FirebaseFirestore
 
-
 enum ProfileCellType {
     case profile
     case myGatheringHeader
@@ -15,8 +14,9 @@ class ProfileVM {
     @Published var user: LetportsUser?
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
-   
+    
     private var cancellables = Set<AnyCancellable>()
+    weak var delegate: ProfileCoordinatorDelegate?
     
     private var cellType: [ProfileCellType] {
         var cellTypes: [ProfileCellType] = []
@@ -32,6 +32,10 @@ class ProfileVM {
         return cellTypes
     }
     
+    init() {
+        loadUser(with: "user009")
+    }
+    
     func getCellTypes() -> [ProfileCellType] {
         return self.cellType
     }
@@ -40,79 +44,98 @@ class ProfileVM {
         return self.cellType.count
     }
     
-//    init() {
-//        loadUser()
-//    }
+    func didTapDismiss() {
+        self.delegate?.dismissViewController()
+    }
     
-//    func loadUser() {
-//        FM.getData(collection: "Users", document: "user006", type: LetportsUser.self)
-//            .sink { completion in
-//                switch completion {
-//                case .finished:
-//                    print("loadUser->finished")
-//                    break
-//                case .failure(let error):
-//                    print("loadUser->",error.localizedDescription)
-//                }
-//            } receiveValue: { [weak self] fetchedUser in
-//               // print(fetchedUser)
-//                self?.user = fetchedUser
-//                self?.fetchUserGatherings(for: fetchedUser)
-//            }
-//            .store(in: &cancellables)
-//    }
+    func profileEditButtonTapped() {
+        self.delegate?.presentEditProfileController(user: user!)
+    }
     
-//    func loadUser(withUID uid: String) -> AnyPublisher<User, FirestoreError> {
-//        return FM.getData(collection: "Users", documnet: uid, type: User.self)
-//        }
+    func gatheringCellTapped(gatheringUID: String) {
+        self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
+    }
     
+    func settingButtonTapped() {
+        self.delegate?.presentSettingViewController()
+    }
     
-//    func fetchUserGatherings(for user: LetportsUser) {
-//        // 가져올 문서 ID가 있는지 확인
-//        guard !user.myGathering.isEmpty else {
-//            self.myGatherings = []
-//            self.pendingGatherings = []
-//            return
-//        }
-//        
-//        // Gatherings 데이터를 가져오기
-//        print(user.myGathering)
-//        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
-//            .sink(receiveCompletion: { completion in
-//                switch completion {
-//                case .finished:
-//                    // 성공적으로 완료된 경우
-//                    break
-//                case .failure(let error):
-//                    print("loadUserGathering->",error.localizedDescription)
-//                }
-//            }, receiveValue: { [weak self] gatherings in
-//                guard let self = self else { return }
-//                
-//                // Gatherings 필터링
-//                let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
-//                
-//                // 필터링된 데이터를 @Published 변수에 저장
-//                self.myGatherings = myGatherings
-//                self.pendingGatherings = pendingGatherings
-//            })
-//            .store(in: &cancellables)
-//    }
+    func loadUser(with user: String) {
+        FM.getData(collection: "Users", document: user, type: LetportsUser.self)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("loadUser->finished")
+                    break
+                case .failure(let error):
+                    print("loadUser->",error.localizedDescription)
+                }
+            } receiveValue: { [weak self] fetchedUser in
+                self?.user = fetchedUser
+                self?.fetchUserGatherings(for: fetchedUser)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func loadMasterUser(with master: String) -> Future<LetportsUser, Error> {
+        return Future { promise in
+            FM.getData(collection: "Users", document: master, type: LetportsUser.self)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break // 완료된 경우, 별도의 처리가 필요하지 않음
+                    case .failure(let error):
+                        promise(.failure(error)) // Future 실패 시 전달
+                    }
+                } receiveValue: { fetchedUser in
+                    promise(.success(fetchedUser)) // Future 성공 시 전달
+                }
+                .store(in: &self.cancellables)
+        }
+    }
+    
+    func fetchUserGatherings(for user: LetportsUser) {
+        
+        guard !user.myGathering.isEmpty else {
+            self.myGatherings = []
+            self.pendingGatherings = []
+            return
+        }
+        
+        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("loadUserGathering->finished")
+                    break
+                case .failure(let error):
+                    print("loadUserGathering->",error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] gatherings in
+                guard let self = self else { return }
+                
+                let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
+                self.myGatherings = myGatherings
+                self.pendingGatherings = pendingGatherings
+            })
+            .store(in: &cancellables)
+    }
     
     private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) -> ([Gathering], [Gathering]) {
         var myGatherings: [Gathering] = []
         var pendingGatherings: [Gathering] = []
         
         for gathering in gatherings {
-            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
+            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "joined"}) {
                 myGatherings.append(gathering)
-            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "가입대기중" }) {
+            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "pending" }) {
                 pendingGatherings.append(gathering)
             }
         }
         let pendingGatheringIDs = Set(pendingGatherings.map { $0.gatheringUid })
-            myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
+        myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
         return (myGatherings, pendingGatherings)
     }
+    
 }
 

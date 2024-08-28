@@ -65,5 +65,4 @@ class CommentInputView: UIView {
 			registBtn.widthAnchor.constraint(equalToConstant: 60)
 		])
 	}
-	
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class currentMemTVCell: UITableViewCell {
+class CurrentMemTVCell: UITableViewCell {
 	
 	private let currentMem: UILabel = {
 		let lb = UILabel()

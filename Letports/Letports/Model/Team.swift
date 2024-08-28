@@ -7,11 +7,29 @@
 import Foundation
 
 struct Team: Codable {
-    let teamUID: String
-    let teamName: String
-    let teamLogo: String
-    let teamSns: [String: String]
-    let teamHomeTown: String
-    let teamStadium: String
-    let teamStartDate: String
+    var homepage: String
+    var instagram: String
+    var sportsName: String
+    var teamHomeTown: String
+    var teamLogo: String
+    var teamName: String
+    var teamStadium: String
+    var teamStartDate: String
+    var teamUID: String
+    var youtube: String
+    var youtubeChannelID: String
+    
+    enum CodingKeys: String, CodingKey {
+        case homepage = "Homepage"
+        case instagram = "Instagram"
+        case sportsName = "SportsName"
+        case teamHomeTown = "TeamHomeTown"
+        case teamLogo = "TeamLogo"
+        case teamName = "TeamName"
+        case teamStadium = "TeamStadium"
+        case teamStartDate = "TeamStartDate"
+        case teamUID = "TeamUID"
+        case youtube = "Youtube"
+        case youtubeChannelID = "YoutubeChannelID"
+    }
 }

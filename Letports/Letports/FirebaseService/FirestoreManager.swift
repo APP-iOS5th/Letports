@@ -115,6 +115,35 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
+    //Read SubCollection
+        ///Collection 안에 있는 Collection 조회
+        func getDataSubCollection<T: Decodable>(collection: String,
+                                                document: String,
+                                                subCollection: String,
+                                                subdocument: String,
+                                                type: T.Type) -> AnyPublisher<T, FirestoreError> {
+            
+            return Future<T, FirestoreError> { promise in
+                let document = FIRESTORE.collection(collection).document(document)
+                document.collection(subCollection).document(subdocument).getDocument { snapShot, error in
+                    
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                    } else if let snapShot = snapShot, snapShot.exists {
+                        do {
+                            let data = try snapShot.data(as: T.self)
+                            promise(.success(data))
+                        } catch {
+                            promise(.failure(.dataDecodingFailed))
+                        }
+                    } else {
+                        promise(.failure(.documentNotFound))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+    
     //UPDATE
     ///Field update
     ///Fields Update Method
@@ -211,6 +240,37 @@ class FirestoreManager {
         }
         .eraseToAnyPublisher()
     }
+	
+	// 특정 컬렉션의 모든 문서를 한 번의 쿼리로 가져옴
+	func getAllDocuments<T: Decodable>(collection: String, type: T.Type) -> AnyPublisher<[T], FirestoreError> {
+		return Future<[T], FirestoreError> { promise in
+			FIRESTORE.collection(collection).getDocuments { (querySnapshot, error) in
+				if let error = error {
+					promise(.failure(.unknownError(error)))
+					return
+				}
+				
+				guard let documents = querySnapshot?.documents else {
+					promise(.success([]))
+					return
+				}
+				
+				let decodedDocuments = documents.compactMap { document -> T? in
+					do {
+						var data = document.data()
+						data["postUID"] = document.documentID
+						return try Firestore.Decoder().decode(T.self, from: data)
+					} catch {
+						print("디코딩 에러: \(error)")
+						return nil
+					}
+				}
+				
+				promise(.success(decodedDocuments))
+			}
+		}
+		.eraseToAnyPublisher()
+	}
     
     func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
         return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
