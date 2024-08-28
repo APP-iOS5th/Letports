@@ -192,4 +192,20 @@ class GatheringTVCell: UITableViewCell {
         gatheringIV.kf.setImage(with: url, placeholder: placeholder)
         gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
     }
+    
+     func configure(with gathering: Gathering) {
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = gathering.gatheringMaster
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate
+        guard let url = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
+    }
 }
