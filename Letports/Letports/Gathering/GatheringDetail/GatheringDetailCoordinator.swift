@@ -96,5 +96,3 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}
-	
-}

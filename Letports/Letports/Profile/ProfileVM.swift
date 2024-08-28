@@ -52,6 +52,10 @@ class ProfileVM {
         self.delegate?.presentEditProfileController(user: user!)
     }
     
+    func gatheringCellTapped(gatheringUID: String) {
+        self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
+    }
+    
     func settingButtonTapped() {
         self.delegate?.presentSettingViewController()
     }
@@ -96,7 +100,6 @@ class ProfileVM {
                 let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
                 self.myGatherings = myGatherings
                 self.pendingGatherings = pendingGatherings
-               
             })
             .store(in: &cancellables)
     }
