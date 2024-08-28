@@ -64,16 +64,16 @@ class GatheringUploadVM {
     }
     
     
-    init(gathering: SampleGathering? = nil) {
+    init(gathering: Gathering? = nil) {
         if let gathering = gathering {
             self.isEditMode = true
-            self.gatehringID = gathering.gatheringUID
-            self.gatherNameText = gathering.gatheringName
+            self.gatehringID = gathering.gatheringUid
+            self.gatherNameText = gathering.gatherName
             self.gatherInfoText = gathering.gatherInfo
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             
-            self.loadImage(from: gathering.gatheringImage)
+            self.loadImage(from: gathering.gatherImage)
                 .sink { [weak self] image in
                     self?.selectedImage = image
                 }

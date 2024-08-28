@@ -34,10 +34,12 @@ class BoardEditorCoordinator: NSObject, Coordinator {
     }
     
     func imagePickerPresent() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        self.navigationController.present(imagePickerController, animated: true)
+        DispatchQueue.main.async {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .photoLibrary
+            self.navigationController.present(imagePickerController, animated: true)
+        }
     }
     
     func albumAccessDeniedAlert() {

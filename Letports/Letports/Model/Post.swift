@@ -7,8 +7,9 @@
 import Foundation
 
 enum PostType: String, Codable {
-case free
-case noti
+    case all
+    case free
+    case noti
 }
 
 struct Post: Codable {

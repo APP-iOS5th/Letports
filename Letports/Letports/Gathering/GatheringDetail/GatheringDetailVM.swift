@@ -24,6 +24,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func dismissAndUpdateUI()
 	func showError(message: String)
 	func gatheringDetailBackBtnTap()
+    func pushPostUploadViewController(type: PostType, gathering: Gathering)
 }
 
 enum GatheringDetailCellType {
@@ -38,9 +39,9 @@ enum GatheringDetailCellType {
 }
 // 게시판버튼 유형
 enum BoardBtnType: String {
-	case all = "All"
-	case noti = "Noti"
-	case free = "Free"
+	case all
+	case noti
+	case free
 }
 // 가입상태
 enum MembershipStatus {
@@ -342,6 +343,12 @@ class GatheringDetailVM {
 		// 기본 높이를 300으로 설정하고, 계산된 높이가 300을 초과할 경우에만 그 값을 반환
 		return max(300, calculatedHeight)
 	}
+    
+    func didTapUploadBtn(type: PostType) {
+        guard let gathering = self.gathering else { return }
+        self.delegate?.pushPostUploadViewController(type: type, gathering: gathering)
+    }
+    
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
@@ -361,7 +368,7 @@ class GatheringDetailVM {
 		case .all:
 			return boardData
 		case .noti, .free:
-			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
+            return boardData.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
 		}
 	}
 }

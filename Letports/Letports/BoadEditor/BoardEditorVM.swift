@@ -32,6 +32,8 @@ class BoardEditorVM {
     @Published private(set) var boardPhotos: [UIImage] = []
     @Published private(set) var isUploading: Bool = false
     
+    private(set) var postType: PostType = .free
+    
     private(set) var isEditMode: Bool
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
@@ -47,7 +49,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(post: Post? = nil) {
+    init(type: PostType, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -57,6 +59,8 @@ class BoardEditorVM {
         } else {
             self.isEditMode = false
         }
+        
+        self.postType = type
         
         Publishers.CombineLatest($boardTitle, $boardContents)
             .map { boardTitle, boardContents in
@@ -74,7 +78,6 @@ class BoardEditorVM {
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
                 self.boardUpload(images: imageUrls)
-                self.delegate?.popViewController()
             }
             .store(in: &cancellables)
     }
@@ -100,13 +103,12 @@ class BoardEditorVM {
             let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
                                   userUID: myUserUid,
                                   title: title, contents: contents,
-                            imageUrls: images, comments: [], boardType: .free)
+                            imageUrls: images, comments: [], boardType: self.postType)
             
             if isEditMode {
                 FM.updateData(collection: "Board", document: post.postUID, data: post)
                     .sink{ _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Update")
                         self?.isUploading = false
                         self?.delegate?.popViewController()
                     }
@@ -116,7 +118,6 @@ class BoardEditorVM {
                 FM.setData(collection: "Board", document: post.postUID, data: post)
                     .sink{ _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Save")
                         self?.isUploading = false
                         self?.delegate?.popViewController()
                     }
