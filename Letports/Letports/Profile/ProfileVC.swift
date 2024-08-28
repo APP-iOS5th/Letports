@@ -109,7 +109,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 self.viewModel.gatheringCellTapped(gatheringUID: user.gatheringUid)
             }
         case .pendingGatherings:
-            let startIndex = 3 + viewModel.pendingGatherings.count
+            let startIndex = 3 + viewModel.myGatherings.count
             let userIndex = indexPath.row - startIndex
             if userIndex < viewModel.pendingGatherings.count {
                 let user = viewModel.pendingGatherings[userIndex]
@@ -158,14 +158,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if gatheringIndex < viewModel.myGatherings.count {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        if user.uid == gathering.gatheringMaster {
-                            print("\(user.uid) - \(gathering.gatheringMaster)")
-                            cell.configure(with: gathering, isGatheringMaster: true)
-                        }
-                        else {
-                            print("\(user.uid) - \(gathering.gatheringMaster)")
-                            cell.configure(with: gathering, isGatheringMaster: false)
-                        }
+                        cell.configure(with: gathering, with:user)
                     }
                 }
                 return cell
@@ -181,7 +174,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
-                    cell.configure(with: gathering, isGatheringMaster: false)
+                    if let user = viewModel.user {
+                        cell.configure(with: gathering, with:user)
+                    }
                 }
                 return cell
             }

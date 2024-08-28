@@ -23,6 +23,7 @@ class GatheringTVCell: UITableViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.isHidden = true
         iv.image = UIImage(systemName: "crown.fill")
         iv.tintColor = .lp_main
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -173,11 +174,8 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Gathering, isGatheringMaster: Bool) {
-        if isGatheringMaster == false {
-            isGatheringMasterIV.isHidden = true
-        }
-        else if isGatheringMaster == true {
+    func configure(with gathering: Gathering, with user: LetportsUser) {
+        if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
         gatheringName.text = gathering.gatherName
