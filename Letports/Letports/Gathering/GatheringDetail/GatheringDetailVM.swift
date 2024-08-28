@@ -17,9 +17,8 @@ protocol ButtonStateDelegate: AnyObject {
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showBoardDetail(boardPost: Post, gathering: Gathering)
-	func dismissJoinView()
+	func showProfileView(member: GatheringMember)
 	func presentActionSheet()
-	func leaveGathering()
 	func reportGathering()
 	func showLeaveGatheringConfirmation()
 	func dismissAndUpdateUI()
@@ -76,14 +75,15 @@ class GatheringDetailVM {
 	func loadData() {
 		fetchGatheringData()
 		fetchBoardData()
-	}
-	
-	func dismissJoinView() {
-		delegate?.dismissJoinView()
+		updateMembershipStatus()
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
 		self.delegate?.showBoardDetail(boardPost: boardPost, gathering: gathering!)
+	}
+	
+	func didTapProfile(member: GatheringMember) {
+		self.delegate?.showProfileView(member: member)
 	}
 	
 	func showActionSheet() {
@@ -102,7 +102,6 @@ class GatheringDetailVM {
 	func gatheringDetailBackBtnTap() {
 		delegate?.gatheringDetailBackBtnTap()
 	}
-	
 	
 	//모임데이터
 	private func fetchGatheringData() {
@@ -290,7 +289,6 @@ class GatheringDetailVM {
 	private func updateMembershipStatus() {
 		guard let gathering = self.gathering else {
 			self.membershipStatus = .notJoined
-			print("가입중인지 아닌지: \(self.membershipStatus)")
 			return
 		}
 		
@@ -303,6 +301,9 @@ class GatheringDetailVM {
 			default:
 				self.membershipStatus = .notJoined
 			}
+		} else {
+			// 사용자가 모임 멤버 목록에 없는 경우
+			self.membershipStatus = .notJoined
 		}
 	}
 	// 모임 멤버들 정보
@@ -336,17 +337,20 @@ class GatheringDetailVM {
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
 		let cellHeight: CGFloat = 70 + 12
-		return CGFloat(numberOfRows) * cellHeight
+		let calculatedHeight = CGFloat(numberOfRows) * cellHeight
+		
+		// 기본 높이를 300으로 설정하고, 계산된 높이가 300을 초과할 경우에만 그 값을 반환
+		return max(300, calculatedHeight)
 	}
 	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
-		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg기",
-		myGathering: ["gathering012"],
-		nickname: "타이거팬",
+		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
+		myGathering: ["gathering015"],
+		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user005",
+		uid: "user011",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

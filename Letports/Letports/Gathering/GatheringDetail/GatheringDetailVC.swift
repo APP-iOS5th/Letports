@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 protocol GatheringDetailDelegate: AnyObject {
-	func didTapProfileImage()
+	func didTapProfileImage(profile: GatheringMember)
 	func didTapCell(boardPost: Post)
 }
 
@@ -105,6 +105,7 @@ final class GatheringDetailVC: UIViewController {
 	}
 	
 	private func updateJoinBtn(for status: MembershipStatus) {
+		print("status: \(status)")
 		switch status {
 		case .notJoined:
 			joinBtn.setTitle("가입하기", for: .normal)
@@ -183,7 +184,7 @@ final class GatheringDetailVC: UIViewController {
 // MARK: - extension
 extension GatheringDetailVC: JoinViewDelegate {
 	func joinViewDidTapCancel(_ joinView: JoinView) {
-		viewModel.dismissJoinView()
+		removeJoinView()
 	}
 	
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
@@ -192,7 +193,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 				switch completion {
 				case .finished:
 					print("가입 처리가 완료되었습니다.")
-					self?.viewModel.dismissJoinView()
+					self?.removeJoinView()
 					self?.viewModel.loadData() // 데이터 새로고침
 				case .failure(let error):
 					print("가입 처리 중 오류 발생: \(error)")
@@ -222,6 +223,19 @@ extension GatheringDetailVC: JoinViewDelegate {
 		}
 	}
 	
+	private func removeJoinView() {
+		if let joinView = self.joinView {
+			self.view.bringSubviewToFront(joinView)
+			// 애니메이션과 함께 JoinView를 제거
+			UIView.animate(withDuration: 0.3, animations: {
+				joinView.alpha = 0
+			}) { _ in
+				joinView.removeFromSuperview()
+				self.joinView = nil
+			}
+		}
+	}
+	
 	private func showError(message: String) {
 		let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
@@ -230,11 +244,12 @@ extension GatheringDetailVC: JoinViewDelegate {
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
+	func didTapProfileImage(profile: GatheringMember) {
+		viewModel.didTapProfile(member: profile)
+	}
+	
 	func didTapCell(boardPost: Post) {
 		viewModel.didTapBoardCell(boardPost: boardPost)
-	}
-	func didTapProfileImage() {
-		// 프로필버튼
 	}
 }
 
@@ -292,6 +307,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
 				cell.members = viewModel.gathering?.gatheringMembers ?? []
+				cell.delegate = self
 				return cell
 			}
 		case .boardButtonType:
@@ -302,6 +318,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringBoard:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
 														for: indexPath) as? GatheringDetailBoardTVCell {
+				cell.viewModel = viewModel
 				cell.board = viewModel.filteredBoardData
 				cell.membershipStatus = viewModel.membershipStatus
 				cell.delegate = self
@@ -347,6 +364,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinBtnTap() {
-		showUserView(existingView: &joinView, gathering: viewModel.gathering!)
+		guard let gathering = viewModel.gathering else {
+			return
+		}
+		showUserView(existingView: &joinView, gathering: gathering)
 	}
 }

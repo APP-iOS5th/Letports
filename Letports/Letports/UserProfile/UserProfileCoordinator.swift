@@ -12,16 +12,25 @@ class UserProfileCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController
+	let gatheringMemberUid: String
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, gatheringMemberUid: String) {
         self.navigationController = navigationController
+		self.gatheringMemberUid = gatheringMemberUid
     }
     
     func start() {
-        let userProfileVM = UserProfileVM()
+        let userProfileVM = UserProfileVM(userUID: gatheringMemberUid)
         let userProfileVC = UserProfileVC(viewModel: userProfileVM)
+		userProfileVM.delegate = self
         navigationController.pushViewController(userProfileVC, animated: false)
     }
+}
+
+extension UserProfileCoordinator: UserProfileCoordinatorDelegate {
+	func userProfileBackBtn() {
+		navigationController.popViewController(animated: true)
+	}
 }
 
 
