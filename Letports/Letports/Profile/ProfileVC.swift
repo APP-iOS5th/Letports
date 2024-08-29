@@ -94,11 +94,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cellType = viewModel.getCellTypes()[indexPath.row]
         switch cellType {
-        case .profile:
-            return indexPath
-        case .myGatherings:
-            return indexPath
-        case .pendingGatherings:
+        case .profile, .myGatherings, .pendingGatherings:
             return indexPath
         default:
             return nil
