@@ -38,7 +38,8 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTVCell.self)
+                         GatheringTVCell.self,
+                         SeparatorTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -76,6 +77,7 @@ class ProfileVC: UIViewController {
             viewModel.$myGatherings,
             viewModel.$pendingGatherings
         )
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] (user, myGathering, pendingGathering) in
             self?.tableView.reloadData()
         }
@@ -92,7 +94,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cellType = viewModel.getCellTypes()[indexPath.row]
         switch cellType {
-        case .profile, .myGatherings, .pendingGatherings:
+        case .profile:
+            return indexPath
+        case .myGatherings:
+            return indexPath
+        case .pendingGatherings:
             return indexPath
         default:
             return nil
@@ -132,6 +138,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .pendingGatheringHeader:
             return 40.0
         case .pendingGatherings:
+            return 100.0
+        case .myGatheringSeparator:
+            return 100.0
+        case .pendingGatheringSeparator:
             return 100.0
         }
     }
@@ -183,7 +193,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.myGatherings.count + 1
+                let startIndex = viewModel.myGatherings.count + 3
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
@@ -204,6 +214,16 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                             .store(in: &cancellables)
                     }
                 }
+                return cell
+            }
+        case .myGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입된 소모임이 없습니다")
+                return cell
+            }
+        case .pendingGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입대기중인 소모임이 없습니다")
                 return cell
             }
         }
