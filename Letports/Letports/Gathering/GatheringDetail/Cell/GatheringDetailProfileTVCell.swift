@@ -22,11 +22,11 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		return cv
 	}()
 	
-	var members: [GatheringMember] = [] {
-		   didSet {
-			   collectionView.reloadData()
-		   }
-	   }
+	var members: [LetportsUser] = [] {
+		didSet {
+			collectionView.reloadData()
+		}
+	}
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,7 +35,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		collectionView.backgroundColor = .lp_background_white
 		collectionView.dataSource = self
 		collectionView.delegate = self
-		collectionView.register(GatheringDetailProfileCVCell.self, 
+		collectionView.register(GatheringDetailProfileCVCell.self,
 								forCellWithReuseIdentifier: "GatheringDetailProfileCVCell")
 	}
 	
@@ -60,9 +60,9 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 		return members.count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
 	UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell", 
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell",
 															for: indexPath) as? GatheringDetailProfileCVCell else {
 			return UICollectionViewCell()
 		}
@@ -82,7 +82,7 @@ extension GatheringDetailProfileTVCell: UICollectionViewDelegateFlowLayout {
 }
 
 extension GatheringDetailProfileTVCell: GatheringDetailProfileCVCellDelegate {
-	func didTapProfile(member: GatheringMember) {
+	func didTapProfile(member: LetportsUser) {
 		delegate?.didTapProfileImage(profile: member)
 	}
 }

@@ -10,7 +10,7 @@ import UIKit
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func pushBoardDetail(boardPost: Post, gathering: Gathering)
-	func pushProfileView(member: GatheringMember)
+	func pushProfileView(member: LetportsUser)
 	func presentActionSheet()
 	func reportGathering()
 	func presentLeaveGatheringConfirmation()
@@ -18,6 +18,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func showError(message: String)
 	func gatheringDetailBackBtnTap()
 	func pushGatherSettingView(gatheringUid: String)
+	func pushPostUploadViewController(type: PostType, gathering: Gathering)
 }
 
 class GatheringDetailCoordinator: Coordinator {
@@ -39,6 +40,10 @@ class GatheringDetailCoordinator: Coordinator {
 }
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
+	func pushPostUploadViewController(type: PostType, gathering: Gathering) {
+		
+	}
+	
 	func pushGatherSettingView(gatheringUid: String) {
 		let coordinator = GatherSettingCoordinator(navigationController: navigationController,
 												   gatheringUid: gatheringUid)
@@ -54,8 +59,8 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		coordinator.start()
 	}
 	
-	func pushProfileView(member: GatheringMember) {
-		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
+	func pushProfileView(member: LetportsUser) {
+		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.uid)
 		childCoordinators.append(coordinator)
 		coordinator.start()
 	}
@@ -87,7 +92,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 		let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-			self?.viewModel.confirmLeaveGathering()
+		self?.viewModel.confirmLeaveGathering()
 		}
 		
 		alertController.addAction(cancelAction)

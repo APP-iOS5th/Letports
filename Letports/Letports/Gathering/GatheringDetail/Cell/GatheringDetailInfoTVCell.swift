@@ -79,7 +79,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	}
 	
 	private func updateExpandButtonVisibility() {
-		let size = gatheringInfoTextView.sizeThatFits(CGSize(width: gatheringInfoTextView.frame.width, 
+		let size = gatheringInfoTextView.sizeThatFits(CGSize(width: gatheringInfoTextView.frame.width,
 															 height: .greatestFiniteMagnitude))
 		expandBtn.isHidden = size.height <= maxCollapsedHeight
 	}

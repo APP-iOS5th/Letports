@@ -12,9 +12,9 @@ enum GatheringSettingCellType {
 }
 
 class GatherSettingVM {
-	@Published var gathering: Gathering?
-	@Published var pendingGatheringMembers: [GatheringMember] = []
-	@Published var joiningGatheringMembers: [GatheringMember] = []
+	@Published var gathering: SampleGathering1?
+	@Published var pendingGatheringMembers: [SampleMember] = []
+	@Published var joiningGatheringMembers: [SampleMember] = []
 	
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatherSettingCoordinatorDelegate?
@@ -67,7 +67,7 @@ class GatherSettingVM {
 	}
 	
 	func loadGathering(with GatheringUid: String) {
-		FM.getData(collection: "Gatherings", document: GatheringUid, type: Gathering.self)
+		FM.getData(collection: "Gatherings", document: GatheringUid, type: SampleGathering1.self)
 			.sink { completion in
 				switch completion {
 				case .finished:
@@ -84,13 +84,13 @@ class GatherSettingVM {
 			.store(in: &cancellables)
 	}
 	
-	func fetchGatheringMembers(for gathering: Gathering) {
+	func fetchGatheringMembers(for gathering: SampleGathering1) {
 		guard !gathering.gatheringMembers.isEmpty else {
 			self.pendingGatheringMembers = []
 			self.joiningGatheringMembers = []
 			return
 		}
-		FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
+		FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: SampleGathering1.self)
 			.map { gathering in
 				let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
 				let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }

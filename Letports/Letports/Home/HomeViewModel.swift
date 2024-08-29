@@ -40,7 +40,7 @@ struct YoutubeAPIResponse: Codable {
 class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
-    @Published var gatherings: [Gathering] = []
+    @Published var gatherings: [SampleGathering1] = []
     
     @Published var team: Team?
     
@@ -134,7 +134,7 @@ class HomeViewModel {
                 
                 // Gathering 객체로 변환하여 gatherings 배열에 저장
                 self?.gatherings = documents.compactMap { document in
-                    try? document.data(as: Gathering.self)
+                    try? document.data(as: SampleGathering1.self)
                 }
             }
     }

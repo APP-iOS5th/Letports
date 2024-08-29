@@ -83,7 +83,7 @@ class GatherUserTVCell: UITableViewCell {
 		])
 	}
 	
-	func configure(with user: GatheringMember) {
+	func configure(with user: SampleMember) {
 		nickNameLabel.text = user.nickName
 		simpleInfoLabel.text = user.simpleInfo
 		guard let url = URL(string: user.image) else {

@@ -435,6 +435,7 @@ let path: [FirestorePathComponent] = [
                     if let error = error {
                         promise(.failure(.unknownError(error)))
                     } else if let snapshot = snapshot {
+						print("snapShot,t: \(snapshot.documents),\(T.self)")
                         do {
                             let documents = try snapshot.documents.map { try $0.data(as: T.self) }
                             promise(.success(documents))

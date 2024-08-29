@@ -17,8 +17,8 @@ enum GatheringCellType {
 }
 
 class GatheringVM {
-	@Published var recommendGatherings: [Gathering] = []
-	@Published var gatheringLists: [Gathering] = []
+	@Published var recommendGatherings: [SampleGathering1] = []
+	@Published var gatheringLists: [SampleGathering1] = []
 	
 	private var cancellables = Set<AnyCancellable>()
 	private var db = Firestore.firestore()
@@ -76,7 +76,7 @@ class GatheringVM {
 				
 				// Gathering 객체로 변환하여 recommendGatherings 및 gatheringLists에 저장
 				let gatherings = documents.compactMap { document in
-					try? document.data(as: Gathering.self)
+					try? document.data(as: SampleGathering1.self)
 				}
 				
 				self?.recommendGatherings = gatherings.filter { gathering in
