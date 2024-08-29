@@ -60,7 +60,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +94,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -125,7 +125,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         thumbnailSV.addArrangedSubview(secondThumbnailSV)
         
         contentView.addSubview(containerView)
-        containerView.backgroundColor = .lp_background_white
+        contentView.backgroundColor = .lp_background_white
         
         [thumbnailSV].forEach {
             containerView.addSubview($0)
@@ -136,16 +136,24 @@ class YoutubeThumbnailTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            containerView.widthAnchor.constraint(equalToConstant: 361),
+            containerView.heightAnchor.constraint(equalToConstant: 130),
             
             thumbnailSV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             thumbnailSV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             thumbnailSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             thumbnailSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
-            firstThumbnailSV.widthAnchor.constraint(equalToConstant: 140),
+            firstThumbnailSV.widthAnchor.constraint(equalToConstant: 130),
             firstThumbnailSV.heightAnchor.constraint(equalToConstant: 70),
-            secondThumbnailSV.widthAnchor.constraint(equalToConstant: 140),
+            secondThumbnailSV.widthAnchor.constraint(equalToConstant: 130),
             secondThumbnailSV.heightAnchor.constraint(equalToConstant: 70),
+            
+            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.7),
+            firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.3),
+            
+            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.7),
+            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.3)
         ])
         
         //첫번째 썸네일 탭 제스쳐
@@ -157,21 +165,18 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         let secondThumbnailTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
         secondThumbnailSV.addGestureRecognizer(secondThumbnailTapGesture)
         secondThumbnailSV.isUserInteractionEnabled = true
-    }
-    
-  
+    }  
     
     //썸네일 탭 액션
     @objc func handleThumbnail1Tap() {
         delegate?.didTapYoutubeThumbnail(at: 0)
     }
-
+    
     @objc func handleThumbnail2Tap() {
         delegate?.didTapYoutubeThumbnail(at: 1)
     }
     
     func configure(with youtubeVideos: [YoutubeVideo]) {
-        print("Zzzzzzzzzzzzz \(youtubeVideos)")
         if let video1 = youtubeVideos.first {
             self.firstThumbnail.kf.setImage(with: video1.thumbnailURL)
             self.firstThumbnailTitle.text = video1.title

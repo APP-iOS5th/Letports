@@ -27,6 +27,7 @@ class HomeProfileTVCell: UITableViewCell {
         return view
     }()
     
+    // 팀 로고
     private lazy var teamLogo: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -36,6 +37,7 @@ class HomeProfileTVCell: UITableViewCell {
         return iv
     }()
     
+    // 팀 이름
     private lazy var teamName: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30)
@@ -45,6 +47,7 @@ class HomeProfileTVCell: UITableViewCell {
         return label
     }()
     
+    // URL 스택뷰
     private lazy var urlSV: UIStackView = {
         let sv = UIStackView()
         sv.axis = .horizontal
@@ -56,47 +59,24 @@ class HomeProfileTVCell: UITableViewCell {
         return sv
     }()
     
-    private lazy var homepageIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "Home"))
-        
-        return iv
-    }()
+    // 홈 아이콘, 이름 스택뷰
+    lazy var homeURLSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    let homeIcon = UIImageView(image: UIImage(named: "Home"))
+    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 12)
     
-    private lazy var homepageButton: UIButton = {
-        let button = UIButton(type: .system) // 시스템 스타일 버튼 생성
-        button.setTitle("홈페이지", for: .normal) // 버튼의 텍스트 설정
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12) // 텍스트의 폰트 설정
-        button.addTarget(self, action: #selector(homepageButtonTapped), for: .touchUpInside) // 버튼 클릭 시 액션 연결
-        return button
-    }()
+    // 인스타 아이콘, 이름 스택뷰
+    lazy var instagramURLSV = createSV(axis: .horizontal,
+                                       alignment: .fill,
+                                       distribution: .fillProportionally,
+                                       spacing: 4)
     
-    private lazy var instagramIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "Instagram"))
-        
-        return iv
-    }()
+    let instagramIcon = UIImageView(image: UIImage(named: "Instagram"))
+    lazy var instagramLabel = createLabel(text: "공식 인스타", fontSize: 12)
     
-    private lazy var instagramButton: UIButton = {
-        let button = UIButton(type: .system) // 시스템 스타일 버튼 생성
-        button.setTitle("공식 인스타", for: .normal) // 버튼의 텍스트 설정
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12) // 텍스트의 폰트 설정
-        button.addTarget(self, action: #selector(instagramButtonTapped), for: .touchUpInside) // 버튼 클릭 시 액션 연결
-        return button
-    }()
-    
-    private lazy var youtubeIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "Youtube"))
-        
-        return iv
-    }()
-    
-    private lazy var youtubeButton: UIButton = {
-        let button = UIButton(type: .system) // 시스템 스타일 버튼 생성
-        button.setTitle("공식 유튜브", for: .normal) // 버튼의 텍스트 설정
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12) // 텍스트의 폰트 설정
-        button.addTarget(self, action: #selector(youtubeButtonTapped), for: .touchUpInside) // 버튼 클릭 시 액션 연결
-        return button
-    }()
+    // 유튜뷰 아이콘, 이름 스택뷰
+    lazy var youtubeURLSV = createSV(axis: .horizontal, alignment: .fill, distribution: .fillProportionally, spacing: 4)
+    let youtubeIcon = UIImageView(image: UIImage(named: "Youtube"))
+    lazy var youtubeLabel = createLabel(text: "공식 유튜브", fontSize: 12)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -114,7 +94,19 @@ class HomeProfileTVCell: UITableViewCell {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [homepageIcon, homepageButton, instagramIcon, instagramButton, youtubeIcon, youtubeButton]
+        [homeIcon, homeLabel].forEach {
+            homeURLSV.addArrangedSubview($0)
+        }
+        
+        [instagramIcon, instagramLabel].forEach {
+            instagramURLSV.addArrangedSubview($0)
+        }
+        
+        [youtubeIcon, youtubeLabel].forEach {
+            youtubeURLSV.addArrangedSubview($0)
+        }
+        
+        [homeURLSV, instagramURLSV, youtubeURLSV]
             .forEach {
                 urlSV.addArrangedSubview($0)
             }
@@ -129,7 +121,7 @@ class HomeProfileTVCell: UITableViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 110),
+            containerView.heightAnchor.constraint(equalToConstant: 120),
             
             teamLogo.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             teamLogo.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -138,32 +130,26 @@ class HomeProfileTVCell: UITableViewCell {
             
             teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 16),
             teamName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            teamName.heightAnchor.constraint(equalToConstant: 40),
             
             urlSV.topAnchor.constraint(equalTo: teamName.bottomAnchor, constant: 8),
             urlSV.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 16),
             urlSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
-            urlSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8)
+            urlSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            urlSV.heightAnchor.constraint(equalToConstant: 30)
         ])
-    }
-    
-    //MARK: -Objc Methods
-    //url 탭 액션
-    @objc func homepageButtonTapped() {
-        if let team = self.team, let url = URL(string: team.homepage) {
-            delegate?.didTapSNSButton(url: url)
-        }
-    }
-    
-    @objc func instagramButtonTapped() {
-        if let team = self.team, let url = URL(string: team.instagram) {
-            delegate?.didTapSNSButton(url: url)
-        }
-    }
-    
-    @objc func youtubeButtonTapped() {
-        if let team = self.team, let url = URL(string: team.youtube) {
-            delegate?.didTapSNSButton(url: url)
-        }
+        
+        lazy var homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
+        homeURLSV.addGestureRecognizer(homeTapGesture)
+        homeURLSV.isUserInteractionEnabled = true
+        
+        lazy var instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
+        instagramURLSV.addGestureRecognizer(instaTapGesture)
+        instagramURLSV.isUserInteractionEnabled = true
+        
+        lazy var youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
+        youtubeURLSV.addGestureRecognizer(youtubeTapGesture)
+        youtubeURLSV.isUserInteractionEnabled = true
     }
     
     func configure(with team: Team) {
@@ -174,5 +160,61 @@ class HomeProfileTVCell: UITableViewCell {
             return
         }
         teamLogo.kf.setImage(with: url)
+    }
+    
+    // 스택뷰 만들기
+    func createSV(axis: NSLayoutConstraint.Axis,
+                  alignment: UIStackView.Alignment,
+                  distribution: UIStackView.Distribution,
+                  spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.alignment = alignment
+        stackView.distribution = distribution
+        stackView.spacing = spacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    // 이미지 뷰 만들기
+    func createImageView(systemName: String,
+                         tintColor: UIColor? = nil,
+                         contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImageView {
+        let imageView = UIImageView(image: UIImage(systemName: systemName))
+        if let tintColor = tintColor {
+            imageView.tintColor = tintColor
+        }
+        imageView.contentMode = contentMode
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }
+    
+    // 라벨 만들기
+    func createLabel(text: String, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+    
+    //MARK: -Objc Methods
+    //url 탭 액션
+    @objc func handleHomeTap() {
+        if let team = self.team, let url = URL(string: team.homepage) {
+            delegate?.didTapSNSButton(url: url)
+        }
+    }
+    
+    @objc func handleInstaTap() {
+        if let team = self.team, let url = URL(string: team.instagram) {
+            delegate?.didTapSNSButton(url: url)
+        }
+    }
+    
+    @objc func handleYoutubeTap() {
+        if let team = self.team, let url = URL(string: team.youtube) {
+            delegate?.didTapSNSButton(url: url)
+        }
     }
 }

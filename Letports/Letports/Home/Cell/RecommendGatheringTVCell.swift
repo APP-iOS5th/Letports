@@ -16,7 +16,11 @@ class RecommendGatheringTVCell: UITableViewCell {
     
     weak var delegate: RecommendGatheringListsDelegate?
     
-    var gatherings: [Gathering] = []
+    var gatherings: [Gathering] = [] {
+        didSet {
+            recommendGatheringListsCV.reloadData()
+        }
+    }
     
     lazy var recommendGatheringListsCV: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,6 +31,7 @@ class RecommendGatheringTVCell: UITableViewCell {
         cv.delegate = self
         cv.dataSource = self
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.registersCell(cellClasses: RecommendGatheringListsCVCell.self)
         cv.showsHorizontalScrollIndicator = false
         
         return cv
@@ -46,12 +51,13 @@ class RecommendGatheringTVCell: UITableViewCell {
     
     private func setupUI() {
         contentView.backgroundColor = .lp_background_white
+        recommendGatheringListsCV.backgroundColor = .lp_background_white
         
         contentView.addSubview(recommendGatheringListsCV)
         
         NSLayoutConstraint.activate([
             recommendGatheringListsCV.topAnchor.constraint(equalTo: contentView.topAnchor),
-            recommendGatheringListsCV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            recommendGatheringListsCV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             recommendGatheringListsCV.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             recommendGatheringListsCV.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
@@ -61,6 +67,10 @@ class RecommendGatheringTVCell: UITableViewCell {
     @objc func handleGatheringTap() {
         delegate?.didTapRecommendGathering()
     }
+    
+    func configure(gatherings: [Gathering]) {
+        self.gatherings = gatherings
+    }
 }
 
 extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -69,15 +79,14 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringCVCell", for: indexPath) as? RecommendGatheringListsCVCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringListsCVCell", for: indexPath) as? RecommendGatheringListsCVCell else {
             return UICollectionViewCell()
         }
         cell.configure(gathering: gatherings[indexPath.item])
-        print("배고프다 \(gatherings[indexPath.item])")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        return CGSize(width: 300, height: 250)
     }
 }

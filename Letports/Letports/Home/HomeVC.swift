@@ -68,14 +68,10 @@ class HomeVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: -Methods
-    
-    
-    
     //UISetting
     func setupUI() {
-        view.backgroundColor = .lpBackgroundWhite
-        
+        view.backgroundColor = .lp_background_white
+        tableView.backgroundColor = .lp_background_white
         [navigationView, tableView].forEach {
             self.view.addSubview($0)
         }
@@ -90,33 +86,7 @@ class HomeVC: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        
     }
-    
-    
-    
-    //        lazy var homeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHomeTap))
-    //        homeURLSV.addGestureRecognizer(homeTapGesture)
-    //        homeURLSV.isUserInteractionEnabled = true
-    //
-    //        lazy var instaTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleInstaTap))
-    //        instagramURLSV.addGestureRecognizer(instaTapGesture)
-    //        instagramURLSV.isUserInteractionEnabled = true
-    //
-    //        lazy var youtubeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleYoutubeTap))
-    //        youtubeURLSV.addGestureRecognizer(youtubeTapGesture)
-    //        youtubeURLSV.isUserInteractionEnabled = true
-    
-    //첫번째 썸네일 탭 제스쳐
-    //        let firstThumbnailTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail1Tap))
-    //        firstThumbnailSV.addGestureRecognizer(firstThumbnailTapGesture)
-    //        firstThumbnailSV.isUserInteractionEnabled = true
-    //
-    //        //두번째 썸네일
-    //        let secondThumbnailTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleThumbnail2Tap))
-    //        secondThumbnailSV.addGestureRecognizer(secondThumbnailTapGesture)
-    //        secondThumbnailSV.isUserInteractionEnabled = true
     
     //데이터 바인딩
     private func bindViewModel() {
@@ -128,71 +98,70 @@ class HomeVC: UIViewController {
             .store(in: &cancellables)
     }
 }
+
+extension HomeVC: CustomNavigationDelegate {
     
-    extension HomeVC: CustomNavigationDelegate {
-        
+}
+
+extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getCellCount()
     }
     
-    extension HomeVC: UITableViewDelegate, UITableViewDataSource {
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return viewModel.getCellCount()
-        }
-        
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            let cellType = self.viewModel.getCellTypes()[indexPath.row]
-            switch cellType {
-            case .profile:
-                return 110
-            case .latestVideoTitleLabel:
-                return 60
-            case .youtubeThumbnails:
-                return 160
-            case .recommendGatheringTitleLabel:
-                return 60
-            case .recommendGatheringLists:
-                return 200
-            }
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            switch self.viewModel.getCellTypes()[indexPath.row] {
-            case .profile:
-                if let cell: HomeProfileTVCell = tableView.loadCell(indexPath: indexPath) {
-                    if let team = viewModel.team {
-                        cell.delegate = self
-                        cell.team = team
-                        cell.configure(with: team)
-                    }
-                    
-                    return cell
-                }
-            case .latestVideoTitleLabel:
-                if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
-                    if let teamName = viewModel.team?.teamName {
-                        cell.configure(withTitle: "\(teamName)의 최신 영상")
-                    }
-                    return cell
-                }
-            case .youtubeThumbnails:
-                if let cell: YoutubeThumbnailTVCell = tableView.loadCell(indexPath: indexPath) {
-                    cell.delegate = self
-                    cell.configure(with: viewModel.latestYoutubeVideos)
-                    return cell
-                }
-            case .recommendGatheringTitleLabel:
-                if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
-                    cell.configure(withTitle: "추천 소모임🔥")
-                    
-                    return cell
-                }
-            case .recommendGatheringLists:
-                if let cell: RecommendGatheringTVCell = tableView.loadCell(indexPath: indexPath) {
-                    cell.delegate = self
-                    print("뷰모델입니다 \(viewModel.gatherings)")
-                    //cell.configure(gatherings: viewModel.gatherings)
-                    return cell
-                }
-            }
-            return UITableViewCell()
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = self.viewModel.getCellTypes()[indexPath.row]
+        switch cellType {
+        case .profile:
+            return 120
+        case .latestVideoTitleLabel:
+            return 60
+        case .youtubeThumbnails:
+            return 160
+        case .recommendGatheringTitleLabel:
+            return 60
+        case .recommendGatheringLists:
+            return 250
         }
     }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch self.viewModel.getCellTypes()[indexPath.row] {
+        case .profile:
+            if let cell: HomeProfileTVCell = tableView.loadCell(indexPath: indexPath) {
+                if let team = viewModel.team {
+                    cell.delegate = self
+                    cell.team = team
+                    cell.configure(with: team)
+                }
+                return cell
+            }
+        case .latestVideoTitleLabel:
+            if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
+                if let teamName = viewModel.team?.teamName {
+                    cell.configure(withTitle: "\(teamName)의 최신 영상")
+                }
+                return cell
+            }
+        case .youtubeThumbnails:
+            if let cell: YoutubeThumbnailTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
+                cell.configure(with: viewModel.latestYoutubeVideos)
+                return cell
+            }
+        case .recommendGatheringTitleLabel:
+            if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "추천 소모임🔥")
+                
+                return cell
+            }
+        case .recommendGatheringLists:
+            if let cell: RecommendGatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
+                cell.configure(gatherings: viewModel.gatherings)
+                
+                return cell
+            }
+        }
+        return UITableViewCell()
+    }
+}
