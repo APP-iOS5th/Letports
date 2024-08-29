@@ -40,6 +40,7 @@ class GatheringUploadVM {
     
     private(set) var isEditMode: Bool
     private var gatehringID: String?
+    private var boardId: String?
     
     private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
@@ -68,10 +69,10 @@ class GatheringUploadVM {
         if let gathering = gathering {
             self.isEditMode = true
             self.gatehringID = gathering.gatheringUid
-            self.gatherNameText = gathering.gatherName
             self.gatherInfoText = gathering.gatherInfo
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
+            self.gatherNameText = gathering.gatherName
             
             self.loadImage(from: gathering.gatherImage)
                 .sink { [weak self] image in
@@ -164,37 +165,59 @@ class GatheringUploadVM {
     private func gatehringUpload(imageUrl: String) {
         if let gatherName = gatherNameText,
            let gatherInfo = gatherInfoText,
-           let gatherQuestion = gatherQuestionText {
+           let gatherQuestion = gatherQuestionText,
+           let gatheringId = gatehringID {
             
-            let uuid = UUID().uuidString
+            let uuid = self.boardId == nil ? UUID().uuidString : self.boardId!
             
-            let gathering = SampleGathering(gatheringSports: "축구", gatheringTeam: "테스트",
-                                            gatheringUID: self.isEditMode ? self.gatehringID ?? uuid : uuid,
-                                            gatheringMaster: "나",
-                                            gatheringName: gatherName, gatheringImage: imageUrl,
-                                            gatherMaxMember: memMaxCount, gatherNowMember: 1,
-                                            gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
-                                            gatheringMembers: [],
-                                            gatheringCreateDate: Date(),
-                                            sportsTeam: sportsTeam)
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.gatherings),
+                .document(gatheringId),
+                .collection(.board),
+                .document(uuid)
+            ]
+            
+            let gathering = Gathering(gatherImage: imageUrl,
+                                      gatherInfo: gatherInfo,
+                                      gatherMaxMember: memMaxCount,
+                                      gatherName: gatherName,
+                                      gatherNowMember: 1,
+                                      gatherQuestion: gatherQuestion,
+                                      gatheringCreateDate: "2024-08-29",
+                                      gatheringMaster: UserManager.shared.getUserUid(),
+                                      gatheringMembers: [],
+                                      gatheringSports: "축구",
+                                      gatheringSportsTeam: "test",
+                                      gatheringUid: uuid)
+            
+//            let gathering = SampleGathering(gatheringSports: "축구", gatheringTeam: "테스트",
+//                                            gatheringUID: self.isEditMode ? self.gatehringID ?? uuid : uuid,
+//                                            gatheringMaster: "나",
+//                                            gatheringName: gatherName, gatheringImage: imageUrl,
+//                                            gatherMaxMember: memMaxCount, gatherNowMember: 1,
+//                                            gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
+//                                            gatheringMembers: [],
+//                                            gatheringCreateDate: Date(),
+//                                            sportsTeam: sportsTeam)
             
             if isEditMode {
-                FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
-                    .sink { _ in
-                    } receiveValue: { [weak self] _ in
-                        self?.isUploading = false
-                        self?.delegate?.dismissViewController()
-                    }
-                    .store(in: &cancellables)
+                
+//                FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
+//                    .sink { _ in
+//                    } receiveValue: { [weak self] _ in
+//                        self?.isUploading = false
+//                        self?.delegate?.dismissViewController()
+//                    }
+//                    .store(in: &cancellables)
             } else {
-                FM.setData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
-                    .sink { _ in
-                    } receiveValue: { [weak self] _ in
-                        print("Data Save")
-                        self?.isUploading = false
-                        self?.delegate?.dismissViewController()
-                    }
-                    .store(in: &cancellables)
+//                FM.setData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
+//                    .sink { _ in
+//                    } receiveValue: { [weak self] _ in
+//                        print("Data Save")
+//                        self?.isUploading = false
+//                        self?.delegate?.dismissViewController()
+//                    }
+//                    .store(in: &cancellables)
             }
         }
     }
