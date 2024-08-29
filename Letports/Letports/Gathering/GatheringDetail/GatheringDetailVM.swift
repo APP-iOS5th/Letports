@@ -60,6 +60,16 @@ class GatheringDetailVM {
 		self.currentGatheringUid = currentGatheringUid
 	}
 	
+	// 게시판 분류
+	var filteredBoardData: [Post] {
+		switch selectedBoardType {
+		case .all:
+			return boardData
+		case .noti, .free:
+			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
+		}
+	}
+	
 	func showGatherSettingView() {
 		guard let gatheringUid = gathering?.gatheringUid else { return }
 		self.delegate?.pushGatherSettingView(gatheringUid: gatheringUid)
@@ -96,6 +106,8 @@ class GatheringDetailVM {
 	func gatheringDetailBackBtnTap() {
 		delegate?.gatheringDetailBackBtnTap()
 	}
+	
+	
 	
 	//모임데이터
 	private func fetchGatheringData() {
@@ -348,15 +360,5 @@ class GatheringDetailVM {
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)
-	
-	// 게시판 분류
-	var filteredBoardData: [Post] {
-		switch selectedBoardType {
-		case .all:
-			return boardData
-		case .noti, .free:
-			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
-		}
-	}
 }
 

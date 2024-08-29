@@ -28,7 +28,7 @@ class GatherSettingCoordinator: Coordinator {
 	func start() {
 		let profileVC = GatherSettingVC(viewModel: viewModel)
 		viewModel.delegate = self
-		navigationController.pushViewController(profileVC, animated: false)
+		navigationController.pushViewController(profileVC, animated: true)
 	}
 	
 }

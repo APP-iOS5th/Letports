@@ -77,7 +77,7 @@ final class GatheringDetailVC: UIViewController {
 		viewModel.loadData()
 		self.delegate = self
 		viewModel.selectedBoardType = .all
-		tableView.rowHeight = UITableView.automaticDimension
+		viewModel.loadData()
 	}
 	
 	// MARK: - bindVm
@@ -262,7 +262,7 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 extension GatheringDetailVC: BoardBtnTVCellDelegate {
 	func didSelectBoardType(_ type: BoardBtnType) {
 		viewModel.selectedBoardType = type
-		tableView.reloadData()
+		
 	}
 }
 
