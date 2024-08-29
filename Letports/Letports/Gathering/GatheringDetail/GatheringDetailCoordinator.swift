@@ -96,4 +96,10 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
     func gatheringDetailBackBtnTap() {
         navigationController.popViewController(animated: true)
     }
+    
+    func pushPostUploadViewController(type: PostType, gathering: Gathering) {
+        let coordinator = BoardEditorCoordinator(navigationController: navigationController, viewModel: BoardEditorVM(type: type, gathering: gathering))
+        self.childCoordinators.append(coordinator)
+        coordinator.start()
+    }
 }

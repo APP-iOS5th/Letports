@@ -16,15 +16,15 @@ enum UserProfileCellType {
 }
 
 protocol UserProfileCoordinatorDelegate: AnyObject {
-	func userProfileBackBtn()
+    func userProfileBackBtn()
 }
 
 class UserProfileVM {
     @Published var user: LetportsUser?
     @Published var userGatherings: [Gathering] = []
- 
+    
     private var cancellables = Set<AnyCancellable>()
-	weak var delegate: UserProfileCoordinatorDelegate?
+    weak var delegate: UserProfileCoordinatorDelegate?
     
     private var cellType: [UserProfileCellType] {
         var cellTypes: [UserProfileCellType] = []
@@ -36,9 +36,9 @@ class UserProfileVM {
         return cellTypes
     }
     
-	init(userUID: String) {
-		loadUser(for: userUID)
-	}
+    init(userUID: String) {
+        loadUser(for: userUID)
+    }
     
     func getCellTypes() -> [UserProfileCellType] {
         return self.cellType
@@ -47,10 +47,10 @@ class UserProfileVM {
     func getCellCount() -> Int {
         return self.cellType.count
     }
-	
-	func userProfileBackBtn() {
-		delegate?.userProfileBackBtn()
-	}
+    
+    func userProfileBackBtn() {
+        delegate?.userProfileBackBtn()
+    }
     
     func loadUser(for user: String) {
         FM.getData(collection: "Users", document: user, type: LetportsUser.self)
@@ -75,7 +75,7 @@ class UserProfileVM {
             self.userGatherings = []
             return
         }
-        
+ 
         FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -102,7 +102,7 @@ class UserProfileVM {
                 myGatherings.append(gathering)
             }
         }
-       
+        
         return myGatherings
     }
 }

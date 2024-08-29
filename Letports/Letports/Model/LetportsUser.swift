@@ -26,3 +26,8 @@ struct LetportsUser: Codable {
         case userSportsTeam = "UserSportsTeam"
     }
 }
+
+
+struct MyGatherings: Codable {
+    let uid: String
+}
