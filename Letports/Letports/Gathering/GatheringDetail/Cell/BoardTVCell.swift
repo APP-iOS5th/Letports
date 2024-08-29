@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol BoardTVCellDelegate: AnyObject {
+	func didTapCell(boardPost: Post)
+}
+
 final class BoardTVCell: UITableViewCell {
+	
+	weak var delegate: BoardTVCellDelegate?
+	private var boardPost: Post?
 	
 	private let containerView: UIView = {
 		let view = UIView()
@@ -47,6 +54,7 @@ final class BoardTVCell: UITableViewCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		containerView.addShadow()
 		contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
 	}
 	
@@ -55,7 +63,7 @@ final class BoardTVCell: UITableViewCell {
 		setupUI()
 		tapGesture()
 		self.selectionStyle = .none
-		self.backgroundColor = .clear 
+		self.backgroundColor = .clear
 		self.contentView.backgroundColor = .clear
 	}
 	
@@ -77,7 +85,7 @@ final class BoardTVCell: UITableViewCell {
 			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-			containerView.heightAnchor.constraint(equalToConstant: 50),
+			containerView.heightAnchor.constraint(equalToConstant: 70),
 			
 			boardTypeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
 			boardTypeLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -98,16 +106,35 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: GatheringDetailVM.BoardData) {
-		createDateLabel.text = data.createDate
-		boardTypeLabel.text = data.boardType.description
-		titleLabel.text = data.title
+	func configureCell(data: Post, isActive: Bool) {
+		//		createDateLabel.text = data.createDate (데이터 없음)
+		self.boardPost = data
+		switch data.boardType {
+        case .free:
+			boardTypeLabel.text = "자유"
+        case .noti:
+			boardTypeLabel.text = "공지"
+		default:
+			boardTypeLabel.text = "전체"
+		}
+		titleLabel.text = data.contents
+		
+		self.isUserInteractionEnabled = isActive
 	}
 	
 	@objc private func cellTap() {
-		print("셀이 눌렸습니다")
+		guard let boardPost = boardPost else { return }
+		delegate?.didTapCell(boardPost: boardPost)
 	}
 }
 
-
+extension UIView {
+	func addShadow() {
+		self.layer.shadowColor = UIColor.black.cgColor
+		self.layer.shadowOpacity = 0.3
+		self.layer.shadowOffset = CGSize(width: 0, height: 5)
+		self.layer.shadowRadius = 2
+		self.layer.masksToBounds = false
+	}
+}
 

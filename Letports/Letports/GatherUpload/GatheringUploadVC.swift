@@ -77,21 +77,7 @@ class GatheringUploadVC: UIViewController {
         self.bindViewModel()
         self.setupTapGesture()
         self.uploadDebounce()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), 
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), 
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, 
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, 
-                                                  object: nil)
+        self.bindKeyboard()
     }
     
     //MARK: - Setup
@@ -131,7 +117,7 @@ class GatheringUploadVC: UIViewController {
         self.viewModel.$addButtonEnable
             .receive(on: DispatchQueue.main)
             .sink { [weak self] enable in
-                self?.navigationView.rightButtonIsEnable(enable)
+                self?.navigationView.rightBtnIsEnable(enable)
             }
             .store(in: &cancellables)
         
@@ -142,6 +128,35 @@ class GatheringUploadVC: UIViewController {
                     self?.loadingIndicatorView.startAnimating()
                 } else {
                     self?.loadingIndicatorView.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    
+    private func bindKeyboard() {
+        // 키보드가 나타날 때의 이벤트를 구독
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+            .sink { [weak self] keyboardFrame in
+                guard let self = self else { return }
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.contentInset = UIEdgeInsets(top: 0,
+                                                               left: 0,
+                                                               bottom: keyboardFrame.height,
+                                                               right: 0)
+                    self.tableView.scrollIndicatorInsets = self.tableView.contentInset
+                }
+            }
+            .store(in: &cancellables)
+        
+        // 키보드가 사라질 때의 이벤트를 구독
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.contentInset = .zero
+                    self.tableView.scrollIndicatorInsets = .zero
                 }
             }
             .store(in: &cancellables)
@@ -158,33 +173,6 @@ class GatheringUploadVC: UIViewController {
         self.view.endEditing(true)
     }
     
-    
-    @objc func keyboardUp(notification:NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            UIView.animate(
-                withDuration: 0.3,
-                animations: {
-                    self.tableView.contentInset = UIEdgeInsets(top: 0, 
-                                                               left: 0,
-                                                               bottom: keyboardRectangle.height,
-                                                               right: 0)
-                    self.tableView.scrollIndicatorInsets = self.tableView.contentInset
-                }
-            )
-        }
-    }
-    
-    @objc func keyboardDown() {
-        UIView.animate(
-            withDuration: 0.3,
-            animations: {
-                self.tableView.contentInset = .zero
-                self.tableView.scrollIndicatorInsets = .zero
-            }
-        )
-    }
-    
     private func uploadDebounce() {
         self.buttonTapSubject
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
@@ -196,15 +184,15 @@ class GatheringUploadVC: UIViewController {
 }
 
 extension GatheringUploadVC: CustomNavigationDelegate {
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         self.buttonTapSubject.send(())
     }
     
-    func sportsSelectButtonDidTap() {
+    func sportsSelectBtnDidTap() {
         
     }
     
-    func backButtonDidTap() {
+    func backBtnDidTap() {
         self.viewModel.didTapDismiss()
     }
 }

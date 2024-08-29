@@ -11,7 +11,6 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
-		lb.text = "아니 이거 맞냐?"
 		lb.textColor = .black
 		lb.font = .systemFont(ofSize: 18, weight: .semibold)
 		lb.translatesAutoresizingMaskIntoConstraints = false
@@ -28,23 +27,6 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 		tv.isScrollEnabled = false
 		tv.textContainerInset = UIEdgeInsets(top: 50, left: 16, bottom: 16, right: 16)
 		tv.translatesAutoresizingMaskIntoConstraints = false
-		tv.text = """
-내나이 1989년생 35살
-김 감독은 나를 풀타임을 뛰란다
-근데 힘들어 죽겠음
-집에 가고싶다
-원두재 영입해줘..... 나 죽어
-
-서울 - 스완지 - 선더랜드 - 뉴캐슬 - 마요르카 - 서울
-
-우승은 스완지에서만 해봤을뿐
-
-우승도 하고싶당
-
-손흥민 서울로 와서 증명해라
-
-내가 허락함
-"""
 		return tv
 	}()
 	
@@ -73,5 +55,10 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 			titleLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor, constant: 20),
 			titleLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16)
 		])
+	}
+	
+	func configure(with post: Post) {
+		titleLabel.text = post.title
+		contentTextView.text = post.contents
 	}
 }

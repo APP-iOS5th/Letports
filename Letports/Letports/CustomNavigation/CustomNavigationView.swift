@@ -59,7 +59,7 @@ enum ScreenType {
     /// Gathering Board Editor
     case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
     /// Profile Detail  Screen
-    case smallProfile
+    case smallProfile(userName: String)
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
     /// Gathering Upload, Update Screen
@@ -83,8 +83,8 @@ enum ScreenType {
             return gatheringName
         case .smallBoardEditor(_, let isUpload):
             return isUpload ? "게시글 작성" : "게시글 수정"
-        case .smallProfile:
-            return "프로필"
+        case .smallProfile(let userName):
+            return userName
         case .smallGatheringSetting:
             return "소모임 설정"
         case .smallUploadGathering(_, let isUpdate):
@@ -113,15 +113,15 @@ enum ScreenType {
 }
 
 protocol CustomNavigationDelegate: AnyObject {
-    func smallRightButtonDidTap()
-    func sportsSelectButtonDidTap()
-    func backButtonDidTap()
+    func smallRightBtnDidTap()
+    func sportsSelectBtnDidTap()
+    func backBtnDidTap()
 }
 
 extension CustomNavigationDelegate {
-    func smallRightButtonDidTap() {}
-    func sportsSelectButtonDidTap() {}
-    func backButtonDidTap() {}
+    func smallRightBtnDidTap() {}
+    func sportsSelectBtnDidTap() {}
+    func backBtnDidTap() {}
 }
 
 class CustomNavigationView: UIView {
@@ -166,7 +166,7 @@ class CustomNavigationView: UIView {
         button.setTitleColor(.black, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         
-        button.addTarget(self, action: #selector(sportsSelectButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(sportsSelectBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -187,7 +187,7 @@ class CustomNavigationView: UIView {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -216,7 +216,7 @@ class CustomNavigationView: UIView {
         button.setTitleColor(.black, for: .normal)
         button.tintColor = .black
         
-        button.addTarget(self, action: #selector(smallRightButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(smallRightBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -382,19 +382,19 @@ class CustomNavigationView: UIView {
     }
     
     
-    @objc func smallRightButtonDidTap() {
-        self.delegate?.smallRightButtonDidTap()
+    @objc func smallRightBtnDidTap() {
+        self.delegate?.smallRightBtnDidTap()
     }
     
-    @objc func sportsSelectButtonDidTap() {
-        self.delegate?.sportsSelectButtonDidTap()
+    @objc func sportsSelectBtnDidTap() {
+        self.delegate?.sportsSelectBtnDidTap()
     }
     
-    @objc func backButtonDidTap() {
-        self.delegate?.backButtonDidTap()
+    @objc func backBtnDidTap() {
+        self.delegate?.backBtnDidTap()
     }
     
-    func rightButtonIsEnable(_ isEnable: Bool) {
+    func rightBtnIsEnable(_ isEnable: Bool) {
         rightFirstButton.isEnabled = isEnable
         rightFirstButton.setTitleColor(rightFirstButton.isEnabled ? .lpBlack : .lpGray, for: .normal)
     }

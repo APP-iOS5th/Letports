@@ -1,5 +1,5 @@
 //
-//  PendingUser.swift
+//  JoiningUser.swift
 //  Letports
 //
 //  Created by mosi on 8/22/24.
@@ -7,14 +7,11 @@
 
 import UIKit
 
-protocol PendingUserViewDelegate: AnyObject {
-    func denyButtonTapped()
-    func approveButtonTapped()
-}
 
-class PendingUserView: UIView {
+class ManageUserView: UIView {
     
-    weak var delegate: PendingUserViewDelegate?
+    weak var joindelegate: ManageViewJoinDelegate?
+    weak var pendingdelegate: ManageViewPendingDelegate?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -37,7 +34,7 @@ class PendingUserView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lp_black
-        label.text = "가입질문에 답해주세요"
+        label.text = "가입질문"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -63,23 +60,20 @@ class PendingUserView: UIView {
         return textView
     }()
     
-    private lazy var denyButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("가입거절", for: .normal)
-        btn.backgroundColor = UIColor(named: "lp_tint")
+
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(denyButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
-    private lazy var approveButton: UIButton = {
+    private lazy var expelButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("가입승인", for: .normal)
-        btn.backgroundColor = UIColor(named: "lp_main")
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(approveButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(expelButtonTapped), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -97,8 +91,9 @@ class PendingUserView: UIView {
     
     private func setupUI() {
         self.addSubview(containerView)
-        
-        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, denyButton, approveButton].forEach {
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, expelButton].forEach {
             containerView.addSubview($0)
         }
         
@@ -109,12 +104,12 @@ class PendingUserView: UIView {
             containerView.heightAnchor.constraint(equalToConstant: 468),
             
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             
             plzAnswerLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-            
-            questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 14),
+            plzAnswerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+          
+            questionTextView.topAnchor.constraint(equalTo: plzAnswerLabel.bottomAnchor, constant: 5),
             questionTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             questionTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             questionTextView.heightAnchor.constraint(equalToConstant: 72),
@@ -124,29 +119,51 @@ class PendingUserView: UIView {
             answerTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             answerTextView.heightAnchor.constraint(equalToConstant: 252),
             
-            denyButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            denyButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            denyButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            denyButton.widthAnchor.constraint(equalToConstant: 162),
-            denyButton.heightAnchor.constraint(equalToConstant: 30),
+            cancelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            cancelButton.widthAnchor.constraint(equalToConstant: 162),
+            cancelButton.heightAnchor.constraint(equalToConstant: 30),
             
-            approveButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            approveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            approveButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            approveButton.widthAnchor.constraint(equalToConstant: 162),
-            approveButton.heightAnchor.constraint(equalToConstant: 30),
+            expelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            expelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            expelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            expelButton.widthAnchor.constraint(equalToConstant: 162),
+            expelButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     
-    @objc private func denyButtonTapped() {
-        delegate?.denyButtonTapped()
+    @objc private func cancelButtonTapped() {
+        if joindelegate != nil {
+            joindelegate?.expelGathering()
+        }
+        if pendingdelegate != nil {
+            pendingdelegate?.denyJoinGathering()
+        }
     }
     
-    @objc private func approveButtonTapped() {
-        delegate?.approveButtonTapped()
+    @objc private func expelButtonTapped() {
+        if joindelegate != nil {
+            joindelegate?.expelGathering()
+        }
+        if pendingdelegate != nil {
+            pendingdelegate?.apporveJoinGathering()
+        }
     }
     
     func configure(with user: GatheringMember, with gathering: Gathering) {
+        if joindelegate != nil {
+            cancelButton.setTitle("취소", for: .normal)
+            cancelButton.backgroundColor = UIColor(named: "lp_gray")
+            expelButton.setTitle("추방", for: .normal)
+            expelButton.backgroundColor = UIColor(named: "lp_tint")
+        }
+        if pendingdelegate != nil {
+            cancelButton.setTitle("거절", for: .normal)
+            cancelButton.backgroundColor = UIColor(named: "lp_tint")
+            expelButton.setTitle("승인", for: .normal)
+            expelButton.backgroundColor = UIColor(named: "lp_main")
+        }
         titleLabel.text = gathering.gatherName
         questionTextView.text = gathering.gatherQuestion
         answerTextView.text = user.answer
