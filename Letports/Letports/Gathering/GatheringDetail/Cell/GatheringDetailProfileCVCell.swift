@@ -69,11 +69,11 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	}
 	
 	func configure(member: GatheringMember) {
-		self.profile = member
-		self.userNickName.text = member.nickName
-		if let url = URL(string: member.image) {
-			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
-		}
+//		self.profile = member
+//		self.userNickName.text = member.nickName
+//		if let url = URL(string: member.image) {
+//			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
+//		}
 	}
 	
 	@objc private func imageTap() {

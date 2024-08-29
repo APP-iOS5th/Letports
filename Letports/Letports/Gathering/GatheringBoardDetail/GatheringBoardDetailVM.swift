@@ -60,15 +60,15 @@ final class GatheringBoardDetailVM {
 	}
 	
 	private func printMemberDetails(_ member: GatheringMember) {
-		print("=== 게시글 작성자 정보 ===")
-		print("닉네임: \(member.nickName)")
-		print("유저 UID: \(member.userUID)")
-		print("프로필 이미지 URL: \(member.image)")
-		print("가입 날짜: \(member.joinDate)")
-		print("가입 상태: \(member.joinStatus)")
-		print("답변: \(member.answer)")
-		print("간단 정보: \(member.simpleInfo)")
-		print("========================")
+//		print("=== 게시글 작성자 정보 ===")
+//		print("닉네임: \(member.nickName)")
+//		print("유저 UID: \(member.userUID)")
+//		print("프로필 이미지 URL: \(member.image)")
+//		print("가입 날짜: \(member.joinDate)")
+//		print("가입 상태: \(member.joinStatus)")
+//		print("답변: \(member.answer)")
+//		print("간단 정보: \(member.simpleInfo)")
+//		print("========================")
 	}
 	
 	private func printBoardPostDetails() {
