@@ -127,17 +127,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .profile:
             return 120.0
-        case .myGatheringHeader:
+        case .myGatheringHeader, .pendingGatheringHeader:
             return 40.0
-        case .myGatherings:
-            return 100.0
-        case .pendingGatheringHeader:
-            return 40.0
-        case .pendingGatherings:
-            return 100.0
-        case .myGatheringSeparator:
-            return 100.0
-        case .pendingGatheringSeparator:
+        case .myGatherings, .pendingGatherings, .myGatheringSeparator, .pendingGatheringSeparator:
             return 100.0
         }
     }
