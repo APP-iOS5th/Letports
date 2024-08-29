@@ -128,7 +128,7 @@
 		F77526042C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */; };
 		F78A24C22C7C4C8E00471331 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78A24C12C7C4C8E00471331 /* Team.swift */; };
 		F78A24C32C7C595C00471331 /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
-		F7C1AA652C746A7C009D0728 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */; };
+		F7C1AA652C746A7C009D0728 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeVM.swift */; };
 		F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA662C746A94009D0728 /* URLVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -268,7 +268,7 @@
 		F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringTVCell.swift; sourceTree = "<group>"; };
 		F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringListsCVCell.swift; sourceTree = "<group>"; };
 		F78A24C12C7C4C8E00471331 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
-		F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F7C1AA642C746A7C009D0728 /* HomeVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		F7C1AA662C746A94009D0728 /* URLVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -406,7 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				B824713A2C647F9F0067BD09 /* HomeVC.swift */,
-				F7C1AA642C746A7C009D0728 /* HomeViewModel.swift */,
+				F7C1AA642C746A7C009D0728 /* HomeVM.swift */,
 				B82471422C64994E0067BD09 /* HomeCoordinator.swift */,
 				F7C1AA662C746A94009D0728 /* URLVC.swift */,
 				F77526022C7DBF610046E5F9 /* Cell */,
@@ -669,9 +669,9 @@
 		F77526022C7DBF610046E5F9 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */,
-				F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */,
 				F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */,
+				F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */,
+				F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */,
 				F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */,
 				F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */,
 			);
@@ -923,7 +923,7 @@
 				4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */,
-				F7C1AA652C746A7C009D0728 /* HomeViewModel.swift in Sources */,
+				F7C1AA652C746A7C009D0728 /* HomeVM.swift in Sources */,
 				4143E4592C6B47DF001AB3E0 /* BoardEditorVM.swift in Sources */,
 				BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */,
 				BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */,
