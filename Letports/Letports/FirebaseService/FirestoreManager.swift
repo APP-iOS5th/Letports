@@ -19,6 +19,8 @@ enum LetportsCollection: String {
     case sports = "Sports"
     case board = "Baord"
     case comment = "Comment"
+    case myGathering = "MyGatherings"
+    case gatheringMembers = "GatheringMembers"
 }
 
 
@@ -381,7 +383,7 @@ let path: [FirestorePathComponent] = [
         .document("boardID456")]
     ```
     */
-    func getData<T: Decodable>(pathComponents: [FirestorePathComponent], 
+    func getData<T: Decodable>(pathComponents: [FirestorePathComponent],
                                type: T.Type) -> AnyPublisher<[T], FirestoreError> {
         return Future<[T], FirestoreError> { promise in
             var reference: DocumentReference? = nil
@@ -392,14 +394,18 @@ let path: [FirestorePathComponent] = [
                 case .collection(let collection):
                     if let ref = reference {
                         collectionReference = ref.collection(collection.rawValue)
+                        reference = nil // 문서에서 컬렉션으로 이동했으므로 reference 초기화
+                    } else if let colRef = collectionReference {
+                        collectionReference = colRef // 이미 컬렉션 참조가 있을 때는 동일하게 유지
                     } else {
                         collectionReference = FIRESTORE.collection(collection.rawValue)
                     }
                 case .document(let document):
                     if let colRef = collectionReference {
                         reference = colRef.document(document)
+                        collectionReference = nil // 컬렉션에서 문서로 이동했으므로 collectionReference 초기화
                     } else {
-                        promise(.failure(.unknownError(NSError(domain: "FirestoreError", 
+                        promise(.failure(.unknownError(NSError(domain: "FirestoreError",
                                                                code: 0,
                                                                userInfo: [NSLocalizedDescriptionKey: "Invalid path structure"]))))
                         return
@@ -440,7 +446,7 @@ let path: [FirestorePathComponent] = [
                     }
                 }
             } else {
-                promise(.failure(.unknownError(NSError(domain: "FirestoreError", 
+                promise(.failure(.unknownError(NSError(domain: "FirestoreError",
                                                        code: 0,
                                                        userInfo: [NSLocalizedDescriptionKey: "Invalid path structure"]))))
             }

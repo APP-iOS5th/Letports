@@ -106,6 +106,29 @@ class GatheringDetailVM {
 	
 	//모임데이터
 	private func fetchGatheringData() {
+        
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Sample.self)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("fetchGatheringData Finish")
+                case .failure(let error):
+                    print("fetchGatheringData Error", error)
+                }
+            } receiveValue: { [weak self] gathering in
+                print("new Gathering")
+                print(gathering)
+                print("=====================")
+            }
+            .store(in: &cancellables)
+
+        
+        
         FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {

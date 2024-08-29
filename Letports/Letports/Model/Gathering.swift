@@ -44,34 +44,39 @@ struct Gathering: Codable {
 //
 //import Foundation
 //
-//struct Gathering: Codable {
-//    let gatherImage: String
-//    let gatherInfo: String
-//    let gatherMaxMember: Int
-//    let gatherName: String
-//    var gatherNowMember: Int
-//    let gatherQuestion: String
-//    let gatheringCreateDate: String
-//    let gatheringMaster: String
-//    let gatheringSports: String
-//    let gatheringSportsTeam: String
-//    let gatheringUid: String
+struct Sample: Codable {
+    let gatherImage: String
+    let gatherInfo: String
+    let gatherMaxMember: Int
+    let gatherName: String
+    var gatherNowMember: Int
+    let gatherQuestion: String
+    let gatheringCreateDate: String
+    let gatheringMaster: String
+    let gatheringSports: String
+    let gatheringSportsTeam: String
+    let gatheringUid: String
 //    let board: Post
 //    let gatheringMemebers: GatheringMember
-//
-//    enum CodingKeys: String, CodingKey {
-//        case gatherImage = "GatherImage"
-//        case gatherInfo = "GatherInfo"
-//        case gatherMaxMember = "GatherMaxMember"
-//        case gatherName = "GatherName"
-//        case gatherNowMember = "GatherNowMember"
-//        case gatherQuestion = "GatherQuestion"
-//        case gatheringCreateDate = "GatheringCreateDate"
-//        case gatheringMaster = "GatheringMaster"
-//        case gatheringSports = "GatheringSports"
-//        case gatheringSportsTeam = "GatheringSportsTeam"
-//        case gatheringUid = "GatheringUid"
+
+    enum CodingKeys: String, CodingKey {
+        case gatherImage = "GatherImage"
+        case gatherInfo = "GatherInfo"
+        case gatherMaxMember = "GatherMaxMember"
+        case gatherName = "GatherName"
+        case gatherNowMember = "GatherNowMember"
+        case gatherQuestion = "GatherQuestion"
+        case gatheringCreateDate = "GatheringCreateDate"
+        case gatheringMaster = "GatheringMaster"
+        case gatheringSports = "GatheringSports"
+        case gatheringSportsTeam = "GatheringSportsTeam"
+        case gatheringUid = "GatheringUid"
 //        case board = "Board"
 //        case gatheringMemebers = "GatheringMemebers"
+    }
+}
+//extension Sample {
+//    func isJoined(by userUID: String) -> Bool {
+//        return true
 //    }
 //}

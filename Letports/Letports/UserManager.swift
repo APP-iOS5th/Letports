@@ -15,7 +15,6 @@ class UserManager {
     
     private init() {}
     
-    // userRole을 하면전환화면서
     func login(user: LetportsUser) {
         isLoggedIn = true
         currentUser = user
@@ -24,5 +23,9 @@ class UserManager {
     func logout() {
         isLoggedIn = false
         currentUser = nil
+    }
+    
+    func getUserUid() -> String {
+        return currentUser?.uid ?? ""
     }
 }

@@ -12,8 +12,8 @@ enum ProfileCellType {
 
 class ProfileVM {
     @Published var user: LetportsUser?
-    @Published var myGatherings: [Gathering] = []
-    @Published var pendingGatherings: [Gathering] = []
+    @Published var myGatherings: [Sample] = []
+    @Published var pendingGatherings: [Sample] = []
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileCoordinatorDelegate?
@@ -83,12 +83,12 @@ class ProfileVM {
                 .sink { completion in
                     switch completion {
                     case .finished:
-                        break // 완료된 경우, 별도의 처리가 필요하지 않음
+                        break
                     case .failure(let error):
-                        promise(.failure(error)) // Future 실패 시 전달
+                        promise(.failure(error))
                     }
                 } receiveValue: { fetchedUser in
-                    promise(.success(fetchedUser)) // Future 성공 시 전달
+                    promise(.success(fetchedUser))
                 }
                 .store(in: &self.cancellables)
         }
@@ -102,39 +102,91 @@ class ProfileVM {
             return
         }
         
-        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("loadUserGathering->finished")
-                    break
-                case .failure(let error):
-                    print("loadUserGathering->",error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] gatherings in
+        
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document("zr3BDaVO7XSmQhbkfF90uuvm4F32"),
+            .collection(.myGathering)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: MyGatherings.self)
+            .sink { _ in
+            } receiveValue: { [weak self] gathering in
                 guard let self = self else { return }
+                self.getDatas(gatherings: gathering)
                 
-                let (myGatherings, pendingGatherings) = self.filterGatherings(gatherings, for: user)
-                self.myGatherings = myGatherings
-                self.pendingGatherings = pendingGatherings
-            })
+            }
             .store(in: &cancellables)
     }
     
-    private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) -> ([Gathering], [Gathering]) {
-        var myGatherings: [Gathering] = []
-        var pendingGatherings: [Gathering] = []
-        
-        for gathering in gatherings {
-            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "joined"}) {
-                myGatherings.append(gathering)
-            } else if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && $0.joinStatus == "pending" }) {
-                pendingGatherings.append(gathering)
+    func getDatas(gatherings: [MyGatherings]) {
+        let gatheringPublishers = gatherings.map { gathering in
+                let collectionPath3: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(gathering.uid)
+                ]
+                
+                return FM.getData(pathComponents: collectionPath3, type: Sample.self)
             }
-        }
-        let pendingGatheringIDs = Set(pendingGatherings.map { $0.gatheringUid })
-        myGatherings = myGatherings.filter { !pendingGatheringIDs.contains($0.gatheringUid) }
-        return (myGatherings, pendingGatherings)
+
+            // 여러 Publisher를 병합하여 동시에 처리하고, 결과를 수집
+            Publishers.MergeMany(gatheringPublishers)
+                .collect() // 모든 결과를 한 번에 수집
+                .sink(receiveCompletion: { _ in
+                }, receiveValue: { [weak self] allGatherings in
+                    guard let self = self else { return }
+                    guard let user = self.user else { return }
+                    let flatGatherings = allGatherings.flatMap { $0 }
+                    self.filterGatherings(flatGatherings, for: user)
+                })
+                .store(in: &cancellables)
+    }
+    
+    
+    private func filterGatherings(_ gatherings: [Sample], for user: LetportsUser) {
+        let memberStatusPublishers = gatherings.map { gathering in
+                let collectionPath3: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(gathering.gatheringUid),
+                    .collection(.gatheringMembers),
+                    .document(user.uid)
+                ]
+                
+                return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
+                    .map { members -> (Sample, Bool) in
+                        let isJoined = members.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
+                        return (gathering, isJoined)
+                    }
+                    .eraseToAnyPublisher()
+            }
+
+            Publishers.MergeMany(memberStatusPublishers)
+                .collect()
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print(error)
+                    }
+                }, receiveValue: { [weak self] results in
+                    guard let self = self else { return }
+                    
+                    var myGatherings: [Sample] = []
+                    var pendingGatherings: [Sample] = []
+                    
+                    results.forEach { gathering, isJoined in
+                        if isJoined {
+                            myGatherings.append(gathering)
+                        } else {
+                            pendingGatherings.append(gathering)
+                        }
+                    }
+                    
+                    self.myGatherings = myGatherings
+                    self.pendingGatherings = pendingGatherings
+                })
+                .store(in: &cancellables)
     }
     
 }

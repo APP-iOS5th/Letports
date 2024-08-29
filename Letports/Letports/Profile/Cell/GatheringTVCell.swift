@@ -174,7 +174,7 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
+    func configure(with gathering: Sample, with user: LetportsUser, with master: LetportsUser) {
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
