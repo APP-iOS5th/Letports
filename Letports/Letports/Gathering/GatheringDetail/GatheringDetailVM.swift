@@ -16,7 +16,7 @@ protocol ButtonStateDelegate: AnyObject {
 }
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func showBoardDetail(boardPost: Post, gathering: Gathering)
+	func showBoardDetail(boardPost: Post, gathering: SampleGathering2)
 	func showProfileView(member: GatheringMember)
 	func presentActionSheet()
 	func reportGathering()
@@ -24,7 +24,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func dismissAndUpdateUI()
 	func showError(message: String)
 	func gatheringDetailBackBtnTap()
-    func pushPostUploadViewController(type: PostType, gathering: Gathering)
+    func pushPostUploadViewController(type: PostType, gathering: SampleGathering2)
 }
 
 enum GatheringDetailCellType {
@@ -52,7 +52,7 @@ enum MembershipStatus {
 
 
 class GatheringDetailVM {
-	@Published private(set) var gathering: Gathering?
+	@Published private(set) var gathering: SampleGathering2?
 	@Published private(set) var membershipStatus: MembershipStatus = .joined
 	@Published private(set) var boardData: [Post] = []
 	@Published var selectedBoardType: BoardBtnType = .all
@@ -112,7 +112,7 @@ class GatheringDetailVM {
             .document(currentGatheringUid)
         ]
         
-        FM.getData(pathComponents: collectionPath, type: Sample.self)
+        FM.getData(pathComponents: collectionPath, type: SampleGathering2.self)
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -129,7 +129,7 @@ class GatheringDetailVM {
 
         
         
-        FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
+        FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: SampleGathering2.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -212,7 +212,7 @@ class GatheringDetailVM {
 	}
 	
 	// 탈퇴후 업데이트
-	private func updateGatheringAfterLeaving(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
+	private func updateGatheringAfterLeaving(gathering: SampleGathering2) -> AnyPublisher<Void, FirestoreError> {
 		let updatedMembers = gathering.gatheringMembers.filter { $0.userUID != currentUser.uid }
 		let updatedNowMember = gathering.gatherNowMember - 1
 		

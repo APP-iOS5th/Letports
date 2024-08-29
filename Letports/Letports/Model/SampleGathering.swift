@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Gathering: Codable {
+struct SampleGathering2: Codable {
     let gatherImage: String
     let gatherInfo: String
     let gatherMaxMember: Int
@@ -44,7 +44,7 @@ struct Gathering: Codable {
 //
 //import Foundation
 //
-struct Sample: Codable {
+struct Gathering: Codable {
     let gatherImage: String
     let gatherInfo: String
     let gatherMaxMember: Int

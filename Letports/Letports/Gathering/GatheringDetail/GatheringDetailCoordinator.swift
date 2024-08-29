@@ -28,7 +28,7 @@ class GatheringDetailCoordinator: Coordinator {
 
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
-    func showBoardDetail(boardPost: Post, gathering: Gathering) {
+    func showBoardDetail(boardPost: Post, gathering: SampleGathering2) {
         let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
                                                                      postUID: boardPost.postUID,
                                                                      gathering: gathering)
@@ -97,7 +97,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         navigationController.popViewController(animated: true)
     }
     
-    func pushPostUploadViewController(type: PostType, gathering: Gathering) {
+    func pushPostUploadViewController(type: PostType, gathering: SampleGathering2) {
         let coordinator = BoardEditorCoordinator(navigationController: navigationController, viewModel: BoardEditorVM(type: type, gathering: gathering))
         self.childCoordinators.append(coordinator)
         coordinator.start()

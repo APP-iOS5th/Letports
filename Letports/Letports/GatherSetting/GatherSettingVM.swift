@@ -12,7 +12,7 @@ enum GatheringSettingCellType {
 }
 
 class GatherSettingVM {
-    @Published var gathering: Gathering?
+    @Published var gathering: SampleGathering2?
     @Published var pendingGatheringMembers: [GatheringMember] = []
     @Published var joiningGatheringMembers: [GatheringMember] = []
     
@@ -63,7 +63,7 @@ class GatherSettingVM {
     }
     
     func loadGathering(with GatheringUid: String) {
-        FM.getData(collection: "Gatherings", document: GatheringUid, type: Gathering.self)
+        FM.getData(collection: "Gatherings", document: GatheringUid, type: SampleGathering2.self)
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -80,13 +80,13 @@ class GatherSettingVM {
             .store(in: &cancellables)
     }
     
-    func fetchGatheringMembers(for gathering: Gathering) {
+    func fetchGatheringMembers(for gathering: SampleGathering2) {
         guard !gathering.gatheringMembers.isEmpty else {
             self.pendingGatheringMembers = []
             self.joiningGatheringMembers = []
             return
         }
-        FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
+        FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: SampleGathering2.self)
             .map { gathering in
                 let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
                 let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }

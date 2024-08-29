@@ -13,9 +13,9 @@ class GatheringBoardDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	let postUID: String
-	let gathering: Gathering
+	let gathering: SampleGathering2
 	
-	init(navigationController: UINavigationController, postUID: String, gathering: Gathering) {
+	init(navigationController: UINavigationController, postUID: String, gathering: SampleGathering2) {
 		self.navigationController = navigationController
 		self.postUID = postUID
 		self.gathering = gathering

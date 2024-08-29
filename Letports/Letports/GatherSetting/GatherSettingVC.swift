@@ -89,7 +89,7 @@ class GatherSettingVC: UIViewController {
         .store(in: &cancellables)
     }
     
-    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering,joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
+    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: SampleGathering2,joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
         if existingView == nil {
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate

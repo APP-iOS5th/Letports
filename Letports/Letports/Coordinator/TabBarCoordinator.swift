@@ -67,6 +67,7 @@ class TabBarCoordinator: Coordinator {
         profileTab.selectedImage = UIImage(systemName: "person.fill")
         
         tabBarController.tabBar.tintColor = .lpMain
+        tabBarController.tabBar.backgroundColor = .lpBackgroundWhite
     }
     
     func userDidLogout() {

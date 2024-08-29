@@ -126,7 +126,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		editBtn.addTarget(self, action: #selector(editBtnTap), for: .touchUpInside)
 	}
 	
-	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
+	func configureCell(data: SampleGathering2, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
 		masterNameLabel.text = "모임장: \(masterNickname)"
 		gatherNowMemberLabel.text = "\(data.gatherNowMember)"

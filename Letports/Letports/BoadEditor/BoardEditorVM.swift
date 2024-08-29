@@ -33,7 +33,7 @@ class BoardEditorVM {
     @Published private(set) var isUploading: Bool = false
     
     private(set) var postType: PostType = .free
-    private(set) var gathering: Gathering?
+    private(set) var gathering: SampleGathering2?
     
     private(set) var isEditMode: Bool
     private var postID: String?
@@ -50,7 +50,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(type: PostType, gathering: Gathering, post: Post? = nil) {
+    init(type: PostType, gathering: SampleGathering2, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID

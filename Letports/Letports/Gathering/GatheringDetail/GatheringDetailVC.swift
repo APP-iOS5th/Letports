@@ -132,7 +132,7 @@ final class GatheringDetailVC: UIViewController {
 	
 	// MARK: - Setup
 	// 커스텀네비
-	private func updateUI(with gathering: Gathering?) {
+	private func updateUI(with gathering: SampleGathering2?) {
 		guard let gathering = gathering else { return }
 		
 		let gatheringName = gathering.gatherName
@@ -206,7 +206,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 	}
 	
 	// 가입뷰 처리
-	private func showUserView<T: UIView>(existingView: inout T?, gathering: Gathering) {
+	private func showUserView<T: UIView>(existingView: inout T?, gathering: SampleGathering2) {
 		if existingView == nil {
 			let manageUserView = JoinView()
 			manageUserView.delegate = self

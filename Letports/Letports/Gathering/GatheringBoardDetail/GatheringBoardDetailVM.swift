@@ -24,11 +24,11 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post?
 	@Published private(set) var postAuthor: GatheringMember?
-	private(set) var gathering: Gathering
+	private(set) var gathering: SampleGathering2
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
-	init(postUID: String, gathering: Gathering) {
+	init(postUID: String, gathering: SampleGathering2) {
 		self.gathering = gathering
 		fetchBoardPost(postUID: postUID)
 	}

@@ -153,6 +153,7 @@ class HomeProfileTVCell: UITableViewCell {
     }
     
     func configure(with team: Team) {
+        self.team = team
         teamName.text = team.teamName
         
         guard let url = URL(string: team.teamLogo) else {

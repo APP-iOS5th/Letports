@@ -90,7 +90,9 @@ class HomeVC: UIViewController {
     
     //데이터 바인딩
     private func bindViewModel() {
-        Publishers.CombineLatest3(viewModel.$team, viewModel.$latestYoutubeVideos, viewModel.$gatherings)
+        Publishers.CombineLatest3(viewModel.$team, 
+                                  viewModel.$latestYoutubeVideos,
+                                  viewModel.$gatherings)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (team, latestYoutubeVideos, gatherings) in
                 self?.tableView.reloadData()
@@ -130,7 +132,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: HomeProfileTVCell = tableView.loadCell(indexPath: indexPath) {
                 if let team = viewModel.team {
                     cell.delegate = self
-                    cell.team = team
                     cell.configure(with: team)
                 }
                 return cell
@@ -151,7 +152,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case .recommendGatheringTitleLabel:
             if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(withTitle: "추천 소모임🔥")
-                
                 return cell
             }
         case .recommendGatheringLists:

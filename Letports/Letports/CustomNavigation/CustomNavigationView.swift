@@ -47,7 +47,7 @@ enum NaviButtonType {
 }
 
 
-enum ScreenType {
+enum ScreenType: Equatable {
     /// TabView Home Screen
     case largeHome
     /// TabView Gathering  Screen
@@ -136,6 +136,7 @@ class CustomNavigationView: UIView {
     
     private lazy var largeTitle: UILabel = {
         let label = UILabel()
+        label.textColor = self.screenType == .largeHome ? .lpMain : .black
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 35)
@@ -145,24 +146,10 @@ class CustomNavigationView: UIView {
     
     private lazy var largeRightButton: UIButton = {
         let button = UIButton()
+        let title = "팀 선택"
         
-        let downArrowImage = UIImage(systemName: "arrowtriangle.down.fill")
-        let buttonIamge = downArrowImage?.resized(size: CGSize(width: 10, height: 10))
-        button.setImage(buttonIamge, for: .normal)
-        button.tintColor = .black
-        
-        //타이틀 바뀌어야함
-        var title = "축구(FC서울)"
-        let attributedText = NSMutableAttributedString(string: title)
-        if let rangOpenPar = title.range(of: "("),
-           let rangClosePar = title.range(of: ")") {
-            let mainText = NSRange(title.startIndex..<rangOpenPar.lowerBound, in: title)
-            let parText = NSRange(rangOpenPar.lowerBound..<rangClosePar.upperBound, in: title)
-            
-            attributedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 20), range: mainText)
-            attributedText.addAttribute(.font, value: UIFont.systemFont(ofSize: 12), range: parText)
-        }
-        button.setAttributedTitle(attributedText, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20)
         button.setTitleColor(.black, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         

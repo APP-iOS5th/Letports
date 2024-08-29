@@ -21,7 +21,7 @@ protocol UserProfileCoordinatorDelegate: AnyObject {
 
 class UserProfileVM {
     @Published var user: LetportsUser?
-    @Published var userGatherings: [Gathering] = []
+    @Published var userGatherings: [SampleGathering2] = []
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: UserProfileCoordinatorDelegate?
@@ -76,7 +76,7 @@ class UserProfileVM {
             return
         }
  
-        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
+        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: SampleGathering2.self)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -94,8 +94,8 @@ class UserProfileVM {
             .store(in: &cancellables)
     }
     
-    private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) -> [Gathering] {
-        var myGatherings: [Gathering] = []
+    private func filterGatherings(_ gatherings: [SampleGathering2], for user: LetportsUser) -> [SampleGathering2] {
+        var myGatherings: [SampleGathering2] = []
         
         for gathering in gatherings {
             if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
