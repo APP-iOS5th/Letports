@@ -110,9 +110,9 @@ final class BoardTVCell: UITableViewCell {
 		//		createDateLabel.text = data.createDate (데이터 없음)
 		self.boardPost = data
 		switch data.boardType {
-		case "Free":
+        case .free:
 			boardTypeLabel.text = "자유"
-		case "Noti":
+        case .noti:
 			boardTypeLabel.text = "공지"
 		default:
 			boardTypeLabel.text = "전체"

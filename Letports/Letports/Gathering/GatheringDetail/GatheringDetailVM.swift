@@ -15,6 +15,18 @@ protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
+protocol GatheringDetailCoordinatorDelegate: AnyObject {
+	func showBoardDetail(boardPost: Post, gathering: Gathering)
+	func showProfileView(member: GatheringMember)
+	func presentActionSheet()
+	func reportGathering()
+	func showLeaveGatheringConfirmation()
+	func dismissAndUpdateUI()
+	func showError(message: String)
+	func gatheringDetailBackBtnTap()
+    func pushPostUploadViewController(type: PostType, gathering: Gathering)
+}
+
 enum GatheringDetailCellType {
 	case gatheringImage
 	case gatheringTitle
@@ -27,9 +39,9 @@ enum GatheringDetailCellType {
 }
 // 게시판버튼 유형
 enum BoardBtnType: String {
-	case all = "All"
-	case noti = "Noti"
-	case free = "Free"
+	case all
+	case noti
+	case free
 }
 // 가입상태
 enum MembershipStatus {
@@ -111,7 +123,30 @@ class GatheringDetailVM {
 	
 	//모임데이터
 	private func fetchGatheringData() {
-		FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
+        
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Sample.self)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("fetchGatheringData Finish")
+                case .failure(let error):
+                    print("fetchGatheringData Error", error)
+                }
+            } receiveValue: { [weak self] gathering in
+                print("new Gathering")
+                print(gathering)
+                print("=====================")
+            }
+            .store(in: &cancellables)
+
+        
+        
+        FirestoreManager.shared.getDocument(collection: "Gatherings", documentId: currentGatheringUid, type: Gathering.self)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
@@ -349,16 +384,33 @@ class GatheringDetailVM {
 		// 기본 높이를 328으로 설정하고, 계산된 높이가 328을 초과할 경우에만 그 값을 반환
 		return max(328, calculatedHeight)
 	}
+    
+    func didTapUploadBtn(type: PostType) {
+        guard let gathering = self.gathering else { return }
+        self.delegate?.pushPostUploadViewController(type: type, gathering: gathering)
+    }
+    
+	
 	// 예시 사용자
 	static let dummyUser = LetportsUser(
 		email: "user010@example.com",
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		myGathering: ["gathering015"],
+//		myGathering: ["gathering015"],
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
 		uid: "user016",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)
+	
+	// 게시판 분류
+	var filteredBoardData: [Post] {
+		switch selectedBoardType {
+		case .all:
+			return boardData
+		case .noti, .free:
+            return boardData.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
+		}
+	}
 }
 

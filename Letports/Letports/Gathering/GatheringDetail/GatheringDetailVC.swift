@@ -30,8 +30,9 @@ final class GatheringDetailVC: UIViewController {
 		return btn
 	}()
 	
-	private var postBtn: PostBtn = {
+	private lazy var postBtn: PostBtn = {
 		let btn = PostBtn()
+        btn.delegate = self
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -385,3 +386,8 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
+extension GatheringDetailVC: PostBtnDelegate {
+    func didTapPostUploadBtn(type: PostType) {
+        self.viewModel.didTapUploadBtn(type: type)
+    }
+}

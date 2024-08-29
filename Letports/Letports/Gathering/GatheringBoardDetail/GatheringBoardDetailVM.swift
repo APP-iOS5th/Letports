@@ -107,6 +107,11 @@ final class GatheringBoardDetailVM {
 	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
 		return self.cellType
 	}
+    
+    func addComment(comment: String) {
+        self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
+        print(self.comment)
+    }
 	
 	func boardDetailBackBtnTap() {
 		delegate?.boardDetailBackBtnTap()
@@ -119,7 +124,7 @@ final class GatheringBoardDetailVM {
 		let content: String
 	}
 	
-	let comment: [Comment] = [
+    var comment: [Comment] = [
 		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
 		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
 		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),

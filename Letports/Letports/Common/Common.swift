@@ -67,26 +67,6 @@ struct SampleGatheringMember: Codable {
     }
 }
 
-// Post model
-struct SamplePost: Codable {
-    let postUID: String
-    let userUID: String
-    let title: String
-    let contents: String
-    let imageUrls: [String]
-    let comments: [SampleComment]
-    let boardType: String
-}
-
-// Comment model
-struct SampleComment: Codable {
-    let postUID: String
-    let commentUID: String
-    let userUID: String
-    let contents: String
-    let createDate: Date
-    let writeDate: Date
-}
 
 struct SampleSportsTeam: Codable {
     let sportsUID:String

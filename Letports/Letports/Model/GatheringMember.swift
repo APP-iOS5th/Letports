@@ -21,7 +21,7 @@ struct GatheringMember: Codable {
         case joinDate = "JoinDate"
         case joinStatus = "JoinStatus"
         case nickName = "NickName"
-        case userUID = "UserUID"
+        case userUID = "UserUid"
         case simpleInfo = "SimpleInfo"
     }
 }
