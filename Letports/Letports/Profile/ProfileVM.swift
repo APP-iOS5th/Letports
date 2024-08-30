@@ -14,6 +14,7 @@ enum ProfileCellType {
 
 class ProfileVM {
     @Published var user: LetportsUser?
+    @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
     
@@ -91,29 +92,24 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
-    func loadMasterUser(with master: String) -> Future<LetportsUser, Error> {
+    
+    func fetchMasterUser(with masterId: String) {
+        guard masterUsers[masterId] == nil else { return } // 이미 로드된 경우 로드하지 않음
+        
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
-            .document(master),
+            .document(masterId),
         ]
-        return Future { promise in
-            FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        promise(.failure(error))
-                    }
-                } receiveValue: { fetchedUser in
-                    guard let user = fetchedUser.first else {
-                        return
-                    }
-                    promise(.success(user))
-                    
-                }
-                .store(in: &self.cancellables)
-        }
+        
+        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .compactMap { $0.first }  // 첫 번째 사용자만 반환
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
+                guard let self = self else { return }
+                self.masterUsers[masterId] = masterUser
+                // `@Published` 속성으로 바인딩되어 있으므로 ViewController에서 자동으로 UI 업데이트됨
+            }
+            .store(in: &cancellables)
     }
     
     func fetchUserGatherings(for user: LetportsUser) {
