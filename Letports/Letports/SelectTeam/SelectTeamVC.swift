@@ -160,8 +160,7 @@ class TeamSelectionViewController: UICollectionViewController {
     }
     
     @objc private func selectButtonTapped() {
-        print("선택 완료 버튼이 탭되었습니다.")
-        // TODO: 선택된 팀 처리 로직 구현
+        
     }
     
     private func updateSportsSnapshot() {

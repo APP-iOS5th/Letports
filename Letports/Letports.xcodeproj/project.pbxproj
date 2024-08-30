@@ -51,6 +51,7 @@
 		B85FD8842C79C539007B4962 /* SelectTeamVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8832C79C539007B4962 /* SelectTeamVM.swift */; };
 		B85FD8862C79CCD0007B4962 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8852C79CCD0007B4962 /* CategoryCell.swift */; };
 		B85FD8882C79CCF3007B4962 /* SelectTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */; };
+		B88D9FB02C816E7300123410 /* SelectTeamCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* SelectTeamCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
 		B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C12C746AE90039D33B /* AuthVM.swift */; };
@@ -196,6 +197,7 @@
 		B85FD8832C79C539007B4962 /* SelectTeamVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamVM.swift; sourceTree = "<group>"; };
 		B85FD8852C79CCD0007B4962 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		B85FD8872C79CCF3007B4962 /* SelectTeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamCell.swift; sourceTree = "<group>"; };
+		B88D9FAF2C816E7300123410 /* SelectTeamCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B8D4D0C12C746AE90039D33B /* AuthVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVM.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				B85FD8892C79CD04007B4962 /* Cell */,
 				B85FD8522C7864DC007B4962 /* SelectTeamVC.swift */,
 				B85FD8832C79C539007B4962 /* SelectTeamVM.swift */,
+				B88D9FAF2C816E7300123410 /* SelectTeamCoordinator.swift */,
 			);
 			path = SelectTeam;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				BFFFD3F42C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift in Sources */,
 				410BBCB62C778F1D00FE2E18 /* BoardEditorVC.swift in Sources */,
+				B88D9FB02C816E7300123410 /* SelectTeamCoordinator.swift in Sources */,
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */,
