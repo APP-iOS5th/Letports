@@ -220,15 +220,11 @@ class GatheringDetailVM {
 			return
 		}
 		let masterUID = gathering.gatheringMaster
-		print("masterUID: \(masterUID)")
 		let members = self.memberData
-		print("members: \(members)")
-		
 		let masterMember = members.filter { $0.uid == masterUID }
 		if let masterMember = masterMember.first?.nickname {
 			self.masterNickname = masterMember
 		}
-		print("모임장 닉네임 \(self.masterNickname)")
 	}
 	// 모임장 상태인지
 	private func updateMasterStatus() {
@@ -242,7 +238,6 @@ class GatheringDetailVM {
 	}
 	// 현재 사용자 정보
 	func getCurrentUserInfo() -> LetportsUser {
-		print("현재 사용자 정보: \(currentUser)")
 		return currentUser
 	}
 	// 가입중인지 아닌지
