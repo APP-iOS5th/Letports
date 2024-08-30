@@ -8,12 +8,12 @@
 import UIKit
 
 protocol BoardBtnTVCellDelegate: AnyObject {
-	func didSelectBoardType(_ type: BoardBtnType)
+	func didSelectBoardType(_ type: PostType)
 }
 
 final class BoardBtnTVCell: UITableViewCell {
 	
-	private let boardButtonTypes: [BoardBtnType] = [.all, .noti, .free]
+	private let boardButtonTypes: [PostType] = [.all, .noti, .free]
 	private var selectedButtonIndex: Int = 0
 	weak var delegate: BoardBtnTVCellDelegate?
 	
