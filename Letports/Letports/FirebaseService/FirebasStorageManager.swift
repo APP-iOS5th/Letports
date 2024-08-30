@@ -53,7 +53,7 @@ enum StorageFilePath {
 
 class FirebaseStorageManager {
     
-    static func uploadImages(images: [UIImage], 
+    static func uploadImages(images: [UIImage],
                              filePath: StorageFilePath) -> AnyPublisher<[URL], FirebaseStorageError> {
         
         //images 배열에 5개만 map을 통해 uploadSingleImage 함수 실행
@@ -68,7 +68,7 @@ class FirebaseStorageManager {
     }
     
     
-    static func uploadSingleImage(image: UIImage, 
+    static func uploadSingleImage(image: UIImage,
                                   filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
             guard let imageData = image.jpegData(compressionQuality: 0.4) else {

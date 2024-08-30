@@ -17,13 +17,13 @@ class TeamSelectionCoordinator: Coordinator {
     }
     
     func start() {
-        let viewModel = TeamSelectionViewModel()
-        let teamSelectVC = TeamSelectionViewController(viewModel: viewModel)
+        let viewModel = TeamSelectVM()
+        let teamSelectVC = TeamSelectVC(viewModel: viewModel)
         teamSelectVC.coordinator = self
         navigationController.setViewControllers([teamSelectVC], animated: true)
     }
     
-    func didFinishTeamSelection() {
+    func didFinishTeamSelect() {
         parentCoordinator?.showMainView()
     }
 }

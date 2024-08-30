@@ -10,10 +10,11 @@ import Combine
 import Kingfisher
 
 
-class TeamSelectionViewModel {
+class TeamSelectVM {
     struct Sports: Hashable, Codable {
         let id: String
         let name: String
+        let sportsUID: String
     }
     
     struct Team: Hashable, Codable {
@@ -42,26 +43,20 @@ class TeamSelectionViewModel {
     }
     
     func loadData(completion: @escaping () -> Void) {
-        print("TeamSelectionViewModel - loadData called")
-        
         loadSportsCategories { [weak self] in
             self?.loadAllTeams {
-                print("All data loaded")
                 completion()
             }
         }
     }
     
     private func loadSportsCategories(completion: @escaping () -> Void) {
-        print("TeamSelectionViewModel - loadSportsCategories started")
-        
-        FirestoreManager.shared.getSportsCategories()
+        FM.getSportsCategories()
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {
                     print("Error loading sports categories: \(error)")
                 }
             }, receiveValue: { [weak self] sportsCategories in
-                print("Received sports categories: \(sportsCategories.count)")
                 self?.sportsCategories = sportsCategories
                 completion()
             })
@@ -70,7 +65,7 @@ class TeamSelectionViewModel {
     
     private func loadAllTeams(completion: @escaping () -> Void) {
         Publishers.MergeMany(sportsCategories.map { sports in
-            FirestoreManager.shared.getTeamsForSports(sports.id)
+            FM.getSportsTeams(sports.id)
         })
         .collect()
         .sink(receiveCompletion: { completion in
@@ -78,7 +73,6 @@ class TeamSelectionViewModel {
                 print("Error loading teams: \(error)")
             }
         }, receiveValue: { [weak self] teamsArray in
-            print("Received teams: \(teamsArray.flatMap { $0 }.count)")
             self?.allTeams = teamsArray.flatMap { $0 }
             completion()
         })
@@ -86,14 +80,12 @@ class TeamSelectionViewModel {
     }
 }
 
-extension TeamSelectionViewModel {
+extension TeamSelectVM {
     func updateUserSportsAndTeam(sports: Sports, team: Team) -> AnyPublisher<Void, Error> {
         guard let currentUser = UserManager.shared.currentUser else {
             return Fail(error: NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No current user found"]))
                 .eraseToAnyPublisher()
         }
-        
-        print("Updating user data for UID: \(currentUser.uid)")
         
         let updatedUser = LetportsUser(
             email: currentUser.email,
@@ -101,7 +93,7 @@ extension TeamSelectionViewModel {
             nickname: currentUser.nickname,
             simpleInfo: currentUser.simpleInfo,
             uid: currentUser.uid,
-            userSports: sports.id,
+            userSports: sports.sportsUID,
             userSportsTeam: team.teamUID
         )
         

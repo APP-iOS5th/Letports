@@ -10,10 +10,10 @@ import UIKit
 import Combine
 import Kingfisher
 
-class TeamSelectionViewController: UICollectionViewController {
+class TeamSelectVC: UICollectionViewController {
     
     private var cancellables = Set<AnyCancellable>()
-    private let viewModel: TeamSelectionViewModel
+    private let viewModel: TeamSelectVM
     weak var coordinator: TeamSelectionCoordinator?
     
     enum Section: Int, CaseIterable {
@@ -25,7 +25,7 @@ class TeamSelectionViewController: UICollectionViewController {
     
     private var dataSource: DataSource!
     
-    init(viewModel: TeamSelectionViewModel) {
+    init(viewModel: TeamSelectVM) {
         self.viewModel = viewModel
         super.init(collectionViewLayout: Self.createLayout())
     }
@@ -36,17 +36,16 @@ class TeamSelectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("TeamSelectionViewController - viewDidLoad called")
-        setupCollectionView()
+        setupCV()
         configureDataSource()
         applyInitialSnapshot()
-        setupSelectButton()
+        setupSelectBtn()
         
+        // UI 나중에 한번에 잡을게요.
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         viewModel.loadData { [weak self] in
-            print("Data loading completed")
             DispatchQueue.main.async {
                 self?.updateSportsSnapshot()
                 self?.updateTeamsSnapshot()
@@ -55,15 +54,12 @@ class TeamSelectionViewController: UICollectionViewController {
         
         viewModel.$sportsCategories
             .sink { [weak self] categories in
-                print("Sports categories updated: \(categories.count)")
-                
                 self?.updateSportsSnapshot()
             }
             .store(in: &cancellables)
         
         viewModel.$filteredTeams
             .sink { [weak self] teams in
-                print("Filtered teams updated: \(teams.count)")
                 self?.updateTeamsSnapshot()
             }
             .store(in: &cancellables)
@@ -111,10 +107,10 @@ class TeamSelectionViewController: UICollectionViewController {
         return section
     }
     
-    private func setupCollectionView() {
+    private func setupCV() {
         collectionView.backgroundColor = .systemBackground
-        collectionView.register(SportsCell.self, forCellWithReuseIdentifier: SportsCell.reuseIdentifier)
-        collectionView.register(TeamCell.self, forCellWithReuseIdentifier: TeamCell.reuseIdentifier)
+        collectionView.register(SportsCategoryCell.self, forCellWithReuseIdentifier: SportsCategoryCell.reuseIdentifier)
+        collectionView.register(SportsTeamCell.self, forCellWithReuseIdentifier: SportsTeamCell.reuseIdentifier)
     }
     
     private func configureDataSource() {
@@ -123,13 +119,13 @@ class TeamSelectionViewController: UICollectionViewController {
             
             switch section {
             case .sports:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsCell.reuseIdentifier, for: indexPath) as? SportsCell,
-                      let sports = item as? TeamSelectionViewModel.Sports else { return nil }
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsCategoryCell.reuseIdentifier, for: indexPath) as? SportsCategoryCell,
+                      let sports = item as? TeamSelectVM.Sports else { return nil }
                 cell.configure(with: sports)
                 return cell
             case .teams:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamCell.reuseIdentifier, for: indexPath) as? TeamCell,
-                      let team = item as? TeamSelectionViewModel.Team else { return nil }
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTeamCell.reuseIdentifier, for: indexPath) as? SportsTeamCell,
+                      let team = item as? TeamSelectVM.Team else { return nil }
                 cell.configure(with: team)
                 return cell
             }
@@ -142,26 +138,26 @@ class TeamSelectionViewController: UICollectionViewController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    private func setupSelectButton() {
-        let selectButton = UIButton(type: .system)
-        selectButton.setTitle("선택 완료", for: .normal)
-        selectButton.backgroundColor = .systemBlue
-        selectButton.setTitleColor(.white, for: .normal)
-        selectButton.layer.cornerRadius = 25
-        view.addSubview(selectButton)
+    private func setupSelectBtn() {
+        let selectBtn = UIButton(type: .system)
+        selectBtn.setTitle("선택 완료", for: .normal)
+        selectBtn.backgroundColor = .systemBlue
+        selectBtn.setTitleColor(.white, for: .normal)
+        selectBtn.layer.cornerRadius = 25
+        view.addSubview(selectBtn)
         
-        selectButton.translatesAutoresizingMaskIntoConstraints = false
+        selectBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            selectButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            selectButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            selectButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            selectButton.heightAnchor.constraint(equalToConstant: 50)
+            selectBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            selectBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            selectBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            selectBtn.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        selectButton.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
+        selectBtn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
     }
     
-    @objc private func selectButtonTapped() {
+    @objc private func selectBtnDidTap() {
         guard let selectedSports = viewModel.selectedSports,
               let selectedTeam = viewModel.selectedTeam else {
             return
@@ -172,7 +168,7 @@ class TeamSelectionViewController: UICollectionViewController {
                 switch completion {
                 case .finished:
                     print("User data updated successfully")
-                    self?.coordinator?.didFinishTeamSelection()
+                    self?.coordinator?.didFinishTeamSelect()
                 case .failure(let error):
                     print("Failed to update user data: \(error.localizedDescription)")
                 }
@@ -195,19 +191,18 @@ class TeamSelectionViewController: UICollectionViewController {
     }
 }
 
-extension TeamSelectionViewController {
+extension TeamSelectVC {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section) else { return }
         
         switch section {
         case .sports:
-            guard let sports = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Sports else { return }
+            guard let sports = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Sports else { return }
             viewModel.selectSports(sports)
             updateTeamsSnapshot()
         case .teams:
-            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team {
+            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Team {
                 viewModel.selectTeam(team)
-                print("Selected team: \(team.name), TeamUID: \(team.teamUID), Sports: \(team.sports)")
             }
         }
     }

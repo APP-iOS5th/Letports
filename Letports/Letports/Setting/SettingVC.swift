@@ -17,7 +17,7 @@ class SettingVC: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemRed
         button.layer.cornerRadius = 8
-        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(logoutBtnDidTap), for: .touchUpInside)
         return button
     }()
 
@@ -42,7 +42,7 @@ class SettingVC: UIViewController {
         ])
     }
     
-    @objc private func logoutButtonTapped() {
+    @objc private func logoutBtnDidTap() {
         do {
             try AuthService.shared.signOut()
             if let sceneDelegate = view.window?.windowScene?.delegate as? SceneDelegate,

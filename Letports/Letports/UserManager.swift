@@ -18,7 +18,6 @@ class UserManager {
     func login(user: LetportsUser) {
         isLoggedIn = true
         currentUser = user
-        print("uid = \(currentUser?.uid)")
     }
     
     func logout() {
