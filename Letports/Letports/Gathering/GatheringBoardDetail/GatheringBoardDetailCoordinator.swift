@@ -12,17 +12,17 @@ import UIKit
 class GatheringBoardDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
-	let postUID: String
-	let gathering: Gathering
+	let boardData: Post
+	let allUsers: [LetportsUser]
 	
-	init(navigationController: UINavigationController, postUID: String, gathering: Gathering) {
+	init(navigationController: UINavigationController, boardData: Post, allUsers: [LetportsUser]) {
 		self.navigationController = navigationController
-		self.postUID = postUID
-		self.gathering = gathering
+		self.boardData = boardData
+		self.allUsers = allUsers
 	}
 	
 	func start() {
-		let viewModel = GatheringBoardDetailVM(postUID: postUID, gathering: gathering)
+		let viewModel = GatheringBoardDetailVM(boardPost: boardData, allUsers: allUsers)
 		viewModel.delegate = self
 		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(viewController, animated: true)
