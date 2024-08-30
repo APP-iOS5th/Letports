@@ -23,40 +23,37 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post?
-	@Published private(set) var postAuthor: GatheringMember?
 	private(set) var gathering: Gathering?
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
-	init(postUID: String, gathering: Gathering) {
+	init(boardPost: Post, gathering: Gathering) {
+		self.boardPost = boardPost
 		self.gathering = gathering
-		fetchBoardPost(postUID: postUID)
+		verifyDataTransfer()
 	}
 	
-	private func fetchBoardPost(postUID: String) {
-		FirestoreManager.shared.getDocument(collection: "Board", documentId: postUID, type: Post.self)
-			.sink(receiveCompletion: { completion in
-				switch completion {
-				case .finished:
-					print("게시글 데이터 가져오기 완료")
-				case .failure(let error):
-					print("게시글 데이터 가져오기 에러: \(error)")
-				}
-			}, receiveValue: { [weak self] post in
-				self?.boardPost = post
+	private func verifyDataTransfer() {
+		print("데이터 전송 확인:")
+		print("게시글 정보:")
+		if let post = boardPost {
+			print("  게시글 UID: \(post.postUID)")
+			print("  사용자 UID: \(post.userUID)")
+			print("  제목: \(post.title)")
+			print("  내용: \(post.contents)")
+			print("  이미지 URL 수: \(post.imageUrls.count)")
+			print("  게시판 유형: \(post.boardType)")
+		} else {
+			print("  게시글 데이터가 없습니다.")
+		}
 		
-			})
-			.store(in: &cancellables)
+		print("모임 정보:")
+		if let gather = gathering {
+			print("  모임 UID: \(gather.gatheringUid)")
+		} else {
+			print("  모임 데이터가 없습니다.")
+		}
 	}
-	// 일부러 남긴 주석
-//	private func fetchPostAuthor(userUID: String) {
-//		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
-//			self.postAuthor = member
-//			printMemberDetails(member)
-//		} else {
-//			print("작성자 정보를 찾을 수 없습니다.")
-//		}
-//	}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
 		var cellTypes: [GatheringBoardDetailCellType] = []
@@ -77,11 +74,11 @@ final class GatheringBoardDetailVM {
 	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
 		return self.cellType
 	}
-    
-    func addComment(comment: String) {
-        self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
-        print(self.comment)
-    }
+	
+	func addComment(comment: String) {
+		self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
+		print(self.comment)
+	}
 	
 	func boardDetailBackBtnTap() {
 		delegate?.boardDetailBackBtnTap()
@@ -94,7 +91,7 @@ final class GatheringBoardDetailVM {
 		let content: String
 	}
 	
-    var comment: [Comment] = [
+	var comment: [Comment] = [
 		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
 		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
 		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),

@@ -276,7 +276,7 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		if viewModel.membershipStatus == .joined {
 			if viewModel.isMaster {
-				// 모임장일때 시트
+				//모임장일떄 Gathering
 			} else {
 				viewModel.showActionSheet()
 			}

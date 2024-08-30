@@ -52,8 +52,8 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	}
 	
 	func pushBoardDetail(boardPost: Post, gathering: Gathering) {
-		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
-														  postUID: boardPost.postUID,
+		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController, 
+														  boardData: boardPost,
 														  gathering: gathering)
 		childCoordinators.append(coordinator)
 		coordinator.start()

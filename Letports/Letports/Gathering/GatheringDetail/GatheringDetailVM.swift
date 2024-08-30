@@ -39,6 +39,7 @@ class GatheringDetailVM {
 	@Published private(set) var membershipStatus: MembershipStatus = .joined
 	@Published private(set) var boardData: [Post] = []
 	@Published private(set) var joinedMembers: [GatheringMember] = []
+	@Published private(set) var allUsers: [LetportsUser] = []
 	@Published private(set) var member: [GatheringMember] = []
 	@Published private(set) var memberData: [LetportsUser] = []
 	@Published var selectedBoardType: PostType = .all
@@ -46,15 +47,15 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let currentGatheringUid: String
-	private let gatheringId: String = "gathering004"
+	private let currentGatheringUid: String = "gather004"
 	private var cancellables = Set<AnyCancellable>()
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
-		self.currentGatheringUid = currentGatheringUid
+		// 하드코딩으로 주석처리
+		//		self.currentGatheringUid = currentGatheringUid
 	}
 	
 	// 게시판 분류
@@ -178,14 +179,18 @@ class GatheringDetailVM {
 				case .failure(let error):
 					print("fetchGatheringData Error3", error)
 				}
-			} receiveValue: { [weak self] member in
-				self?.memberData = member.filter { a in
+			} receiveValue: { [weak self] users in
+				guard let self = self else { return }
+				
+				// 모든 사용자 정보 저장
+				self.allUsers = users
+				
+				// 모임 멤버 정보 필터링
+				self.memberData = users.filter { user in
 					memberUids.contains { member in
-						a.uid == member.userUID
+						user.uid == member.userUID
 					}
-				}
-				self?.getMasterNickname()
-			}
+				}			}
 			.store(in: &cancellables)
 	}
 	
@@ -207,17 +212,6 @@ class GatheringDetailVM {
 				}
 			} receiveValue: { [weak self] posts in
 				self?.boardData = posts
-				print("가져온 게시글 수:", posts.count)
-				for (index, post) in posts.enumerated() {
-					print("게시글 \(index + 1):")
-					print("  제목:", post.title)
-					print("  내용:", post.contents)
-					print("  타입:", post.boardType)
-					print("  작성자 UID:", post.userUID)
-					print("  게시글 UID:", post.postUID)
-					print("  이미지 URL 수:", post.imageUrls.count)
-					print("--------------------")
-				}
 			}
 			.store(in: &cancellables)
 	}
@@ -274,7 +268,7 @@ class GatheringDetailVM {
 	func getGatheringMembers() -> [LetportsUser] {
 		return self.memberData
 	}
-	
+	// 모임 가입
 	func joinGathering(answer: String) -> AnyPublisher<Void, FirestoreError> {
 		
 		// nowMember 추가
@@ -429,7 +423,7 @@ class GatheringDetailVM {
 		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
 		nickname: "투구천재",
 		simpleInfo: "ㅁㅁㅁ",
-		uid: "user004",
+		uid: "users002",
 		userSports: "KBO",
 		userSportsTeam: "기아 타이거즈"
 	)

@@ -17,7 +17,7 @@ enum LetportsCollection: String {
     case gatherings = "Gatherings"
     case user = "Users"
     case sports = "Sports"
-    case board = "Baord"
+    case board = "Board"
     case comment = "Comment"
     case myGathering = "MyGatherings"
     case gatheringMembers = "GatheringMembers"
@@ -419,6 +419,7 @@ let path: [FirestorePathComponent] = [
                     if let error = error {
                         promise(.failure(.unknownError(error)))
                     } else if let snapshot = snapShot, snapshot.exists {
+						print("snapShot,t: \(snapshot.data()),\(T.self)")
                         do {
                             let data = try snapshot.data(as: T.self)
                             promise(.success([data]))

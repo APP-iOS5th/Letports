@@ -82,12 +82,12 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 		])
 	}
 	
-	func configure(with member: GatheringMember?) {
-		guard let member = member else {
-			nickNameLabel.text = "Unknown"
-			profileImageView.image = UIImage(named: "placeholder_image")
-			return
-		}
+	func configure(with member: Post) {
+//		guard let member = member else {
+//			nickNameLabel.text = "Unknown"
+//			profileImageView.image = UIImage(named: "placeholder_image")
+//			return
+//		}
 //		nickNameLabel.text = member.nickName
 //		if let url = URL(string: member.image) {
 //			profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "person.circle.fill"))
