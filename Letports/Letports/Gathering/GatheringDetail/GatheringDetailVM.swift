@@ -25,12 +25,7 @@ enum GatheringDetailCellType {
 	case gatheringBoard
 	case separator
 }
-// 게시판버튼 유형
-enum BoardBtnType: String {
-	case all
-	case noti
-	case free
-}
+
 // 가입상태
 enum MembershipStatus {
 	case notJoined
@@ -46,7 +41,7 @@ class GatheringDetailVM {
 	@Published private(set) var joinedMembers: [GatheringMember] = []
 	@Published private(set) var member: [GatheringMember] = []
 	@Published private(set) var memberData: [LetportsUser] = []
-	@Published var selectedBoardType: BoardBtnType = .all
+	@Published var selectedBoardType: PostType = .all
 	@Published var masterNickname: String = ""
 	@Published var isMaster: Bool = false
 	
@@ -68,16 +63,9 @@ class GatheringDetailVM {
 		case .all:
 			return boardData
 		case .noti, .free:
-			return boardData
-			//				.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
+			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
 		}
 	}
-	
-	//	var joinedMembers: [LetportsUser] {
-	//			return memberData.filter { user in
-	//				member.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
-	//			}
-	//		}
 	
 	func showGatherSettingView() {
 		guard let gatheringUid = gathering?.gatheringUid else { return }
@@ -201,6 +189,39 @@ class GatheringDetailVM {
 			.store(in: &cancellables)
 	}
 	
+	// 게시글
+	private func fetchBoardData() {
+		let boardCollectionPath: [FirestorePathComponent] = [
+			.collection(.gatherings),
+			.document(currentGatheringUid),
+			.collection(.board)
+		]
+		
+		FM.getData(pathComponents: boardCollectionPath, type: Post.self)
+			.sink { completion in
+				switch completion {
+				case .finished:
+					print("fetchBoardData 완료")
+				case .failure(let error):
+					print("fetchBoardData 오류:", error)
+				}
+			} receiveValue: { [weak self] posts in
+				self?.boardData = posts
+				print("가져온 게시글 수:", posts.count)
+				for (index, post) in posts.enumerated() {
+					print("게시글 \(index + 1):")
+					print("  제목:", post.title)
+					print("  내용:", post.contents)
+					print("  타입:", post.boardType)
+					print("  작성자 UID:", post.userUID)
+					print("  게시글 UID:", post.postUID)
+					print("  이미지 URL 수:", post.imageUrls.count)
+					print("--------------------")
+				}
+			}
+			.store(in: &cancellables)
+	}
+	
 	// 모임장 닉네임
 	private func getMasterNickname() {
 		guard let gathering = self.gathering else {
@@ -252,29 +273,6 @@ class GatheringDetailVM {
 	// 모임 멤버들 정보
 	func getGatheringMembers() -> [LetportsUser] {
 		return self.memberData
-	}
-	
-	// 게시판데이터
-	private func fetchBoardData() {
-		let collectionPath: [FirestorePathComponent] = [
-			.collection(.gatherings),
-			.document(currentGatheringUid),
-			.collection(.board)
-		]
-		
-		FM.getData(pathComponents: collectionPath, type: Post.self)
-			.sink { completion in
-				switch completion {
-				case .finished:
-					print("fetchGatheringData Finish")
-				case .failure(let error):
-					print("fetchGatheringData Error4", error)
-				}
-			} receiveValue: { [weak self] posts in
-				print("포스트: \(posts)")
-				self?.boardData = posts
-			}
-			.store(in: &cancellables)
 	}
 	
 	func joinGathering(answer: String) -> AnyPublisher<Void, FirestoreError> {

@@ -267,7 +267,7 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 }
 
 extension GatheringDetailVC: BoardBtnTVCellDelegate {
-	func didSelectBoardType(_ type: BoardBtnType) {
+	func didSelectBoardType(_ type: PostType) {
 		viewModel.selectedBoardType = type
 	}
 }
@@ -337,6 +337,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 														for: indexPath) as? GatheringDetailBoardTVCell {
 				cell.viewModel = viewModel
 				cell.board = viewModel.filteredBoardData
+				print("뷰모델 필터링: \(viewModel.filteredBoardData)")
 				cell.membershipStatus = viewModel.membershipStatus
 				cell.delegate = self
 				return cell
