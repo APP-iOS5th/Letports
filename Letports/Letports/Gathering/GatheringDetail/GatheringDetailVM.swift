@@ -54,8 +54,7 @@ class GatheringDetailVM {
 	
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
-		// 하드코딩으로 주석처리
-		//		self.currentGatheringUid = currentGatheringUid
+		self.currentGatheringUid = currentGatheringUid
 	}
 	
 	// 게시판 분류
