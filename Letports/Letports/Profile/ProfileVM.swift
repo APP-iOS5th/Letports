@@ -14,8 +14,8 @@ enum ProfileCellType {
 
 class ProfileVM {
     @Published var user: LetportsUser?
-    @Published var myGatherings: [Sample] = []
-    @Published var pendingGatherings: [Sample] = []
+    @Published var myGatherings: [Gathering] = []
+    @Published var pendingGatherings: [Gathering] = []
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileCoordinatorDelegate?
@@ -125,7 +125,7 @@ class ProfileVM {
                     .document(gathering.uid)
                 ]
                 
-                return FM.getData(pathComponents: collectionPath3, type: Sample.self)
+            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
             }
 
             // 여러 Publisher를 병합하여 동시에 처리하고, 결과를 수집
@@ -142,7 +142,7 @@ class ProfileVM {
     }
     
     
-    private func filterGatherings(_ gatherings: [Sample], for user: LetportsUser) {
+    private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) {
         let memberStatusPublishers = gatherings.map { gathering in
                 let collectionPath3: [FirestorePathComponent] = [
                     .collection(.gatherings),
@@ -151,8 +151,8 @@ class ProfileVM {
                     .document(user.uid)
                 ]
                 
-            return FM.getData(pathComponents: collectionPath3, type: SampleMember.self)
-                    .map { members -> (Sample, Bool) in
+            return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
+                .map { members -> (Gathering, Bool) in
                         let isJoined = members.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
                         return (gathering, isJoined)
                     }
@@ -171,8 +171,8 @@ class ProfileVM {
                 }, receiveValue: { [weak self] results in
                     guard let self = self else { return }
                     
-                    var myGatherings: [Sample] = []
-                    var pendingGatherings: [Sample] = []
+                    var myGatherings: [Gathering] = []
+                    var pendingGatherings: [Gathering] = []
                     
                     results.forEach { gathering, isJoined in
                         if isJoined {
