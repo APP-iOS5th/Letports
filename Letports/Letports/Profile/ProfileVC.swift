@@ -138,9 +138,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
-                if let user = viewModel.user {
                     cell.delegate = self
-                    cell.configure(with: viewModel.user!)
+                if let user = viewModel.user {
+                    cell.configure(with: user)
                 }
                 return cell
             }
@@ -226,7 +226,7 @@ extension ProfileVC: ProfileDelegate {
 }
 
 extension ProfileVC: CustomNavigationDelegate {
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         self.viewModel.settingButtonTapped()
     }
 }
