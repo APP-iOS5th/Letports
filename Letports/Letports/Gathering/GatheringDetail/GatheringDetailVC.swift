@@ -79,6 +79,11 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		self.delegate = self
 		viewModel.selectedBoardType = .all
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.loadData()
+    }
 	
 	// MARK: - bindVm
 	private func bindViewModel() {
