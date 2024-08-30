@@ -8,6 +8,8 @@ enum ProfileCellType {
     case myGatherings
     case pendingGatheringHeader
     case pendingGatherings
+    case myGatheringSeparator
+    case pendingGatheringSeparator
 }
 
 class ProfileVM {
@@ -25,15 +27,21 @@ class ProfileVM {
         for _ in myGatherings {
             cellTypes.append(.myGatherings)
         }
+        if myGatherings.count == 0 {
+            cellTypes.append(.myGatheringSeparator)
+        }
         cellTypes.append(.pendingGatheringHeader)
         for _ in pendingGatherings {
             cellTypes.append(.pendingGatherings)
+        }
+        if pendingGatherings.count == 0 {
+            cellTypes.append(.pendingGatheringSeparator)
         }
         return cellTypes
     }
     
     init() {
-        loadUser(with: "users003")
+        loadUser(with: "users001")
     }
     
     func getCellTypes() -> [ProfileCellType] {
@@ -95,17 +103,9 @@ class ProfileVM {
     }
     
     func fetchUserGatherings(for user: LetportsUser) {
-        
-        guard !user.myGathering.isEmpty else {
-            self.myGatherings = []
-            self.pendingGatherings = []
-            return
-        }
-        
-        
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
-			.document(user.uid),
+            .document(user.uid),
             .collection(.myGathering)
         ]
         
@@ -114,7 +114,6 @@ class ProfileVM {
             } receiveValue: { [weak self] gathering in
                 guard let self = self else { return }
                 self.getDatas(gatherings: gathering)
-                
             }
             .store(in: &cancellables)
     }
@@ -126,7 +125,7 @@ class ProfileVM {
                     .document(gathering.uid)
                 ]
                 
-                return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
+            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
             }
 
             // 여러 Publisher를 병합하여 동시에 처리하고, 결과를 수집
@@ -152,8 +151,8 @@ class ProfileVM {
                     .document(user.uid)
                 ]
                 
-                return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
-                    .map { members -> (Gathering, Bool) in
+            return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
+                .map { members -> (Gathering, Bool) in
                         let isJoined = members.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
                         return (gathering, isJoined)
                     }

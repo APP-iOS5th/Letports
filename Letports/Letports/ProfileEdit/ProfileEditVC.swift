@@ -78,9 +78,11 @@ class ProfileEditVC: UIViewController {
             viewModel.$user,
             viewModel.$selectedImage
         )
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] (user, selectedImage) in
             self?.tableView.reloadData()
         }
+        .store(in: &cancellables)
     }
     
 }
