@@ -22,7 +22,7 @@ class AuthVC: UIViewController {
     
     private lazy var appleSignInBtn: ASAuthorizationAppleIDButton = {
         let btn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
-        btn.addTarget(self, action: #selector(appleSignInBtnTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -30,7 +30,7 @@ class AuthVC: UIViewController {
     private lazy var googleSignInBtn: GIDSignInButton = {
         let btn = GIDSignInButton()
         btn.style = .standard
-        btn.addTarget(self, action: #selector(googleSignInBtnTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(googleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -57,7 +57,7 @@ class AuthVC: UIViewController {
         ])
     }
     
-    @objc private func appleSignInBtnTapped() {
+    @objc private func appleSignInBtnDidTap() {
         let nonce = authService.randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -71,7 +71,7 @@ class AuthVC: UIViewController {
         authorizationController.performRequests()
     }
     
-    @objc private func googleSignInBtnTapped() {
+    @objc private func googleSignInBtnDidTap() {
         viewModel.signInWithGoogle(presenting: self)
     }
 }
