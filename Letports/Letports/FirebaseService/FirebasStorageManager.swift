@@ -53,9 +53,8 @@ enum StorageFilePath {
 
 class FirebaseStorageManager {
     
-    static func uploadImages(images: [UIImage], 
+    static func uploadImages(images: [UIImage],
                              filePath: StorageFilePath) -> AnyPublisher<[URL], FirebaseStorageError> {
-        
         //images 배열에 5개만 map을 통해 uploadSingleImage 함수 실행
         //최대 이미지 개수를 5개로 제한할 것이지만 혹시 모를 상황에 대비하기 위해 prefix사용
         let uploadPublishers = images.prefix(5).map { image in
@@ -64,11 +63,13 @@ class FirebaseStorageManager {
         
         return Publishers.MergeMany(uploadPublishers)
             .collect() // URL 배열로 합침
+            .mapError { error -> FirebaseStorageError in
+                return .uploadFailed(error: error)
+            }
             .eraseToAnyPublisher()
     }
     
-    
-    static func uploadSingleImage(image: UIImage, 
+    static func uploadSingleImage(image: UIImage,
                                   filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
             guard let imageData = image.jpegData(compressionQuality: 0.4) else {
@@ -76,14 +77,11 @@ class FirebaseStorageManager {
                 return
             }
             
-            
             let metaData = StorageMetadata()
             metaData.contentType = "image/jpeg"
             
             let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
-            
             let filePath = filePath.pathStr + imageName
-            
             let firebaseRef = STOREAGE.reference().child(filePath)
             
             firebaseRef.putData(imageData, metadata: metaData) { metaData, error in

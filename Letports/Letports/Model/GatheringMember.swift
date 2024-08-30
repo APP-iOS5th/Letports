@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct GatheringMember: Codable {
+struct SampleMember: Codable {
     let answer: String
     let image: String
     let joinDate: String
@@ -24,4 +24,18 @@ struct GatheringMember: Codable {
         case userUID = "UserUid"
         case simpleInfo = "SimpleInfo"
     }
+}
+
+struct GatheringMember: Codable {
+	let answer: String
+	let joinDate: String
+	let joinStatus: String
+	let userUID: String
+
+	enum CodingKeys: String, CodingKey {
+		case answer = "Answer"
+		case joinDate = "JoinDate"
+		case joinStatus = "JoinStatus"
+		case userUID = "UserUid"
+	}
 }

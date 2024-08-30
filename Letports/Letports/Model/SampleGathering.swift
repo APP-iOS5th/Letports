@@ -6,7 +6,9 @@
 //
 import Foundation
 
+
 struct SampleGathering1: Codable {
+
     let gatherImage: String
     let gatherInfo: String
     let gatherMaxMember: Int
@@ -35,6 +37,8 @@ struct SampleGathering1: Codable {
         case gatheringUid = "GatheringUid"
     }
 }
+
+
 //
 //  Gathering.swift
 //  Letports
