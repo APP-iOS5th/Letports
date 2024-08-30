@@ -79,11 +79,7 @@ class BoardEditorVM {
         uploadImage()
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
-                if imageUrls.isEmpty {
-                    self.isUploading = false
-                } else {
-                    self.boardUpload(images: imageUrls)
-                }
+                self.boardUpload(images: imageUrls)
             }
             .store(in: &cancellables)
     }

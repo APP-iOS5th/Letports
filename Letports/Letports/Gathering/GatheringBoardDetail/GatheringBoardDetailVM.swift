@@ -77,6 +77,25 @@ final class GatheringBoardDetailVM {
         delegate?.presentActionSheet(post: self.boardPost)
     }
     
+    func getPost() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering.gatheringUid),
+            .collection(.board),
+            .document(boardPost.postUID)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Post.self)
+            .sink { _ in
+            } receiveValue: { [weak self] post in
+                guard let post = post.first else {
+                    return
+                }
+                self?.boardPost = post
+            }
+            .store(in: &cancellables)
+    }
+    
     func deletePost() {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
