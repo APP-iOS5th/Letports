@@ -5,10 +5,10 @@ import FirebaseFirestore
 enum GatheringSettingCellType {
     case pendingGatheringUserTtitle
     case pendingGatheringUser
-    case pendingSeparator
+    case pendingEmptyState
     case joiningGatheringUserTitle
     case joiningGatheringUser
-    case joinSeparator
+    case joinEmptyState
     case settingTitle
     case deleteGathering
 }
@@ -30,14 +30,14 @@ class GatherSettingVM {
             cellTypes.append(.pendingGatheringUser)
         }
         if pendingMembers.count == 0 {
-            cellTypes.append(.pendingSeparator)
+            cellTypes.append(.pendingEmptyState)
         }
         cellTypes.append(.joiningGatheringUserTitle)
         for _ in joinedMembers {
             cellTypes.append(.joiningGatheringUser)
         }
         if joinedMembers.count == 0 {
-            cellTypes.append(.joinSeparator)
+            cellTypes.append(.joinEmptyState)
         }
         cellTypes.append(.settingTitle)
         cellTypes.append(.deleteGathering)

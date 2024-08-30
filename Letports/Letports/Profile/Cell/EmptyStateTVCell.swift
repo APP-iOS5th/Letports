@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SeparatorTVCell: UITableViewCell {
+class EmptyStateTVCell: UITableViewCell {
     
-    private lazy var separatorLabel: UILabel = {
+    private lazy var emptyStateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .lp_lightGray
@@ -30,17 +30,17 @@ class SeparatorTVCell: UITableViewCell {
     }
     
     func setupUI() {
-        contentView.addSubview(separatorLabel)
+        contentView.addSubview(emptyStateLabel)
         contentView.backgroundColor = .lp_background_white
         
         NSLayoutConstraint.activate([
-            separatorLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            separatorLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            emptyStateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            emptyStateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
  
         ])
     }
     
     func configure(withTitle title: String) {
-        separatorLabel.text = title
+        emptyStateLabel.text = title
     }
 }

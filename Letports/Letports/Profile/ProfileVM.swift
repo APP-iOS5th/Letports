@@ -8,8 +8,8 @@ enum ProfileCellType {
     case myGatherings
     case pendingGatheringHeader
     case pendingGatherings
-    case myGatheringSeparator
-    case pendingGatheringSeparator
+    case myGatheringEmptyState
+    case pendingGatheringEmptyState
 }
 
 class ProfileVM {
@@ -29,14 +29,14 @@ class ProfileVM {
             cellTypes.append(.myGatherings)
         }
         if myGatherings.count == 0 {
-            cellTypes.append(.myGatheringSeparator)
+            cellTypes.append(.myGatheringEmptyState)
         }
         cellTypes.append(.pendingGatheringHeader)
         for _ in pendingGatherings {
             cellTypes.append(.pendingGatherings)
         }
         if pendingGatherings.count == 0 {
-            cellTypes.append(.pendingGatheringSeparator)
+            cellTypes.append(.pendingGatheringEmptyState)
         }
         return cellTypes
     }

@@ -72,14 +72,17 @@ class UserProfileVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.CombineLatest(
-            viewModel.$user,
-            viewModel.$userGatherings
+        let mergedPublishers = Publishers.Merge(
+            viewModel.$user.map { _ in () }.eraseToAnyPublisher(),
+            viewModel.$userGatherings.map { _ in () }.eraseToAnyPublisher()
         )
-        .sink { [weak self] (user, userGathering) in
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+
+        mergedPublishers
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 }
 

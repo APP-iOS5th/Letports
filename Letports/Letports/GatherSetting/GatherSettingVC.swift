@@ -47,7 +47,7 @@ class GatherSettingVC: UIViewController {
         tv.registersCell(cellClasses: GatherSectionTVCell.self,
                          GatherUserTVCell.self,
                          GatherDeleteTVCell.self,
-                         SeparatorTVCell.self)
+                         EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -80,34 +80,14 @@ class GatherSettingVC: UIViewController {
     }
     
     private func bindViewModel() {
-        let gatheringPublisher = viewModel.$gathering
-            .map { _ in }
-            .eraseToAnyPublisher()
-        
-        let pendingMembersPublisher = viewModel.$pendingMembers
-            .map { _ in }
-            .eraseToAnyPublisher()
-        
-        let pendingMembersDataPublisher = viewModel.$pendingMembersData
-            .map { _ in }
-            .eraseToAnyPublisher()
-        
-        let joinedMembersPublisher = viewModel.$joinedMembers
-            .map { _ in }
-            .eraseToAnyPublisher()
-        
-        let joinedMembersDataPublisher = viewModel.$joinedMembersData
-            .map { _ in } // 이벤트 발생만을 위해 매핑
-            .eraseToAnyPublisher()
-        
         let mergedPublishers = Publishers.MergeMany(
-            gatheringPublisher,
-            pendingMembersPublisher,
-            joinedMembersPublisher,
-            pendingMembersDataPublisher,
-            joinedMembersDataPublisher
+            viewModel.$gathering.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$pendingMembers.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$pendingMembersData.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$joinedMembers.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$joinedMembersData.map { _ in }.eraseToAnyPublisher()
         )
-        
+
         mergedPublishers
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
@@ -168,7 +148,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
             return 40.0
-        case .pendingGatheringUser, .joiningGatheringUser, .joinSeparator, .pendingSeparator:
+        case .pendingGatheringUser, .joiningGatheringUser, .joinEmptyState, .pendingEmptyState:
             return 80.0
         }
     }
@@ -261,13 +241,13 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: GatherDeleteTVCell  = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
-        case .pendingSeparator:
-            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+        case .pendingEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(withTitle: "가입 대기중인 인원이 없습니다.")
                 return cell
             }
-        case .joinSeparator:
-            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+        case .joinEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(withTitle: "가입 중인 인원이 없습니다.")
                 return cell
             }
