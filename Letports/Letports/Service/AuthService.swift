@@ -100,7 +100,7 @@ class AuthService: AuthServiceProtocol {
                     uid: user.uid,
                     userSports: "",
                     userSportsTeam: ""
-                    )
+                )
                 
                 UserManager.shared.login(user: letportsUser)
                 
@@ -123,8 +123,8 @@ class AuthService: AuthServiceProtocol {
     }
     
     private func createNewUser(letportsUser: LetportsUser) -> AnyPublisher<Void, FirestoreError> {
-            return FM.setData(collection: "Users", document: letportsUser.uid, data: letportsUser)
-        }
+        return FM.setData(collection: "Users", document: letportsUser.uid, data: letportsUser)
+    }
     
     func signOut() throws {
         try Auth.auth().signOut()

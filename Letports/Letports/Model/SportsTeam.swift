@@ -10,6 +10,7 @@ struct SportsTeam: Codable {
     let homepage: String
     let instagram: String
     let sportsName: String
+    let sportsUID: String
     let teamHomeTown: String
     let teamLogo: String
     let teamName: String
@@ -23,6 +24,7 @@ struct SportsTeam: Codable {
         case homepage = "Homepage"
         case instagram = "Instagram"
         case sportsName = "SportsName"
+        case sportsUID = "SportsUID"
         case teamHomeTown = "TeamHomeTown"
         case teamLogo = "TeamLogo"
         case teamName = "TeamName"

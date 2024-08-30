@@ -25,6 +25,10 @@ class UserManager {
         currentUser = nil
     }
     
+    func updateCurrentUser(_ user: LetportsUser) {
+        currentUser = user
+    }
+    
     func getUserUid() -> String {
         return currentUser?.uid ?? ""
     }

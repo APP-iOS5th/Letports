@@ -242,7 +242,6 @@ class FirestoreManager {
         .eraseToAnyPublisher()
     }
     
-    
     //DELETE
     func deleteDocument(from collection: String, document: String) -> AnyPublisher<Void, FirestoreError> {
         return Future<Void, FirestoreError> { promise in
@@ -592,18 +591,50 @@ let path: [FirestorePathComponent] = [
         .eraseToAnyPublisher()
     }
     
-    func getSportsCategories() -> AnyPublisher<[TeamSelectionViewModel.Sports], FirestoreError> {
-        return Future<[TeamSelectionViewModel.Sports], FirestoreError> { promise in
+    // 특정 컬렉션의 모든 문서를 한 번의 쿼리로 가져옴
+    func getAllDocuments<T: Decodable>(collection: String, type: T.Type) -> AnyPublisher<[T], FirestoreError> {
+        return Future<[T], FirestoreError> { promise in
+            FIRESTORE.collection(collection).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    promise(.failure(.unknownError(error)))
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    promise(.success([]))
+                    return
+                }
+                
+                let decodedDocuments = documents.compactMap { document -> T? in
+                    do {
+                        var data = document.data()
+                        data["postUID"] = document.documentID
+                        return try Firestore.Decoder().decode(T.self, from: data)
+                    } catch {
+                        print("디코딩 에러: \(error)")
+                        return nil
+                    }
+                }
+                
+                promise(.success(decodedDocuments))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func getSportsCategories() -> AnyPublisher<[TeamSelectVM.Sports], FirestoreError> {
+        return Future<[TeamSelectVM.Sports], FirestoreError> { promise in
             FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in
                 if let error = error {
                     promise(.failure(.unknownError(error)))
                     return
                 }
                 
-                let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Sports? in
+                let sportsCategories = querySnapshot?.documents.compactMap { document -> TeamSelectVM.Sports? in
                     let id = document.documentID.replacingOccurrences(of: "Letports_", with: "")
                     let name = document.get("SportsName") as? String ?? id
-                    return TeamSelectionViewModel.Sports(id: id, name: name)
+                    let sportsUID = document.documentID
+                    return TeamSelectVM.Sports(id: id, name: name, sportsUID: sportsUID)
                 } ?? []
                 
                 promise(.success(sportsCategories))
@@ -612,8 +643,8 @@ let path: [FirestorePathComponent] = [
         .eraseToAnyPublisher()
     }
     
-    func getTeamsForSports(_ sports: String) -> AnyPublisher<[TeamSelectionViewModel.Team], FirestoreError> {
-        return Future<[TeamSelectionViewModel.Team], FirestoreError> { promise in
+    func getSportsTeams(_ sports: String) -> AnyPublisher<[TeamSelectVM.Team], FirestoreError> {
+        return Future<[TeamSelectVM.Team], FirestoreError> { promise in
             FIRESTORE.collection("Sports").document("Letports_\(sports)")
                 .collection("SportsTeam").getDocuments { (querySnapshot, error) in
                     if let error = error {
@@ -621,12 +652,11 @@ let path: [FirestorePathComponent] = [
                         return
                     }
                     
-                    let teams = querySnapshot?.documents.compactMap { document -> TeamSelectionViewModel.Team? in
+                    let teams = querySnapshot?.documents.compactMap { document -> TeamSelectVM.Team? in
                         guard let teamName = document.get("TeamName") as? String,
                               let teamLogo = document.get("TeamLogo") as? String,
                               let teamUID = document.get("TeamUID") as? String else { return nil }
-                        print("TeamLogo URL from Firestore: \(teamLogo)")
-                        return TeamSelectionViewModel.Team(
+                        return TeamSelectVM.Team(
                             id: document.documentID,
                             name: teamName,
                             logoUrl: teamLogo,
