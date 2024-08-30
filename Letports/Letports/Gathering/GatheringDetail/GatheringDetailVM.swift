@@ -54,7 +54,6 @@ class GatheringDetailVM {
 	
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
-		// 하드코딩으로 주석처리
 		self.currentGatheringUid = currentGatheringUid
 	}
 	
@@ -68,7 +67,7 @@ class GatheringDetailVM {
 		}
 	}
 	
-	func showGatherSettingView() {
+	func pushGatherSettingView() {
 		guard let gatheringUid = gathering?.gatheringUid else { return }
 		self.delegate?.pushGatherSettingView(gatheringUid: gatheringUid)
 	}
@@ -107,10 +106,6 @@ class GatheringDetailVM {
 	func didTapUploadBtn(type: PostType) {
 		guard let gathering = self.gathering else { return }
 		self.delegate?.pushPostUploadViewController(type: type, gathering: gathering)
-	}
-	
-	func pushGatherSettingView() {
-		
 	}
 	
 	//모임데이터

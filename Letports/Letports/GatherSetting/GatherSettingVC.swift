@@ -35,6 +35,7 @@ class GatherSettingVC: UIViewController {
         let btnName: NaviButtonType
         let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallGatheringSetting(btnName: .update))
         view.translatesAutoresizingMaskIntoConstraints = false
+		view.delegate = self
         return view
     }()
     
@@ -124,6 +125,12 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
         self.viewModel.approveUser()
     }
     
+}
+
+extension GatherSettingVC: CustomNavigationDelegate {
+	func backBtnDidTap() {
+		viewModel.gatherSettingBackBtnTap()
+	}
 }
 
 extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
