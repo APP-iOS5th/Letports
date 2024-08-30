@@ -114,7 +114,7 @@ class CommentTVCell: UITableViewCell {
 	}
 	
 	func configureCell(data: GatheringBoardDetailVM.Comment) {
-		// 임시 주석처리
+		// VM더미데이터 사용중
 		userImageView.image = UIImage(named: "defaultUserImage")
 		nickNameLabel.text = data.nickName
 		commentLabel.text = data.content

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func pushBoardDetail(boardPost: Post, gathering: Gathering)
+    func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser])
 	func pushProfileView(member: LetportsUser)
 	func presentActionSheet()
 	func reportGathering()
@@ -54,10 +54,11 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		coordinator.start()
 	}
 	
-	func pushBoardDetail(boardPost: Post, gathering: Gathering) {
+    func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser]) {
+        let viewModel = GatheringBoardDetailVM(boardPost: boardPost, allUsers: allUsers, gathering: gathering)
+        
 		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
-														  postUID: boardPost.postUID,
-														  gathering: gathering)
+                                                          viewModel: viewModel)
 		childCoordinators.append(coordinator)
 		coordinator.start()
 	}
@@ -95,7 +96,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 		let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-		self?.viewModel.confirmLeaveGathering()
+			self?.viewModel.confirmLeaveGathering()
 		}
 		
 		alertController.addAction(cancelAction)
