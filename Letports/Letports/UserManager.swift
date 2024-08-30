@@ -24,4 +24,8 @@ class UserManager {
         isLoggedIn = false
         currentUser = nil
     }
+    
+    func updateCurrentUser(_ user: LetportsUser) {
+        currentUser = user
+    }
 }

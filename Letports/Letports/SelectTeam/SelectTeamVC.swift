@@ -54,7 +54,7 @@ class TeamSelectionViewController: UICollectionViewController {
         viewModel.$sportsCategories
             .sink { [weak self] categories in
                 print("Sports categories updated: \(categories.count)")
-
+                
                 self?.updateSportsSnapshot()
             }
             .store(in: &cancellables)
@@ -189,9 +189,22 @@ extension TeamSelectionViewController {
             viewModel.selectSports(sports)
             updateTeamsSnapshot()
         case .teams:
-            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team {
+            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team,
+               let selectedSports = viewModel.selectedSports {
                 print("Selected team: \(team.name), TeamUID: \(team.teamUID), Sports: \(team.sports)")
-                // TODO: 선택된 팀 처리 로직 구현
+                
+                viewModel.updateUserSportsAndTeam(sports: selectedSports, team: team)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .finished:
+                            print("Successfully updated user sports and team")
+                            // TODO: Navigate to the next screen or show success message
+                        case .failure(let error):
+                            print("Error updating user sports and team: \(error)")
+                            // TODO: Show error message to the user
+                        }
+                    }, receiveValue: { _ in })
+                    .store(in: &cancellables)
             }
         }
     }

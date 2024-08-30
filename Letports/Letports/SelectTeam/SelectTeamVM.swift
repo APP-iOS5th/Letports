@@ -32,9 +32,9 @@ class TeamSelectionViewModel {
     private var cancellables = Set<AnyCancellable>()
     
     func selectSports(_ sports: Sports) {
-            selectedSports = sports
-            filteredTeams = allTeams.filter { $0.sports == sports.id }
-        }
+        selectedSports = sports
+        filteredTeams = allTeams.filter { $0.sports == sports.id }
+    }
     
     func loadData(completion: @escaping () -> Void) {
         print("TeamSelectionViewModel - loadData called")
@@ -49,7 +49,7 @@ class TeamSelectionViewModel {
     
     private func loadSportsCategories(completion: @escaping () -> Void) {
         print("TeamSelectionViewModel - loadSportsCategories started")
-
+        
         FirestoreManager.shared.getSportsCategories()
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {
@@ -78,5 +78,31 @@ class TeamSelectionViewModel {
             completion()
         })
         .store(in: &cancellables)
+    }
+}
+
+extension TeamSelectionViewModel {
+    func updateUserSportsAndTeam(sports: Sports, team: Team) -> AnyPublisher<Void, Error> {
+        guard let currentUser = UserManager.shared.currentUser else {
+            return Fail(error: NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No current user found"])).eraseToAnyPublisher()
+        }
+        
+        let updatedUser = LetportsUser(
+            email: currentUser.email,
+            image: currentUser.image,
+            nickname: currentUser.nickname,
+            simpleInfo: currentUser.simpleInfo,
+            uid: currentUser.uid,
+            userSports: sports.id,
+            userSportsTeam: team.teamUID
+        )
+        
+        return FM.updateData(collection: "Users", document: currentUser.uid, data: updatedUser)
+            .mapError { $0 as Error }
+            .flatMap { _ -> AnyPublisher<Void, Error> in
+                UserManager.shared.updateCurrentUser(updatedUser)
+                return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 }
