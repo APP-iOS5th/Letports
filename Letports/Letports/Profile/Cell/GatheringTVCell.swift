@@ -174,7 +174,7 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Sample, with user: LetportsUser, with master: LetportsUser) {
+    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
@@ -196,7 +196,7 @@ class GatheringTVCell: UITableViewCell {
         gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: placeholder)
     }
     
-     func configure(with gathering: Gathering) {
+     func configure(with gathering: SampleGathering1) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

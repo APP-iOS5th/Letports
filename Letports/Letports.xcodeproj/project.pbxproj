@@ -116,8 +116,8 @@
 		D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F622C776425003D29AC /* ProfileCoordinator.swift */; };
 		D8299F6A2C776555003D29AC /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F692C776555003D29AC /* ProfileVC.swift */; };
 		D8299F712C777D2A003D29AC /* SportsTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F702C777D27003D29AC /* SportsTeam.swift */; };
-		D8299F732C777D4E003D29AC /* Gathering.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F722C777D4B003D29AC /* Gathering.swift */; };
-		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
+		D8299F732C777D4E003D29AC /* SampleGathering1.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F722C777D4B003D29AC /* SampleGathering1.swift */; };
+		D8299F752C777D7F003D29AC /* SampleMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* SampleMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
 		D845E0D22C79CBCC006DD879 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */; };
@@ -261,8 +261,8 @@
 		D8299F622C776425003D29AC /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		D8299F692C776555003D29AC /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		D8299F702C777D27003D29AC /* SportsTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsTeam.swift; sourceTree = "<group>"; };
-		D8299F722C777D4B003D29AC /* Gathering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gathering.swift; sourceTree = "<group>"; };
-		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
+		D8299F722C777D4B003D29AC /* SampleGathering1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGathering1.swift; sourceTree = "<group>"; };
+		D8299F742C777D7B003D29AC /* SampleMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
@@ -317,8 +317,8 @@
 			children = (
 				D8299F782C777DCD003D29AC /* Post.swift */,
 				D8299F762C777DA2003D29AC /* Comment.swift */,
-				D8299F742C777D7B003D29AC /* GatheringMember.swift */,
-				D8299F722C777D4B003D29AC /* Gathering.swift */,
+				D8299F742C777D7B003D29AC /* SampleMember.swift */,
+				D8299F722C777D4B003D29AC /* SampleGathering1.swift */,
 				D8299F702C777D27003D29AC /* SportsTeam.swift */,
 				410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */,
 				F78A24C12C7C4C8E00471331 /* Team.swift */,
@@ -873,8 +873,8 @@
 				B85FD8862C79CCD0007B4962 /* CategoryCell.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
 				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
-				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
-				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
+				D8299F752C777D7F003D29AC /* SampleMember.swift in Sources */,
+				D8299F732C777D4E003D29AC /* SampleGathering1.swift in Sources */,
 				D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */,
 				D8299F6A2C776555003D29AC /* ProfileVC.swift in Sources */,
 				413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */,

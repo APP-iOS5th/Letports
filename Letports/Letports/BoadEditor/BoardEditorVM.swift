@@ -33,7 +33,7 @@ class BoardEditorVM {
     @Published private(set) var isUploading: Bool = false
     
     private(set) var postType: PostType = .free
-    private(set) var gathering: Gathering?
+    private(set) var gathering: SampleGathering1?
     
     private(set) var isEditMode: Bool
     private var postID: String?
@@ -50,7 +50,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(type: PostType, gathering: Gathering, post: Post? = nil) {
+    init(type: PostType, gathering: SampleGathering1, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -104,7 +104,7 @@ class BoardEditorVM {
             let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
                                   userUID: myUserUid,
                                   title: title, contents: contents,
-                            imageUrls: images, comments: [], boardType: self.postType)
+                            imageUrls: images, boardType: "")
             
             if isEditMode {
                 FM.updateData(collection: "Board", document: post.postUID, data: post)

@@ -24,7 +24,7 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post?
 	@Published private(set) var postAuthor: GatheringMember?
-	private(set) var gathering: Gathering
+	private(set) var gathering: Gathering?
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
@@ -44,20 +44,20 @@ final class GatheringBoardDetailVM {
 				}
 			}, receiveValue: { [weak self] post in
 				self?.boardPost = post
-				self?.fetchPostAuthor(userUID: post.userUID)
+//				self?.fetchPostAuthor(userUID: post.userUID)
 				self?.printBoardPostDetails()
 			})
 			.store(in: &cancellables)
 	}
 	
-	private func fetchPostAuthor(userUID: String) {
-		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
-			self.postAuthor = member
-			printMemberDetails(member)
-		} else {
-			print("작성자 정보를 찾을 수 없습니다.")
-		}
-	}
+//	private func fetchPostAuthor(userUID: String) {
+//		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
+//			self.postAuthor = member
+//			printMemberDetails(member)
+//		} else {
+//			print("작성자 정보를 찾을 수 없습니다.")
+//		}
+//	}
 	
 	private func printMemberDetails(_ member: GatheringMember) {
 //		print("=== 게시글 작성자 정보 ===")
@@ -84,7 +84,6 @@ final class GatheringBoardDetailVM {
 		print("게시판 타입: \(post.boardType)")
 		print("작성자 UID: \(post.userUID)")
 		print("이미지 URL 개수: \(post.imageUrls.count)")
-		print("댓글 개수: \(post.comments.count)")
 		print("========================")
 	}
 	

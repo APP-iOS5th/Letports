@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Gathering: Codable {
+struct SampleGathering1: Codable {
     let gatherImage: String
     let gatherInfo: String
     let gatherMaxMember: Int
@@ -15,7 +15,7 @@ struct Gathering: Codable {
     let gatherQuestion: String
     let gatheringCreateDate: String
     let gatheringMaster: String
-    var gatheringMembers: [GatheringMember]
+    var gatheringMembers: [SampleMember]
     let gatheringSports: String
     let gatheringSportsTeam: String
     let gatheringUid: String
@@ -36,15 +36,7 @@ struct Gathering: Codable {
     }
 }
 
-//
-//  Gathering.swift
-//  Letports
-//
-//  Created by mosi on 8/22/24.
-//
-//import Foundation
-//
-struct Sample: Codable {
+struct Gathering: Codable {
     let gatherImage: String
     let gatherInfo: String
     let gatherMaxMember: Int
@@ -56,8 +48,6 @@ struct Sample: Codable {
     let gatheringSports: String
     let gatheringSportsTeam: String
     let gatheringUid: String
-//    let board: Post
-//    let gatheringMemebers: GatheringMember
 
     enum CodingKeys: String, CodingKey {
         case gatherImage = "GatherImage"
@@ -71,12 +61,7 @@ struct Sample: Codable {
         case gatheringSports = "GatheringSports"
         case gatheringSportsTeam = "GatheringSportsTeam"
         case gatheringUid = "GatheringUid"
-//        case board = "Board"
-//        case gatheringMemebers = "GatheringMemebers"
     }
 }
-//extension Sample {
-//    func isJoined(by userUID: String) -> Bool {
-//        return true
-//    }
-//}
+
+//snapShot: Optional(["GatheringMaster": users001, "GatherMaxMember": 20, "GatherInfo": 테스트입니다, "GatheringSports": Letports_soccer, "GatherImage": , "GatherNowMember": 3, "GatheringSportsTeam": FCSeoul, "GatherName": 테스트소모임, "GatheringUid": gather004, "GatheringCreateDate": 2024-08-11, "GatherQuestion": 무엇을좋아하나요])
