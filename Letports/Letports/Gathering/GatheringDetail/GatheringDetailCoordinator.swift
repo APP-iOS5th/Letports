@@ -93,7 +93,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 		let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-		self?.viewModel.confirmLeaveGathering()
+			self?.viewModel.confirmLeaveGathering()
 		}
 		
 		alertController.addAction(cancelAction)
