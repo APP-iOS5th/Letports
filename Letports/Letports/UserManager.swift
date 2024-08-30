@@ -18,6 +18,7 @@ class UserManager {
     func login(user: LetportsUser) {
         isLoggedIn = true
         currentUser = user
+        print("uid = \(currentUser?.uid)")
     }
     
     func logout() {
@@ -27,5 +28,9 @@ class UserManager {
     
     func updateCurrentUser(_ user: LetportsUser) {
         currentUser = user
+    }
+    
+    func getCurrentUserUID() -> String? {
+        return currentUser?.uid
     }
 }

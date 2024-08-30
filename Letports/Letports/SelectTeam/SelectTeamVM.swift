@@ -28,12 +28,17 @@ class TeamSelectionViewModel {
     @Published var allTeams: [Team] = []
     @Published var filteredTeams: [Team] = []
     @Published var selectedSports: Sports?
+    @Published var selectedTeam: Team?
     
     private var cancellables = Set<AnyCancellable>()
     
     func selectSports(_ sports: Sports) {
         selectedSports = sports
         filteredTeams = allTeams.filter { $0.sports == sports.id }
+    }
+    
+    func selectTeam(_ team: Team) {
+        selectedTeam = team
     }
     
     func loadData(completion: @escaping () -> Void) {
@@ -84,8 +89,11 @@ class TeamSelectionViewModel {
 extension TeamSelectionViewModel {
     func updateUserSportsAndTeam(sports: Sports, team: Team) -> AnyPublisher<Void, Error> {
         guard let currentUser = UserManager.shared.currentUser else {
-            return Fail(error: NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No current user found"])).eraseToAnyPublisher()
+            return Fail(error: NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No current user found"]))
+                .eraseToAnyPublisher()
         }
+        
+        print("Updating user data for UID: \(currentUser.uid)")
         
         let updatedUser = LetportsUser(
             email: currentUser.email,
@@ -98,11 +106,21 @@ extension TeamSelectionViewModel {
         )
         
         return FM.updateData(collection: "Users", document: currentUser.uid, data: updatedUser)
+            .handleEvents(
+                receiveSubscription: { _ in
+                    print("Starting Firestore update for user: \(currentUser.uid)")
+                },
+                receiveOutput: { _ in
+                    print("Firestore update successful, updating UserManager")
+                    UserManager.shared.updateCurrentUser(updatedUser)
+                },
+                receiveCompletion: { completion in
+                    if case .failure(let error) = completion {
+                        print("Error updating user data: \(error.localizedDescription)")
+                    }
+                }
+            )
             .mapError { $0 as Error }
-            .flatMap { _ -> AnyPublisher<Void, Error> in
-                UserManager.shared.updateCurrentUser(updatedUser)
-                return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
-            }
             .eraseToAnyPublisher()
     }
 }

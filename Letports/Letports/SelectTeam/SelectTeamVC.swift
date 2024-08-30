@@ -13,7 +13,8 @@ import Kingfisher
 class TeamSelectionViewController: UICollectionViewController {
     
     private var cancellables = Set<AnyCancellable>()
-    private let viewModel = TeamSelectionViewModel()
+    private let viewModel: TeamSelectionViewModel
+    weak var coordinator: TeamSelectionCoordinator?
     
     enum Section: Int, CaseIterable {
         case sports, teams
@@ -24,7 +25,8 @@ class TeamSelectionViewController: UICollectionViewController {
     
     private var dataSource: DataSource!
     
-    init() {
+    init(viewModel: TeamSelectionViewModel) {
+        self.viewModel = viewModel
         super.init(collectionViewLayout: Self.createLayout())
     }
     
@@ -67,7 +69,7 @@ class TeamSelectionViewController: UICollectionViewController {
             .store(in: &cancellables)
     }
     
-    private static func createLayout() -> UICollectionViewLayout {
+    static func createLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             guard let section = Section(rawValue: sectionIndex) else { return nil }
             
@@ -160,7 +162,22 @@ class TeamSelectionViewController: UICollectionViewController {
     }
     
     @objc private func selectButtonTapped() {
+        guard let selectedSports = viewModel.selectedSports,
+              let selectedTeam = viewModel.selectedTeam else {
+            return
+        }
         
+        viewModel.updateUserSportsAndTeam(sports: selectedSports, team: selectedTeam)
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("User data updated successfully")
+                    self?.coordinator?.didFinishTeamSelection()
+                case .failure(let error):
+                    print("Failed to update user data: \(error.localizedDescription)")
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
     private func updateSportsSnapshot() {
@@ -188,22 +205,9 @@ extension TeamSelectionViewController {
             viewModel.selectSports(sports)
             updateTeamsSnapshot()
         case .teams:
-            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team,
-               let selectedSports = viewModel.selectedSports {
+            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectionViewModel.Team {
+                viewModel.selectTeam(team)
                 print("Selected team: \(team.name), TeamUID: \(team.teamUID), Sports: \(team.sports)")
-                
-                viewModel.updateUserSportsAndTeam(sports: selectedSports, team: team)
-                    .sink(receiveCompletion: { completion in
-                        switch completion {
-                        case .finished:
-                            print("Successfully updated user sports and team")
-                            // TODO: Navigate to the next screen or show success message
-                        case .failure(let error):
-                            print("Error updating user sports and team: \(error)")
-                            // TODO: Show error message to the user
-                        }
-                    }, receiveValue: { _ in })
-                    .store(in: &cancellables)
             }
         }
     }
