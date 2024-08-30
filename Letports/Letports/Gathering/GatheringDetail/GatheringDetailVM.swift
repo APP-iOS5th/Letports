@@ -63,7 +63,7 @@ class GatheringDetailVM {
 		case .all:
 			return boardData
 		case .noti, .free:
-            return boardData.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
+			return boardData.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
 		}
 	}
 	
@@ -79,7 +79,7 @@ class GatheringDetailVM {
 	
 	func didTapBoardCell(boardPost: Post) {
 		guard let gathering = self.gathering else { return }
-        self.delegate?.pushBoardDetail(gathering: gathering, boardPost: boardPost, allUsers: self.allUsers)
+		self.delegate?.pushBoardDetail(gathering: gathering, boardPost: boardPost, allUsers: self.allUsers)
 	}
 	
 	func didTapProfile(member: LetportsUser) {
@@ -265,20 +265,6 @@ class GatheringDetailVM {
 	// 모임 가입
 	func joinGathering(answer: String) -> AnyPublisher<Void, FirestoreError> {
 		
-		// nowMember 추가
-		let joinCollectionPath: [FirestorePathComponent] = [
-			.collection(.gatherings),
-			.document(currentGatheringUid)
-		]
-		
-		if var gathering = gathering {
-			gathering.gatherNowMember += 1
-		}
-		
-		let updatedGatheringDicts: [String: Any] = [
-			"GatherNowMember": gathering?.gatherNowMember as Any
-		]
-		
 		// GatheringMember 추가
 		let addMemberCollectionPath: [FirestorePathComponent] = [
 			.collection(.gatherings),
@@ -308,12 +294,11 @@ class GatheringDetailVM {
 		let myGathering = MyGatherings(uid: currentGatheringUid)
 		
 		// 모든 업데이트를 동시에 실행
-		return Publishers.Zip3(
-			FM.updateData(pathComponents: joinCollectionPath, fields: updatedGatheringDicts),
+		return Publishers.Zip(
 			FM.setData(pathComponents: addMemberCollectionPath, data: newMemberDict),
 			FM.setData(pathComponents: userMyGatheringPath, data: myGathering)
 		)
-		.map { _, _, _ in () }
+		.map { _, _ in () }
 		.eraseToAnyPublisher()
 	}
 	
@@ -333,13 +318,24 @@ class GatheringDetailVM {
 			.document(currentGatheringUid)
 		]
 		
-		if var gathering = gathering {
-			gathering.gatherNowMember -= 1
+		if let gathering = gathering {
+			let newNowMember = max(gathering.gatherNowMember - 1, 0) // 음수가 되지 않도록 함
+			
+			let updatedFields: [String: Any] = [
+				"GatherNowMember": newNowMember
+			]
+			
+			FM.updateData(pathComponents: gatheringPath, fields: updatedFields)
+				.sink(receiveCompletion: { completion in
+					switch completion {
+					case .finished:
+						print("현재 인원 수 업데이트 완료")
+					case .failure(let error):
+						print("현재 인원 수 업데이트 실패: \(error)")
+					}
+				}, receiveValue: { _ in })
+				.store(in: &cancellables)
 		}
-		
-		let updatedGatheringDicts: [String: Any] = [
-			"GatherNowMember": gathering?.gatherNowMember as Any
-		]
 		
 		// 유저의 MyGatherings에서 제거
 		let userMyGatheringPath: [FirestorePathComponent] = [
@@ -350,12 +346,11 @@ class GatheringDetailVM {
 		]
 		
 		// 모든 업데이트를 동시에 실행
-		return Publishers.Zip3(
+		return Publishers.Zip(
 			FM.deleteDocument(pathComponents: collectionPath),
-			FM.updateData(pathComponents: gatheringPath, fields: updatedGatheringDicts),
 			FM.deleteDocument(pathComponents: userMyGatheringPath)
 		)
-		.map { _, _, _ in () }
+		.map { _, _ in () }
 		.eraseToAnyPublisher()
 	}
 	
