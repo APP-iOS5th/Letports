@@ -124,3 +124,4 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	}
 	
 }
+
