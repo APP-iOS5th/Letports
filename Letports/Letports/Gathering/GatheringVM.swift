@@ -25,10 +25,10 @@ class GatheringVM {
 	
 	weak var delegate: GatheringCoordinatorDelegate?
 	
-	init() {
-		loadGatherings(forTeam: "한화이글스")
-	}
-	
+    init() {
+        loadGatherings(forTeam: "KIATigers")
+    }
+    
 	func presentTeamChangeController() {
 	}
 	

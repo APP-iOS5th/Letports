@@ -35,6 +35,14 @@ struct SampleGathering1: Codable {
         case gatheringUid = "GatheringUid"
     }
 }
+//
+//  Gathering.swift
+//  Letports
+//
+//  Created by mosi on 8/22/24.
+//
+//import Foundation
+//
 
 struct Gathering: Codable {
     let gatherImage: String

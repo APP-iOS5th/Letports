@@ -10,6 +10,15 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
+enum HomeCellType {
+    case profile
+    case latestVideoTitleLabel
+    case youtubeThumbnails
+    case recommendGatheringTitleLabel
+    case recommendGatheringLists
+}
+
+
 struct YoutubeVideo {
     let title: String
     let thumbnailURL: URL
@@ -40,39 +49,61 @@ struct YoutubeAPIResponse: Codable {
 class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
-    @Published var gatherings: [SampleGathering1] = []
-    
+    @Published var gatherings: [Gathering] = []
     @Published var team: Team?
     
     weak var delegate: HomeCoordinatorDelegate?
     
     private var cancellables = Set<AnyCancellable>()
     private let db = Firestore.firestore()
-    private let youtubeAPIKey = ""
+//    private let youtubeAPIKey = YOUTUBE_API_KEY
+
+    
+    private var cellType: [HomeCellType] {
+        var cellTypes: [HomeCellType] = []
+        cellTypes.append(.profile)
+        cellTypes.append(.latestVideoTitleLabel)
+        cellTypes.append(.youtubeThumbnails)
+        cellTypes.append(.recommendGatheringTitleLabel)
+        cellTypes.append(.recommendGatheringLists)
+        return cellTypes
+    }
+    
+    func getCellTypes() -> [HomeCellType] {
+        return self.cellType
+    }
+    
+    func getCellCount() -> Int {
+        return self.cellType.count
+    }
     
     init() {
         getTeamData()
     }
     
     func getTeamData() {
-        FM.getDataSubCollection(collection: "Sports",
-                                document: "Letports_baseball",
-                                subCollection: "SportsTeam",
-                                subdocument: "KIATigers",
-                                type: Team.self)
-        .sink { completion in
-            switch completion {
-            case .failure(let error):
-                print("Error fetching gatherings: \(error)")
-            case .finished:
-                break
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.sports),
+            .document("Letports_baseball"),
+            .collection(.sportsTeam),
+            .document("KIATigers")
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Team.self)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Finished")
+                case .failure(let error):
+                    print("get Data Error :" ,error)
+                }
+            } receiveValue: { [weak self] team in
+                self?.team = team.first
+                self?.fetchLatestYoutubeVideos()
+                self?.fetchGatherings(forTeam: team.first?.teamUID ?? "")
             }
-        } receiveValue: { [weak self] team in
-            self?.team = team
-            self?.fetchLatestYoutubeVideos()
-            self?.fetchGatherings(forTeam: team.teamName)
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
+        
     }
     
     private func fetchLatestYoutubeVideos() {
@@ -80,7 +111,12 @@ class HomeViewModel {
         
         let channelID = team.youtubeChannelID
         
-        let apiUrlString = "https://www.googleapis.com/youtube/v3/search?key=\(self.youtubeAPIKey)&channelId=" +
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "YOUTUBE_API_KEY") as? String else {
+            print("API Key not found in Info.plist")
+            return
+        }
+        
+        let apiUrlString = "https://www.googleapis.com/youtube/v3/search?key=\(apiKey)&channelId=" +
         "\(channelID)&part=snippet&order=date&maxResults=2"
         
         guard let apiUrl = URL(string: apiUrlString) else {
@@ -122,6 +158,7 @@ class HomeViewModel {
         db.collection("Gatherings")
             .whereField("GatheringSportsTeam", isEqualTo: teamName)
             .getDocuments { [weak self] (snapshot, error) in
+                
                 if let error = error {
                     print("Error fetching gatherings: \(error)")
                     return
@@ -134,7 +171,7 @@ class HomeViewModel {
                 
                 // Gathering 객체로 변환하여 gatherings 배열에 저장
                 self?.gatherings = documents.compactMap { document in
-                    try? document.data(as: SampleGathering1.self)
+                    return try? document.data(as: Gathering.self)
                 }
             }
     }
