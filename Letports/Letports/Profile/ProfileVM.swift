@@ -83,9 +83,10 @@ class ProfileVM {
                     print("loadUser->",error.localizedDescription)
                 }
             } receiveValue: { [weak self] fetchedUser in
-                self?.user = fetchedUser.first!
-                let users = fetchedUser.first!
-                self?.fetchUserGatherings(for: users)
+                if let user = fetchedUser.first{
+                    self?.fetchUserGatherings(for: user)
+                    self?.user = user
+                }
             }
             .store(in: &cancellables)
     }
@@ -105,7 +106,11 @@ class ProfileVM {
                         promise(.failure(error))
                     }
                 } receiveValue: { fetchedUser in
-                    promise(.success(fetchedUser.first!))
+                    guard let user = fetchedUser.first else {
+                        return
+                    }
+                    promise(.success(user))
+                    
                 }
                 .store(in: &self.cancellables)
         }
