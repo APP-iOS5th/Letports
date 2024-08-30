@@ -12,7 +12,6 @@ import Kingfisher
 
 class UserProfileVC: UIViewController {
 
-	
     private var viewModel: UserProfileVM
     private var cancellables: Set<AnyCancellable> = []
     
@@ -118,14 +117,14 @@ extension UserProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .profile:
             if let cell: UserProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
                 if let user = viewModel.user {
-                    cell.configure(with: user)
+                    cell.configure(user:user)
                 }
                 return cell
             }
         case .userGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 if let nickname = viewModel.user?.nickname {
-                    cell.configure(withTitle: "\(nickname)의 소모임")
+                    cell.configure(title: "\(nickname)의 소모임")
                 }
                 return cell
             }
@@ -135,7 +134,7 @@ extension UserProfileVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.userGatherings.count {
                     let gathering = viewModel.userGatherings[gatheringIndex]
-					cell.configure(with: gathering)
+                    cell.configure(gathering:gathering)
                 }
                 return cell
             }
@@ -154,6 +153,6 @@ extension UserProfileVC: CustomNavigationDelegate {
 	}
 	
 	func backBtnDidTap() {
-		viewModel.userProfileBackBtn()
+		viewModel.userProfileBackBtnDidTap()
 	}
 }

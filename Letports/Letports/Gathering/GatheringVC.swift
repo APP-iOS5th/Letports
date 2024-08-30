@@ -144,7 +144,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .recommendGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "추천 소모임")
+                cell.configure(title:"추천 소모임")
                 cell.backgroundColor = .lp_background_white
                 return cell
             }
@@ -155,14 +155,14 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.recommendGatherings.count {
                     let gathering = viewModel.recommendGatherings[gatheringIndex]
-                    cell.configure(with: gathering)
+                    cell.configure(gathering:gathering)
                 }
                 return cell
             }
         case .gatheringListHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
-                cell.configure(withTitle: "소모임 리스트")
+                cell.configure(title:"소모임 리스트")
                 return cell
             }
         case .gatheringLists:
@@ -172,7 +172,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.gatheringLists.count {
                     let gathering = viewModel.gatheringLists[gatheringIndex]
-                    cell.configure(with: gathering)
+                    cell.configure(gathering:gathering)
                 }
                 return cell
             }

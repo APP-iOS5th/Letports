@@ -8,49 +8,49 @@
 import UIKit
 
 protocol GatherSettingCoordinatorDelegate: AnyObject {
-	func approveJoinGathering()
-	func denyJoinGathering()
-	func expelGathering()
-	func cancel()
-	func gatherSettingBackBtnTap()
+    func approveJoinGathering()
+    func denyJoinGathering()
+    func expelGathering()
+    func cancel()
+    func gatherSettingBackBtnTap()
 }
 
 class GatherSettingCoordinator: Coordinator {
-	var childCoordinators = [Coordinator]()
-	var navigationController: UINavigationController
-	var viewModel: GatherSettingVM
-	
+    var childCoordinators = [Coordinator]()
+    var navigationController: UINavigationController
+    var viewModel: GatherSettingVM
+    
     init(navigationController: UINavigationController, gathering: Gathering) {
-		self.navigationController = navigationController
+        self.navigationController = navigationController
         self.viewModel = GatherSettingVM(gathering: gathering)
-	}
-	
-	func start() {
-		let profileVC = GatherSettingVC(viewModel: viewModel)
-		viewModel.delegate = self
-		navigationController.pushViewController(profileVC, animated: true)
-	}
-	
+    }
+    
+    func start() {
+        let profileVC = GatherSettingVC(viewModel: viewModel)
+        viewModel.delegate = self
+        navigationController.pushViewController(profileVC, animated: true)
+    }
+    
 }
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
-	func cancel() {
-		print("취소")
-	}
-	
-	func approveJoinGathering() {
-		print("가입승인")
-	}
-	
-	func denyJoinGathering() {
-		print("가입거절")
-	}
-	
-	func expelGathering() {
-		print("가입거절")
-	}
-	
-	func gatherSettingBackBtnTap() {
-		navigationController.popViewController(animated: true)
-	}
+    func cancel() {
+        print("취소")
+    }
+    
+    func approveJoinGathering() {
+        print("가입승인")
+    }
+    
+    func denyJoinGathering() {
+        print("가입거절")
+    }
+    
+    func expelGathering() {
+        print("가입거절")
+    }
+    
+    func gatherSettingBackBtnTap() {
+        navigationController.popViewController(animated: true)
+    }
 }

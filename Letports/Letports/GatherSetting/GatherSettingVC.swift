@@ -87,7 +87,7 @@ class GatherSettingVC: UIViewController {
             viewModel.$joinedMembers.map { _ in }.eraseToAnyPublisher(),
             viewModel.$joinedMembersData.map { _ in }.eraseToAnyPublisher()
         )
-
+        
         mergedPublishers
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
@@ -101,7 +101,7 @@ class GatherSettingVC: UIViewController {
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate
             manageUserView.pendingdelegate = pendingDelegate
-            manageUserView.configure(with: user, with: gathering)
+            manageUserView.configure(user: user, gathering: gathering)
             self.view.addSubview(manageUserView)
             NSLayoutConstraint.activate([
                 manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -199,7 +199,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .pendingGatheringUserTtitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 신청 인원")
+                cell.configure(title:"가입 신청 인원")
                 return cell
             }
         case .pendingGatheringUser:
@@ -208,13 +208,13 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.pendingMembersData.count {
                     let user = viewModel.pendingMembersData[userIndex]
-                    cell.configure(with: user)
+                    cell.configure(user:user)
                 }
                 return cell
             }
         case .joiningGatheringUserTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 중 인원")
+                cell.configure(title:"가입 중 인원")
                 return cell
             }
         case .joiningGatheringUser:
@@ -228,13 +228,13 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.joinedMembersData.count {
                     let user = viewModel.joinedMembersData[userIndex]
-                    cell.configure(with: user)
+                    cell.configure(user: user)
                 }
                 return cell
             }
         case .settingTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "설정")
+                cell.configure(title: "설정")
                 return cell
             }
         case .deleteGathering:
@@ -243,12 +243,12 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingEmptyState:
             if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 대기중인 인원이 없습니다.")
+                cell.configure(title: "가입 대기중인 인원이 없습니다.")
                 return cell
             }
         case .joinEmptyState:
             if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 중인 인원이 없습니다.")
+                cell.configure(title:"가입 중인 인원이 없습니다.")
                 return cell
             }
         }

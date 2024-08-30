@@ -76,14 +76,14 @@ class GatherUserTVCell: UITableViewCell {
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-
+            
             simpleInfoLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
         ])
     }
     
-    func configure(with user: LetportsUser) {
+    func configure(user: LetportsUser) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
         guard let url = URL(string: user.image) else {

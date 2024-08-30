@@ -172,7 +172,7 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
+    func configure(gathering: Gathering, user: LetportsUser, master: LetportsUser) {
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
@@ -195,7 +195,7 @@ class GatheringTVCell: UITableViewCell {
     }
     
     //성근 userprofileVC에서  두개 통일 필요
-    func configure(with gathering: Gathering) {
+    func configure(gathering: Gathering) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

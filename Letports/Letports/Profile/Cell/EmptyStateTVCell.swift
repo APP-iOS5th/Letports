@@ -40,7 +40,7 @@ class EmptyStateTVCell: UITableViewCell {
         ])
     }
     
-    func configure(withTitle title: String) {
+    func configure(title: String) {
         emptyStateLabel.text = title
     }
 }
