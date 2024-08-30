@@ -47,7 +47,7 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let currentGatheringUid: String = "gather004"
+	private let currentGatheringUid: String
 	private var cancellables = Set<AnyCancellable>()
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
@@ -55,7 +55,7 @@ class GatheringDetailVM {
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
 		// 하드코딩으로 주석처리
-		//		self.currentGatheringUid = currentGatheringUid
+		self.currentGatheringUid = currentGatheringUid
 	}
 	
 	// 게시판 분류
@@ -192,8 +192,6 @@ class GatheringDetailVM {
 					}
 				}
 				self.getMasterNickname()
-				print("전체 사용자 수:", self.allUsers.count)
-				print("모임 멤버 수:", self.memberData.count)
 			}
 			.store(in: &cancellables)
 	}
@@ -227,13 +225,15 @@ class GatheringDetailVM {
 			return
 		}
 		let masterUID = gathering.gatheringMaster
+		print("masterUID: \(masterUID)")
 		let members = self.memberData
+		print("members: \(members)")
 		
-		if let masterMember = members.first(where: { $0.uid == masterUID }) {
-			self.masterNickname = masterMember.nickname
-		} else {
-			self.masterNickname = "알 수 없음"
+		let masterMember = members.filter { $0.uid == masterUID }
+		if let masterMember = masterMember.first?.nickname {
+			self.masterNickname = masterMember
 		}
+		print("모임장 닉네임 \(self.masterNickname)")
 	}
 	// 모임장 상태인지
 	private func updateMasterStatus() {

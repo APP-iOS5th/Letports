@@ -212,6 +212,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .separator:
 			return 1
 		case .images:
+			if let post = viewModel.boardPost, post.imageUrls.isEmpty {
+				return 0
+			}
 			return UITableView.automaticDimension
 		case .commentHeaderLabel:
 			return UITableView.automaticDimension

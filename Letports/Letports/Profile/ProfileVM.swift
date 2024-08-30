@@ -41,7 +41,7 @@ class ProfileVM {
     }
     
     init() {
-        loadUser(with: "users001")
+        loadUser(with: "users002")
     }
     
     func getCellTypes() -> [ProfileCellType] {

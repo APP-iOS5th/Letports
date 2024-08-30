@@ -114,6 +114,7 @@ final class BoardTVCell: UITableViewCell {
 			boardTypeLabel.text = "자유"
 		case "noti":
 			boardTypeLabel.text = "공지"
+			boardTypeLabel.backgroundColor = .red
 		default:
 			boardTypeLabel.text = "전체"
 		}
