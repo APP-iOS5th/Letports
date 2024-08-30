@@ -19,17 +19,20 @@ enum GatheringBoardDetailCellType {
 
 protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 	func boardDetailBackBtnTap()
+    func presentActionSheet(post: Post)
 }
 
 final class GatheringBoardDetailVM {
-	@Published private(set) var boardPost: Post?
-	private let allUsers: [LetportsUser]
+	@Published private(set) var boardPost: Post
+	private(set) var allUsers: [LetportsUser]
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
-	
-	init(boardPost: Post, allUsers: [LetportsUser]) {
+    private(set) var gathering: Gathering
+    
+    init(boardPost: Post, allUsers: [LetportsUser], gathering: Gathering) {
 		self.boardPost = boardPost
 		self.allUsers = allUsers
+        self.gathering = gathering
 	}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
@@ -53,10 +56,6 @@ final class GatheringBoardDetailVM {
 	}
 	
 	func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
-		guard let boardPost = self.boardPost else {
-			return nil
-		}
-		
 		if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
 			let result = (nickname: user.nickname, imageUrl: user.image)
 			return result
@@ -73,6 +72,52 @@ final class GatheringBoardDetailVM {
 	func boardDetailBackBtnTap() {
 		delegate?.boardDetailBackBtnTap()
 	}
+    
+    func naviRightBtnDidTap() {
+        delegate?.presentActionSheet(post: self.boardPost)
+    }
+    
+    func getPost() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering.gatheringUid),
+            .collection(.board),
+            .document(boardPost.postUID)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Post.self)
+            .sink { _ in
+            } receiveValue: { [weak self] post in
+                guard let post = post.first else {
+                    return
+                }
+                self?.boardPost = post
+            }
+            .store(in: &cancellables)
+    }
+    
+    func deletePost() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering.gatheringUid),
+            .collection(.board),
+            .document(boardPost.postUID)
+        ]
+        
+        FM.deleteDocument(pathComponents: collectionPath)
+            .sink { completion in
+                switch completion{
+                case .finished:
+                    print("delete Finished")
+                case .failure(let error):
+                    print("delete Erro \(error)")
+                }
+            } receiveValue: { [weak self] _ in
+                self?.delegate?.boardDetailBackBtnTap()
+            }
+            .store(in: &cancellables)
+    }
+    
 	
 	// 댓글(삭제예정)
 	struct Comment { // 퍼블리셔로
