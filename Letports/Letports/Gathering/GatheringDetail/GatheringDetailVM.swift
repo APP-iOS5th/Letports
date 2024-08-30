@@ -47,15 +47,14 @@ class GatheringDetailVM {
 	@Published var isMaster: Bool = false
 	
 	private let currentUser: LetportsUser
-	private let currentGatheringUid: String = "gather004"
+	private let currentGatheringUid: String
 	private var cancellables = Set<AnyCancellable>()
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
-		// 하드코딩으로 주석처리
-		//		self.currentGatheringUid = currentGatheringUid
+		self.currentGatheringUid = currentGatheringUid
 	}
 	
 	// 게시판 분류
@@ -68,7 +67,7 @@ class GatheringDetailVM {
 		}
 	}
 	
-	func showGatherSettingView() {
+	func pushGatherSettingView() {
 		guard let gatheringUid = gathering?.gatheringUid else { return }
 		self.delegate?.pushGatherSettingView(gatheringUid: gatheringUid)
 	}
@@ -107,10 +106,6 @@ class GatheringDetailVM {
 	func didTapUploadBtn(type: PostType) {
 		guard let gathering = self.gathering else { return }
 		self.delegate?.pushPostUploadViewController(type: type, gathering: gathering)
-	}
-	
-	func pushGatherSettingView() {
-		
 	}
 	
 	//모임데이터
@@ -192,8 +187,6 @@ class GatheringDetailVM {
 					}
 				}
 				self.getMasterNickname()
-				print("전체 사용자 수:", self.allUsers.count)
-				print("모임 멤버 수:", self.memberData.count)
 			}
 			.store(in: &cancellables)
 	}
@@ -228,11 +221,9 @@ class GatheringDetailVM {
 		}
 		let masterUID = gathering.gatheringMaster
 		let members = self.memberData
-		
-		if let masterMember = members.first(where: { $0.uid == masterUID }) {
-			self.masterNickname = masterMember.nickname
-		} else {
-			self.masterNickname = "알 수 없음"
+		let masterMember = members.filter { $0.uid == masterUID }
+		if let masterMember = masterMember.first?.nickname {
+			self.masterNickname = masterMember
 		}
 	}
 	// 모임장 상태인지
@@ -247,7 +238,6 @@ class GatheringDetailVM {
 	}
 	// 현재 사용자 정보
 	func getCurrentUserInfo() -> LetportsUser {
-		print("현재 사용자 정보: \(currentUser)")
 		return currentUser
 	}
 	// 가입중인지 아닌지
