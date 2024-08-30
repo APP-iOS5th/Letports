@@ -44,7 +44,6 @@ final class BoardTVCell: UITableViewCell {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 10, weight: .bold)
 		lb.textAlignment = .center
-		lb.layer.borderWidth = 1
 		lb.layer.cornerRadius = 10
 		lb.layer.borderColor = UIColor.black.cgColor
 		lb.clipsToBounds = true
@@ -109,12 +108,15 @@ final class BoardTVCell: UITableViewCell {
 	func configureCell(data: Post, isActive: Bool) {
 		//createDateLabel.text = data.createDate (데이터 없음)
 		self.boardPost = data
+		boardTypeLabel.backgroundColor = .clear
+		boardTypeLabel.layer.borderWidth = 0.5
 		switch data.boardType {
 		case "free":
 			boardTypeLabel.text = "자유"
 		case "noti":
 			boardTypeLabel.text = "공지"
-			boardTypeLabel.backgroundColor = .red
+			boardTypeLabel.backgroundColor = .lp_tint
+			boardTypeLabel.layer.borderWidth = 0
 		default:
 			boardTypeLabel.text = "전체"
 		}
