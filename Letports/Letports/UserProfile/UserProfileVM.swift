@@ -21,7 +21,7 @@ protocol UserProfileCoordinatorDelegate: AnyObject {
 
 class UserProfileVM {
     @Published var user: LetportsUser?
-    @Published var userGatherings: [SampleGathering2] = []
+    @Published var userGatherings: [Gathering] = []
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: UserProfileCoordinatorDelegate?
@@ -64,47 +64,42 @@ class UserProfileVM {
                 }
             } receiveValue: { [weak self] fetchedUser in
                 self?.user = fetchedUser
-                self?.fetchUserGatherings(for: fetchedUser)
+//                self?.fetchUserGatherings(for: fetchedUser)
             }
             .store(in: &cancellables)
     }
     
     
-    func fetchUserGatherings(for user: LetportsUser) {
-        guard !user.myGathering.isEmpty else {
-            self.userGatherings = []
-            return
-        }
- 
-        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: SampleGathering2.self)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("loadUserGathering->finished")
-                    break
-                case .failure(let error):
-                    print("loadUserGathering->",error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] gatherings in
-                guard let self = self else { return }
-                
-                let myGatherings = self.filterGatherings(gatherings, for: user)
-                self.userGatherings = myGatherings
-            })
-            .store(in: &cancellables)
-    }
-    
-    private func filterGatherings(_ gatherings: [SampleGathering2], for user: LetportsUser) -> [SampleGathering2] {
-        var myGatherings: [SampleGathering2] = []
-        
-        for gathering in gatherings {
-            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
-                myGatherings.append(gathering)
-            }
-        }
-        
-        return myGatherings
-    }
+//    func fetchUserGatherings(for user: LetportsUser) {
+//        FM.getDocuments(collection: "Gatherings", documentIds: user.myGathering, type: Gathering.self)
+//            .sink(receiveCompletion: { completion in
+//                switch completion {
+//                case .finished:
+//                    print("loadUserGathering->finished")
+//                    break
+//                case .failure(let error):
+//                    print("loadUserGathering->",error.localizedDescription)
+//                }
+//            }, receiveValue: { [weak self] gatherings in
+//                guard let self = self else { return }
+//                
+//                let myGatherings = self.filterGatherings(gatherings, for: user)
+//                self.userGatherings = myGatherings
+//            })
+//            .store(in: &cancellables)
+//    }
+//    
+//    private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) -> [Gathering] {
+//        var myGatherings: [Gathering] = []
+//        
+//        for gathering in gatherings {
+//            if gathering.gatheringMembers.contains(where: { $0.userUID == user.uid && ($0.joinStatus == "가입중" || $0.joinStatus == "마스터")}) {
+//                myGatherings.append(gathering)
+//            }
+//        }
+//        
+//        return myGatherings
+//    }
 }
 
 

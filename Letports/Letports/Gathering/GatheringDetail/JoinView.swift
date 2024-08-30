@@ -196,7 +196,7 @@ class JoinView: UIView, UITextViewDelegate {
 		delegate?.joinViewDidTapJoin(self, answer: answer)
 	}
 	
-	func configure(with gathering: SampleGathering2) {
+	func configure(with gathering: Gathering) {
 		titleLabel.text = gathering.gatherName
 		questionTextView.text = gathering.gatherQuestion
 		placeholderLabel.isHidden = !answerTextView.text.isEmpty

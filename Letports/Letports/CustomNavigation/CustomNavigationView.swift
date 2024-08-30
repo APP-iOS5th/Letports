@@ -334,6 +334,9 @@ class CustomNavigationView: UIView {
     private func naviSmallSizeSetup() {
         self.smallTitle.text = self.screenType.title
         
+        let btnImage = UIImage(systemName: self.screenType.buttonImage)
+        self.rightFirstButton.setImage(btnImage, for: .normal)
+        
         [smallTitle, backButton, rightButtonSV].forEach {
             self.mainView.addSubview($0)
         }

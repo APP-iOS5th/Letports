@@ -8,9 +8,8 @@
 import UIKit
 
 protocol GatheringTitleTVCellDelegate: AnyObject {
-	func didTapEditButton()
+	func didTapEditBtn()
 }
-
 
 final class GatheringTitleTVCell: UITableViewCell {
 	weak var delegate: GatheringTitleTVCellDelegate?
@@ -126,7 +125,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		editBtn.addTarget(self, action: #selector(editBtnTap), for: .touchUpInside)
 	}
 	
-	func configureCell(data: SampleGathering2, currentUser: LetportsUser, masterNickname: String) {
+	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
 		masterNameLabel.text = "모임장: \(masterNickname)"
 		gatherNowMemberLabel.text = "\(data.gatherNowMember)"
@@ -137,6 +136,6 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	@objc func editBtnTap() {
 		print("모임장편집버튼")
-		delegate?.didTapEditButton()
+		delegate?.didTapEditBtn()
 	}
 }

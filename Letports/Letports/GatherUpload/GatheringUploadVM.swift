@@ -64,7 +64,7 @@ class GatheringUploadVM {
     }
     
     
-    init(gathering: SampleGathering2? = nil) {
+    init(gathering: SampleGathering1? = nil) {
         if let gathering = gathering {
             self.isEditMode = true
             self.gatehringID = gathering.gatheringUid
