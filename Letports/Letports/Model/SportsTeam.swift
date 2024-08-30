@@ -9,6 +9,7 @@ import Foundation
 struct SportsTeam: Codable {
     let homepage: String
     let instagram: String
+    let sportsUID: String
     let sportsName: String
     let teamHomeTown: String
     let teamLogo: String
@@ -22,6 +23,7 @@ struct SportsTeam: Codable {
     enum CodingKeys: String, CodingKey {
         case homepage = "Homepage"
         case instagram = "Instagram"
+        case sportsUID = "SportsUID"
         case sportsName = "SportsName"
         case teamHomeTown = "TeamHomeTown"
         case teamLogo = "TeamLogo"
