@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 	
@@ -42,4 +43,19 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 			imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 		])
 	}
+	
+	func configure(with imageUrl: String) {
+		guard let url = URL(string: imageUrl) else {
+			return
+		}
+		
+		imageView.kf.setImage(
+			with: url,
+			options: [
+				.transition(.fade(0.3)),
+				.cacheOriginalImage
+			]
+		)
+	}
 }
+

@@ -19,6 +19,17 @@ class GatheringTVCell: UITableViewCell {
         return iv
     }()
     
+    private lazy var isGatheringMasterIV: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.isHidden = true
+        iv.image = UIImage(systemName: "crown.fill")
+        iv.tintColor = .lp_main
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
     private lazy var gatheringName: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
@@ -37,7 +48,6 @@ class GatheringTVCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     private  lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
@@ -98,14 +108,13 @@ class GatheringTVCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.selectionStyle = .none
-        setupUI()
     }
     
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate].forEach {
+        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate, isGatheringMasterIV].forEach {
             containerView.addSubview($0)
         }
         
@@ -117,11 +126,16 @@ class GatheringTVCell: UITableViewCell {
             containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 90),
             
+            isGatheringMasterIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 18),
+            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 18),
+            
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             gatheringIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             gatheringIV.widthAnchor.constraint(equalToConstant: 120),
-    
+            
             gatheringName.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
             gatheringName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             
@@ -160,7 +174,47 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
+    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
+        if gathering.gatheringMaster == user.uid {
+            isGatheringMasterIV.isHidden = false
+        }
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = master.nickname
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate
+        guard let gatheringUrl = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        guard let masterUrl = URL(string: master.image) else {
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: gatheringUrl, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: placeholder)
+    }
+    
+    //성근 userprofileVC에서  두개 통일 필요
     func configure(with gathering: Gathering) {
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = gathering.gatheringMaster
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate
+        guard let url = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
+    }
+    
+    //준범님 gatheringVC에서 사용중
+    func configure(with gathering: SampleGathering1) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

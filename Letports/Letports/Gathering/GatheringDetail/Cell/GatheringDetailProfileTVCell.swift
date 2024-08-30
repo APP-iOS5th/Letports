@@ -9,6 +9,8 @@ import UIKit
 
 final class GatheringDetailProfileTVCell: UITableViewCell {
 	
+	weak var delegate: GatheringDetailDelegate?
+	
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -20,11 +22,11 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		return cv
 	}()
 	
-	var members: [GatheringMember] = [] {
-		   didSet {
-			   collectionView.reloadData()
-		   }
-	   }
+	var members: [LetportsUser] = [] {
+		didSet {
+			collectionView.reloadData()
+		}
+	}
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,7 +35,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		collectionView.backgroundColor = .lp_background_white
 		collectionView.dataSource = self
 		collectionView.delegate = self
-		collectionView.register(GatheringDetailProfileCVCell.self, 
+		collectionView.register(GatheringDetailProfileCVCell.self,
 								forCellWithReuseIdentifier: "GatheringDetailProfileCVCell")
 	}
 	
@@ -58,13 +60,14 @@ extension GatheringDetailProfileTVCell: UICollectionViewDataSource {
 		return members.count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> 
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
 	UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell", 
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GatheringDetailProfileCVCell",
 															for: indexPath) as? GatheringDetailProfileCVCell else {
 			return UICollectionViewCell()
 		}
 		cell.configure(member: members[indexPath.item])
+		cell.delegate = self
 		return cell
 	}
 }
@@ -75,5 +78,11 @@ extension GatheringDetailProfileTVCell: UICollectionViewDelegateFlowLayout {
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		
 		return CGSize(width: 60, height: 80) // 셀 크기 설정
+	}
+}
+
+extension GatheringDetailProfileTVCell: GatheringDetailProfileCVCellDelegate {
+	func didTapProfile(member: LetportsUser) {
+		delegate?.didTapProfileImage(profile: member)
 	}
 }

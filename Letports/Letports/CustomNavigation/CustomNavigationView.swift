@@ -47,7 +47,7 @@ enum NaviButtonType {
 }
 
 
-enum ScreenType {
+enum ScreenType: Equatable {
     /// TabView Home Screen
     case largeHome
     /// TabView Gathering  Screen
@@ -59,7 +59,7 @@ enum ScreenType {
     /// Gathering Board Editor
     case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
     /// Profile Detail  Screen
-    case smallProfile
+    case smallProfile(userName: String)
     /// Gathering Setting Screen
     case smallGatheringSetting(btnName: NaviButtonType)
     /// Gathering Upload, Update Screen
@@ -83,8 +83,8 @@ enum ScreenType {
             return gatheringName
         case .smallBoardEditor(_, let isUpload):
             return isUpload ? "게시글 작성" : "게시글 수정"
-        case .smallProfile:
-            return "프로필"
+        case .smallProfile(let userName):
+            return userName
         case .smallGatheringSetting:
             return "소모임 설정"
         case .smallUploadGathering(_, let isUpdate):
@@ -113,15 +113,15 @@ enum ScreenType {
 }
 
 protocol CustomNavigationDelegate: AnyObject {
-    func smallRightButtonDidTap()
-    func sportsSelectButtonDidTap()
-    func backButtonDidTap()
+    func smallRightBtnDidTap()
+    func sportsSelectBtnDidTap()
+    func backBtnDidTap()
 }
 
 extension CustomNavigationDelegate {
-    func smallRightButtonDidTap() {}
-    func sportsSelectButtonDidTap() {}
-    func backButtonDidTap() {}
+    func smallRightBtnDidTap() {}
+    func sportsSelectBtnDidTap() {}
+    func backBtnDidTap() {}
 }
 
 class CustomNavigationView: UIView {
@@ -136,6 +136,7 @@ class CustomNavigationView: UIView {
     
     private lazy var largeTitle: UILabel = {
         let label = UILabel()
+        label.textColor = self.screenType == .largeHome ? .lpMain : .black
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 35)
@@ -145,28 +146,14 @@ class CustomNavigationView: UIView {
     
     private lazy var largeRightButton: UIButton = {
         let button = UIButton()
+        let title = "팀 선택"
         
-        let downArrowImage = UIImage(systemName: "arrowtriangle.down.fill")
-        let buttonIamge = downArrowImage?.resized(size: CGSize(width: 10, height: 10))
-        button.setImage(buttonIamge, for: .normal)
-        button.tintColor = .black
-        
-        //타이틀 바뀌어야함
-        var title = "축구(FC서울)"
-        let attributedText = NSMutableAttributedString(string: title)
-        if let rangOpenPar = title.range(of: "("),
-           let rangClosePar = title.range(of: ")") {
-            let mainText = NSRange(title.startIndex..<rangOpenPar.lowerBound, in: title)
-            let parText = NSRange(rangOpenPar.lowerBound..<rangClosePar.upperBound, in: title)
-            
-            attributedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 20), range: mainText)
-            attributedText.addAttribute(.font, value: UIFont.systemFont(ofSize: 12), range: parText)
-        }
-        button.setAttributedTitle(attributedText, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20)
         button.setTitleColor(.black, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         
-        button.addTarget(self, action: #selector(sportsSelectButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(sportsSelectBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -187,7 +174,7 @@ class CustomNavigationView: UIView {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -216,7 +203,7 @@ class CustomNavigationView: UIView {
         button.setTitleColor(.black, for: .normal)
         button.tintColor = .black
         
-        button.addTarget(self, action: #selector(smallRightButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(smallRightBtnDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -347,6 +334,9 @@ class CustomNavigationView: UIView {
     private func naviSmallSizeSetup() {
         self.smallTitle.text = self.screenType.title
         
+        let btnImage = UIImage(systemName: self.screenType.buttonImage)
+        self.rightFirstButton.setImage(btnImage, for: .normal)
+        
         [smallTitle, backButton, rightButtonSV].forEach {
             self.mainView.addSubview($0)
         }
@@ -382,19 +372,19 @@ class CustomNavigationView: UIView {
     }
     
     
-    @objc func smallRightButtonDidTap() {
-        self.delegate?.smallRightButtonDidTap()
+    @objc func smallRightBtnDidTap() {
+        self.delegate?.smallRightBtnDidTap()
     }
     
-    @objc func sportsSelectButtonDidTap() {
-        self.delegate?.sportsSelectButtonDidTap()
+    @objc func sportsSelectBtnDidTap() {
+        self.delegate?.sportsSelectBtnDidTap()
     }
     
-    @objc func backButtonDidTap() {
-        self.delegate?.backButtonDidTap()
+    @objc func backBtnDidTap() {
+        self.delegate?.backBtnDidTap()
     }
     
-    func rightButtonIsEnable(_ isEnable: Bool) {
+    func rightBtnIsEnable(_ isEnable: Bool) {
         rightFirstButton.isEnabled = isEnable
         rightFirstButton.setTitleColor(rightFirstButton.isEnabled ? .lpBlack : .lpGray, for: .normal)
     }

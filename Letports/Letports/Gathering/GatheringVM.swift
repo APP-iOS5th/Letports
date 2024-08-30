@@ -29,8 +29,8 @@ class GatheringVM {
         
     }
     
-    func pushGatheringDetailController() {
-        self.delegate?.pushGatheringDetailController()
+    func pushGatheringDetailController(gatheringUid: String) {
+        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
     }
     
     func pushGatheringUploadController() {
@@ -60,7 +60,7 @@ class GatheringVM {
     }
     
     init() {
-        loadGatherings(forTeam: "한화이글스")
+        loadGatherings(forTeam: "KIATigers")
     }
     
     //Gathering 정보 가져오기

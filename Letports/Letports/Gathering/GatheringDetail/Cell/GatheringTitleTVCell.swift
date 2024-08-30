@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol GatheringTitleTVCellDelegate: AnyObject {
+	func didTapEditBtn()
+}
+
 final class GatheringTitleTVCell: UITableViewCell {
+	weak var delegate: GatheringTitleTVCellDelegate?
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
@@ -70,14 +75,13 @@ final class GatheringTitleTVCell: UITableViewCell {
 		return sv
 	}()
 	
-	private let editButton: UIButton = {
+	private let editBtn: UIButton = {
 		let btn = UIButton()
 		var config = UIButton.Configuration.plain()
 		config.image = UIImage(systemName: "pencil.circle")
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
-//		btn.addTarget(GatheringTitleTVCell.self, action: #selector("editBtnTap"), for: .touchUpInside)
 		return btn
 	}()
 	
@@ -94,7 +98,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private func setupUI() {
 		self.contentView.backgroundColor = .lp_background_white
 		
-		[editButton, titleSV].forEach {
+		[editBtn, titleSV].forEach {
 			self.contentView.addSubview($0)
 		}
 		
@@ -111,25 +115,27 @@ final class GatheringTitleTVCell: UITableViewCell {
 			titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
 			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
 			
-			editButton.topAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 39),
-			editButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
-			editButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-			editButton.widthAnchor.constraint(equalToConstant: 36),
-			editButton.heightAnchor.constraint(equalToConstant: 36)
+			editBtn.topAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 5),
+			editBtn.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
+			editBtn.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
+			editBtn.widthAnchor.constraint(equalToConstant: 36),
+			editBtn.heightAnchor.constraint(equalToConstant: 36)
 		])
+		
+		editBtn.addTarget(self, action: #selector(editBtnTap), for: .touchUpInside)
 	}
 	
-	func configureCell(data: Gathering, currentUser: LeportsUser, masterNickname: String) {
+	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
-		print(titleLabel.text ?? "없음")
 		masterNameLabel.text = "모임장: \(masterNickname)"
-		print(masterNameLabel.text ?? "없음")
-		gatherNowMemberLabel.text = "\(data.gatherNowMember ?? 0)"
-		print(gatherNowMemberLabel.text ?? "없음")
-		gatherMaxMemberLabel.text = "\(data.gatherMaxMember ?? 0)"
-		print(gatherMaxMemberLabel.text ?? "없음")
-		let isMaster = currentUser.UID == data.gatheringMaster
-		print(isMaster)
-		editButton.isHidden = !isMaster
+		gatherNowMemberLabel.text = "\(data.gatherNowMember)"
+		gatherMaxMemberLabel.text = "\(data.gatherMaxMember)"
+		let isMaster = currentUser.uid == data.gatheringMaster
+		editBtn.isHidden = !isMaster
+	}
+	
+	@objc func editBtnTap() {
+		print("모임장편집버튼")
+		delegate?.didTapEditBtn()
 	}
 }

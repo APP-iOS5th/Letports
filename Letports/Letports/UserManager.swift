@@ -10,22 +10,22 @@ import Foundation
 class UserManager {
     static let shared = UserManager()
     
-    enum UserRole {
-        case admin
-        case member
-        case guest
-    }
-    
     private(set) var isLoggedIn: Bool = false
-    private(set) var userRole: UserRole = .guest
+    private(set) var currentUser: LetportsUser?
     
-    func login(as role: UserRole) {
+    private init() {}
+    
+    func login(user: LetportsUser) {
         isLoggedIn = true
-        userRole = role
+        currentUser = user
     }
     
     func logout() {
         isLoggedIn = false
-        userRole = .guest
+        currentUser = nil
+    }
+    
+    func getUserUid() -> String {
+        return currentUser?.uid ?? ""
     }
 }

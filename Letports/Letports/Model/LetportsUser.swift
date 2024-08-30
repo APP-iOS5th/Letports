@@ -9,7 +9,6 @@ import Foundation
 struct LetportsUser: Codable {
     let email: String
     let image: String
-    let myGathering: [String]
     let nickname: String
     let simpleInfo: String
     let uid: String
@@ -19,11 +18,15 @@ struct LetportsUser: Codable {
     enum CodingKeys: String, CodingKey {
         case email = "Email"
         case image = "Image"
-        case myGathering = "MyGathering"
         case nickname = "NickName"
         case simpleInfo = "SimpleInfo"
         case uid = "UID"
         case userSports = "UserSports"
         case userSportsTeam = "UserSportsTeam"
     }
+}
+
+
+struct MyGatherings: Codable {
+    let uid: String
 }

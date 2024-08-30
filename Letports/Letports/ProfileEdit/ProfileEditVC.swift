@@ -78,19 +78,21 @@ class ProfileEditVC: UIViewController {
             viewModel.$user,
             viewModel.$selectedImage
         )
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] (user, selectedImage) in
             self?.tableView.reloadData()
         }
+        .store(in: &cancellables)
     }
     
 }
 
 extension ProfileEditVC: CustomNavigationDelegate {
-    func backButtonDidTap() {
+    func backBtnDidTap() {
         self.viewModel.backToProfile()
     }
     
-    func smallRightButtonDidTap() {
+    func smallRightBtnDidTap() {
         print("데이터 저장해야함")
     }
 }

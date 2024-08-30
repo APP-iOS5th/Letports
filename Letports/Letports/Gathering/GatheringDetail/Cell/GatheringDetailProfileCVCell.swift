@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol GatheringDetailProfileCVCellDelegate: AnyObject {
+	func didTapProfile(member: LetportsUser)
+}
+
 final class GatheringDetailProfileCVCell: UICollectionViewCell {
+	
+	weak var delegate: GatheringDetailProfileCVCellDelegate?
+	private var profile: LetportsUser?
 	
 	private let userImageBtn: UIButton = {
 		let btn = UIButton()
@@ -61,19 +68,16 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		userImageBtn.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 	}
 	
-	func configure(member: GatheringMember) {
-		self.userNickName.text = member.nickName
+	func configure(member: LetportsUser) {
+		self.profile = member
+		self.userNickName.text = member.nickname
 		if let url = URL(string: member.image) {
-			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
-		} else {
-			userImageBtn.setImage(UIImage(named: "placeholder_image"), for: .normal)
+			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "person.circle.fill"))
 		}
-		
-		
 	}
 	
 	@objc private func imageTap() {
-		// 이미지 버튼 클릭 시 동작 정의
-		print("이미지 버튼이 클릭되었습니다.")
+		guard let profile = profile else { return }
+		delegate?.didTapProfile(member: profile)
 	}
 }

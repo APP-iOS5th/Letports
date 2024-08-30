@@ -9,34 +9,14 @@ import UIKit
 
 final class GatheringDetailInfoTVCell: UITableViewCell {
 	
-	private var isExpanded = true
-	private var expandedHeight: CGFloat = 0
+	var expandBtnTap: ((Bool) -> Void) = { _ in }
+	private var isExpanded = false
+	private let maxCollapsedHeight: CGFloat = 100
+	private var textViewHeightConstraint: NSLayoutConstraint?
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.contentView.backgroundColor = .lp_background_white
-		calculateExpandedHeight()
-		updateTextViewHeight()
-	}
-	
-	private func calculateExpandedHeight() {
-		let sizeThatFitsTextView = gatheringInfoTextView.sizeThatFits(CGSize(
-			width: gatheringInfoTextView.frame.width,
-			height: CGFloat.greatestFiniteMagnitude))
-		expandedHeight = sizeThatFitsTextView.height
-	}
-	
-	private func updateTextViewHeight() {
-		let newHeight = isExpanded ? expandedHeight : 100
-		gatheringInfoTextView.constraints.forEach { constraint in
-			if constraint.firstAttribute == .height {
-				constraint.constant = newHeight
-			}
-		}
-	}
-	
-	func getHeight() -> CGFloat {
-		return isExpanded ? expandedHeight + 60 : 160
 	}
 	
 	private let gatheringInfoTextView: UITextView = {
@@ -46,15 +26,16 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		tv.isUserInteractionEnabled = false
 		tv.isScrollEnabled = false
 		tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+		tv.textContainer.lineBreakMode = .byTruncatingTail
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		return tv
 	}()
 	
-	private let toggleBtn: UIButton = {
+	private let expandBtn: UIButton = {
 		let btn = UIButton()
-		btn.setTitle("▲", for: .normal)
+		btn.setTitle("더보기", for: .normal)
 		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.setTitleColor(.lpBlack, for: .normal)
+		btn.setTitleColor(.lp_black, for: .normal)
 		return btn
 	}()
 	
@@ -69,40 +50,50 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
-		[gatheringInfoTextView, toggleBtn].forEach {
+		[gatheringInfoTextView, expandBtn].forEach {
 			self.contentView.addSubview($0)
 		}
+		
+		textViewHeightConstraint = gatheringInfoTextView.heightAnchor.constraint(equalToConstant: maxCollapsedHeight)
+		textViewHeightConstraint?.isActive = true
 		
 		NSLayoutConstraint.activate([
 			gatheringInfoTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
 			gatheringInfoTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
 			gatheringInfoTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			
-			toggleBtn.topAnchor.constraint(equalTo: gatheringInfoTextView.bottomAnchor, constant: 10),
-			toggleBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			toggleBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+			expandBtn.topAnchor.constraint(equalTo: gatheringInfoTextView.bottomAnchor, constant: 5),
+			expandBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+			expandBtn.heightAnchor.constraint(equalToConstant: 30),
+			expandBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
 		])
 		
-		toggleBtn.addTarget(self, action: #selector(toggleGatheringInfo), for: .touchUpInside)
+		expandBtn.addTarget(self, action: #selector(expandInfo), for: .touchUpInside)
 		
 	}
 	
 	func configure(with gatherInfo: String?) {
 		gatheringInfoTextView.text = gatherInfo
-		print("소개글 \(gatheringInfoTextView)")
+		layoutIfNeeded()
+		updateExpandButtonVisibility()
 	}
 	
-	// 접기버튼
-	@objc private func toggleGatheringInfo() {
+	private func updateExpandButtonVisibility() {
+		let size = gatheringInfoTextView.sizeThatFits(CGSize(width: gatheringInfoTextView.frame.width,
+															 height: .greatestFiniteMagnitude))
+		expandBtn.isHidden = size.height <= maxCollapsedHeight
+	}
+	
+	@objc func expandInfo() {
 		isExpanded.toggle()
-		
-		UIView.animate(withDuration: 0.3) {
-			self.updateTextViewHeight()
-			self.toggleBtn.setTitle(self.isExpanded ? "▲" : "▼", for: .normal)
-			self.layoutIfNeeded()
+		if isExpanded {
+			textViewHeightConstraint?.isActive = false
+			expandBtn.setTitle("접기", for: .normal)
+		} else {
+			textViewHeightConstraint?.isActive = true
+			expandBtn.setTitle("더보기", for: .normal)
 		}
-		(superview as? UITableView)?.beginUpdates()
-		(superview as? UITableView)?.endUpdates()
+		expandBtnTap(isExpanded)
 	}
 }
 

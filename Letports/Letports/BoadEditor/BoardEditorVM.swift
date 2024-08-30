@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import FirebaseAuth
 
 enum BoardEditorCellType {
     case title
@@ -31,6 +32,10 @@ class BoardEditorVM {
     @Published private(set) var boardPhotos: [UIImage] = []
     @Published private(set) var isUploading: Bool = false
     
+    private(set) var postType: PostType = .free
+    private(set) var gathering: SampleGathering1?
+
+    
     private(set) var isEditMode: Bool
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
@@ -45,8 +50,8 @@ class BoardEditorVM {
         cellTypes.append(.photo)
         return cellTypes
     }
-    
-    init(post: SamplePost? = nil) {
+
+    init(type: PostType, gathering: SampleGathering1, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -56,6 +61,8 @@ class BoardEditorVM {
         } else {
             self.isEditMode = false
         }
+        self.gathering = gathering
+        self.postType = type
         
         Publishers.CombineLatest($boardTitle, $boardContents)
             .map { boardTitle, boardContents in
@@ -73,7 +80,6 @@ class BoardEditorVM {
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
                 self.boardUpload(images: imageUrls)
-                self.delegate?.popViewController()
             }
             .store(in: &cancellables)
     }
@@ -92,28 +98,39 @@ class BoardEditorVM {
         if let title = boardTitle,
            let contents = boardContents {
             
-            let uuid = UUID().uuidString
+            let boardUuid = UUID().uuidString
+            guard let myUserUid = Auth.auth().currentUser?.uid else { return }
             
-            let post = SamplePost(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
-                                  userUID: "몰루",
+            
+            let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
+                                  userUID: myUserUid,
                                   title: title, contents: contents,
-                                  imageUrls: images, comments: [], boardType: "Free")
+                            imageUrls: images, boardType: "")
             
             if isEditMode {
                 FM.updateData(collection: "Board", document: post.postUID, data: post)
                     .sink{ _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Update")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
                     
             } else {
-                FM.setData(collection: "Board", document: post.postUID, data: post)
-                    .sink{ _ in
+                guard let gatheringUid = gathering?.gatheringUid else { return }
+                
+                let path: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(gatheringUid),
+                    .collection(.board),
+                    .document(post.postUID)
+                ]
+                
+                FM.setData(pathComponents: path, data: post)
+                    .sink { _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Save")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
             }

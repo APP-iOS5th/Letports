@@ -120,5 +120,4 @@ class CommentTVCell: UITableViewCell {
 		commentLabel.text = data.content
 		createDateLabel.text = data.writeDate
 	}
-	
 }
