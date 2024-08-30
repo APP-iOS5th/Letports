@@ -83,11 +83,19 @@ class GatheringVM {
                     try? document.data(as: Gathering.self)
                 }
                 
-                self?.recommendGatherings = gatherings.filter { gathering in
-                    // 예시: 특정 조건에 맞는 소모임을 추천 소모임으로 필터링
-                    gathering.gatherNowMember < gathering.gatherMaxMember // 임의 조건
-                }
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
                 
+                self?.recommendGatherings = Array(gatherings.sorted { gathering1, gathering2 in
+                    
+                    guard
+                        let date1 = dateFormatter.date(from: gathering1.gatheringCreateDate),
+                        let date2 = dateFormatter.date(from: gathering2.gatheringCreateDate)
+                    else {
+                        return false
+                    }
+                    return date1 < date2
+                }.prefix(2))
                 self?.gatheringLists = gatherings
             }
     }
