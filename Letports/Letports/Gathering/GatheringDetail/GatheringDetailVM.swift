@@ -68,8 +68,8 @@ class GatheringDetailVM {
 	}
 	
 	func pushGatherSettingView() {
-		guard let gatheringUid = gathering?.gatheringUid else { return }
-		self.delegate?.pushGatherSettingView(gatheringUid: gatheringUid)
+		guard let gathering = gathering else { return }
+        self.delegate?.pushGatherSettingView(gathering: gathering)
 	}
 	
 	func loadData() {

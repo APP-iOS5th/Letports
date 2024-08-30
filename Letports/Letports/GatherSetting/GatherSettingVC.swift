@@ -33,9 +33,9 @@ class GatherSettingVC: UIViewController {
     
     private lazy var navigationView: CustomNavigationView = {
         let btnName: NaviButtonType
-        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallGatheringSetting(btnName: .update))
+        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallGatheringSetting)
         view.translatesAutoresizingMaskIntoConstraints = false
-		view.delegate = self
+        view.delegate = self
         return view
     }()
     
@@ -46,7 +46,8 @@ class GatherSettingVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: GatherSectionTVCell.self,
                          GatherUserTVCell.self,
-                         GatherDeleteTVCell.self)
+                         GatherDeleteTVCell.self,
+                         SeparatorTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -79,16 +80,40 @@ class GatherSettingVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.CombineLatest3(
-            viewModel.$gathering,
-            viewModel.$pendingGatheringMembers,
-            viewModel.$joiningGatheringMembers
+        let gatheringPublisher = viewModel.$gathering
+            .map { _ in }
+            .eraseToAnyPublisher()
+        
+        let pendingMembersPublisher = viewModel.$pendingMembers
+            .map { _ in }
+            .eraseToAnyPublisher()
+        
+        let pendingMembersDataPublisher = viewModel.$pendingMembersData
+            .map { _ in }
+            .eraseToAnyPublisher()
+        
+        let joinedMembersPublisher = viewModel.$joinedMembers
+            .map { _ in }
+            .eraseToAnyPublisher()
+        
+        let joinedMembersDataPublisher = viewModel.$joinedMembersData
+            .map { _ in } // 이벤트 발생만을 위해 매핑
+            .eraseToAnyPublisher()
+        
+        let mergedPublishers = Publishers.MergeMany(
+            gatheringPublisher,
+            pendingMembersPublisher,
+            joinedMembersPublisher,
+            pendingMembersDataPublisher,
+            joinedMembersDataPublisher
         )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] (gathering, pendingMembers, joiningMembers) in
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+        
+        mergedPublishers
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering, joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
@@ -128,9 +153,9 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
 }
 
 extension GatherSettingVC: CustomNavigationDelegate {
-	func backBtnDidTap() {
-		viewModel.gatherSettingBackBtnTap()
-	}
+    func backBtnDidTap() {
+        viewModel.gatherSettingBackBtnTap()
+    }
 }
 
 extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
@@ -143,7 +168,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
             return 40.0
-        case .pendingGatheringUser, .joiningGatheringUser:
+        case .pendingGatheringUser, .joiningGatheringUser, .joinSeparator, .pendingSeparator:
             return 80.0
         }
     }
@@ -153,18 +178,23 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         case .pendingGatheringUser:
             let startIndex = 1
             let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.pendingGatheringMembers.count {
-                let user = viewModel.pendingGatheringMembers[userIndex]
+            if userIndex < viewModel.joinedMembers.count {
+                let user = viewModel.pendingMembers[userIndex]
                 if let gathering = viewModel.gathering {
                     showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: nil,
                                  pendingDelegate: self)
                 }
             }
         case .joiningGatheringUser:
-            let startIndex = 2 + viewModel.pendingGatheringMembers.count
+            var startIndex = 0
+            if viewModel.pendingMembers.count == 0 {
+                startIndex = 3
+            } else {
+                startIndex = 2 + viewModel.pendingMembers.count
+            }
             let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.joiningGatheringMembers.count {
-                let user = viewModel.joiningGatheringMembers[userIndex]
+            if userIndex < viewModel.joinedMembers.count {
+                let user = viewModel.joinedMembers[userIndex]
                 if let gathering = viewModel.gathering {
                     showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: self,
                                  pendingDelegate: nil)
@@ -196,9 +226,8 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 1
                 let userIndex = indexPath.row - startIndex
-                if userIndex < viewModel.pendingGatheringMembers.count {
-                    let user = viewModel.pendingGatheringMembers[userIndex]
-                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+                if userIndex < viewModel.pendingMembersData.count {
+                    let user = viewModel.pendingMembersData[userIndex]
                     cell.configure(with: user)
                 }
                 return cell
@@ -210,11 +239,15 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .joiningGatheringUser:
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.pendingGatheringMembers.count
+                var startIndex = 0
+                if viewModel.pendingMembers.count == 0 {
+                    startIndex = 3
+                } else {
+                    startIndex = 2 + viewModel.pendingMembers.count
+                }
                 let userIndex = indexPath.row - startIndex
-                if userIndex < viewModel.joiningGatheringMembers.count {
-                    let user = viewModel.joiningGatheringMembers[userIndex]
-                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+                if userIndex < viewModel.joinedMembersData.count {
+                    let user = viewModel.joinedMembersData[userIndex]
                     cell.configure(with: user)
                 }
                 return cell
@@ -226,6 +259,16 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .deleteGathering:
             if let cell: GatherDeleteTVCell  = tableView.loadCell(indexPath: indexPath) {
+                return cell
+            }
+        case .pendingSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입 대기중인 인원이 없습니다.")
+                return cell
+            }
+        case .joinSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입 중인 인원이 없습니다.")
                 return cell
             }
         }

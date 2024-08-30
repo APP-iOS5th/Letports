@@ -17,7 +17,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func dismissAndUpdateUI()
 	func showError(message: String)
 	func gatheringDetailBackBtnTap()
-	func pushGatherSettingView(gatheringUid: String)
+    func pushGatherSettingView(gathering: Gathering)
 	func pushPostUploadViewController(type: PostType, gathering: Gathering)
 }
 
@@ -47,9 +47,9 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         coordinaotr.start()
 	}
 	
-	func pushGatherSettingView(gatheringUid: String) {
+    func pushGatherSettingView(gathering: Gathering) {
 		let coordinator = GatherSettingCoordinator(navigationController: navigationController,
-												   gatheringUid: gatheringUid)
+                                                   gathering: gathering)
 		childCoordinators.append(coordinator)
 		coordinator.start()
 	}

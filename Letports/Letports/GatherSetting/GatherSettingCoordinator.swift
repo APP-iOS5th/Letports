@@ -20,9 +20,9 @@ class GatherSettingCoordinator: Coordinator {
 	var navigationController: UINavigationController
 	var viewModel: GatherSettingVM
 	
-	init(navigationController: UINavigationController, gatheringUid: String) {
+    init(navigationController: UINavigationController, gathering: Gathering) {
 		self.navigationController = navigationController
-		self.viewModel = GatherSettingVM(gatheringUid: gatheringUid)
+        self.viewModel = GatherSettingVM(gathering: gathering)
 	}
 	
 	func start() {
