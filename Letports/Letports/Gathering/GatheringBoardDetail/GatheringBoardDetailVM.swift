@@ -9,64 +9,67 @@ import UIKit
 import Combine
 
 enum GatheringBoardDetailCellType {
-	case boardProfileTitle
-	case boardContents
-	case separator
-	case images
-	case commentHeaderLabel
-	case comment
+    case boardProfileTitle
+    case boardContents
+    case separator
+    case images
+    case commentHeaderLabel
+    case comment(comment: Comment)
 }
 
 protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
-	func boardDetailBackBtnTap()
+    func boardDetailBackBtnTap()
     func presentActionSheet(post: Post)
 }
 
 final class GatheringBoardDetailVM {
-	@Published private(set) var boardPost: Post
-    @Published private(set) var comments: [Comment] = []
+    @Published private(set) var boardPost: Post
+    @Published private(set) var commentsWithUsers: [(comment: Comment, user: LetportsUser)] = []
     
-	private(set) var allUsers: [LetportsUser]
-	private var cancellables = Set<AnyCancellable>()
-	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
+    private(set) var allUsers: [LetportsUser]
+    private var cancellables = Set<AnyCancellable>()
+    weak var delegate: GatheringBoardDetailCoordinatorDelegate?
     private(set) var gathering: Gathering
     
     
     init(boardPost: Post, allUsers: [LetportsUser], gathering: Gathering) {
-		self.boardPost = boardPost
-		self.allUsers = allUsers
+        self.boardPost = boardPost
+        self.allUsers = allUsers
         self.gathering = gathering
-	}
-	
-	private var cellType: [GatheringBoardDetailCellType] {
-		var cellTypes: [GatheringBoardDetailCellType] = []
-		cellTypes.append(.boardProfileTitle)
-		cellTypes.append(.boardContents)
-		cellTypes.append(.separator)
-		cellTypes.append(.images)
-		cellTypes.append(.separator)
-		cellTypes.append(.commentHeaderLabel)
-		cellTypes.append(.comment)
-		return cellTypes
-	}
-	
-	func getBoardDetailCount() -> Int {
-		return self.cellType.count
-	}
-	
-	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
-		return self.cellType
-	}
-	
-	func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
-		if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
-			let result = (nickname: user.nickname, imageUrl: user.image)
-			return result
-		}
-		
-		return nil
-	}
-	
+    }
+    
+    private var cellType: [GatheringBoardDetailCellType] {
+        var cellTypes: [GatheringBoardDetailCellType] = []
+        cellTypes.append(.boardProfileTitle)
+        cellTypes.append(.boardContents)
+        cellTypes.append(.separator)
+        cellTypes.append(.images)
+        cellTypes.append(.separator)
+        cellTypes.append(.commentHeaderLabel)
+        for commentWithUser in self.commentsWithUsers {
+            cellTypes.append(.comment(comment: commentWithUser.comment))
+        }
+        
+        return cellTypes
+    }
+    
+    func getBoardDetailCount() -> Int {
+        return self.cellType.count
+    }
+    
+    func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
+        return self.cellType
+    }
+    
+    func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
+        if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
+            let result = (nickname: user.nickname, imageUrl: user.image)
+            return result
+        }
+        
+        return nil
+    }
+    
     func getBoardData() {
         getPost()
         getComment()
@@ -82,9 +85,12 @@ final class GatheringBoardDetailVM {
         ]
         
         FM.getData(pathComponents: collectionPath, type: Comment.self)
+            .flatMap { [weak self] comments in
+                self?.fetchUsersForComments(comments) ?? Just([]).eraseToAnyPublisher()
+            }
             .sink { _ in
-            } receiveValue: { [weak self] comments in
-                self?.comments = comments
+            } receiveValue: { [weak self] commentsWithUsers in
+                self?.commentsWithUsers = commentsWithUsers
             }
             .store(in: &cancellables)
     }
@@ -100,7 +106,6 @@ final class GatheringBoardDetailVM {
             .collection(.comment),
             .document(uuid)
         ]
-        print("collectionPath", collectionPath)
         
         let comment = Comment(postUID: self.boardPost.postUID,
                               commentUID: uuid,
@@ -119,35 +124,42 @@ final class GatheringBoardDetailVM {
             } receiveValue: { _ in
             }
             .store(in: &cancellables)
-	}
+    }
     
-    func getUserData(userUid: String, completion: @escaping (Result<LetportsUser, FirestoreError>) -> Void) {
+    private func fetchUsersForComments(_ comments: [Comment]) -> AnyPublisher<[(comment: Comment, 
+                                                                                user: LetportsUser)], Never> {
+        let userFetchers = comments.map { comment in
+            return getUserData(userUid: comment.userUID)
+                .map { user -> (comment: Comment, user: LetportsUser) in
+                    return (comment: comment, user: user)
+                }
+                .replaceError(with: (comment: comment, user: LetportsUser(email: "", image: "", 
+                                                                          nickname: "", simpleInfo: "",
+                                                                          uid: "", userSports: "",
+                                                                          userSportsTeam: "")))
+        }
+        
+        return Publishers.MergeMany(userFetchers)
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
+    private func getUserData(userUid: String) -> AnyPublisher<LetportsUser, FirestoreError> {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(userUid)
         ]
         
-        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-            .sink(receiveCompletion: { completionResult in
-                switch completionResult {
-                case .finished:
-                    break
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }, receiveValue: { users in
-                if let user = users.first {
-                    completion(.success(user))
-                } else {
-                    completion(.failure(.documentNotFound))
-                }
-            })
-            .store(in: &cancellables)
+        return FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .map { users in
+                return users.first!
+            }
+            .eraseToAnyPublisher()
     }
     
-	func boardDetailBackBtnTap() {
-		delegate?.boardDetailBackBtnTap()
-	}
+    func boardDetailBackBtnTap() {
+        delegate?.boardDetailBackBtnTap()
+    }
     
     func naviRightBtnDidTap() {
         delegate?.presentActionSheet(post: self.boardPost)

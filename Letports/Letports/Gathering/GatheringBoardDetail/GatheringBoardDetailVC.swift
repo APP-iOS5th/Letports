@@ -31,7 +31,7 @@ final class GatheringBoardDetailVC: UIViewController {
                          SeperatorLineTVCell.self,
                          GatheringBoardDetailImagesTVCell.self,
                          CommentHeaderLabelTVCell.self,
-                         GatheringBoardCommentTVCell.self)
+                         CommentTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.rowHeight = UITableView.automaticDimension
         return tv
@@ -75,7 +75,7 @@ final class GatheringBoardDetailVC: UIViewController {
     private func bindViewModel() {
         Publishers.Merge(
             viewModel.$boardPost.map { _ in () },
-            viewModel.$comments.map {_ in ()}
+            viewModel.$commentsWithUsers.map {_ in ()}
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
@@ -195,9 +195,12 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
-        case .comment:
-            if let cell: GatheringBoardCommentTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.updateCommentList(comments: viewModel.comments, viewModel: self.viewModel)
+        case .comment(let comment):
+            if let cell: CommentTVCell = tableView.loadCell(indexPath: indexPath) {
+//                cell.configureCell(data: comment, viewModel: self.viewModel)
+                if let commentWithUser = viewModel.commentsWithUsers.first(where: { $0.comment.commentUID == comment.commentUID }) {
+                                 cell.configureCell(with: commentWithUser.user, comment: commentWithUser.comment)
+                             }
                 return cell
             }
         }
@@ -209,24 +212,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellType = self.viewModel.getBoardDetailCellTypes()[indexPath.row]
-        switch cellType {
-        case .boardProfileTitle:
             return UITableView.automaticDimension
-        case .boardContents:
-            return UITableView.automaticDimension
-        case .separator:
-            return 1
-        case .images:
-            return UITableView.automaticDimension
-        case .commentHeaderLabel:
-            return UITableView.automaticDimension
-        case .comment:
-            if let cell = tableView.cellForRow(at: indexPath) as? GatheringBoardCommentTVCell {
-                return cell.calculateTableViewHeight()
-            }
-            return UITableView.automaticDimension
-        }
     }
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {

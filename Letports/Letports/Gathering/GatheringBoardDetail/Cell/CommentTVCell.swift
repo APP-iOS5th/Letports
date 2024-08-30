@@ -51,6 +51,7 @@ class CommentTVCell: UITableViewCell {
         lb.numberOfLines = 0
         lb.lineBreakMode = .byTruncatingTail
         lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.lineBreakMode = .byWordWrapping
         return lb
     }()
     
@@ -79,6 +80,12 @@ class CommentTVCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageView.image = nil
+        userImageView.kf.cancelDownloadTask()
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         contentView.addSubview(containerView)
@@ -94,50 +101,63 @@ class CommentTVCell: UITableViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
             
             userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
             userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            userImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            userImageView.widthAnchor.constraint(equalToConstant: 60),
-            userImageView.heightAnchor.constraint(equalToConstant: 60),
+            userImageView.widthAnchor.constraint(equalToConstant: 30),
+            userImageView.heightAnchor.constraint(equalToConstant: 30),
             
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             nickNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
+            nickNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            nickNameLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            createDateLabel.leadingAnchor.constraint(greaterThanOrEqualTo: nickNameLabel.trailingAnchor, constant: 0),
-            createDateLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            createDateLabel.centerYAnchor.constraint(equalTo: nickNameLabel.centerYAnchor),
             createDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             
-            commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor),
+            commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -15),
-            
-            
+            commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
         ])
     }
     
-    func configureCell(data: Comment, viewModel: GatheringBoardDetailVM) {
-        viewModel.getUserData(userUid: data.userUID) { result in
-            switch result {
-            case .success(let user):
-                DispatchQueue.main.async {
-                    self.userImageView.kf.indicatorType = .activity
-                    
-                    self.nickNameLabel.text = user.nickname
-                    let url = URL(string: user.image)
-                    self.userImageView.kf.setImage(with: url,
-                                                   placeholder: UIImage(systemName: "person.circle"),
-                                                   options: [
-                        .transition(.fade(0.3)),
-                        .cacheOriginalImage])
-                }
-                
-            case .failure(let error):
-                print("Get User Data Error \(error)")
+//    func configureCell(data: Comment, viewModel: GatheringBoardDetailVM) {
+//        viewModel.getUserData(userUid: data.userUID) { result in
+//            switch result {
+//            case .success(let user):
+//                DispatchQueue.main.async {
+//                    self.userImageView.kf.indicatorType = .activity
+//                    
+//                    self.nickNameLabel.text = user.nickname
+//                    let url = URL(string: user.image)
+//                    self.userImageView.kf.setImage(with: url,
+//                                                   placeholder: UIImage(systemName: "person.circle"),
+//                                                   options: [
+//                                                    .transition(.fade(0.3)),
+//                                                    .cacheOriginalImage])
+//                }
+//                
+//            case .failure(let error):
+//                print("Get User Data Error \(error)")
+//            }
+//        }
+//        commentLabel.text = data.contents
+//        createDateLabel.text = data.createDate
+//    }
+    func configureCell(with user: LetportsUser, comment: Comment) {
+            nickNameLabel.text = user.nickname
+            createDateLabel.text = comment.createDate
+            commentLabel.text = comment.contents
+            
+            if let url = URL(string: user.image) {
+                userImageView.kf.setImage(with: url,
+                                          placeholder: UIImage(systemName: "person.circle"),
+                                          options: [
+                                            .transition(.fade(0.3)),
+                                            .cacheOriginalImage
+                                          ])
             }
         }
-        commentLabel.text = data.contents
-        createDateLabel.text = data.createDate
-    }
 }
