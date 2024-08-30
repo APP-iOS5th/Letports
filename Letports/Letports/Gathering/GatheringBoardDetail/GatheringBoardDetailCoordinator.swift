@@ -13,16 +13,16 @@ class GatheringBoardDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	let boardData: Post
-	let gathering: Gathering
+	let allUsers: [LetportsUser]
 	
-	init(navigationController: UINavigationController, boardData: Post, gathering: Gathering) {
+	init(navigationController: UINavigationController, boardData: Post, allUsers: [LetportsUser]) {
 		self.navigationController = navigationController
 		self.boardData = boardData
-		self.gathering = gathering
+		self.allUsers = allUsers
 	}
 	
 	func start() {
-		let viewModel = GatheringBoardDetailVM(boardPost: boardData, gathering: gathering)
+		let viewModel = GatheringBoardDetailVM(boardPost: boardData, allUsers: allUsers)
 		viewModel.delegate = self
 		let viewController = GatheringBoardDetailVC(viewModel: viewModel)
 		navigationController.pushViewController(viewController, animated: true)

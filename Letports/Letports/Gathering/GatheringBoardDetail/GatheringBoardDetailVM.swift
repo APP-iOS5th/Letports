@@ -23,36 +23,13 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post?
-	private(set) var gathering: Gathering?
+	private let allUsers: [LetportsUser]
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
-	init(boardPost: Post, gathering: Gathering) {
+	init(boardPost: Post, allUsers: [LetportsUser]) {
 		self.boardPost = boardPost
-		self.gathering = gathering
-		verifyDataTransfer()
-	}
-	
-	private func verifyDataTransfer() {
-		print("데이터 전송 확인:")
-		print("게시글 정보:")
-		if let post = boardPost {
-			print("  게시글 UID: \(post.postUID)")
-			print("  사용자 UID: \(post.userUID)")
-			print("  제목: \(post.title)")
-			print("  내용: \(post.contents)")
-			print("  이미지 URL 수: \(post.imageUrls.count)")
-			print("  게시판 유형: \(post.boardType)")
-		} else {
-			print("  게시글 데이터가 없습니다.")
-		}
-		
-		print("모임 정보:")
-		if let gather = gathering {
-			print("  모임 UID: \(gather.gatheringUid)")
-		} else {
-			print("  모임 데이터가 없습니다.")
-		}
+		self.allUsers = allUsers
 	}
 	
 	private var cellType: [GatheringBoardDetailCellType] {
@@ -73,6 +50,19 @@ final class GatheringBoardDetailVM {
 	
 	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
 		return self.cellType
+	}
+	
+	func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
+		guard let boardPost = self.boardPost else {
+			return nil
+		}
+		
+		if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
+			let result = (nickname: user.nickname, imageUrl: user.image)
+			return result
+		}
+		
+		return nil
 	}
 	
 	func addComment(comment: String) {

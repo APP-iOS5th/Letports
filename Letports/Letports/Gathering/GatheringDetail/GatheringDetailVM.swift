@@ -79,8 +79,8 @@ class GatheringDetailVM {
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
-		guard let gathering = self.gathering else { return}
-		self.delegate?.pushBoardDetail(boardPost: boardPost, gathering: gathering)
+		guard let gathering = self.gathering else { return }
+		self.delegate?.pushBoardDetail(boardPost: boardPost, allUsers: self.allUsers)
 	}
 	
 	func didTapProfile(member: LetportsUser) {
@@ -190,7 +190,11 @@ class GatheringDetailVM {
 					memberUids.contains { member in
 						user.uid == member.userUID
 					}
-				}			}
+				}
+				self.getMasterNickname()
+				print("전체 사용자 수:", self.allUsers.count)
+				print("모임 멤버 수:", self.memberData.count)
+			}
 			.store(in: &cancellables)
 	}
 	

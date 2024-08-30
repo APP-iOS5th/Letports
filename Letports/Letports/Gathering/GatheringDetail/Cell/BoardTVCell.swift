@@ -112,7 +112,7 @@ final class BoardTVCell: UITableViewCell {
 		switch data.boardType {
 		case "free":
 			boardTypeLabel.text = "자유"
-        case "noti":
+		case "noti":
 			boardTypeLabel.text = "공지"
 		default:
 			boardTypeLabel.text = "전체"

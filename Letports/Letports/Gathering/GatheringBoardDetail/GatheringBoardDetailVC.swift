@@ -39,16 +39,16 @@ final class GatheringBoardDetailVC: UIViewController {
 	
 	private lazy var commentInputView: CommentInputView = {
 		let view = CommentInputView()
-        view.delegate = self
+		view.delegate = self
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	
 	private var viewModel: GatheringBoardDetailVM
-
+	
 	private var cancellables = Set<AnyCancellable>()
 	
-
+	
 	init(viewModel: GatheringBoardDetailVM) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -61,7 +61,7 @@ final class GatheringBoardDetailVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-        bindKeyboard()
+		bindKeyboard()
 		bindViewModel()
 	}
 	
@@ -104,45 +104,45 @@ final class GatheringBoardDetailVC: UIViewController {
 			commentInputView.heightAnchor.constraint(equalToConstant: 50)
 		])
 	}
-    
-    private func bindKeyboard() {
-        // 키보드가 나타날 때의 이벤트를 구독
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
-            .sink { [weak self] keyboardFrame in
-                guard let self = self else { return }
-                UIView.animate(withDuration: 0.3) {
-                    self.tableView.contentInset = UIEdgeInsets(top: 0,
-                                                               left: 0,
-                                                               bottom: keyboardFrame.height,
-                                                               right: 0)
-                    self.tableView.scrollIndicatorInsets = self.tableView.contentInset
-                }
-            }
-            .store(in: &cancellables)
-        
-        // 키보드가 사라질 때의 이벤트를 구독
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                UIView.animate(withDuration: 0.3) {
-                    self.tableView.contentInset = .zero
-                    self.tableView.scrollIndicatorInsets = .zero
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    private func setupTapGesture() {
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func dismissKeyboard() {
-        self.view.endEditing(true)
-    }
+	
+	private func bindKeyboard() {
+		// 키보드가 나타날 때의 이벤트를 구독
+		NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+			.compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+			.sink { [weak self] keyboardFrame in
+				guard let self = self else { return }
+				UIView.animate(withDuration: 0.3) {
+					self.tableView.contentInset = UIEdgeInsets(top: 0,
+															   left: 0,
+															   bottom: keyboardFrame.height,
+															   right: 0)
+					self.tableView.scrollIndicatorInsets = self.tableView.contentInset
+				}
+			}
+			.store(in: &cancellables)
+		
+		// 키보드가 사라질 때의 이벤트를 구독
+		NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+			.sink { [weak self] _ in
+				guard let self = self else { return }
+				UIView.animate(withDuration: 0.3) {
+					self.tableView.contentInset = .zero
+					self.tableView.scrollIndicatorInsets = .zero
+				}
+			}
+			.store(in: &cancellables)
+	}
+	
+	private func setupTapGesture() {
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		tapGesture.cancelsTouchesInView = false
+		self.view.addGestureRecognizer(tapGesture)
+	}
+	
+	@objc func dismissKeyboard() {
+		self.view.endEditing(true)
+	}
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
@@ -158,12 +158,13 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch self.viewModel.getBoardDetailCellTypes()[indexPath.row] {
 		case .boardProfileTitle:
-			if let cell: GatheringBoardDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
-				if let post = viewModel.boardPost {
-					cell.configure(with: post)
-				}
-				return cell
+			guard let cell: GatheringBoardDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) else {
+				return UITableViewCell()
 			}
+			if let userInfo = viewModel.getUserInfoForCurrentPost() {
+				cell.configure(nickname: userInfo.nickname, imageUrl: userInfo.imageUrl)
+			}
+			return cell
 		case .boardContents:
 			if let cell: GatheringBoardDetailContentTVCell  = tableView.loadCell(indexPath: indexPath) {
 				if let post = viewModel.boardPost {
@@ -223,7 +224,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {
-    func addComment(comment: String) {
-        viewModel.addComment(comment: comment)
-    }
+	func addComment(comment: String) {
+		viewModel.addComment(comment: comment)
+	}
 }
