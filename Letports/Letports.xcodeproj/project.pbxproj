@@ -39,6 +39,7 @@
 		41AA05302C73000C009FF289 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA052F2C73000C009FF289 /* Common.swift */; };
 		41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05312C73020C009FF289 /* FirestoreManager.swift */; };
 		41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
+		41C857C62C81B8820042B305 /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C857C52C81B8820042B305 /* Extension+Date.swift */; };
 		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
@@ -186,6 +187,7 @@
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
 				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
+				41C857C52C81B8820042B305 /* Extension+Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -906,6 +909,7 @@
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */,
+				41C857C62C81B8820042B305 /* Extension+Date.swift in Sources */,
 				F78A24C22C7C4C8E00471331 /* Team.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				BF08A9612C78465200682AB8 /* JoinView.swift in Sources */,

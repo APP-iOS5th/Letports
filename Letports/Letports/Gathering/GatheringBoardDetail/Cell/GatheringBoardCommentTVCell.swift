@@ -10,7 +10,8 @@ import UIKit
 class GatheringBoardCommentTVCell: UITableViewCell {
 	
 	private var tableViewHeightConstraint: NSLayoutConstraint?
-	
+    private var viewModel: GatheringBoardDetailVM?
+    
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
 		tv.translatesAutoresizingMaskIntoConstraints = false
@@ -21,6 +22,8 @@ class GatheringBoardCommentTVCell: UITableViewCell {
 		tv.backgroundColor = .lp_background_white
 		tv.dataSource = self
 		tv.delegate = self
+        tv.rowHeight = UITableView.automaticDimension
+        tv.estimatedRowHeight = 80
 		tv.register(CommentTVCell.self, forCellReuseIdentifier: "CommentTVCell")
 		return tv
 	}()
@@ -35,10 +38,11 @@ class GatheringBoardCommentTVCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	var board: [GatheringBoardDetailVM.Comment] = [] {
+	var board: [Comment] = [] {
 		didSet {
 			tableView.reloadData()
 			updateTableViewHeight()
+            self.layoutIfNeeded()
 		}
 	}
 	
@@ -71,11 +75,9 @@ class GatheringBoardCommentTVCell: UITableViewCell {
 		layoutIfNeeded()
 	}
 	
-	func updateCommentList(_ comments: [GatheringBoardDetailVM.Comment]) {
+	func updateCommentList(comments: [Comment], viewModel: GatheringBoardDetailVM) {
 		self.board = comments
-		self.tableView.reloadData()
-		self.updateTableViewHeight()
-		self.layoutIfNeeded()
+        self.viewModel = viewModel
 	}
 }
 
@@ -89,17 +91,18 @@ extension GatheringBoardCommentTVCell: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTVCell",
-													   for: indexPath) as? CommentTVCell else {
+													   for: indexPath) as? CommentTVCell,
+              let viewModel = self.viewModel else {
 			return UITableViewCell()
 		}
 		let comment = board[indexPath.row]
-		cell.configureCell(data: comment)
+		cell.configureCell(data: comment, viewModel: viewModel)
 		return cell
 	}
 }
 
 extension GatheringBoardCommentTVCell: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 80 + 10
+        return UITableView.automaticDimension
 	}
 }

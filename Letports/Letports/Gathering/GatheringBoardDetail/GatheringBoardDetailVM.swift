@@ -24,10 +24,13 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post
+    @Published private(set) var comments: [Comment] = []
+    
 	private(set) var allUsers: [LetportsUser]
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
     private(set) var gathering: Gathering
+    
     
     init(boardPost: Post, allUsers: [LetportsUser], gathering: Gathering) {
 		self.boardPost = boardPost
@@ -64,11 +67,84 @@ final class GatheringBoardDetailVM {
 		return nil
 	}
 	
-	func addComment(comment: String) {
-		self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
-		print(self.comment)
+    func getBoardData() {
+        getPost()
+        getComment()
+    }
+    
+    func getComment() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(self.gathering.gatheringUid),
+            .collection(.board),
+            .document(self.boardPost.postUID),
+            .collection(.comment)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Comment.self)
+            .sink { _ in
+            } receiveValue: { [weak self] comments in
+                self?.comments = comments
+            }
+            .store(in: &cancellables)
+    }
+    
+    func addComment(comment: String, completionHandler: @escaping () -> Void) {
+        
+        let uuid = UUID().uuidString
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(self.gathering.gatheringUid),
+            .collection(.board),
+            .document(self.boardPost.postUID),
+            .collection(.comment),
+            .document(uuid)
+        ]
+        print("collectionPath", collectionPath)
+        
+        let comment = Comment(postUID: self.boardPost.postUID,
+                              commentUID: uuid,
+                              userUID: UserManager.shared.getUserUid(),
+                              contents: comment,
+                              createDate: Date().toString())
+        
+        FM.setData(pathComponents: collectionPath, data: comment)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    completionHandler()
+                case .failure(let error):
+                    print("comment upload Error \(error)")
+                }
+            } receiveValue: { _ in
+            }
+            .store(in: &cancellables)
 	}
-	
+    
+    func getUserData(userUid: String, completion: @escaping (Result<LetportsUser, FirestoreError>) -> Void) {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(userUid)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .sink(receiveCompletion: { completionResult in
+                switch completionResult {
+                case .finished:
+                    break
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }, receiveValue: { users in
+                if let user = users.first {
+                    completion(.success(user))
+                } else {
+                    completion(.failure(.documentNotFound))
+                }
+            })
+            .store(in: &cancellables)
+    }
+    
 	func boardDetailBackBtnTap() {
 		delegate?.boardDetailBackBtnTap()
 	}
@@ -118,21 +194,5 @@ final class GatheringBoardDetailVM {
             .store(in: &cancellables)
     }
     
-	
-	// 댓글(삭제예정)
-	struct Comment { // 퍼블리셔로
-		let nickName: String
-		let writeDate: String
-		let content: String
-	}
-	
-	var comment: [Comment] = [
-		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
-		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
-		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),
-		Comment(nickName: "김민재", writeDate: "2024-07-10 14:12", content: "댓글 내용 4 - 김민재님의 의견"),
-		Comment(nickName: "김민재", writeDate: "2024-07-17 07:12", content: "댓글 내용 5 - 김민재님의 의견")
-	]
-	
 }
 

@@ -185,7 +185,6 @@ class GatheringUploadVM {
                                       gatherQuestion: gatherQuestion,
                                       gatheringCreateDate: "2024-08-29",
                                       gatheringMaster: UserManager.shared.getUserUid(),
-                                      gatheringMembers: [],
                                       gatheringSports: "축구",
                                       gatheringSportsTeam: "test",
                                       gatheringUid: uuid)
