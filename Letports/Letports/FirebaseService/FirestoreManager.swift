@@ -17,6 +17,7 @@ enum LetportsCollection: String {
     case gatherings = "Gatherings"
     case user = "Users"
     case sports = "Sports"
+    case sportsTeam = "SportsTeam"
     case board = "Baord"
     case comment = "Comment"
     case myGathering = "MyGatherings"

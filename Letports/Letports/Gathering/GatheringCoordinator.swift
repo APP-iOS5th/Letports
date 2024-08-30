@@ -21,7 +21,6 @@ class GatheringCoordinator: Coordinator {
 	init(navigationController: UINavigationController, viewModel: GatheringVM) {
 		self.navigationController = navigationController
 		self.viewModel = viewModel
-		
 		self.navigationController.isNavigationBarHidden = true
 	}
 	

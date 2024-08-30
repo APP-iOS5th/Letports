@@ -34,6 +34,7 @@ class BoardEditorVM {
     
     private(set) var postType: PostType = .free
     private(set) var gathering: SampleGathering1?
+
     
     private(set) var isEditMode: Bool
     private var postID: String?
@@ -49,7 +50,7 @@ class BoardEditorVM {
         cellTypes.append(.photo)
         return cellTypes
     }
-    
+
     init(type: PostType, gathering: SampleGathering1, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
