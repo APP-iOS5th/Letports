@@ -198,20 +198,20 @@ extension GatheringDetailVC: JoinViewDelegate {
 	}
 	
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
-		viewModel.joinGathering(answer: answer)
-			.sink(receiveCompletion: { [weak self] completion in
-				switch completion {
-				case .finished:
-					print("가입 처리가 완료되었습니다.")
-					self?.removeJoinView()
-					self?.viewModel.loadData() // 데이터 새로고침
-				case .failure(let error):
-					print("가입 처리 중 오류 발생: \(error)")
-					self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
-				}
-			}, receiveValue: { _ in })
-			.store(in: &cancellables)
-		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
+//		viewModel.joinGathering(answer: answer)
+//			.sink(receiveCompletion: { [weak self] completion in
+//				switch completion {
+//				case .finished:
+//					print("가입 처리가 완료되었습니다.")
+//					self?.removeJoinView()
+//					self?.viewModel.loadData() // 데이터 새로고침
+//				case .failure(let error):
+//					print("가입 처리 중 오류 발생: \(error)")
+//					self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
+//				}
+//			}, receiveValue: { _ in })
+//			.store(in: &cancellables)
+//		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
 	}
 	
 	// 가입뷰 처리

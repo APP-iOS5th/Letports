@@ -151,7 +151,7 @@ class ManageUserView: UIView {
 		}
 	}
 	
-	func configure(with user: SampleMember, with gathering: SampleGathering1) {
+    func configure(with user: GatheringMember, with gathering: Gathering) {
 		if joindelegate != nil {
 			cancelButton.setTitle("취소", for: .normal)
 			cancelButton.backgroundColor = UIColor(named: "lp_gray")
