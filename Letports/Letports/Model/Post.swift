@@ -18,5 +18,5 @@ struct Post: Codable {
     let title: String
     let contents: String
     let imageUrls: [String]
-    let boardType: String
+    let boardType: PostType
 }
