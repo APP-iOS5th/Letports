@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol GatheringDetailCoordinatorDelegate: AnyObject {
-	func pushBoardDetail(boardPost: Post, allUsers: [LetportsUser])
+    func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser])
 	func pushProfileView(member: LetportsUser)
 	func presentActionSheet()
 	func reportGathering()
@@ -41,7 +41,10 @@ class GatheringDetailCoordinator: Coordinator {
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func pushPostUploadViewController(type: PostType, gathering: Gathering) {
-		
+        let viewModel = BoardEditorVM(type: type, gathering: gathering)
+		let coordinaotr = BoardEditorCoordinator(navigationController: navigationController, viewModel: viewModel)
+        childCoordinators.append(coordinaotr)
+        coordinaotr.start()
 	}
 	
 	func pushGatherSettingView(gatheringUid: String) {
@@ -51,11 +54,11 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		coordinator.start()
 	}
 	
-	func pushBoardDetail(boardPost: Post, allUsers: [LetportsUser]) {
+    func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser]) {
+        let viewModel = GatheringBoardDetailVM(boardPost: boardPost, allUsers: allUsers, gathering: gathering)
+        
 		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
-														  boardData: boardPost,
-														  
-														  allUsers: allUsers)
+                                                          viewModel: viewModel)
 		childCoordinators.append(coordinator)
 		coordinator.start()
 	}
@@ -122,3 +125,4 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	}
 	
 }
+

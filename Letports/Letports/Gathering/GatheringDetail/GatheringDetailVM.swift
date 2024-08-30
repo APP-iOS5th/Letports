@@ -63,7 +63,7 @@ class GatheringDetailVM {
 		case .all:
 			return boardData
 		case .noti, .free:
-			return boardData.filter { $0.boardType == selectedBoardType.rawValue }
+            return boardData.filter { $0.boardType.rawValue == selectedBoardType.rawValue }
 		}
 	}
 	
@@ -79,7 +79,7 @@ class GatheringDetailVM {
 	
 	func didTapBoardCell(boardPost: Post) {
 		guard let gathering = self.gathering else { return }
-		self.delegate?.pushBoardDetail(boardPost: boardPost, allUsers: self.allUsers)
+        self.delegate?.pushBoardDetail(gathering: gathering, boardPost: boardPost, allUsers: self.allUsers)
 	}
 	
 	func didTapProfile(member: LetportsUser) {

@@ -111,9 +111,9 @@ final class BoardTVCell: UITableViewCell {
 		boardTypeLabel.backgroundColor = .clear
 		boardTypeLabel.layer.borderWidth = 0.5
 		switch data.boardType {
-		case "free":
+        case .free:
 			boardTypeLabel.text = "자유"
-		case "noti":
+        case .noti:
 			boardTypeLabel.text = "공지"
 			boardTypeLabel.backgroundColor = .lp_tint
 			boardTypeLabel.layer.borderWidth = 0
