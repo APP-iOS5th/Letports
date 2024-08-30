@@ -41,7 +41,10 @@ class GatheringDetailCoordinator: Coordinator {
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func pushPostUploadViewController(type: PostType, gathering: Gathering) {
-		
+        let viewModel = BoardEditorVM(type: type, gathering: gathering)
+		let coordinaotr = BoardEditorCoordinator(navigationController: navigationController, viewModel: viewModel)
+        childCoordinators.append(coordinaotr)
+        coordinaotr.start()
 	}
 	
 	func pushGatherSettingView(gatheringUid: String) {

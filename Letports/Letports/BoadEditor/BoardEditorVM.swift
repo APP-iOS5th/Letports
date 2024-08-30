@@ -33,7 +33,7 @@ class BoardEditorVM {
     @Published private(set) var isUploading: Bool = false
     
     private(set) var postType: PostType = .free
-    private(set) var gathering: SampleGathering1?
+    private(set) var gathering: Gathering?
 
     
     private(set) var isEditMode: Bool
@@ -51,7 +51,7 @@ class BoardEditorVM {
         return cellTypes
     }
 
-    init(type: PostType, gathering: SampleGathering1, post: Post? = nil) {
+    init(type: PostType, gathering: Gathering, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -96,7 +96,8 @@ class BoardEditorVM {
     
     private func boardUpload(images: [String]) {
         if let title = boardTitle,
-           let contents = boardContents {
+           let contents = boardContents,
+           let gatheringUid = gathering?.gatheringUid{
             
             let boardUuid = UUID().uuidString
             guard let myUserUid = Auth.auth().currentUser?.uid else { return }
@@ -105,7 +106,14 @@ class BoardEditorVM {
             let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
                                   userUID: myUserUid,
                                   title: title, contents: contents,
-                            imageUrls: images, boardType: "")
+                            imageUrls: images, boardType: self.postType)
+            
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.gatherings),
+                .document(gatheringUid),
+                .collection(.board),
+                .document(post.postUID)
+            ]
             
             if isEditMode {
                 FM.updateData(collection: "Board", document: post.postUID, data: post)
@@ -117,16 +125,7 @@ class BoardEditorVM {
                     .store(in: &cancellables)
                     
             } else {
-                guard let gatheringUid = gathering?.gatheringUid else { return }
-                
-                let path: [FirestorePathComponent] = [
-                    .collection(.gatherings),
-                    .document(gatheringUid),
-                    .collection(.board),
-                    .document(post.postUID)
-                ]
-                
-                FM.setData(pathComponents: path, data: post)
+                FM.setData(pathComponents: collectionPath, data: post)
                     .sink { _ in
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
