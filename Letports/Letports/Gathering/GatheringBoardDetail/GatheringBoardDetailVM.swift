@@ -24,7 +24,7 @@ protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
 final class GatheringBoardDetailVM {
 	@Published private(set) var boardPost: Post?
 	@Published private(set) var postAuthor: GatheringMember?
-	private(set) var gathering: Gathering
+	private(set) var gathering: Gathering?
 	private var cancellables = Set<AnyCancellable>()
 	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
 	
@@ -44,31 +44,31 @@ final class GatheringBoardDetailVM {
 				}
 			}, receiveValue: { [weak self] post in
 				self?.boardPost = post
-				self?.fetchPostAuthor(userUID: post.userUID)
+//				self?.fetchPostAuthor(userUID: post.userUID)
 				self?.printBoardPostDetails()
 			})
 			.store(in: &cancellables)
 	}
 	
-	private func fetchPostAuthor(userUID: String) {
-		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
-			self.postAuthor = member
-			printMemberDetails(member)
-		} else {
-			print("작성자 정보를 찾을 수 없습니다.")
-		}
-	}
+//	private func fetchPostAuthor(userUID: String) {
+//		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
+//			self.postAuthor = member
+//			printMemberDetails(member)
+//		} else {
+//			print("작성자 정보를 찾을 수 없습니다.")
+//		}
+//	}
 	
 	private func printMemberDetails(_ member: GatheringMember) {
-		print("=== 게시글 작성자 정보 ===")
-		print("닉네임: \(member.nickName)")
-		print("유저 UID: \(member.userUID)")
-		print("프로필 이미지 URL: \(member.image)")
-		print("가입 날짜: \(member.joinDate)")
-		print("가입 상태: \(member.joinStatus)")
-		print("답변: \(member.answer)")
-		print("간단 정보: \(member.simpleInfo)")
-		print("========================")
+//		print("=== 게시글 작성자 정보 ===")
+//		print("닉네임: \(member.nickName)")
+//		print("유저 UID: \(member.userUID)")
+//		print("프로필 이미지 URL: \(member.image)")
+//		print("가입 날짜: \(member.joinDate)")
+//		print("가입 상태: \(member.joinStatus)")
+//		print("답변: \(member.answer)")
+//		print("간단 정보: \(member.simpleInfo)")
+//		print("========================")
 	}
 	
 	private func printBoardPostDetails() {
@@ -84,7 +84,6 @@ final class GatheringBoardDetailVM {
 		print("게시판 타입: \(post.boardType)")
 		print("작성자 UID: \(post.userUID)")
 		print("이미지 URL 개수: \(post.imageUrls.count)")
-		print("댓글 개수: \(post.comments.count)")
 		print("========================")
 	}
 	
@@ -107,6 +106,11 @@ final class GatheringBoardDetailVM {
 	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
 		return self.cellType
 	}
+    
+    func addComment(comment: String) {
+        self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
+        print(self.comment)
+    }
 	
 	func boardDetailBackBtnTap() {
 		delegate?.boardDetailBackBtnTap()
@@ -119,7 +123,7 @@ final class GatheringBoardDetailVM {
 		let content: String
 	}
 	
-	let comment: [Comment] = [
+    var comment: [Comment] = [
 		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
 		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
 		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),

@@ -8,14 +8,27 @@
 import Foundation
 import UIKit
 
+protocol GatheringDetailCoordinatorDelegate: AnyObject {
+	func pushBoardDetail(boardPost: Post, gathering: Gathering)
+	func pushProfileView(member: LetportsUser)
+	func presentActionSheet()
+	func reportGathering()
+	func presentLeaveGatheringConfirmation()
+	func dismissAndUpdateUI()
+	func showError(message: String)
+	func gatheringDetailBackBtnTap()
+	func pushGatherSettingView(gatheringUid: String)
+	func pushPostUploadViewController(type: PostType, gathering: Gathering)
+}
+
 class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
 	
-	init(navigationController: UINavigationController, currentUser: LetportsUser) {
+	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
 		self.navigationController = navigationController
-		self.viewModel = GatheringDetailVM(currentUser: currentUser)
+		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
 		self.viewModel.delegate = self
 	}
 	
@@ -26,18 +39,28 @@ class GatheringDetailCoordinator: Coordinator {
 	}
 }
 
-
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
-	func showBoardDetail(boardPost: Post, gathering: Gathering) {
-		let boardDetailCoordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
-																	 postUID: boardPost.postUID,
-																	 gathering: gathering)
-		childCoordinators.append(boardDetailCoordinator)
-		boardDetailCoordinator.start()
+	func pushPostUploadViewController(type: PostType, gathering: Gathering) {
+		
 	}
 	
-	func showProfileView(member: GatheringMember) {
-		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.userUID)
+	func pushGatherSettingView(gatheringUid: String) {
+		let coordinator = GatherSettingCoordinator(navigationController: navigationController,
+												   gatheringUid: gatheringUid)
+		childCoordinators.append(coordinator)
+		coordinator.start()
+	}
+	
+	func pushBoardDetail(boardPost: Post, gathering: Gathering) {
+		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
+														  postUID: boardPost.postUID,
+														  gathering: gathering)
+		childCoordinators.append(coordinator)
+		coordinator.start()
+	}
+	
+	func pushProfileView(member: LetportsUser) {
+		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.uid)
 		childCoordinators.append(coordinator)
 		coordinator.start()
 	}
@@ -46,7 +69,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		
 		let leaveAction = UIAlertAction(title: "모임 나가기", style: .destructive) { [weak self] _ in
-			self?.showLeaveGatheringConfirmation()
+			self?.presentLeaveGatheringConfirmation()
 		}
 		
 		let reportAction = UIAlertAction(title: "신고하기", style: .default) { [weak self] _ in
@@ -62,14 +85,14 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
 	
-	func showLeaveGatheringConfirmation() {
+	func presentLeaveGatheringConfirmation() {
 		let alertController = UIAlertController(title: "모임 탈퇴",
 												message: "정말로 모임을 탈퇴하시겠습니까?",
 												preferredStyle: .alert)
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 		let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-			self?.viewModel.confirmLeaveGathering()
+		self?.viewModel.confirmLeaveGathering()
 		}
 		
 		alertController.addAction(cancelAction)
@@ -96,3 +119,5 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}
+	
+}

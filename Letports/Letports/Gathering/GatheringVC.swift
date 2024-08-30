@@ -97,14 +97,26 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
 		return viewModel.getCellCount()
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		switch viewModel.getCellTypes()[indexPath.row] {
-		case .recommendGatherings, .gatheringLists:
-            viewModel.pushGatheringDetailController(gatheringUid: viewModel.gatheringLists[indexPath.row].gatheringUid)
-		default:
-			break
-		}
-	}
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch self.viewModel.getCellTypes()[indexPath.row] {
+        case .recommendGatherings:
+            let startIndex = 1
+            let userIndex = indexPath.row - startIndex
+            if userIndex < viewModel.recommendGatherings.count {
+                let user = viewModel.recommendGatherings[userIndex]
+                self.viewModel.pushGatheringDetailController(gatheringUid: user.gatheringUid)
+            }
+        case .gatheringLists:
+            let startIndex = 2 + viewModel.recommendGatherings.count
+            let userIndex = indexPath.row - startIndex
+            if userIndex < viewModel.gatheringLists.count {
+                let user = viewModel.gatheringLists[userIndex]
+                self.viewModel.pushGatheringDetailController(gatheringUid: user.gatheringUid)
+            }
+        default:
+            break
+        }
+    }
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let cellType = self.viewModel.getCellTypes()[indexPath.row]

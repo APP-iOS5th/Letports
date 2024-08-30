@@ -144,8 +144,8 @@ class GatheringTVCell: UITableViewCell {
             gatheringInfo.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             
             gatheringMasterIV.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
-            gatheringMasterIV.widthAnchor.constraint(equalToConstant: 10),
-            gatheringMasterIV.heightAnchor.constraint(equalToConstant: 10),
+            gatheringMasterIV.widthAnchor.constraint(equalToConstant: 12),
+            gatheringMasterIV.heightAnchor.constraint(equalToConstant: 12),
             gatheringMasterIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             
             gatheringMasterName.leadingAnchor.constraint(equalTo: gatheringMasterIV.trailingAnchor, constant: 4),
@@ -174,10 +174,30 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with gathering: Gathering, with user: LetportsUser) {
+    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = master.nickname
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate
+        guard let gatheringUrl = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        guard let masterUrl = URL(string: master.image) else {
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: gatheringUrl, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: placeholder)
+    }
+    
+    //성근 userprofileVC에서  두개 통일 필요
+    func configure(with gathering: Gathering) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster
@@ -193,7 +213,8 @@ class GatheringTVCell: UITableViewCell {
         gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
     }
     
-     func configure(with gathering: Gathering) {
+    //준범님 gatheringVC에서 사용중
+    func configure(with gathering: SampleGathering1) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

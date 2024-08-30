@@ -83,6 +83,7 @@ class GatherSettingVC: UIViewController {
             viewModel.$pendingGatheringMembers,
             viewModel.$joiningGatheringMembers
         )
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] (gathering, pendingMembers, joiningMembers) in
             self?.tableView.reloadData()
         }

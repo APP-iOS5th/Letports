@@ -38,7 +38,8 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTVCell.self)
+                         GatheringTVCell.self,
+                         SeparatorTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -76,6 +77,7 @@ class ProfileVC: UIViewController {
             viewModel.$myGatherings,
             viewModel.$pendingGatherings
         )
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] (user, myGathering, pendingGathering) in
             self?.tableView.reloadData()
         }
@@ -125,13 +127,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .profile:
             return 120.0
-        case .myGatheringHeader:
+        case .myGatheringHeader, .pendingGatheringHeader:
             return 40.0
-        case .myGatherings:
-            return 100.0
-        case .pendingGatheringHeader:
-            return 40.0
-        case .pendingGatherings:
+        case .myGatherings, .pendingGatherings, .myGatheringSeparator, .pendingGatheringSeparator:
             return 100.0
         }
     }
@@ -158,7 +156,20 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if gatheringIndex < viewModel.myGatherings.count {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        cell.configure(with: gathering, with:user)
+                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
+                            .sink { completion in
+                                switch completion {
+                                case .finished:
+                                    break // 작업이 성공적으로 완료된 경우
+                                case .failure(let error):
+                                    print("Error loading master user: \(error.localizedDescription)")
+                                }
+                            } receiveValue: { masterUser in
+                                DispatchQueue.main.async {
+                                    cell.configure(with: gathering, with: user, with: masterUser)
+                                }
+                            }
+                            .store(in: &cancellables)
                     }
                 }
                 return cell
@@ -170,14 +181,37 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.myGatherings.count + 1
+                let startIndex = viewModel.myGatherings.count + 3
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        cell.configure(with: gathering, with:user)
+                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
+                            .sink { completion in
+                                switch completion {
+                                case .finished:
+                                    break // 작업이 성공적으로 완료된 경우
+                                case .failure(let error):
+                                    print("Error loading master user: \(error.localizedDescription)")
+                                }
+                            } receiveValue: { masterUser in
+                                DispatchQueue.main.async {
+                                    cell.configure(with: gathering, with: user, with: masterUser)
+                                }
+                            }
+                            .store(in: &cancellables)
                     }
                 }
+                return cell
+            }
+        case .myGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입된 소모임이 없습니다")
+                return cell
+            }
+        case .pendingGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입대기중인 소모임이 없습니다")
                 return cell
             }
         }

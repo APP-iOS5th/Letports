@@ -84,13 +84,13 @@ class GatherUserTVCell: UITableViewCell {
     }
     
     func configure(with user: GatheringMember) {
-        nickNameLabel.text = user.nickName
-        simpleInfoLabel.text = user.simpleInfo
-        guard let url = URL(string: user.image) else {
-            profileIV.image = UIImage(systemName: "person.circle")
-            return
-        }
-        let placeholder = UIImage(systemName: "person.circle")
-        profileIV.kf.setImage(with: url, placeholder: placeholder)
+        //nickNameLabel.text = user.nickName
+       // simpleInfoLabel.text = user.simpleInfo
+//        guard let url = URL(string: user.image) else {
+//            profileIV.image = UIImage(systemName: "person.circle")
+//            return
+//        }
+//        let placeholder = UIImage(systemName: "person.circle")
+//        profileIV.kf.setImage(with: url, placeholder: placeholder)
     }
 }
