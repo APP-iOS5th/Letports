@@ -8,13 +8,13 @@
 import UIKit
 
 protocol GatheringDetailProfileCVCellDelegate: AnyObject {
-	func didTapProfile(member: GatheringMember)
+	func didTapProfile(member: LetportsUser)
 }
 
 final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	
 	weak var delegate: GatheringDetailProfileCVCellDelegate?
-	private var profile: GatheringMember?
+	private var profile: LetportsUser?
 	
 	private let userImageBtn: UIButton = {
 		let btn = UIButton()
@@ -68,11 +68,11 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		userImageBtn.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
 	}
 	
-	func configure(member: GatheringMember) {
+	func configure(member: LetportsUser) {
 		self.profile = member
-		self.userNickName.text = member.nickName
+		self.userNickName.text = member.nickname
 		if let url = URL(string: member.image) {
-			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "placeholder_image"))
+			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "person.circle.fill"))
 		}
 	}
 	

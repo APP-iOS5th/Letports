@@ -9,7 +9,6 @@ import Foundation
 struct LetportsUser: Codable {
     let email: String
     let image: String
-    let myGathering: [String] = ["레포츠"]
     let nickname: String
     let simpleInfo: String
     let uid: String
@@ -25,4 +24,9 @@ struct LetportsUser: Codable {
         case userSports = "UserSports"
         case userSportsTeam = "UserSportsTeam"
     }
+}
+
+
+struct MyGatherings: Codable {
+    let uid: String
 }

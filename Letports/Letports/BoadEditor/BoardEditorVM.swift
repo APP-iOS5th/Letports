@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import FirebaseAuth
 
 enum BoardEditorCellType {
     case title
@@ -31,6 +32,10 @@ class BoardEditorVM {
     @Published private(set) var boardPhotos: [UIImage] = []
     @Published private(set) var isUploading: Bool = false
     
+    private(set) var postType: PostType = .free
+    private(set) var gathering: Gathering?
+    
+    
     private(set) var isEditMode: Bool
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
@@ -46,7 +51,7 @@ class BoardEditorVM {
         return cellTypes
     }
     
-    init(post: SamplePost? = nil) {
+    init(type: PostType, gathering: Gathering, post: Post? = nil) {
         if let post = post {
             self.isEditMode = true
             self.postID = post.postUID
@@ -56,6 +61,8 @@ class BoardEditorVM {
         } else {
             self.isEditMode = false
         }
+        self.gathering = gathering
+        self.postType = type
         
         Publishers.CombineLatest($boardTitle, $boardContents)
             .map { boardTitle, boardContents in
@@ -73,7 +80,6 @@ class BoardEditorVM {
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
                 self.boardUpload(images: imageUrls)
-                self.delegate?.popViewController()
             }
             .store(in: &cancellables)
     }
@@ -81,39 +87,56 @@ class BoardEditorVM {
     private func uploadImage() -> AnyPublisher<[String], Never> {
         return FirebaseStorageManager.uploadImages(images: boardPhotos, filePath: .boardImageUpload)
             .map { urls in
-                urls.map { $0.absoluteString }
+                return urls.map { $0.absoluteString }
             }
-            .replaceError(with: [])
+            .catch { error -> Just<[String]> in
+                print("Error occurred during image upload: \(error.localizedDescription)")
+                return Just([])
+            }
             .eraseToAnyPublisher()
     }
     
     
     private func boardUpload(images: [String]) {
         if let title = boardTitle,
-           let contents = boardContents {
+           let contents = boardContents,
+           let gatheringUid = gathering?.gatheringUid{
             
-            let uuid = UUID().uuidString
+            let boardUuid = UUID().uuidString
+            guard let myUserUid = Auth.auth().currentUser?.uid else { return }
             
-            let post = SamplePost(postUID: self.isEditMode ? self.postID ?? uuid : uuid,
-                                  userUID: "몰루",
-                                  title: title, contents: contents,
-                                  imageUrls: images, comments: [], boardType: "Free")
+            
+            let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
+                            userUID: myUserUid,
+                            title: title, contents: contents,
+                            imageUrls: images, boardType: self.postType)
+            
+            
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.gatherings),
+                .document(gatheringUid),
+                .collection(.board),
+                .document(post.postUID)
+            ]
             
             if isEditMode {
-                FM.updateData(collection: "Board", document: post.postUID, data: post)
-                    .sink{ _ in
+                let updateContentFields: [String: Any] = [
+                    "title": title,
+                    "contents": contents
+                ]
+                FM.updateData(pathComponents: collectionPath, fields: updateContentFields)
+                    .sink { _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Update")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
-                    
             } else {
-                FM.setData(collection: "Board", document: post.postUID, data: post)
-                    .sink{ _ in
+                FM.setData(pathComponents: collectionPath, data: post)
+                    .sink { _ in
                     } receiveValue: { [weak self] _ in
-                        print("Data Save")
                         self?.isUploading = false
+                        self?.delegate?.popViewController()
                     }
                     .store(in: &cancellables)
             }
@@ -159,7 +182,7 @@ class BoardEditorVM {
     }
     
     func getPhotoCount() -> Int {
-        return self.boardPhotos.count + 1
+        return self.isEditMode ? self.boardPhotos.count : self.boardPhotos.count + 1
     }
     
     func photoUploadIsLimit() -> Bool {

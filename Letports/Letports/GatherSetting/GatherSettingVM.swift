@@ -34,8 +34,8 @@ class GatherSettingVM {
         return cellTypes
     }
     
-    init() {
-        loadGathering(with: "gathering040")
+    init(gatheringUid: String) {
+        loadGathering(with: gatheringUid)
     }
     
     func denyUser() {
@@ -52,6 +52,10 @@ class GatherSettingVM {
     
     func cancel() {
         delegate?.cancel()
+    }
+    
+    func gatherSettingBackBtnTap() {
+        delegate?.gatherSettingBackBtnTap()
     }
     
     func getCellTypes() -> [GatheringSettingCellType] {
@@ -80,30 +84,25 @@ class GatherSettingVM {
             .store(in: &cancellables)
     }
     
-    func fetchGatheringMembers(for gathering: Gathering) {
-        guard !gathering.gatheringMembers.isEmpty else {
-            self.pendingGatheringMembers = []
-            self.joiningGatheringMembers = []
-            return
-        }
-        FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
-            .map { gathering in
-                let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
-                let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }
-                return (joining, pending)
-            }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: {  completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("loadGatheringUser->",error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] (joining, pending) in
-                self?.joiningGatheringMembers = joining
-                self?.pendingGatheringMembers = pending
-            })
-            .store(in: &cancellables)
+    func fetchGatheringMembers(for gathering:  Gathering) {
+        //        FM.getData(collection: "Gatherings", document: gathering.gatheringUid, type: Gathering.self)
+        //			.map { gathering in
+        //				let joining = gathering.gatheringMembers.filter { $0.joinStatus == "가입중" }
+        //				let pending = gathering.gatheringMembers.filter { $0.joinStatus == "가입대기중" }
+        //				return (joining, pending)
+        //			}
+        //			.receive(on: DispatchQueue.main)
+        //			.sink(receiveCompletion: {  completion in
+        //				switch completion {
+        //				case .finished:
+        //					break
+        //				case .failure(let error):
+        //					print("loadGatheringUser->",error.localizedDescription)
+        //				}
+        //			}, receiveValue: { [weak self] (joining, pending) in
+        //				self?.joiningGatheringMembers = joining
+        //				self?.pendingGatheringMembers = pending
+        //			})
+        //			.store(in: &cancellables)
     }
 }

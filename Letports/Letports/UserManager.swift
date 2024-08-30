@@ -29,7 +29,7 @@ class UserManager {
         currentUser = user
     }
     
-    func getCurrentUserUID() -> String? {
-        return currentUser?.uid
+    func getUserUid() -> String {
+        return currentUser?.uid ?? ""
     }
 }

@@ -6,12 +6,17 @@
 //
 import Foundation
 
+enum PostType: String, Codable {
+    case all
+    case free
+    case noti
+}
+
 struct Post: Codable {
     let postUID: String
     let userUID: String
     let title: String
     let contents: String
     let imageUrls: [String]
-    let comments: [Comment]
-    let boardType: String
+    let boardType: PostType
 }

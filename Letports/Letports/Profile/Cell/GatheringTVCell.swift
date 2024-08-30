@@ -122,9 +122,7 @@ class GatheringTVCell: UITableViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 90),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             isGatheringMasterIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
@@ -196,7 +194,25 @@ class GatheringTVCell: UITableViewCell {
         gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: placeholder)
     }
     
-     func configure(with gathering: Gathering) {
+    //성근 userprofileVC에서  두개 통일 필요
+    func configure(with gathering: Gathering) {
+        gatheringName.text = gathering.gatherName
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = gathering.gatheringMaster
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = gathering.gatheringCreateDate
+        guard let url = URL(string: gathering.gatherImage) else {
+            gatheringIV.image = UIImage(systemName: "person.circle")
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
+        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
+    }
+    
+    //준범님 gatheringVC에서 사용중
+    func configure(with gathering: SampleGathering1) {
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

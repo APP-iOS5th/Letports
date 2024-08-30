@@ -64,16 +64,16 @@ class GatheringUploadVM {
     }
     
     
-    init(gathering: SampleGathering? = nil) {
+    init(gathering: SampleGathering1? = nil) {
         if let gathering = gathering {
             self.isEditMode = true
-            self.gatehringID = gathering.gatheringUID
-            self.gatherNameText = gathering.gatheringName
+            self.gatehringID = gathering.gatheringUid
+            self.gatherNameText = gathering.gatherName
             self.gatherInfoText = gathering.gatherInfo
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             
-            self.loadImage(from: gathering.gatheringImage)
+            self.loadImage(from: gathering.gatherImage)
                 .sink { [weak self] image in
                     self?.selectedImage = image
                 }
@@ -183,6 +183,7 @@ class GatheringUploadVM {
                     .sink { _ in
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
+                        self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
             } else {
@@ -191,6 +192,7 @@ class GatheringUploadVM {
                     } receiveValue: { [weak self] _ in
                         print("Data Save")
                         self?.isUploading = false
+                        self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
             }

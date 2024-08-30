@@ -9,7 +9,7 @@ import UIKit
 
 class BoardBtnCVCell: UICollectionViewCell {
 	
-	private var boardButtonType: BoardBtnType = .all
+	private var boardButtonType: PostType = .all
 	
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
@@ -72,7 +72,7 @@ class BoardBtnCVCell: UICollectionViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configure(with type: BoardBtnType) {
+	func configure(with type: PostType) {
 		self.boardButtonType = type
 	}
 	// 게시판 선택 버튼(3개)

@@ -38,7 +38,8 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTVCell.self)
+                         GatheringTVCell.self,
+                         SeparatorTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -71,12 +72,14 @@ class ProfileVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.CombineLatest3(
-            viewModel.$user,
-            viewModel.$myGatherings,
-            viewModel.$pendingGatherings
+        Publishers.Merge4(
+            viewModel.$user.map{ _ in ()},
+            viewModel.$myGatherings.map{ _ in ()},
+            viewModel.$pendingGatherings.map{ _ in ()},
+            viewModel.$masterUsers.map { _ in ()}
         )
-        .sink { [weak self] (user, myGathering, pendingGathering) in
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] (_) in
             self?.tableView.reloadData()
         }
         .store(in: &cancellables)
@@ -100,20 +103,22 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch self.viewModel.getCellTypes()[indexPath.row] {
+        let cellType = self.viewModel.getCellTypes()[indexPath.row]
+        
+        switch cellType {
         case .myGatherings:
-            let startIndex = 2
-            let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.myGatherings.count {
-                let user = viewModel.myGatherings[userIndex]
-                self.viewModel.gatheringCellTapped(gatheringUID: user.gatheringUid)
+            let startIndex = 2 // myGatherings 시작 인덱스
+            let gatheringIndex = indexPath.row - startIndex
+            if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
+                let gathering = viewModel.myGatherings[gatheringIndex]
+                self.viewModel.gatheringCellTapped(gatheringUID: gathering.gatheringUid)
             }
         case .pendingGatherings:
-            let startIndex = 3 + viewModel.myGatherings.count
-            let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.pendingGatherings.count {
-                let user = viewModel.pendingGatherings[userIndex]
-                self.viewModel.gatheringCellTapped(gatheringUID: user.gatheringUid)
+            let startIndex = 2 + viewModel.myGatherings.count + 1 // myGatherings 섹션과 헤더를 넘어서는 인덱스
+            let gatheringIndex = indexPath.row - startIndex
+            if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
+                let gathering = viewModel.pendingGatherings[gatheringIndex]
+                self.viewModel.gatheringCellTapped(gatheringUID: gathering.gatheringUid)
             }
         default:
             break
@@ -125,13 +130,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .profile:
             return 120.0
-        case .myGatheringHeader:
+        case .myGatheringHeader, .pendingGatheringHeader:
             return 40.0
-        case .myGatherings:
-            return 100.0
-        case .pendingGatheringHeader:
-            return 40.0
-        case .pendingGatherings:
+        case .myGatherings, .pendingGatherings, .myGatheringSeparator, .pendingGatheringSeparator:
             return 100.0
         }
     }
@@ -140,9 +141,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.delegate = self
                 if let user = viewModel.user {
-                    cell.delegate = self
-                    cell.configure(with: viewModel.user!)
+                    cell.configure(with: user)
                 }
                 return cell
             }
@@ -158,20 +159,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 if gatheringIndex < viewModel.myGatherings.count {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
-                            .sink { completion in
-                                switch completion {
-                                case .finished:
-                                    break // 작업이 성공적으로 완료된 경우
-                                case .failure(let error):
-                                    print("Error loading master user: \(error.localizedDescription)")
-                                }
-                            } receiveValue: { masterUser in
-                                DispatchQueue.main.async {
-                                    cell.configure(with: gathering, with: user, with: masterUser)
-                                }
-                            }
-                            .store(in: &cancellables)
+                        if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
+                            cell.configure(with: gathering, with: user, with: masterUser)
+                        } else {
+                            viewModel.fetchMasterUser(with: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                        }
                     }
                 }
                 return cell
@@ -183,27 +175,28 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.myGatherings.count + 1
+                let startIndex = viewModel.myGatherings.count + 3
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
-                        viewModel.loadMasterUser(with: gathering.gatheringMaster)
-                            .sink { completion in
-                                switch completion {
-                                case .finished:
-                                    break // 작업이 성공적으로 완료된 경우
-                                case .failure(let error):
-                                    print("Error loading master user: \(error.localizedDescription)")
-                                }
-                            } receiveValue: { masterUser in
-                                DispatchQueue.main.async {
-                                    cell.configure(with: gathering, with: user, with: masterUser)
-                                }
-                            }
-                            .store(in: &cancellables)
+                        if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
+                            cell.configure(with: gathering, with: user, with: masterUser)
+                        } else {
+                            viewModel.fetchMasterUser(with: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                        }
                     }
                 }
+                return cell
+            }
+        case .myGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입된 소모임이 없습니다")
+                return cell
+            }
+        case .pendingGatheringSeparator:
+            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(withTitle: "가입대기중인 소모임이 없습니다")
                 return cell
             }
         }
