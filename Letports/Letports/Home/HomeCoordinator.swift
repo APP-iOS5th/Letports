@@ -22,6 +22,7 @@ class HomeCoordinator: Coordinator {
 	init(navigationController: UINavigationController, viewModel: HomeViewModel) {
 		self.navigationController = navigationController
 		self.viewModel = viewModel
+        self.navigationController.isNavigationBarHidden = true
 	}
 	
 	func start() {

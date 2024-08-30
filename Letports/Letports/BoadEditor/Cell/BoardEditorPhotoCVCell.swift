@@ -86,9 +86,10 @@ class BoardEditorPhotoCVCell: UICollectionViewCell {
         ])
     }
     
-    func photoCellSetup(isPhoto: Bool, photo: UIImage? = nil, photoIndex: Int = 0) {
+    func photoCellSetup(isPhoto: Bool, photo: UIImage? = nil, photoIndex: Int = 0, isEdit: Bool = false) {
+        
         photoAddButton.isHidden = isPhoto
-        cancelButton.isHidden = !isPhoto
+        cancelButton.isHidden = isEdit ? true : !isPhoto
         
         if isPhoto {
             photoImageView.image = photo

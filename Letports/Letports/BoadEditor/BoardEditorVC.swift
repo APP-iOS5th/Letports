@@ -300,13 +300,18 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			}
 		case 2:
 			if let cell: BoardEditorPhotoCVCell = collectionView.loadCell(indexPath: indexPath) {
-				switch indexPath.row {
-				case 0:
-					cell.photoCellSetup(isPhoto: false)
-				default:
-					cell.photoCellSetup(isPhoto: true,
-										photo: self.viewModel.boardPhotos[indexPath.row - 1])
-				}
+                if viewModel.isEditMode {
+                    cell.photoCellSetup(isPhoto: true,
+                                        photo: self.viewModel.boardPhotos[indexPath.row], isEdit: true)
+                } else {
+                    switch indexPath.row {
+                    case 0:
+                        cell.photoCellSetup(isPhoto: false)
+                    default:
+                        cell.photoCellSetup(isPhoto: true,
+                                            photo: self.viewModel.boardPhotos[indexPath.row - 1])
+                    }
+                }
 				cell.delegate = self
 				return cell
 			}
@@ -343,7 +348,8 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			case 1:
 				header.configureText(text: "내용")
 			case 2:
-				header.configureText(text: "사진", photoCount: self.viewModel.getPhotoCount() - 1)
+                let photoCount = self.viewModel.getPhotoCount()
+                header.configureText(text: "사진", photoCount: viewModel.isEditMode ? photoCount : photoCount - 1)
 			default:
 				header.configureText(text: nil)
 			}
