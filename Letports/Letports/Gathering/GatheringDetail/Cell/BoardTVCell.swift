@@ -109,14 +109,14 @@ final class BoardTVCell: UITableViewCell {
 	func configureCell(data: Post, isActive: Bool) {
 		//		createDateLabel.text = data.createDate (데이터 없음)
 		self.boardPost = data
-		switch data.boardType {
-        case .free:
-			boardTypeLabel.text = "자유"
-        case .noti:
-			boardTypeLabel.text = "공지"
-		default:
+//		switch data.boardType {
+//        case .free:
+//			boardTypeLabel.text = "자유"
+//        case .noti:
+//			boardTypeLabel.text = "공지"
+//		default:
 			boardTypeLabel.text = "전체"
-		}
+//		}
 		titleLabel.text = data.contents
 		
 		self.isUserInteractionEnabled = isActive

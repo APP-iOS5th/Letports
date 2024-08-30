@@ -418,7 +418,7 @@ class HomeVC: UIViewController {
     }
     
     //소모임 이미지 업로드
-    private func updateGatheringImages(_ gatherings: [Gathering]) {
+    private func updateGatheringImages(_ gatherings: [SampleGathering1]) {
         gatheringSV.arrangedSubviews.forEach { $0.removeFromSuperview() }
         gatherings.forEach { gathering in
             let url = gathering.gatherImage

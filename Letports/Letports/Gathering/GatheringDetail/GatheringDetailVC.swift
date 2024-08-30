@@ -9,11 +9,11 @@ import UIKit
 import Combine
 
 protocol GatheringDetailDelegate: AnyObject {
-	func didTapProfileImage(profile: GatheringMember)
+	func didTapProfileImage(profile: LetportsUser)
 	func didTapCell(boardPost: Post)
 }
 
-final class GatheringDetailVC: UIViewController {
+final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
 		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "모임", btnName: .ellipsis))
@@ -32,7 +32,7 @@ final class GatheringDetailVC: UIViewController {
 	
 	private lazy var postBtn: PostBtn = {
 		let btn = PostBtn()
-        btn.delegate = self
+		btn.delegate = self
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -60,6 +60,7 @@ final class GatheringDetailVC: UIViewController {
 	private var cancellables: Set<AnyCancellable> = []
 	weak var delegate: GatheringDetailDelegate?
 	var joinView: JoinView?
+	var isExpanded = false
 	
 	init(viewModel: GatheringDetailVM) {
 		self.viewModel = viewModel
@@ -76,19 +77,20 @@ final class GatheringDetailVC: UIViewController {
 		bindViewModel()
 		viewModel.loadData()
 		self.delegate = self
+		viewModel.selectedBoardType = .all
 	}
 	
 	// MARK: - bindVm
 	private func bindViewModel() {
 		viewModel.$gathering
-			.receive(on: RunLoop.main)
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] gathering in
 				self?.updateUI(with: gathering)
 			}
 			.store(in: &cancellables)
 		
 		viewModel.$membershipStatus
-			.receive(on: RunLoop.main)
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] status in
 				self?.updateJoinBtn(for: status)
 				self?.boardWritewBtn(for: status)
@@ -96,11 +98,18 @@ final class GatheringDetailVC: UIViewController {
 			.store(in: &cancellables)
 		
 		viewModel.$selectedBoardType
-			.receive(on: RunLoop.main)
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
 				self?.tableView.reloadData()
 				self?.view.setNeedsLayout()
 				self?.view.layoutIfNeeded()
+			}
+			.store(in: &cancellables)
+		
+		viewModel.$memberData
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] _ in
+				self?.tableView.reloadData()
 			}
 			.store(in: &cancellables)
 	}
@@ -227,7 +236,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 	private func removeJoinView() {
 		if let joinView = self.joinView {
 			self.view.bringSubviewToFront(joinView)
-			// 애니메이션과 함께 JoinView를 제거
 			UIView.animate(withDuration: 0.3, animations: {
 				joinView.alpha = 0
 			}) { _ in
@@ -245,7 +253,11 @@ extension GatheringDetailVC: JoinViewDelegate {
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
-	func didTapProfileImage(profile: GatheringMember) {
+	func didTapEditBtn() {
+		viewModel.pushGatherSettingView()
+	}
+	
+	func didTapProfileImage(profile: LetportsUser) {
 		viewModel.didTapProfile(member: profile)
 	}
 	
@@ -257,7 +269,6 @@ extension GatheringDetailVC: GatheringDetailDelegate {
 extension GatheringDetailVC: BoardBtnTVCellDelegate {
 	func didSelectBoardType(_ type: BoardBtnType) {
 		viewModel.selectedBoardType = type
-		tableView.reloadData()
 	}
 }
 
@@ -292,6 +303,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				cell.configureCell(data: gathering,
 								   currentUser: viewModel.getCurrentUserInfo(),
 								   masterNickname: viewModel.masterNickname)
+				cell.delegate = self
 				return cell
 			}
 		case .separator:
@@ -303,11 +315,15 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 			if let cell: GatheringDetailInfoTVCell = tableView.loadCell(indexPath: indexPath),
 			   let gathering = viewModel.gathering {
 				cell.configure(with: gathering.gatherInfo)
+				cell.expandBtnTap = { [weak self] isExpanded in
+					self?.tableView.beginUpdates()
+					self?.tableView.endUpdates()
+				}
 				return cell
 			}
 		case .gatheringProfile:
 			if let cell: GatheringDetailProfileTVCell = tableView.loadCell(indexPath: indexPath) {
-				cell.members = viewModel.gathering?.gatheringMembers ?? []
+				cell.members = viewModel.memberData
 				cell.delegate = self
 				return cell
 			}
@@ -345,9 +361,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .gatheringTitle:
 			return UITableView.automaticDimension
 		case .gatheringInfo:
-			if let cell = self.tableView.cellForRow(at: indexPath) as? GatheringDetailInfoTVCell {
-				return cell.getHeight()
-			}
 			return UITableView.automaticDimension
 		case .gatheringProfile:
 			return 80
@@ -373,7 +386,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension GatheringDetailVC: PostBtnDelegate {
-    func didTapPostUploadBtn(type: PostType) {
-        self.viewModel.didTapUploadBtn(type: type)
-    }
+	func didTapPostUploadBtn(type: PostType) {
+		self.viewModel.didTapUploadBtn(type: type)
+	}
 }
