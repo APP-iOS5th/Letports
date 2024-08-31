@@ -24,7 +24,6 @@ class SectionTVCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
     }
     
     func setupUI() {

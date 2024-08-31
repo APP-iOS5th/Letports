@@ -1,18 +1,21 @@
-
-
 import UIKit
 import FirebaseAuth
 import Combine
 import Kingfisher
 
-
 protocol ProfileDelegate: AnyObject {
     func EditProfileBtnDidTap()
+    func reloadProfileData()
 }
 
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
+    let refreshInterval: TimeInterval = 60 * 1
+    var lastRefreshDate: Date?
+    var timer: Timer?
+    var remainingTime: Int = 0
+    private var refreshView: RefreshView?
     
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
@@ -45,18 +48,27 @@ class ProfileVC: UIViewController {
         return tv
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return control
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
-        
     }
     
     private func setupUI() {
         view.backgroundColor = .lp_background_white
+        
         [navigationView, tableView].forEach {
             self.view.addSubview($0)
         }
+        
+        tableView.refreshControl = refreshControl
+        
         self.navigationController?.isNavigationBarHidden = true
         
         NSLayoutConstraint.activate([
@@ -67,16 +79,17 @@ class ProfileVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
         ])
     }
     
     private func bindViewModel() {
         Publishers.Merge4(
-            viewModel.$user.map{ _ in ()},
-            viewModel.$myGatherings.map{ _ in ()},
-            viewModel.$pendingGatherings.map{ _ in ()},
-            viewModel.$masterUsers.map { _ in ()}
+            viewModel.$user.map { _ in () },
+            viewModel.$myGatherings.map { _ in () },
+            viewModel.$pendingGatherings.map { _ in () },
+            viewModel.$masterUsers.map { _ in () }
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] (_) in
@@ -84,6 +97,114 @@ class ProfileVC: UIViewController {
         }
         .store(in: &cancellables)
     }
+    
+    @objc private func refreshData() {
+           // 새로 고침 가능한지 확인
+           guard let lastRefreshDate = lastRefreshDate else {
+               performRefresh()
+               return
+           }
+           
+           let currentDate = Date()
+           let timeSinceLastRefresh = currentDate.timeIntervalSince(lastRefreshDate)
+           
+           // 새로 고침 가능한 시간이 지났는지 확인
+           if timeSinceLastRefresh > refreshInterval {
+               performRefresh()
+           } else {
+               let remainingTime = Int(refreshInterval - timeSinceLastRefresh)
+               showWaitingTime(remainingTime: remainingTime)
+               refreshControl.endRefreshing()
+           }
+       }
+       
+       private func performRefresh() {
+           viewModel.loadUser(user: UserManager.shared.getUserUid()) {
+               self.refreshControl.endRefreshing()
+               self.lastRefreshDate = Date()
+               
+               // 새로 고침 완료 메시지 표시
+               self.showRefreshCompleteMessage()
+           }
+       }
+
+       private func showRefreshCompleteMessage() {
+           // refreshView가 없으면 추가
+           if refreshView == nil {
+               addRefreshView()
+           }
+           
+           // 메시지 설정
+           refreshView?.setMessage("새로 고침이 완료되었습니다")
+           refreshView?.isHidden = false
+           refreshView?.alpha = 1.0
+
+           // 3초 후에 뷰를 제거
+           DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+               self.removeRefreshView()
+           }
+       }
+       
+    private func showWaitingTime(remainingTime: Int) {
+        // refreshView가 없으면 다시 추가
+        if refreshView == nil {
+            addRefreshView()
+        }
+        
+        self.remainingTime = remainingTime
+        refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
+        refreshView?.isHidden = false
+        refreshView?.alpha = 1.0 // 즉시 표시
+
+        // 타이머 설정: 3초 동안 남은 시간을 매초 업데이트
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.remainingTime -= 1
+            
+            // 남은 시간 업데이트
+            self.refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
+            
+            if self.remainingTime <= 0 {
+                self.timer?.invalidate() // 타이머 중지
+                self.removeRefreshView() // 뷰 제거
+            }
+        }
+
+        // 3초 후에 refreshView를 제거하는 로직 추가
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            guard let self = self else { return }
+            self.removeRefreshView() // 남은 시간과 관계없이 3초 후에 뷰를 제거
+        }
+    }
+       
+       private func addRefreshView() {
+           refreshView = RefreshView()
+           guard let refreshView = refreshView else { return }
+           
+           refreshView.translatesAutoresizingMaskIntoConstraints = false
+           view.addSubview(refreshView)
+           
+           NSLayoutConstraint.activate([
+               refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+               refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+               refreshView.widthAnchor.constraint(equalToConstant: 300),
+               refreshView.heightAnchor.constraint(equalToConstant: 40)
+           ])
+       }
+
+       private func removeRefreshView() {
+           guard let refreshView = refreshView else { return }
+           
+           // 애니메이션으로 뷰 제거
+           UIView.animate(withDuration: 0.3, animations: {
+               refreshView.alpha = 0.0
+           }, completion: { _ in
+               refreshView.removeFromSuperview()
+               self.refreshView = nil
+               self.timer?.invalidate()
+           })
+       }
     
 }
 
@@ -147,13 +268,13 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 if let user = viewModel.user {
-                    cell.configure(user:user)
+                    cell.configure(user: user)
                 }
                 return cell
             }
         case .myGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title:"내 소모임")
+                cell.configure(title: "내 소모임")
                 return cell
             }
         case .myGatherings:
@@ -164,9 +285,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with:gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: user, with: masterUser)
                         } else {
-                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
                     }
                 }
@@ -174,7 +295,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title:"가입 대기중 소모임")
+                cell.configure(title: "가입 대기중 소모임")
                 return cell
             }
         case .pendingGatherings:
@@ -190,9 +311,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with:gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: user, with: masterUser)
                         } else {
-                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
                     }
                 }
@@ -214,6 +335,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileVC: ProfileDelegate {
+    func reloadProfileData() {
+        viewModel.loadUser(user: UserManager.shared.getUserUid())
+    }
+    
     func EditProfileBtnDidTap() {
         self.viewModel.EditProfileBtnDidTap()
     }

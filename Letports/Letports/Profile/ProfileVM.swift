@@ -53,10 +53,6 @@ class ProfileVM {
         return self.cellType.count
     }
     
-    func didTapDismiss() {
-        self.delegate?.dismissViewController()
-    }
-    
     func EditProfileBtnDidTap() {
         self.delegate?.presentEditProfileController(user: user!)
     }
@@ -69,24 +65,25 @@ class ProfileVM {
         self.delegate?.presentSettingViewController()
     }
     
-    func loadUser(user: String) {
+    func loadUser(user: String, completion: (() -> Void)? = nil) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(user),
         ]
         FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-            .sink { completion in
-                switch completion {
+            .sink { completionResult in
+                switch completionResult {
                 case .finished:
                     print("loadUser->finished")
                     break
                 case .failure(let error):
-                    print("loadUser->",error.localizedDescription)
+                    print("loadUser->", error.localizedDescription)
                 }
             } receiveValue: { [weak self] fetchedUser in
-                if let user = fetchedUser.first{
+                if let user = fetchedUser.first {
                     self?.fetchUserGatherings(user: user)
                     self?.user = user
+                    completion?()
                 }
             }
             .store(in: &cancellables)
@@ -94,7 +91,7 @@ class ProfileVM {
     
     
     func fetchMasterUser(masterId: String) {
-        guard masterUsers[masterId] == nil else { return } // 이미 로드된 경우 로드하지 않음
+        guard masterUsers[masterId] == nil else { return }
         
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
@@ -107,7 +104,6 @@ class ProfileVM {
             .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
                 guard let self = self else { return }
                 self.masterUsers[masterId] = masterUser
-                // `@Published` 속성으로 바인딩되어 있으므로 ViewController에서 자동으로 UI 업데이트됨
             }
             .store(in: &cancellables)
     }

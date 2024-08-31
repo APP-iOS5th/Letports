@@ -53,6 +53,20 @@ enum StorageFilePath {
 
 class FirebaseStorageManager {
     
+    static func deleteImage(filePath: String) -> AnyPublisher<Void, Error> {
+            return Future<Void, Error> { promise in
+                let storageRef = Storage.storage().reference(withPath: filePath)
+                storageRef.delete { error in
+                    if let error = error {
+                        promise(.failure(error))
+                    } else {
+                        promise(.success(()))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+    
     static func uploadImages(images: [UIImage],
                              filePath: StorageFilePath) -> AnyPublisher<[URL], FirebaseStorageError> {
         //images 배열에 5개만 map을 통해 uploadSingleImage 함수 실행

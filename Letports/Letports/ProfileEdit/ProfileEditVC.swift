@@ -78,15 +78,35 @@ class ProfileEditVC: UIViewController {
             viewModel.$user.map { _ in () }.eraseToAnyPublisher(),
             viewModel.$selectedImage.map { _ in () }.eraseToAnyPublisher()
         )
-
+        
         mergedPublishers
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.tableView.reloadData()
+                guard let self = self else { return }
+                self.tableView.performBatchUpdates({
+                    let indexPathsToUpdate = self.viewModel.getCellTypes().enumerated().compactMap { index, type in
+                        return type == .profileImage ? IndexPath(row: index, section: 0) : nil
+                    }
+                    self.tableView.reloadRows(at: indexPathsToUpdate, with: .automatic)
+                })
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isFormValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.navigationView.rightBtnIsEnable(isValid)
             }
             .store(in: &cancellables)
     }
     
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension ProfileEditVC: CustomNavigationDelegate {
@@ -95,7 +115,20 @@ extension ProfileEditVC: CustomNavigationDelegate {
     }
     
     func smallRightBtnDidTap() {
-        print("데이터 저장해야함")
+        viewModel.profileUpdate()
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    self?.showAlert(title: "성공", message: "프로필이 성공적으로 업데이트되었습니다.") {
+                        self?.viewModel.backToProfile()
+                    }
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }, receiveValue: {
+                print("Profile updated successfully.")
+            })
+            .store(in: &cancellables)
     }
 }
 
@@ -109,7 +142,7 @@ extension ProfileEditVC: ProfileEditDelegate {
     }
     
     func didTapEditProfileImage() {
-        self.viewModel.photoUploadButtonTapped()
+        self.viewModel.photoUploadBtnDidTap()
     }
 }
 
@@ -124,7 +157,7 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         case .profileImage:
             return 150.0
         case .nickName, .simpleInfo:
-            return 100.0
+            return 120.0
         }
     }
     
@@ -133,17 +166,19 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         case .profileImage:
             if let cell: ProfileImageTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configure(with: viewModel)
+                cell.configure(with: viewModel.selectedImage)
                 return cell
             }
         case .nickName:
             if let cell: NickNameTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(with: viewModel.user?.nickname ?? "")
+                cell.delegate = self
                 return cell
             }
         case .simpleInfo:
             if let cell: SimpleInfoTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(with: viewModel.user?.simpleInfo ?? "")
+                cell.delegate = self
                 return cell
             }
         }

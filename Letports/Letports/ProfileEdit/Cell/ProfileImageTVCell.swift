@@ -18,15 +18,15 @@ class ProfileImageTVCell: UITableViewCell {
         iv.layer.cornerRadius = 20
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .lp_lightGray
+        iv.backgroundColor = .lp_white
         iv.isUserInteractionEnabled = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
-    private lazy var profileImageButton: UIButton = {
+    private lazy var profileImageBtn: UIButton = {
         let btn = UIButton(type: .custom)
-        btn.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(imageBtnDidTap), for: .touchUpInside)
         btn.tintColor = .lp_black
         btn.setTitleColor(UIColor.lp_black, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -42,13 +42,12 @@ class ProfileImageTVCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.selectionStyle = .none
-        setupUI()
     }
     
     private func setupUI() {
         contentView.backgroundColor = .lp_background_white
         
-        [profileImageView, profileImageButton].forEach {
+        [profileImageView, profileImageBtn].forEach {
             contentView.addSubview($0)
         }
         
@@ -58,23 +57,23 @@ class ProfileImageTVCell: UITableViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 120),
             profileImageView.heightAnchor.constraint(equalToConstant: 120),
             
-            profileImageButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            profileImageButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            profileImageButton.widthAnchor.constraint(equalToConstant: 120),
-            profileImageButton.heightAnchor.constraint(equalToConstant: 120),
+            profileImageBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            profileImageBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            profileImageBtn.widthAnchor.constraint(equalToConstant: 120),
+            profileImageBtn.heightAnchor.constraint(equalToConstant: 120),
         ])
     }
     
-    func configure(with viewModel: ProfileEditVM) {
-        viewModel.$selectedImage
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] image in
-                self?.profileImageView.image = image
-            }
-            .store(in: &cancellables)
-    }
-    
-    @objc func imageButtonTapped() {
+    @objc func imageBtnDidTap() {
         delegate?.didTapEditProfileImage()
     }
+    
+    func configure(with image: UIImage?) {
+        if let image = image {
+            profileImageView.image = image
+        } else {
+            profileImageView.image = UIImage(systemName: "person.circle")
+        }
+    }
+    
 }
