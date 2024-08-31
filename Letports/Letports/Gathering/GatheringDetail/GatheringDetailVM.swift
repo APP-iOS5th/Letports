@@ -109,7 +109,8 @@ class GatheringDetailVM {
     }
     
     func pushGatherSettingView() {
-        
+        guard let gathering = self.gathering else { return }
+        self.delegate?.pushGatheringEditView(gathering: gathering)
     }
     
     //모임데이터

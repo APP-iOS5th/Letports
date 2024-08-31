@@ -127,17 +127,17 @@ class GatherSettingVC: UIViewController {
     
     private func removeManageUserView() {
         if let manageUserView = self.manageUserView {
-            self.view.bringSubviewToFront(manageUserView)
-            UIView.animate(withDuration: 0.3, animations: {
-                manageUserView.alpha = 0
-            }) { _ in
-                print("Animation completed. Removing from superview.")
-                manageUserView.removeFromSuperview()
-                self.manageUserView = nil
+                self.view.bringSubviewToFront(manageUserView)
+                UIView.animate(withDuration: 0.3, animations: {
+                    manageUserView.alpha = 0
+                }) { _ in
+                    print("Animation completed. Removing from superview.")
+                    manageUserView.removeFromSuperview()
+                    self.manageUserView = nil
+                }
+            } else {
+                print("No ManageUserView to remove.")
             }
-        } else {
-            print("No ManageUserView to remove.")
-        }
     }
     
     private func showAlert(title: String, message: String) {
@@ -181,7 +181,7 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                     case .finished:
                         self.showAlert(title: "가입거절", message: "\(nickName)의 가입거절이 완료되었습니다.")
                         self.removeManageUserView()
-                        self.viewModel.loadData()
+                        self.viewModel.loadData()// 수정된 부분
                     case .failure(let error):
                         self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
                     }

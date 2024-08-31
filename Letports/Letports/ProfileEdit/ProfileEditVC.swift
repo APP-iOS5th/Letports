@@ -78,7 +78,6 @@ class ProfileEditVC: UIViewController {
             viewModel.$user.map { _ in () }.eraseToAnyPublisher(),
             viewModel.$selectedImage.map { _ in () }.eraseToAnyPublisher()
         )
-        
         mergedPublishers
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
@@ -96,8 +95,6 @@ class ProfileEditVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
                 self?.navigationView.rightBtnIsEnable(isValid)
-            }
-            .store(in: &cancellables)
     }
     
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {

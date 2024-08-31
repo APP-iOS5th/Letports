@@ -61,7 +61,6 @@ class GatherSettingCoordinator: Coordinator {
         alert.addAction(action)
         navigationController.present(alert, animated: true, completion: nil)
     }
-    
 }
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {

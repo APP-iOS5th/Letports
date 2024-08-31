@@ -285,7 +285,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -311,7 +311,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -338,7 +338,6 @@ extension ProfileVC: ProfileDelegate {
     func reloadProfileData() {
         viewModel.loadUser(user: UserManager.shared.getUserUid())
     }
-    
     func EditProfileBtnDidTap() {
         self.viewModel.EditProfileBtnDidTap()
     }

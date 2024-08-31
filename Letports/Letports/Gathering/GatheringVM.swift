@@ -60,7 +60,14 @@ class GatheringVM {
     }
     
     init() {
-        loadGatherings(forTeam: "KIATigers")
+        UserManager.shared.getTeam { result in
+            switch result {
+            case .success(let team):
+                self.loadGatherings(forTeam: team.teamUID)
+            case .failure(let error):
+                print("getTeam Error \(error)")
+            }
+        }
     }
     
     //Gathering 정보 가져오기
