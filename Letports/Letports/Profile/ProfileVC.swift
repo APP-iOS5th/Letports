@@ -104,17 +104,21 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
-        
         switch cellType {
         case .myGatherings:
-            let startIndex = 2 // myGatherings 시작 인덱스
+            let startIndex = 2
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
                 let gathering = viewModel.myGatherings[gatheringIndex]
                 self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         case .pendingGatherings:
-            let startIndex = 2 + viewModel.myGatherings.count + 1 // myGatherings 섹션과 헤더를 넘어서는 인덱스
+            var startIndex = 3
+            if viewModel.myGatherings.count == 0 {
+                startIndex = 4
+            } else {
+                startIndex = 3 + viewModel.myGatherings.count
+            }
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
                 let gathering = viewModel.pendingGatherings[gatheringIndex]
@@ -160,7 +164,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(gathering:gathering, user: user, master: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
                         }
@@ -186,7 +190,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(gathering:gathering, user: user, master: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
                         }
