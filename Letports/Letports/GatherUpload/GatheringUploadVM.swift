@@ -157,17 +157,11 @@ class GatheringUploadVM {
     private func gatehringUpload(imageUrl: String) {
         if let gatherName = gatherNameText,
            let gatherInfo = gatherInfoText,
-           let gatherQuestion = gatherQuestionText,
-           let gatheringId = gatehringID {
+           let gatherQuestion = gatherQuestionText {
             
-            let uuid = self.boardId == nil ? UUID().uuidString : self.boardId!
+            let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
             
-            let collectionPath: [FirestorePathComponent] = [
-                .collection(.gatherings),
-                .document(gatheringId),
-                .collection(.board),
-                .document(uuid)
-            ]
+       
             
             let gathering = Gathering(gatherImage: imageUrl,
                                       gatherInfo: gatherInfo,
@@ -182,32 +176,38 @@ class GatheringUploadVM {
                                       gatheringUid: uuid)
             
             if isEditMode {
-                                
-//                FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
-//                    .sink { _ in
-//                    } receiveValue: { [weak self] _ in
-//                        self?.isUploading = false
-//                        self?.delegate?.dismissViewController()
-//                    }
-//                    .store(in: &cancellables)
-            } else {
-                FM.setData(pathComponents: collectionPath, data: gathering)
+                let collectionPath: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(uuid)
+                ]
+                
+                FM.updateData(pathComponents: collectionPath, model: gathering)
                     .sink { _ in
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
                         self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
-
+            } else {
+                let collectionPath: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(uuid)
+                ]
                 
-//                FM.setData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
-//                    .sink { _ in
-//                    } receiveValue: { [weak self] _ in
-//                        print("Data Save")
-//                        self?.isUploading = false
-//                        self?.delegate?.dismissViewController()
-//                    }
-//                    .store(in: &cancellables)
+                FM.setData(pathComponents: collectionPath, data: gathering)
+                    .sink { completion in
+                        switch completion {
+                        case .finished:
+                            print("finished")
+                        case .failure(let error):
+                            print("gather upload error \(error)")
+                        }
+                    } receiveValue: { [weak self] _ in
+                        self?.isUploading = false
+                        self?.delegate?.dismissViewController()
+                    }
+                    .store(in: &cancellables)
+              
             }
         }
     }

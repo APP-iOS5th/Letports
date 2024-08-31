@@ -61,13 +61,10 @@ class GatheringUploadMainTVCell: UITableViewCell {
         
     }
     
-    
-    func configureCell(userData: LetportsUser) {
-        self.teamName.text = userData.userSportsTeam
-//        let url = URL(string: sportsTeam.teamLogo)
-//        self.teamLogo.kf.setImage(with: url, options: [.cacheOriginalImage])
-        teamName.text = userData.userSportsTeam
+    func configureCell(sportsTeam: SportsTeam) {
+        self.teamName.text = sportsTeam.teamName
+        let url = URL(string: sportsTeam.teamLogo)
+        self.teamLogo.kf.setImage(with: url, options: [.cacheOriginalImage])
+        
     }
-    
-    
 }
