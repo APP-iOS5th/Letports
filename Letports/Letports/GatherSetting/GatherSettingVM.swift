@@ -23,6 +23,8 @@ class GatherSettingVM {
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatherSettingCoordinatorDelegate?
     
+    var alertPublisher = PassthroughSubject<(title: String, message: String, confirmAction: () -> Void, cancelAction: () -> Void), Never>()
+    
     private var cellType: [GatheringSettingCellType] {
         var cellTypes: [GatheringSettingCellType] = []
         cellTypes.append(.pendingGatheringUserTtitle)
@@ -49,20 +51,135 @@ class GatherSettingVM {
         fetchGatheringMembers(gathering: gathering)
     }
     
-    func denyUser() {
-        delegate?.denyJoinGathering()
+    func denyUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
+        
+        let gatheringCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+            .collection(.gatheringMembers),
+            .document(userUid)
+        ]
+        
+        let userMyGatheringPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(userUid),
+            .collection(.myGathering),
+            .document(gathering?.gatheringUid ?? "")
+        ]
+        return Publishers.Zip(
+            FM.deleteDocument(pathComponents: gatheringCollectionPath),
+            FM.deleteDocument(pathComponents: userMyGatheringPath)
+        )
+        .map { _, _ in () }
+        .eraseToAnyPublisher()
     }
     
-    func approveUser() {
-        delegate?.approveJoinGathering()
+    func approveUser(userUid: String) -> AnyPublisher<Void, FirestoreError>{
+        
+        let gatheringMemberCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+            .collection(.gatheringMembers),
+            .document(userUid)
+        ]
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let joinDate = dateFormatter.string(from: Date())
+        
+        let fieldsToUpdate: [String: Any] = [
+            "JoinStatus": "joined",
+            "JoinDate": joinDate
+        ]
+        
+        let gatheringCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+        ]
+        
+        let newNowMember = max((gathering?.gatherNowMember ?? 0) + 1, 0)
+        let updatedFields: [String: Any] = [
+            "GatherNowMember": newNowMember
+        ]
+        
+        return Publishers.Zip(
+            FM.updateData(pathComponents: gatheringMemberCollectionPath, fields: fieldsToUpdate),
+            FM.updateData(pathComponents: gatheringCollectionPath, fields:  updatedFields)
+        )
+        .map { _, _ in () }
+        .eraseToAnyPublisher()
+        
     }
     
-    func expelUser() {
-        delegate?.expelGathering()
+    func deleteGathering() {
+        print("테스트")
     }
     
-    func cancel() {
-        delegate?.cancel()
+    
+    func errorToString(error: Error) -> String {
+        return error.localizedDescription
+    }
+    
+    func expelUser(userUid: String, nickName: String) -> AnyPublisher<Void, FirestoreError> {
+        return Future<Void, FirestoreError> { [weak self] promise in
+            let confirmAction: () -> Void = { [weak self] in
+                self?.performExpelUser(userUid: userUid)
+                    .sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .finished:
+                            print("User expulsion completed.")
+                            promise(.success(())) // 성공 시 promise를 호출합니다.
+                        case .failure(let error):
+                            print("Error expelling user: \(error.localizedDescription)")
+                            promise(.failure(error)) // 실패 시 promise를 호출합니다.
+                        }
+                    }, receiveValue: {})
+                    .store(in: &self!.cancellables)
+            }
+            
+            let cancelAction: () -> Void = {
+                print("Expel action was cancelled.")
+                // 취소 시 수행할 작업을 추가하세요.
+            }
+            
+            self?.alertPublisher.send((title: "확인", message: "정말로 \(nickName) 사용자를 추방하시겠습니까?", confirmAction: confirmAction, cancelAction: cancelAction))
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func performExpelUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
+        let gatheringMemberCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+            .collection(.gatheringMembers),
+            .document(userUid)
+        ]
+        
+        let userMyGatheringPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(userUid),
+            .collection(.myGathering),
+            .document(gathering?.gatheringUid ?? "")
+        ]
+        
+        let gatheringCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+        ]
+        
+        let newNowMember = max((gathering?.gatherNowMember ?? 0) - 1, 0)
+        
+        let updatedFields: [String: Any] = [
+            "GatherNowMember": newNowMember
+        ]
+        
+        return Publishers.Zip3(
+            FM.deleteDocument(pathComponents: gatheringMemberCollectionPath),
+            FM.deleteDocument(pathComponents: userMyGatheringPath),
+            FM.updateData(pathComponents: gatheringCollectionPath, fields:  updatedFields)
+        )
+        .map { _, _, _ in () }
+        .eraseToAnyPublisher()
     }
     
     func gatherSettingBackBtnTap() {
@@ -75,6 +192,12 @@ class GatherSettingVM {
     
     func getCellCount() -> Int {
         return self.cellType.count
+    }
+    
+    func loadData() {
+        if let gathering = gathering {
+            fetchGatheringMembers(gathering: gathering)
+        }
     }
     
     private func fetchGatheringMembers(gathering: Gathering) {

@@ -13,6 +13,9 @@ class ManageUserView: UIView {
     weak var joindelegate: ManageViewJoinDelegate?
     weak var pendingdelegate: ManageViewPendingDelegate?
     
+    private var user: GatheringMember?
+    private var userData: LetportsUser?
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -134,36 +137,44 @@ class ManageUserView: UIView {
     }
     
     @objc private func cancelButtonTapped() {
+        guard let uid = user?.userUID else { return }
+        guard let nickname = userData?.nickname else { return }
         if joindelegate != nil {
-            joindelegate?.expelGathering()
+            joindelegate?.cancelAction(self)
         }
         if pendingdelegate != nil {
-            pendingdelegate?.denyJoinGathering()
+            pendingdelegate?.denyJoinGathering(self,userUid: uid, nickName: nickname)
         }
     }
     
     @objc private func expelButtonTapped() {
+        guard let uid = user?.userUID else { return }
+        guard let nickname = userData?.nickname else { return }
         if joindelegate != nil {
-            joindelegate?.expelGathering()
+            joindelegate?.expelGathering(self,userUid: uid, nickName: nickname)
         }
         if pendingdelegate != nil {
-            pendingdelegate?.apporveJoinGathering()
+            pendingdelegate?.apporveJoinGathering(self,userUid: uid, nickName: nickname)
         }
     }
     
-    func configure(user: GatheringMember, gathering: Gathering) {
+    func configure(user: GatheringMember, gathering: Gathering, userData: LetportsUser) {
+        self.userData = userData
+        self.user = user
         if joindelegate != nil {
             cancelButton.setTitle("취소", for: .normal)
             cancelButton.backgroundColor = UIColor(named: "lp_gray")
             expelButton.setTitle("추방", for: .normal)
             expelButton.backgroundColor = UIColor(named: "lp_tint")
         }
+        
         if pendingdelegate != nil {
             cancelButton.setTitle("거절", for: .normal)
             cancelButton.backgroundColor = UIColor(named: "lp_tint")
             expelButton.setTitle("승인", for: .normal)
             expelButton.backgroundColor = UIColor(named: "lp_main")
         }
+        
         titleLabel.text = gathering.gatherName
         questionTextView.text = gathering.gatherQuestion
         answerTextView.text = user.answer

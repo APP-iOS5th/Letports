@@ -8,19 +8,19 @@ import UIKit
 import Combine
 
 protocol ManageViewPendingDelegate: AnyObject {
-    func denyJoinGathering()
-    func apporveJoinGathering()
+    func denyJoinGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String)
+    func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
 }
 protocol ManageViewJoinDelegate: AnyObject {
-    func cancelAction()
-    func expelGathering()
+    func cancelAction(_ manageUserView: ManageUserView)
+    func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
 }
 
 class GatherSettingVC: UIViewController {
     
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
-    private var manageUserView: ManageUserView?
+    var manageUserView: ManageUserView?
     
     init(viewModel: GatherSettingVM) {
         self.viewModel = viewModel
@@ -96,38 +96,115 @@ class GatherSettingVC: UIViewController {
             .store(in: &cancellables)
     }
     
-    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering, joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
+    private func showUserView<T: UIView>(existingView: inout T?,user: GatheringMember,userData: LetportsUser,gathering: Gathering,joinDelegate: ManageViewJoinDelegate?,pendingDelegate: ManageViewPendingDelegate?) {
+        // 기존 뷰가 nil인지 확인
         if existingView == nil {
+            // ManageUserView 생성
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate
             manageUserView.pendingdelegate = pendingDelegate
-            manageUserView.configure(user: user, gathering: gathering)
+            manageUserView.configure(user: user, gathering: gathering, userData: userData)
+            
+            // ManageUserView를 화면에 추가
             self.view.addSubview(manageUserView)
+            manageUserView.translatesAutoresizingMaskIntoConstraints = false
+            
+            // Autolayout 제약 추가
             NSLayoutConstraint.activate([
                 manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
                 manageUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 manageUserView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 manageUserView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
+            
+            // 기존 뷰 포인터에 새로 만든 뷰 할당
+            existingView = manageUserView as? T
+        } else {
+            print("ManageUserView already exists.")
         }
     }
+    
+    private func removeManageUserView() {
+        if let manageUserView = self.manageUserView {
+                self.view.bringSubviewToFront(manageUserView)
+                UIView.animate(withDuration: 0.3, animations: {
+                    manageUserView.alpha = 0
+                }) { _ in
+                    print("Animation completed. Removing from superview.")
+                    manageUserView.removeFromSuperview()
+                    self.manageUserView = nil
+                }
+            } else {
+                print("No ManageUserView to remove.")
+            }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
-    func cancelAction() {
-        self.viewModel.cancel()
+    func cancelAction(_ manageUserView: ManageUserView) {
+        removeManageUserView()
+        self.viewModel.loadData()
     }
     
-    func expelGathering() {
-        self.viewModel.expelUser()
+    func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.expelUser(userUid: userUid, nickName: nickName)
+               .sink(receiveCompletion: { [weak self] completion in
+                   guard let self = self else { return }
+                   DispatchQueue.main.async {
+                       switch completion {
+                       case .finished:
+                           self.showAlert(title: "추방", message: "\(nickName)의 추방이 완료되었습니다.")
+                           self.removeManageUserView()  // 뷰 제거
+                           self.viewModel.loadData()
+                       case .failure(let error):
+                           self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                       }
+                   }
+               }, receiveValue: { _ in })
+               .store(in: &cancellables)
     }
     
-    func denyJoinGathering() {
-        self.viewModel.denyUser()
+    func denyJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.denyUser(userUid: userUid)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch completion {
+                    case .finished:
+                        self.showAlert(title: "가입승인", message: "\(nickName)의 가입거절이 완료되었습니다.")
+                        self.removeManageUserView()
+                        self.viewModel.loadData()// 수정된 부분
+                    case .failure(let error):
+                        self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                    }
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
-    func apporveJoinGathering() {
-        self.viewModel.approveUser()
+    func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.approveUser(userUid: userUid)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch completion {
+                    case .finished:
+                        self.showAlert(title: "가입승인", message: "\(nickName)의 가입승인이 완료되었습니다.")
+                        self.removeManageUserView()
+                        self.viewModel.loadData()
+                    case .failure(let error):
+                        self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                    }
+                }
+            },receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
 }
@@ -158,10 +235,11 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         case .pendingGatheringUser:
             let startIndex = 1
             let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.joinedMembers.count {
+            if userIndex < viewModel.pendingMembers.count {
                 let user = viewModel.pendingMembers[userIndex]
+                let userdata = viewModel.pendingMembersData[userIndex]
                 if let gathering = viewModel.gathering {
-                    showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: nil,
+                    showUserView(existingView: &manageUserView, user: user, userData: userdata, gathering: gathering, joinDelegate: nil,
                                  pendingDelegate: self)
                 }
             }
@@ -175,11 +253,14 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
             let userIndex = indexPath.row - startIndex
             if userIndex < viewModel.joinedMembers.count {
                 let user = viewModel.joinedMembers[userIndex]
+                let userdata = viewModel.joinedMembersData[userIndex]
                 if let gathering = viewModel.gathering {
-                    showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: self,
+                    showUserView(existingView: &manageUserView, user: user, userData: userdata, gathering: gathering, joinDelegate: self,
                                  pendingDelegate: nil)
                 }
             }
+        case .deleteGathering:
+            viewModel.deleteGathering()
         default:
             break
         }
@@ -208,6 +289,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.pendingMembersData.count {
                     let user = viewModel.pendingMembersData[userIndex]
+                    
                     cell.configure(user:user)
                 }
                 return cell
