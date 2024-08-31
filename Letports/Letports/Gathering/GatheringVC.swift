@@ -42,7 +42,6 @@ class GatheringVC: UIViewController {
         tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
-        
         return tv
     }()
     
@@ -60,9 +59,12 @@ class GatheringVC: UIViewController {
         return button
     }()
     
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        bindViewModel()
     }
     
     private func setupUI() {
@@ -70,6 +72,9 @@ class GatheringVC: UIViewController {
         [navigationView, tableView, floatingButton].forEach {
             self.view.addSubview($0)
         }
+        
+        self.tableView.refreshControl = self.refreshControl
+        self.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
         
         NSLayoutConstraint.activate([
             navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -89,17 +94,29 @@ class GatheringVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.$recommendGatherings
-            .sink { [weak self] _ in
+        Publishers.Merge(
+            viewModel.$recommendGatherings.map { _ in () } ,
+            viewModel.$gatheringLists.map {_ in () }
+        )
+        .sink { [weak self] _ in
+            DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
             }
-            .store(in: &cancellables)
-        
-        viewModel.$gatheringLists
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
+        }
+        .store(in: &cancellables)
+    }
+    
+    
+    @objc func pullToRefresh(_ sender: UIRefreshControl) {
+        UserManager.shared.getTeam { [weak self] result in
+            switch result {
+            case .success(let team):
+                self?.viewModel.loadGatherings(forTeam: team.teamUID)
+            case .failure(let error):
+                print("getTeam Error \(error)")
             }
-            .store(in: &cancellables)
+        }
     }
 }
 
