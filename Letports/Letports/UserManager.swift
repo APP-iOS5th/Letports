@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Combine
+import FirebaseFirestore
 
 class UserManager {
     static let shared = UserManager()
@@ -13,6 +15,7 @@ class UserManager {
     private(set) var isLoggedIn: Bool = false
     private(set) var currentUser: LetportsUser?
     private(set) var selectedTeam: Team?
+    private var cancellables = Set<AnyCancellable>()
     
     private init() {}
     
@@ -40,10 +43,30 @@ class UserManager {
         return user
     }
     
-    func getTeam() -> Team {
-        guard let team = selectedTeam else {
-            return Team(homepage: "", instagram: "", sportsName: "", teamHomeTown: "", teamLogo: "", teamName: "", teamStadium: "", teamStartDate: "", teamUID: "", youtube: "", youtubeChannelID: "")
-        }
-        return team
+    
+    func getTeam(completion: @escaping (Result<SportsTeam, FirestoreError>) -> Void) {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.sports),
+            .document(getUser().userSports),
+            .collection(.sportsTeam),
+            .document(getUser().userSportsTeam)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
+            .sink { completionResult in
+                switch completionResult {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .finished:
+                    break
+                }
+            } receiveValue: { teams in
+                if let team = teams.first {
+                    completion(.success(team))
+                } else {
+                    completion(.failure(.documentNotFound))
+                }
+            }
+            .store(in: &cancellables)
     }
 }
