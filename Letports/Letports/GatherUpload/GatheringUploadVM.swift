@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import FirebaseCore
 
 enum BoardUploadCellType {
     case main
@@ -21,15 +22,6 @@ enum BoardUploadCellType {
 
 
 class GatheringUploadVM {
-    let sportsTeam = SampleSportsTeam(
-        sportsUID: "I5umvrhFTwzeOkYlgvL3",
-        teamHomeTown: "서울특별시",
-        teamLogo: "https://www.kleague.com/assets/images/emblem/emblem_K09.png",
-        teamName: "FC서울",
-        teamStadium: "서울월드컵경기장",
-        teamStartDate: "1983",
-        teamUID: "YcXsJAgoFtqS3XZ0HdZu"
-    )
     
     @Published private(set) var selectedImage: UIImage?
     @Published private(set) var addButtonEnable: Bool = true
@@ -183,24 +175,14 @@ class GatheringUploadVM {
                                       gatherName: gatherName,
                                       gatherNowMember: 1,
                                       gatherQuestion: gatherQuestion,
-                                      gatheringCreateDate: "2024-08-29",
+                                      gatheringCreateDate: Timestamp(date: Date()),
                                       gatheringMaster: UserManager.shared.getUserUid(),
-                                      gatheringSports: "축구",
-                                      gatheringSportsTeam: "test",
+                                      gatheringSports: UserManager.shared.getUser().userSports,
+                                      gatheringSportsTeam: UserManager.shared.getUser().userSportsTeam,
                                       gatheringUid: uuid)
             
-//            let gathering = SampleGathering(gatheringSports: "축구", gatheringTeam: "테스트",
-//                                            gatheringUID: self.isEditMode ? self.gatehringID ?? uuid : uuid,
-//                                            gatheringMaster: "나",
-//                                            gatheringName: gatherName, gatheringImage: imageUrl,
-//                                            gatherMaxMember: memMaxCount, gatherNowMember: 1,
-//                                            gatherInfo: gatherInfo, gatherQuestion: gatherQuestion,
-//                                            gatheringMembers: [],
-//                                            gatheringCreateDate: Date(),
-//                                            sportsTeam: sportsTeam)
-            
             if isEditMode {
-                
+                                
 //                FM.updateData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
 //                    .sink { _ in
 //                    } receiveValue: { [weak self] _ in
@@ -209,6 +191,15 @@ class GatheringUploadVM {
 //                    }
 //                    .store(in: &cancellables)
             } else {
+                FM.setData(pathComponents: collectionPath, data: gathering)
+                    .sink { _ in
+                    } receiveValue: { [weak self] _ in
+                        self?.isUploading = false
+                        self?.delegate?.dismissViewController()
+                    }
+                    .store(in: &cancellables)
+
+                
 //                FM.setData(collection: "Gatherings", document: gathering.gatheringUID, data: gathering)
 //                    .sink { _ in
 //                    } receiveValue: { [weak self] _ in
