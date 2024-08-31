@@ -7,8 +7,8 @@
 
 import UIKit
 
-class TeamCell: UICollectionViewCell {
-    static let reuseIdentifier = "TeamCell"
+class SportsTeamCell: UICollectionViewCell {
+    static let reuseIdentifier = "SportsTeamCell"
     
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -57,10 +57,9 @@ class TeamCell: UICollectionViewCell {
         contentView.layer.borderColor = UIColor.systemGray4.cgColor
     }
     
-    func configure(with team: TeamSelectionViewModel.Team) {
+    func configure(with team: TeamSelectVM.Team) {
         nameLabel.text = team.name
         let url = URL(string: team.logoUrl)
-        print("Team logo URL: \(team.logoUrl)")
         logoImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
         { result in
             switch result {

@@ -12,25 +12,25 @@ import FirebaseFirestore
 
 // 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
-	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
+    func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
 enum GatheringDetailCellType {
-	case gatheringImage
-	case gatheringTitle
-	case gatheringInfo
-	case gatheringProfile
-	case currentMemLabel
-	case boardButtonType
-	case gatheringBoard
-	case separator
+    case gatheringImage
+    case gatheringTitle
+    case gatheringInfo
+    case gatheringProfile
+    case currentMemLabel
+    case boardButtonType
+    case gatheringBoard
+    case separator
 }
 
 // 가입상태
 enum MembershipStatus {
-	case notJoined
-	case pending
-	case joined
+    case notJoined
+    case pending
+    case joined
 }
 
 

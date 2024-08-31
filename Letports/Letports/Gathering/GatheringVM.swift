@@ -83,20 +83,16 @@ class GatheringVM {
                     try? document.data(as: Gathering.self)
                 }
                 
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
+                // Gathering 객체를 생성일자(gatheringCreateDate) 기준으로 정렬
+                let sortedGatherings = gatherings.sorted { gathering1, gathering2 in
+                    return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
+                }
                 
-                self?.recommendGatherings = Array(gatherings.sorted { gathering1, gathering2 in
-                    
-                    guard
-                        let date1 = dateFormatter.date(from: gathering1.gatheringCreateDate),
-                        let date2 = dateFormatter.date(from: gathering2.gatheringCreateDate)
-                    else {
-                        return false
-                    }
-                    return date1 < date2
-                }.prefix(2))
-                self?.gatheringLists = gatherings
+                // 정렬된 리스트 중에서 상위 2개를 추천 목록으로 저장
+                self?.recommendGatherings = Array(sortedGatherings.prefix(2))
+                
+                // 전체 리스트를 gatheringLists에 저장
+                self?.gatheringLists = sortedGatherings
             }
     }
     
