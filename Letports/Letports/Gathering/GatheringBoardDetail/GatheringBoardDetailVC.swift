@@ -197,10 +197,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             }
         case .comment(let comment):
             if let cell: CommentTVCell = tableView.loadCell(indexPath: indexPath) {
-//                cell.configureCell(data: comment, viewModel: self.viewModel)
                 if let commentWithUser = viewModel.commentsWithUsers.first(where: { $0.comment.commentUID == comment.commentUID }) {
-                                 cell.configureCell(with: commentWithUser.user, comment: commentWithUser.comment)
-                             }
+                    cell.configureCell(with: commentWithUser.user, comment: commentWithUser.comment)
+                }
                 return cell
             }
         }
@@ -212,7 +211,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableView.automaticDimension
+        return UITableView.automaticDimension
     }
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {
@@ -220,6 +219,10 @@ extension GatheringBoardDetailVC: CommentInputDelegate {
         viewModel.addComment(comment: comment) {
             self.commentInputView.clearText()
             self.viewModel.getBoardData()
+            
+            let lastIndex = IndexPath(row: self.tableView.numberOfRows(inSection: self.tableView.numberOfSections - 1) - 1,
+                                      section: self.tableView.numberOfSections - 1)
+            self.tableView.scrollToRow(at: lastIndex, at: .bottom, animated: true)
         }
     }
 }

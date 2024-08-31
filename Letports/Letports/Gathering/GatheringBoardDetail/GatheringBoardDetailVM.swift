@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import FirebaseCore
 
 enum GatheringBoardDetailCellType {
     case boardProfileTitle
@@ -111,7 +112,7 @@ final class GatheringBoardDetailVM {
                               commentUID: uuid,
                               userUID: UserManager.shared.getUserUid(),
                               contents: comment,
-                              createDate: Date().toString())
+                              createDate: Timestamp(date: Date()))
         
         FM.setData(pathComponents: collectionPath, data: comment)
             .sink { completion in
@@ -128,7 +129,11 @@ final class GatheringBoardDetailVM {
     
     private func fetchUsersForComments(_ comments: [Comment]) -> AnyPublisher<[(comment: Comment, 
                                                                                 user: LetportsUser)], Never> {
-        let userFetchers = comments.map { comment in
+        let sortedComments = comments.sorted {
+              $0.createDate.dateValue() < $1.createDate.dateValue()
+          }
+        
+        let userFetchers = sortedComments.map { comment in
             return getUserData(userUid: comment.userUID)
                 .map { user -> (comment: Comment, user: LetportsUser) in
                     return (comment: comment, user: user)

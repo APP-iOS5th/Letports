@@ -123,41 +123,24 @@ class CommentTVCell: UITableViewCell {
         ])
     }
     
-//    func configureCell(data: Comment, viewModel: GatheringBoardDetailVM) {
-//        viewModel.getUserData(userUid: data.userUID) { result in
-//            switch result {
-//            case .success(let user):
-//                DispatchQueue.main.async {
-//                    self.userImageView.kf.indicatorType = .activity
-//                    
-//                    self.nickNameLabel.text = user.nickname
-//                    let url = URL(string: user.image)
-//                    self.userImageView.kf.setImage(with: url,
-//                                                   placeholder: UIImage(systemName: "person.circle"),
-//                                                   options: [
-//                                                    .transition(.fade(0.3)),
-//                                                    .cacheOriginalImage])
-//                }
-//                
-//            case .failure(let error):
-//                print("Get User Data Error \(error)")
-//            }
-//        }
-//        commentLabel.text = data.contents
-//        createDateLabel.text = data.createDate
-//    }
     func configureCell(with user: LetportsUser, comment: Comment) {
-            nickNameLabel.text = user.nickname
-            createDateLabel.text = comment.createDate
-            commentLabel.text = comment.contents
-            
-            if let url = URL(string: user.image) {
-                userImageView.kf.setImage(with: url,
-                                          placeholder: UIImage(systemName: "person.circle"),
-                                          options: [
-                                            .transition(.fade(0.3)),
-                                            .cacheOriginalImage
-                                          ])
-            }
+        let date = comment.createDate.dateValue()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        
+        nickNameLabel.text = user.nickname
+        createDateLabel.text = dateString
+        commentLabel.text = comment.contents
+        
+        if let url = URL(string: user.image) {
+            userImageView.kf.setImage(with: url,
+                                      placeholder: UIImage(systemName: "person.circle"),
+                                      options: [
+                                        .transition(.fade(0.3)),
+                                        .cacheOriginalImage
+                                      ])
         }
+    }
 }

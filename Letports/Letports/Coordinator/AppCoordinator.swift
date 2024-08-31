@@ -19,8 +19,14 @@ class AppCoordinator: Coordinator {
     
     func checkAuthAndTeamState() {
         if let currentUser = Auth.auth().currentUser {
-            FM.getData(collection: "Users", document: currentUser.uid, type: LetportsUser.self)
-                .sink(receiveCompletion: { completion in
+            
+            let userCollectionPathe: [FirestorePathComponent] = [
+                .collection(.user),
+                .document(currentUser.uid)
+            ]
+            
+            FM.getData(pathComponents: userCollectionPathe, type: LetportsUser.self)
+                .sink { completion in
                     switch completion {
                     case .failure(let error):
                         print("Error fetching user data: \(error)")
@@ -28,13 +34,15 @@ class AppCoordinator: Coordinator {
                     case .finished:
                         break
                     }
-                }, receiveValue: { user in
+                } receiveValue: { user in
+                    guard let user = user.first else { return }
+                    UserManager.shared.login(user: user)
                     if user.userSports.isEmpty || user.userSportsTeam.isEmpty {
                         self.showTeamSelectionView()
                     } else {
                         self.showMainView()
                     }
-                })
+                }
                 .store(in: &cancellables)
         } else {
             showAuthView()
