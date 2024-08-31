@@ -10,6 +10,7 @@ import Combine
 protocol ManageViewPendingDelegate: AnyObject {
     func denyJoinGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String)
     func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
+    func cancelAction(_ manageUserView: ManageUserView)
 }
 protocol ManageViewJoinDelegate: AnyObject {
     func cancelAction(_ manageUserView: ManageUserView)
@@ -178,7 +179,7 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                 DispatchQueue.main.async {
                     switch completion {
                     case .finished:
-                        self.showAlert(title: "가입승인", message: "\(nickName)의 가입거절이 완료되었습니다.")
+                        self.showAlert(title: "가입거절", message: "\(nickName)의 가입거절이 완료되었습니다.")
                         self.removeManageUserView()
                         self.viewModel.loadData()// 수정된 부분
                     case .failure(let error):
@@ -289,8 +290,8 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.pendingMembersData.count {
                     let user = viewModel.pendingMembersData[userIndex]
-                    
-                    cell.configure(user:user)
+                    let userData = viewModel.pendingMembers[userIndex]
+                    cell.configure(user:user, userData: userData, joined: false)
                 }
                 return cell
             }
@@ -310,7 +311,8 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
                 let userIndex = indexPath.row - startIndex
                 if userIndex < viewModel.joinedMembersData.count {
                     let user = viewModel.joinedMembersData[userIndex]
-                    cell.configure(user: user)
+                    let userData = viewModel.joinedMembers[userIndex]
+                    cell.configure(user:user, userData: userData, joined: true)
                 }
                 return cell
             }

@@ -63,20 +63,30 @@ class ManageUserView: UIView {
         return textView
     }()
     
-    private lazy var cancelButton: UIButton = {
+    private lazy var cancelBtn: UIButton = {
         let btn = UIButton()
-        
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(cancelBtnDidTap), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
-    private lazy var expelButton: UIButton = {
+    private lazy var exitBtn: UIButton = {
+        let btn = UIButton()
+        btn.isHidden = true
+        btn.setImage(UIImage(systemName: "delete.backward"), for: .normal)
+        btn.tintColor = .lp_black
+        btn.addTarget(self, action: #selector(exitBtnDidTap), for: .touchUpInside)
+        btn.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    private lazy var expelBtn: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 10
-        btn.addTarget(self, action: #selector(expelButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(expelBtnDidTap), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -96,7 +106,7 @@ class ManageUserView: UIView {
         self.addSubview(containerView)
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.translatesAutoresizingMaskIntoConstraints = false
-        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelButton, expelButton].forEach {
+        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelBtn, expelBtn, exitBtn].forEach {
             containerView.addSubview($0)
         }
         
@@ -122,21 +132,30 @@ class ManageUserView: UIView {
             answerTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             answerTextView.heightAnchor.constraint(equalToConstant: 252),
             
-            cancelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            cancelButton.widthAnchor.constraint(equalToConstant: 162),
-            cancelButton.heightAnchor.constraint(equalToConstant: 30),
+            cancelBtn.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            cancelBtn.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            cancelBtn.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            cancelBtn.widthAnchor.constraint(equalToConstant: 162),
+            cancelBtn.heightAnchor.constraint(equalToConstant: 30),
             
-            expelButton.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
-            expelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            expelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            expelButton.widthAnchor.constraint(equalToConstant: 162),
-            expelButton.heightAnchor.constraint(equalToConstant: 30),
+            expelBtn.topAnchor.constraint(equalTo: answerTextView.bottomAnchor, constant: 16),
+            expelBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            expelBtn.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            expelBtn.widthAnchor.constraint(equalToConstant: 162),
+            expelBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            exitBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            exitBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
         ])
     }
     
-    @objc private func cancelButtonTapped() {
+    @objc private func exitBtnDidTap() {
+        if pendingdelegate != nil {
+            pendingdelegate?.cancelAction(self)
+        }
+    }
+    
+    @objc private func cancelBtnDidTap() {
         guard let uid = user?.userUID else { return }
         guard let nickname = userData?.nickname else { return }
         if joindelegate != nil {
@@ -147,7 +166,7 @@ class ManageUserView: UIView {
         }
     }
     
-    @objc private func expelButtonTapped() {
+    @objc private func expelBtnDidTap() {
         guard let uid = user?.userUID else { return }
         guard let nickname = userData?.nickname else { return }
         if joindelegate != nil {
@@ -162,17 +181,18 @@ class ManageUserView: UIView {
         self.userData = userData
         self.user = user
         if joindelegate != nil {
-            cancelButton.setTitle("취소", for: .normal)
-            cancelButton.backgroundColor = UIColor(named: "lp_gray")
-            expelButton.setTitle("추방", for: .normal)
-            expelButton.backgroundColor = UIColor(named: "lp_tint")
+            cancelBtn.setTitle("취소", for: .normal)
+            cancelBtn.backgroundColor = UIColor(named: "lp_gray")
+            expelBtn.setTitle("추방", for: .normal)
+            expelBtn.backgroundColor = UIColor(named: "lp_tint")
         }
         
         if pendingdelegate != nil {
-            cancelButton.setTitle("거절", for: .normal)
-            cancelButton.backgroundColor = UIColor(named: "lp_tint")
-            expelButton.setTitle("승인", for: .normal)
-            expelButton.backgroundColor = UIColor(named: "lp_main")
+            exitBtn.isHidden = false
+            cancelBtn.setTitle("거절", for: .normal)
+            cancelBtn.backgroundColor = UIColor(named: "lp_tint")
+            expelBtn.setTitle("승인", for: .normal)
+            expelBtn.backgroundColor = UIColor(named: "lp_main")
         }
         
         titleLabel.text = gathering.gatherName
