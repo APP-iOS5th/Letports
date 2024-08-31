@@ -19,6 +19,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 	func gatheringDetailBackBtnTap()
 	func pushGatherSettingView(gatheringUid: String)
 	func pushPostUploadViewController(type: PostType, gathering: Gathering)
+    func pushGatheringEditView(gathering: Gathering)
 }
 
 class GatheringDetailCoordinator: Coordinator {
@@ -123,6 +124,13 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
 	}
+    
+    func pushGatheringEditView(gathering: Gathering) {
+        let viewModel = GatheringUploadVM(gathering: gathering)
+        let coordinator = GatheringUploadCoordinator(navigationController: navigationController, viewModel: viewModel)
+        childCoordinators.append(coordinator)
+        coordinator.start()
+    }
 	
 }
 

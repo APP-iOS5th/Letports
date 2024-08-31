@@ -523,6 +523,53 @@ let path: [FirestorePathComponent] = [
         .eraseToAnyPublisher()
     }
     
+    func updateData<T: Encodable>(pathComponents: [FirestorePathComponent],
+                                  model: T) -> AnyPublisher<Void, FirestoreError> {
+        return Future<Void, FirestoreError> { promise in
+            var reference: DocumentReference? = nil
+            var collectionReference: CollectionReference? = nil
+            
+            for component in pathComponents {
+                switch component {
+                case .collection(let collection):
+                    if let ref = reference {
+                        collectionReference = ref.collection(collection.rawValue)
+                    } else {
+                        collectionReference = FIRESTORE.collection(collection.rawValue)
+                    }
+                case .document(let document):
+                    if let colRef = collectionReference {
+                        reference = colRef.document(document)
+                    } else {
+                        promise(.failure(.unknownError(NSError(domain: "FirestoreError",
+                                                               code: 0,
+                                                               userInfo: [NSLocalizedDescriptionKey: "Invalid path structure"]))))
+                        return
+                    }
+                }
+            }
+            
+            guard let finalReference = reference else {
+                promise(.failure(.unknownError(NSError(domain: "FirestoreError",
+                                                       code: 0,
+                                                       userInfo: [NSLocalizedDescriptionKey: "Invalid path structure"]))))
+                return
+            }
+            
+            do {
+                try finalReference.setData(from: model) { error in
+                    if let error = error {
+                        promise(.failure(.unknownError(error)))
+                    } else {
+                        promise(.success(()))
+                    }
+                }
+            } catch {
+                promise(.failure(.unknownError(error)))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
     
     ///**Delete**
     /// - 단일, 다중 Collection을 통합적 사용하기 위한 Method
