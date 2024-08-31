@@ -12,7 +12,7 @@ protocol JoinViewDelegate: AnyObject {
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String)
 }
 
-class JoinView: UIView, UITextViewDelegate {
+class JoinView: UIView {
 	weak var delegate: JoinViewDelegate?
 	
 	private lazy var containerView: UIView = {
@@ -97,6 +97,7 @@ class JoinView: UIView, UITextViewDelegate {
 		super.init(frame: frame)
 		setupUI()
 		setupTapGesture()
+		answerTextView.delegate = self
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -168,19 +169,6 @@ class JoinView: UIView, UITextViewDelegate {
 		self.addGestureRecognizer(tapGesture)
 	}
 	
-	// UITextViewDelegate 메서드
-	func textViewDidChange(_ textView: UITextView) {
-		placeholderLabel.isHidden = !textView.text.isEmpty
-	}
-	
-	func textViewDidBeginEditing(_ textView: UITextView) {
-		placeholderLabel.isHidden = !textView.text.isEmpty
-	}
-	
-	func textViewDidEndEditing(_ textView: UITextView) {
-		placeholderLabel.isHidden = !textView.text.isEmpty
-	}
-	
 	// MARK: - @objc
 	
 	@objc private func handleTap() {
@@ -192,8 +180,31 @@ class JoinView: UIView, UITextViewDelegate {
 	}
 	
 	@objc private func joinButtonTapped() {
-		let answer = answerTextView.text ?? ""
-		delegate?.joinViewDidTapJoin(self, answer: answer)
+		let answer = answerTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		if answer.isEmpty {
+			showAlert(message: "가입질문에 답해주세요")
+		} else {
+			delegate?.joinViewDidTapJoin(self, answer: answer)
+		}
+	}
+	
+	private func showAlert(message: String) {
+		guard let viewController = self.findViewController() else { return }
+		
+		let alertController = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+		alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+		viewController.present(alertController, animated: true, completion: nil)
+	}
+	
+	private func findViewController() -> UIViewController? {
+		var responder: UIResponder? = self
+		while let nextResponder = responder?.next {
+			if let viewController = nextResponder as? UIViewController {
+				return viewController
+			}
+			responder = nextResponder
+		}
+		return nil
 	}
 	
 	func configure(with gathering: Gathering) {
@@ -201,4 +212,23 @@ class JoinView: UIView, UITextViewDelegate {
 		questionTextView.text = gathering.gatherQuestion
 		placeholderLabel.isHidden = !answerTextView.text.isEmpty
 	}
+	
 }
+
+// MARK: - UITextViewDelegate
+extension JoinView: UITextViewDelegate {
+	func textViewDidChange(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+	
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+	
+	func textViewDidEndEditing(_ textView: UITextView) {
+		placeholderLabel.isHidden = !textView.text.isEmpty
+	}
+}
+
+
+
