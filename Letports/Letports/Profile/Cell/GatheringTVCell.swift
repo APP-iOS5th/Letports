@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseCore
 
 class GatheringTVCell: UITableViewCell {
     
@@ -173,6 +174,12 @@ class GatheringTVCell: UITableViewCell {
     }
     
     func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
+        let date = gathering.gatheringCreateDate.dateValue()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
@@ -180,7 +187,7 @@ class GatheringTVCell: UITableViewCell {
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = master.nickname
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-        createGatheringDate.text = gathering.gatheringCreateDate
+        createGatheringDate.text = dateString
         guard let gatheringUrl = URL(string: gathering.gatherImage) else {
             gatheringIV.image = UIImage(systemName: "person.circle")
             return
@@ -196,33 +203,25 @@ class GatheringTVCell: UITableViewCell {
     
     //성근 userprofileVC에서  두개 통일 필요
     func configure(with gathering: Gathering) {
+        let date = gathering.gatheringCreateDate.dateValue()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        
+        
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-        createGatheringDate.text = gathering.gatheringCreateDate
+        createGatheringDate.text = dateString
+        
         guard let url = URL(string: gathering.gatherImage) else {
             gatheringIV.image = UIImage(systemName: "person.circle")
             gatheringMasterIV.image = UIImage(systemName: "person.circle")
             return
         }
-        let placeholder = UIImage(systemName: "person.circle")
-        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
-        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
-    }
-    
-    //준범님 gatheringVC에서 사용중
-    func configure(with gathering: SampleGathering1) {
-        gatheringName.text = gathering.gatherName
-        gatheringInfo.text = gathering.gatherInfo
-        gatheringMasterName.text = gathering.gatheringMaster
-        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-        createGatheringDate.text = gathering.gatheringCreateDate
-        guard let url = URL(string: gathering.gatherImage) else {
-            gatheringIV.image = UIImage(systemName: "person.circle")
-            gatheringMasterIV.image = UIImage(systemName: "person.circle")
-            return
-        }
+        
         let placeholder = UIImage(systemName: "person.circle")
         gatheringIV.kf.setImage(with: url, placeholder: placeholder)
         gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)

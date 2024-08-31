@@ -419,7 +419,6 @@ let path: [FirestorePathComponent] = [
                     if let error = error {
                         promise(.failure(.unknownError(error)))
                     } else if let snapshot = snapShot, snapshot.exists {
-						print("snapShot,t: \(snapshot.data()),\(T.self)")
                         do {
                             let data = try snapshot.data(as: T.self)
                             promise(.success([data]))
@@ -436,7 +435,6 @@ let path: [FirestorePathComponent] = [
                     if let error = error {
                         promise(.failure(.unknownError(error)))
                     } else if let snapshot = snapshot {
-						print("snapShot,t: \(snapshot.documents),\(T.self)")
                         do {
                             let documents = try snapshot.documents.map { try $0.data(as: T.self) }
                             promise(.success(documents))
@@ -590,38 +588,7 @@ let path: [FirestorePathComponent] = [
         }
         .eraseToAnyPublisher()
     }
-    
-    // 특정 컬렉션의 모든 문서를 한 번의 쿼리로 가져옴
-    func getAllDocuments<T: Decodable>(collection: String, type: T.Type) -> AnyPublisher<[T], FirestoreError> {
-        return Future<[T], FirestoreError> { promise in
-            FIRESTORE.collection(collection).getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    promise(.failure(.unknownError(error)))
-                    return
-                }
-                
-                guard let documents = querySnapshot?.documents else {
-                    promise(.success([]))
-                    return
-                }
-                
-                let decodedDocuments = documents.compactMap { document -> T? in
-                    do {
-                        var data = document.data()
-                        data["postUID"] = document.documentID
-                        return try Firestore.Decoder().decode(T.self, from: data)
-                    } catch {
-                        print("디코딩 에러: \(error)")
-                        return nil
-                    }
-                }
-                
-                promise(.success(decodedDocuments))
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-    
+        
     func getSportsCategories() -> AnyPublisher<[TeamSelectVM.Sports], FirestoreError> {
         return Future<[TeamSelectVM.Sports], FirestoreError> { promise in
             FIRESTORE.collection("Sports").getDocuments { (querySnapshot, error) in

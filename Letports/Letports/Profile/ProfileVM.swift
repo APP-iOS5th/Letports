@@ -42,7 +42,7 @@ class ProfileVM {
     }
     
     init() {
-        loadUser(with: "users002")
+        loadUser(with: UserManager.shared.getUserUid())
     }
     
     func getCellTypes() -> [ProfileCellType] {

@@ -31,7 +31,7 @@ final class GatheringBoardDetailVC: UIViewController {
                          SeperatorLineTVCell.self,
                          GatheringBoardDetailImagesTVCell.self,
                          CommentHeaderLabelTVCell.self,
-                         GatheringBoardCommentTVCell.self)
+                         CommentTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.rowHeight = UITableView.automaticDimension
         return tv
@@ -40,6 +40,7 @@ final class GatheringBoardDetailVC: UIViewController {
     private lazy var commentInputView: CommentInputView = {
         let view = CommentInputView()
         view.delegate = self
+        view.backgroundColor = .lpBackgroundWhite
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -63,20 +64,24 @@ final class GatheringBoardDetailVC: UIViewController {
         setupUI()
         bindKeyboard()
         bindViewModel()
+        setupTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getPost()
+        viewModel.getBoardData()
     }
     
     private func bindViewModel() {
-        viewModel.$boardPost
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
+        Publishers.Merge(
+            viewModel.$boardPost.map { _ in () },
+            viewModel.$commentsWithUsers.map {_ in ()}
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.tableView.reloadData()
+        }
+        .store(in: &cancellables)
     }
     
     
@@ -112,6 +117,7 @@ final class GatheringBoardDetailVC: UIViewController {
             .sink { [weak self] keyboardFrame in
                 guard let self = self else { return }
                 UIView.animate(withDuration: 0.3) {
+                    self.commentInputView.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.height)
                     self.tableView.contentInset = UIEdgeInsets(top: 0,
                                                                left: 0,
                                                                bottom: keyboardFrame.height,
@@ -126,6 +132,7 @@ final class GatheringBoardDetailVC: UIViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 UIView.animate(withDuration: 0.3) {
+                    self.commentInputView.transform = .identity
                     self.tableView.contentInset = .zero
                     self.tableView.scrollIndicatorInsets = .zero
                 }
@@ -188,9 +195,11 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
-        case .comment:
-            if let cell: GatheringBoardCommentTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.updateCommentList(viewModel.comment)
+        case .comment(let comment):
+            if let cell: CommentTVCell = tableView.loadCell(indexPath: indexPath) {
+                if let commentWithUser = viewModel.commentsWithUsers.first(where: { $0.comment.commentUID == comment.commentUID }) {
+                    cell.configureCell(with: commentWithUser.user, comment: commentWithUser.comment)
+                }
                 return cell
             }
         }
@@ -202,28 +211,18 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellType = self.viewModel.getBoardDetailCellTypes()[indexPath.row]
-        switch cellType {
-        case .boardProfileTitle:
-            return UITableView.automaticDimension
-        case .boardContents:
-            return UITableView.automaticDimension
-        case .separator:
-            return 1
-        case .images:
-            return UITableView.automaticDimension
-        case .commentHeaderLabel:
-            return UITableView.automaticDimension
-        case .comment:
-            if let cell = tableView.cellForRow(at: indexPath) as? GatheringBoardCommentTVCell {
-                return cell.calculateTableViewHeight()
-            }
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {
     func addComment(comment: String) {
-        viewModel.addComment(comment: comment)
+        viewModel.addComment(comment: comment) {
+            self.commentInputView.clearText()
+            self.viewModel.getBoardData()
+            
+            let lastIndex = IndexPath(row: self.tableView.numberOfRows(inSection: self.tableView.numberOfSections - 1) - 1,
+                                      section: self.tableView.numberOfSections - 1)
+            self.tableView.scrollToRow(at: lastIndex, at: .bottom, animated: true)
+        }
     }
 }

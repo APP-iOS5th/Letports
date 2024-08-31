@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Combine
 import FirebaseAuth
+import FirebaseCore
 
 enum BoardEditorCellType {
     case title
@@ -109,7 +110,8 @@ class BoardEditorVM {
             let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
                             userUID: myUserUid,
                             title: title, contents: contents,
-                            imageUrls: images, boardType: self.postType)
+                            imageUrls: images, boardType: self.postType,
+                            createDate: Timestamp(date: Date()))
             
             
             let collectionPath: [FirestorePathComponent] = [

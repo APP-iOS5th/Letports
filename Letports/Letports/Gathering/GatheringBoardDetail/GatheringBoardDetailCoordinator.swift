@@ -28,6 +28,7 @@ class GatheringBoardDetailCoordinator: Coordinator {
     func start() {
         self.viewModel.delegate = self
         let viewController = GatheringBoardDetailVC(viewModel: viewModel)
+        viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
 }
