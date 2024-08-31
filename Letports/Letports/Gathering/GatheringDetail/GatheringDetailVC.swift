@@ -151,6 +151,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		let gatheringName = gathering.gatherName
 		let screenType: ScreenType
 		
+		postBtn.isMaster = viewModel.isMaster
+		
 		if viewModel.isMaster {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
 		} else if viewModel.membershipStatus == .joined {
