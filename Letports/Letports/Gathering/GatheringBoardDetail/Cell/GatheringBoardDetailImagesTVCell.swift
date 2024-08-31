@@ -39,20 +39,30 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 	var post: Post? {
 		didSet {
 			collectionView.reloadData()
+			updateCellHeight()
 		}
 	}
 	
+	private func updateCellHeight() {
+		if let post = post, !post.imageUrls.isEmpty {
+			collectionView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+			collectionView.isHidden = false
+		} else {
+			collectionView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+			collectionView.isHidden = true
+		}
+		setNeedsLayout()
+		layoutIfNeeded()
+	}
 	
 	// MARK: - Setup
 	private func setupUI() {
 		self.contentView.addSubview(collectionView)
-		contentView.backgroundColor = .red
 		NSLayoutConstraint.activate([
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
 			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
-			collectionView.heightAnchor.constraint(equalToConstant: 250)
+			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
 		])
 	}
 }

@@ -33,7 +33,7 @@ class ProfileEditVM {
     
     init(user: LetportsUser?) {
         self.user = user
-        self.loadImage(from: user?.image ?? "")
+        self.loadImage(urlString: user?.image ?? "")
     }
     
     func getCellTypes() -> [ProfileEditCellType] {
@@ -68,7 +68,7 @@ class ProfileEditVM {
         self.delegate?.presentImagePickerController()
     }
     
-    private func loadImage(from urlString: String) {
+    private func loadImage(urlString: String) {
         guard selectedImage == nil else { return }
         guard let url = URL(string: urlString) else { return }
         

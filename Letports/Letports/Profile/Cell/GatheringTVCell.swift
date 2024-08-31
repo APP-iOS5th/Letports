@@ -148,6 +148,7 @@ class GatheringTVCell: UITableViewCell {
             gatheringMasterIV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             
             gatheringMasterName.leadingAnchor.constraint(equalTo: gatheringMasterIV.trailingAnchor, constant: 4),
+            gatheringMasterName.widthAnchor.constraint(equalToConstant: 60),
             gatheringMasterName.centerYAnchor.constraint(equalTo: gatheringMasterIV.centerYAnchor),
             gatheringMasterName.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             
@@ -173,6 +174,7 @@ class GatheringTVCell: UITableViewCell {
         ])
     }
     
+
     func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
         let date = gathering.gatheringCreateDate.dateValue()
         
@@ -180,6 +182,7 @@ class GatheringTVCell: UITableViewCell {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: date)
         
+
         if gathering.gatheringMaster == user.uid {
             isGatheringMasterIV.isHidden = false
         }
@@ -202,6 +205,7 @@ class GatheringTVCell: UITableViewCell {
     }
     
     //성근 userprofileVC에서  두개 통일 필요
+
     func configure(with gathering: Gathering) {
         let date = gathering.gatheringCreateDate.dateValue()
         
@@ -210,6 +214,7 @@ class GatheringTVCell: UITableViewCell {
         let dateString = dateFormatter.string(from: date)
         
         
+
         gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = gathering.gatheringMaster

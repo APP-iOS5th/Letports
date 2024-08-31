@@ -39,7 +39,7 @@ class SectionTVCell: UITableViewCell {
         ])
     }
     
-    func configure(withTitle title: String) {
+    func configure(title: String) {
         titleLabel.text = title
     }
 }

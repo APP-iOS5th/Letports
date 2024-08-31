@@ -150,18 +150,20 @@ final class GatheringBoardDetailVC: UIViewController {
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
-    func smallRightBtnDidTap() {
-        viewModel.naviRightBtnDidTap()
-    }
-    func backBtnDidTap() {
-        viewModel.boardDetailBackBtnTap()
-    }
+	func smallRightBtnDidTap() {
+		viewModel.naviRightBtnDidTap()
+	}
+	func backBtnDidTap() {
+		viewModel.boardDetailBackBtnTap()
+	}
 }
 
 extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getBoardDetailCellTypes()[indexPath.row] {
         case .boardProfileTitle:

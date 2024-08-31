@@ -16,7 +16,7 @@ enum UserProfileCellType {
 }
 
 protocol UserProfileCoordinatorDelegate: AnyObject {
-    func userProfileBackBtn()
+    func userProfileBackBtnDidTap()
 }
 
 class UserProfileVM {
@@ -37,7 +37,7 @@ class UserProfileVM {
     }
     
     init(userUID: String) {
-        loadUser(for: userUID)
+        loadUser(user: userUID)
     }
     
     func getCellTypes() -> [UserProfileCellType] {
@@ -48,11 +48,11 @@ class UserProfileVM {
         return self.cellType.count
     }
     
-    func userProfileBackBtn() {
-        delegate?.userProfileBackBtn()
+    func userProfileBackBtnDidTap() {
+        delegate?.userProfileBackBtnDidTap()
     }
     
-    func loadUser(for user: String) {
+    func loadUser(user: String) {
         FM.getData(collection: "Users", document: user, type: LetportsUser.self)
             .sink { completion in
                 switch completion {

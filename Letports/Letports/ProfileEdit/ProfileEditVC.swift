@@ -74,15 +74,17 @@ class ProfileEditVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.CombineLatest(
-            viewModel.$user,
-            viewModel.$selectedImage
+        let mergedPublishers = Publishers.Merge(
+            viewModel.$user.map { _ in () }.eraseToAnyPublisher(),
+            viewModel.$selectedImage.map { _ in () }.eraseToAnyPublisher()
         )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] (user, selectedImage) in
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+
+        mergedPublishers
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
 }
@@ -121,9 +123,7 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .profileImage:
             return 150.0
-        case .nickName:
-            return 100.0
-        case .simpleInfo:
+        case .nickName, .simpleInfo:
             return 100.0
         }
     }
