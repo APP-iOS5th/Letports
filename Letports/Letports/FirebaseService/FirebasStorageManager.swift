@@ -69,6 +69,7 @@ class FirebaseStorageManager {
             .eraseToAnyPublisher()
     }
     
+    
     static func uploadSingleImage(image: UIImage,
                                   filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in

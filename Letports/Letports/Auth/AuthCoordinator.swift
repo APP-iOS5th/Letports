@@ -16,7 +16,7 @@ class AuthCoordinator: Coordinator {
         let viewModel = AuthVM()
         viewModel.loginSuccess = { [weak self] in
             DispatchQueue.main.async {
-                self?.parentCoordinator?.showMainView()
+                self?.parentCoordinator?.checkAuthAndTeamState()
             }
         }
         viewModel.loginFailure = { error in

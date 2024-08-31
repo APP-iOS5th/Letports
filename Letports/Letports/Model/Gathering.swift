@@ -5,6 +5,7 @@
 //  Created by mosi on 8/22/24.
 //
 import Foundation
+import FirebaseCore
 
 struct SampleGathering1: Codable {
     let gatherImage: String
@@ -13,7 +14,7 @@ struct SampleGathering1: Codable {
     let gatherName: String
     var gatherNowMember: Int
     let gatherQuestion: String
-    let gatheringCreateDate: String
+    let gatheringCreateDate: Timestamp
     let gatheringMaster: String
     var gatheringMembers: [SampleMember]
     let gatheringSports: String
@@ -51,7 +52,7 @@ struct Gathering: Codable {
     let gatherName: String
     var gatherNowMember: Int
     let gatherQuestion: String
-    let gatheringCreateDate: String
+    let gatheringCreateDate: Timestamp
     let gatheringMaster: String
     let gatheringSports: String
     let gatheringSportsTeam: String

@@ -7,8 +7,8 @@
 
 import UIKit
 
-class SportsCell: UICollectionViewCell {
-    static let reuseIdentifier = "SportsCell"
+class SportsCategoryCell: UICollectionViewCell {
+    static let reuseIdentifier = "SportsCategoryCell"
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +47,7 @@ class SportsCell: UICollectionViewCell {
         contentView.backgroundColor = .systemGray6
     }
     
-    func configure(with category: TeamSelectionViewModel.Sports) {
+    func configure(with category: TeamSelectVM.Sports) {
         titleLabel.text = category.name
     }
 }

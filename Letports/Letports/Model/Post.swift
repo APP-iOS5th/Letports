@@ -5,6 +5,7 @@
 //  Created by mosi on 8/22/24.
 //
 import Foundation
+import FirebaseCore
 
 enum PostType: String, Codable {
     case all
@@ -19,4 +20,5 @@ struct Post: Codable {
     let contents: String
     let imageUrls: [String]
     let boardType: PostType
+    let createDate: Timestamp
 }
