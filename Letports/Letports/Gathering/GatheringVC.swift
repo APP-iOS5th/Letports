@@ -155,7 +155,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.recommendGatherings.count {
                     let gathering = viewModel.recommendGatherings[gatheringIndex]
-                    cell.configure(gathering:gathering)
+                    cell.configure(with:gathering)
                 }
                 return cell
             }
@@ -172,7 +172,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.gatheringLists.count {
                     let gathering = viewModel.gatheringLists[gatheringIndex]
-                    cell.configure(gathering:gathering)
+                    cell.configure(with:gathering)
                 }
                 return cell
             }
