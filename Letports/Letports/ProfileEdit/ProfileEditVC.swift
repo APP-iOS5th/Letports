@@ -52,6 +52,13 @@ class ProfileEditVC: UIViewController {
         return tv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lp_background_white
@@ -60,7 +67,7 @@ class ProfileEditVC: UIViewController {
     }
     
     func setupUI() {
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         NSLayoutConstraint.activate([
@@ -71,7 +78,12 @@ class ProfileEditVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
@@ -97,6 +109,17 @@ class ProfileEditVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
                 self?.navigationView.rightBtnIsEnable(isValid)
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.$isUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isUpdate in
+                if isUpdate {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
             }
             .store(in: &cancellables)
     }
@@ -133,7 +156,7 @@ extension ProfileEditVC: CustomNavigationDelegate {
                         self?.viewModel.backToProfile()
                     }
                 case .failure(let error):
-                    self?.showAlert(title: "성공", message: "\(error.localizedDescription)") {
+                    self?.showAlert(title: "오류", message: "\(error.localizedDescription)") {
                     }
                 }
             }, receiveValue: {
