@@ -50,7 +50,7 @@ class ProfileTVCell: UITableViewCell {
         btn.backgroundColor = UIColor(named: "lp_sub")
         btn.layer.cornerRadius = 8
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        btn.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(editButtonDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -102,11 +102,11 @@ class ProfileTVCell: UITableViewCell {
         ])
     }
     
-    @objc func editButtonTapped () {
-        delegate?.didTapEditProfileButton()
+    @objc func editButtonDidTap () {
+        delegate?.EditProfileBtnDidTap()
     }
     
-    func configure(with user: LetportsUser) {
+    func configure(user: LetportsUser) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
         guard let url = URL(string: user.image) else {

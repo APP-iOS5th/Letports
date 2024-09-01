@@ -164,6 +164,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		}
 		navigationView.screenType = screenType
 		tableView.reloadData()
+		self.view.setNeedsLayout()
 	}
 	// 레이아웃
 	private func setupUI() {

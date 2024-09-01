@@ -8,8 +8,8 @@ enum ProfileCellType {
     case myGatherings
     case pendingGatheringHeader
     case pendingGatherings
-    case myGatheringSeparator
-    case pendingGatheringSeparator
+    case myGatheringEmptyState
+    case pendingGatheringEmptyState
 }
 
 class ProfileVM {
@@ -29,20 +29,20 @@ class ProfileVM {
             cellTypes.append(.myGatherings)
         }
         if myGatherings.count == 0 {
-            cellTypes.append(.myGatheringSeparator)
+            cellTypes.append(.myGatheringEmptyState)
         }
         cellTypes.append(.pendingGatheringHeader)
         for _ in pendingGatherings {
             cellTypes.append(.pendingGatherings)
         }
         if pendingGatherings.count == 0 {
-            cellTypes.append(.pendingGatheringSeparator)
+            cellTypes.append(.pendingGatheringEmptyState)
         }
         return cellTypes
     }
     
     init() {
-        loadUser(with: UserManager.shared.getUserUid())
+        loadUser(user: UserManager.shared.getUserUid())
     }
     
     func getCellTypes() -> [ProfileCellType] {
@@ -57,11 +57,11 @@ class ProfileVM {
         self.delegate?.dismissViewController()
     }
     
-    func profileEditButtonTapped() {
+    func EditProfileBtnDidTap() {
         self.delegate?.presentEditProfileController(user: user!)
     }
     
-    func gatheringCellTapped(gatheringUID: String) {
+    func gatheringCellDidTap(gatheringUID: String) {
         self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
     }
     
@@ -69,7 +69,7 @@ class ProfileVM {
         self.delegate?.presentSettingViewController()
     }
     
-    func loadUser(with user: String) {
+    func loadUser(user: String) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(user),
@@ -85,7 +85,7 @@ class ProfileVM {
                 }
             } receiveValue: { [weak self] fetchedUser in
                 if let user = fetchedUser.first{
-                    self?.fetchUserGatherings(for: user)
+                    self?.fetchUserGatherings(user: user)
                     self?.user = user
                 }
             }
@@ -93,7 +93,7 @@ class ProfileVM {
     }
     
     
-    func fetchMasterUser(with masterId: String) {
+    func fetchMasterUser(masterId: String) {
         guard masterUsers[masterId] == nil else { return } // 이미 로드된 경우 로드하지 않음
         
         let collectionPath: [FirestorePathComponent] = [
@@ -112,7 +112,7 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
-    func fetchUserGatherings(for user: LetportsUser) {
+    func fetchUserGatherings(user: LetportsUser) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(user.uid),
@@ -149,13 +149,13 @@ class ProfileVM {
             }, receiveValue: { [weak self] allGatherings in
                 guard let self = self else { return }
                 let flatGatherings = allGatherings.flatMap { $0 }
-                self.filterGatherings(flatGatherings, for: user)
+                self.filterGatherings(flatGatherings, user: user)
             })
             .store(in: &cancellables)
     }
     
     
-    private func filterGatherings(_ gatherings: [Gathering], for user: LetportsUser) {
+    private func filterGatherings(_ gatherings: [Gathering],  user: LetportsUser) {
         let memberStatusPublishers = gatherings.map { gathering in
             let collectionPath3: [FirestorePathComponent] = [
                 .collection(.gatherings),

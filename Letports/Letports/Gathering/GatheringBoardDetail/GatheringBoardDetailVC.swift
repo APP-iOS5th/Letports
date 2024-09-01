@@ -150,6 +150,7 @@ final class GatheringBoardDetailVC: UIViewController {
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
@@ -162,6 +163,7 @@ extension GatheringBoardDetailVC: CustomNavigationDelegate {
 }
 
 extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getBoardDetailCellTypes()[indexPath.row] {
         case .boardProfileTitle:

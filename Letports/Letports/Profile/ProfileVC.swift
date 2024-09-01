@@ -7,7 +7,7 @@ import Kingfisher
 
 
 protocol ProfileDelegate: AnyObject {
-    func didTapEditProfileButton()
+    func EditProfileBtnDidTap()
 }
 
 class ProfileVC: UIViewController {
@@ -39,7 +39,7 @@ class ProfileVC: UIViewController {
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
                          GatheringTVCell.self,
-                         SeparatorTVCell.self)
+                         EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -104,21 +104,25 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
-        
         switch cellType {
         case .myGatherings:
-            let startIndex = 2 // myGatherings 시작 인덱스
+            let startIndex = 2
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
                 let gathering = viewModel.myGatherings[gatheringIndex]
-                self.viewModel.gatheringCellTapped(gatheringUID: gathering.gatheringUid)
+                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         case .pendingGatherings:
-            let startIndex = 2 + viewModel.myGatherings.count + 1 // myGatherings 섹션과 헤더를 넘어서는 인덱스
+            var startIndex = 3
+            if viewModel.myGatherings.count == 0 {
+                startIndex = 4
+            } else {
+                startIndex = 3 + viewModel.myGatherings.count
+            }
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
                 let gathering = viewModel.pendingGatherings[gatheringIndex]
-                self.viewModel.gatheringCellTapped(gatheringUID: gathering.gatheringUid)
+                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         default:
             break
@@ -132,7 +136,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             return 120.0
         case .myGatheringHeader, .pendingGatheringHeader:
             return 40.0
-        case .myGatherings, .pendingGatherings, .myGatheringSeparator, .pendingGatheringSeparator:
+        case .myGatherings, .pendingGatherings, .myGatheringEmptyState, .pendingGatheringEmptyState:
             return 100.0
         }
     }
@@ -143,13 +147,13 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 if let user = viewModel.user {
-                    cell.configure(with: user)
+                    cell.configure(user:user)
                 }
                 return cell
             }
         case .myGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "내 소모임")
+                cell.configure(title:"내 소모임")
                 return cell
             }
         case .myGatherings:
@@ -160,9 +164,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
-                            viewModel.fetchMasterUser(with: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
                         }
                     }
                 }
@@ -170,33 +174,38 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 대기중 소모임")
+                cell.configure(title:"가입 대기중 소모임")
                 return cell
             }
         case .pendingGatherings:
             if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = viewModel.myGatherings.count + 3
+                var startIndex = 0
+                if viewModel.myGatherings.count == 0 {
+                    startIndex = 4
+                } else {
+                    startIndex = 3 + viewModel.myGatherings.count
+                }
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
-                            viewModel.fetchMasterUser(with: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
+                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster) // 마스터 사용자 정보 가져오기
                         }
                     }
                 }
                 return cell
             }
-        case .myGatheringSeparator:
-            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입된 소모임이 없습니다")
+        case .myGatheringEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "가입된 소모임이 없습니다")
                 return cell
             }
-        case .pendingGatheringSeparator:
-            if let cell: SeparatorTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입대기중인 소모임이 없습니다")
+        case .pendingGatheringEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "가입대기중인 소모임이 없습니다")
                 return cell
             }
         }
@@ -205,8 +214,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileVC: ProfileDelegate {
-    func didTapEditProfileButton() {
-        self.viewModel.profileEditButtonTapped()
+    func EditProfileBtnDidTap() {
+        self.viewModel.EditProfileBtnDidTap()
     }
 }
 

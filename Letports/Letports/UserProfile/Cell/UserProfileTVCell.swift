@@ -85,7 +85,7 @@ class UserProfileTVCell: UITableViewCell {
         ])
     }
     
-    func configure(with user: LetportsUser) {
+    func configure(user: LetportsUser) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
         guard let url = URL(string: user.image) else {
