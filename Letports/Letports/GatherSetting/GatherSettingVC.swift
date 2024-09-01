@@ -98,19 +98,16 @@ class GatherSettingVC: UIViewController {
     }
     
     private func showUserView<T: UIView>(existingView: inout T?,user: GatheringMember,userData: LetportsUser,gathering: Gathering,joinDelegate: ManageViewJoinDelegate?,pendingDelegate: ManageViewPendingDelegate?) {
-        // 기존 뷰가 nil인지 확인
         if existingView == nil {
-            // ManageUserView 생성
+           
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate
             manageUserView.pendingdelegate = pendingDelegate
             manageUserView.configure(user: user, gathering: gathering, userData: userData)
             
-            // ManageUserView를 화면에 추가
             self.view.addSubview(manageUserView)
             manageUserView.translatesAutoresizingMaskIntoConstraints = false
             
-            // Autolayout 제약 추가
             NSLayoutConstraint.activate([
                 manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
                 manageUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -118,7 +115,6 @@ class GatherSettingVC: UIViewController {
                 manageUserView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             
-            // 기존 뷰 포인터에 새로 만든 뷰 할당
             existingView = manageUserView as? T
         } else {
             print("ManageUserView already exists.")
