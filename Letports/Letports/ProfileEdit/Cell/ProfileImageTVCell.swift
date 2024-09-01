@@ -1,17 +1,8 @@
-//
-//  ProfileImageTVCell.swift
-//  Letports
-//
-//  Created by mosi on 8/23/24.
-//
-
 import UIKit
 import Kingfisher
-import Combine
 
 class ProfileImageTVCell: UITableViewCell {
     weak var delegate: ProfileEditDelegate?
-    private var cancellables = Set<AnyCancellable>()
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -27,21 +18,29 @@ class ProfileImageTVCell: UITableViewCell {
     private lazy var profileImageBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(imageBtnDidTap), for: .touchUpInside)
-        btn.tintColor = .lp_black
-        btn.setTitleColor(UIColor.lp_black, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .systemBlue
+        btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
+        self.selectionStyle = .default
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.selectionStyle = .none
+        self.selectionStyle = .default
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImageView.image = nil
+        profileImageBtn.setImage(nil, for: .normal)
+        profileImageBtn.transform = .identity
+        profileImageBtn.layer.removeAllAnimations()
     }
     
     private func setupUI() {
@@ -57,23 +56,45 @@ class ProfileImageTVCell: UITableViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 120),
             profileImageView.heightAnchor.constraint(equalToConstant: 120),
             
-            profileImageBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            profileImageBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            profileImageBtn.widthAnchor.constraint(equalToConstant: 120),
-            profileImageBtn.heightAnchor.constraint(equalToConstant: 120),
+            profileImageBtn.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            profileImageBtn.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            profileImageBtn.widthAnchor.constraint(equalTo: profileImageView.widthAnchor),
+            profileImageBtn.heightAnchor.constraint(equalTo: profileImageView.heightAnchor)
         ])
     }
     
-    @objc func imageBtnDidTap() {
-        delegate?.didTapEditProfileImage()
+    @objc private func imageBtnDidTap() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut, .allowUserInteraction], animations: {
+            self.profileImageBtn.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { _ in
+            UIView.animate(withDuration: 0.3, animations: {
+                self.profileImageBtn.transform = CGAffineTransform.identity
+            }) { _ in
+                self.delegate?.didTapEditProfileImage()
+            }
+        }
     }
     
     func configure(with image: UIImage?) {
         if let image = image {
             profileImageView.image = image
+            profileImageBtn.setImage(nil, for: .normal)
         } else {
-            profileImageView.image = UIImage(systemName: "person.circle")
+            profileImageView.image = nil
+            let personImage = UIImage(systemName: "person.circle")?
+                .withTintColor(.systemBlue, renderingMode: .alwaysTemplate)
+                .resized(size: CGSize(width: 100, height: 100))
+            profileImageBtn.setImage(personImage, for: .normal)
         }
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profileImageBtn.setNeedsLayout()
+        profileImageBtn.layoutIfNeeded()
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+    }
 }

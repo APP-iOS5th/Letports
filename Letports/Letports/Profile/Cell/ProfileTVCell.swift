@@ -111,8 +111,16 @@ class ProfileTVCell: UITableViewCell {
         ])
     }
     
-    @objc func editBtnDidTap () {
-        delegate?.EditProfileBtnDidTap()
+    @objc func editBtnDidTap() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.editProfileBtn.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.editProfileBtn.transform = CGAffineTransform.identity
+            }) { _ in
+                self.delegate?.EditProfileBtnDidTap()
+            }
+        }
     }
     
     func configure(user: LetportsUser) {

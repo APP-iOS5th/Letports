@@ -172,14 +172,12 @@ class ProfileEditVM {
         guard selectedImage == nil else { return }
         guard let url = URL(string: urlString) else { return }
         
-        let resource = ImageResource(downloadURL: url)
+        let resource = KF.ImageResource(downloadURL: url)
         KingfisherManager.shared.retrieveImage(with: resource) { [weak self] result in
             switch result {
             case .success(let value):
-                // 성공적으로 이미지를 로드한 경우
                 self?.selectedImage = value.image
             case .failure(let error):
-                // 이미지 로드에 실패한 경우
                 print("Failed to load image: \(error.localizedDescription)")
                 self?.selectedImage = nil
             }

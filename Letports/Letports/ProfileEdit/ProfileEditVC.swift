@@ -84,12 +84,12 @@ class ProfileEditVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 guard let self = self else { return }
-                self.tableView.performBatchUpdates({
-                    let indexPathsToUpdate = self.viewModel.getCellTypes().enumerated().compactMap { index, type in
-                        return type == .profileImage ? IndexPath(row: index, section: 0) : nil
-                    }
+                let indexPathsToUpdate = self.viewModel.getCellTypes().enumerated().compactMap { index, type in
+                    return type == .profileImage ? IndexPath(row: index, section: 0) : nil
+                }
+                if !indexPathsToUpdate.isEmpty {
                     self.tableView.reloadRows(at: indexPathsToUpdate, with: .automatic)
-                })
+                }
             }
             .store(in: &cancellables)
         
@@ -100,6 +100,7 @@ class ProfileEditVC: UIViewController {
             }
             .store(in: &cancellables)
     }
+    
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in

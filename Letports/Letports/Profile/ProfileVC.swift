@@ -11,11 +11,11 @@ protocol ProfileDelegate: AnyObject {
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
+    private var refreshView: RefreshView?
     let refreshInterval: TimeInterval = 60 * 1
     var lastRefreshDate: Date?
     var timer: Timer?
     var remainingTime: Int = 0
-    private var refreshView: RefreshView?
     
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
@@ -68,7 +68,7 @@ class ProfileVC: UIViewController {
         }
         
         tableView.refreshControl = refreshControl
-        
+        tableView.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = true
         
         NSLayoutConstraint.activate([
@@ -80,7 +80,6 @@ class ProfileVC: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
         ])
     }
     
@@ -99,54 +98,46 @@ class ProfileVC: UIViewController {
     }
     
     @objc private func refreshData() {
-           // 새로 고침 가능한지 확인
-           guard let lastRefreshDate = lastRefreshDate else {
-               performRefresh()
-               return
-           }
-           
-           let currentDate = Date()
-           let timeSinceLastRefresh = currentDate.timeIntervalSince(lastRefreshDate)
-           
-           // 새로 고침 가능한 시간이 지났는지 확인
-           if timeSinceLastRefresh > refreshInterval {
-               performRefresh()
-           } else {
-               let remainingTime = Int(refreshInterval - timeSinceLastRefresh)
-               showWaitingTime(remainingTime: remainingTime)
-               refreshControl.endRefreshing()
-           }
-       }
-       
-       private func performRefresh() {
-           viewModel.loadUser(user: UserManager.shared.getUserUid()) {
-               self.refreshControl.endRefreshing()
-               self.lastRefreshDate = Date()
-               
-               // 새로 고침 완료 메시지 표시
-               self.showRefreshCompleteMessage()
-           }
-       }
-
-       private func showRefreshCompleteMessage() {
-           // refreshView가 없으면 추가
-           if refreshView == nil {
-               addRefreshView()
-           }
-           
-           // 메시지 설정
-           refreshView?.setMessage("새로 고침이 완료되었습니다")
-           refreshView?.isHidden = false
-           refreshView?.alpha = 1.0
-
-           // 3초 후에 뷰를 제거
-           DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-               self.removeRefreshView()
-           }
-       }
-       
+        guard let lastRefreshDate = lastRefreshDate else {
+            performRefresh()
+            return
+        }
+        
+        let currentDate = Date()
+        let timeSinceLastRefresh = currentDate.timeIntervalSince(lastRefreshDate)
+        
+        if timeSinceLastRefresh > refreshInterval {
+            performRefresh()
+        } else {
+            let remainingTime = Int(refreshInterval - timeSinceLastRefresh)
+            showWaitingTime(remainingTime: remainingTime)
+            refreshControl.endRefreshing()
+        }
+    }
+    
+    private func performRefresh() {
+        viewModel.loadUser(user: UserManager.shared.getUserUid()) {
+            self.refreshControl.endRefreshing()
+            self.lastRefreshDate = Date()
+            self.showRefreshCompleteMessage()
+        }
+    }
+    
+    private func showRefreshCompleteMessage() {
+        if refreshView == nil {
+            addRefreshView()
+        }
+        
+        refreshView?.setMessage("새로 고침이 완료되었습니다")
+        refreshView?.isHidden = false
+        refreshView?.alpha = 1.0
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.removeRefreshView()
+        }
+    }
+    
     private func showWaitingTime(remainingTime: Int) {
-        // refreshView가 없으면 다시 추가
         if refreshView == nil {
             addRefreshView()
         }
@@ -154,57 +145,52 @@ class ProfileVC: UIViewController {
         self.remainingTime = remainingTime
         refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
         refreshView?.isHidden = false
-        refreshView?.alpha = 1.0 // 즉시 표시
-
-        // 타이머 설정: 3초 동안 남은 시간을 매초 업데이트
+        refreshView?.alpha = 1.0
+        
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             self.remainingTime -= 1
             
-            // 남은 시간 업데이트
             self.refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
             
             if self.remainingTime <= 0 {
-                self.timer?.invalidate() // 타이머 중지
-                self.removeRefreshView() // 뷰 제거
+                self.timer?.invalidate() //
+                self.removeRefreshView()
             }
         }
-
-        // 3초 후에 refreshView를 제거하는 로직 추가
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             guard let self = self else { return }
-            self.removeRefreshView() // 남은 시간과 관계없이 3초 후에 뷰를 제거
+            self.removeRefreshView()
         }
     }
-       
-       private func addRefreshView() {
-           refreshView = RefreshView()
-           guard let refreshView = refreshView else { return }
-           
-           refreshView.translatesAutoresizingMaskIntoConstraints = false
-           view.addSubview(refreshView)
-           
-           NSLayoutConstraint.activate([
-               refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-               refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-               refreshView.widthAnchor.constraint(equalToConstant: 300),
-               refreshView.heightAnchor.constraint(equalToConstant: 40)
-           ])
-       }
-
-       private func removeRefreshView() {
-           guard let refreshView = refreshView else { return }
-           
-           // 애니메이션으로 뷰 제거
-           UIView.animate(withDuration: 0.3, animations: {
-               refreshView.alpha = 0.0
-           }, completion: { _ in
-               refreshView.removeFromSuperview()
-               self.refreshView = nil
-               self.timer?.invalidate()
-           })
-       }
+    
+    private func addRefreshView() {
+        refreshView = RefreshView()
+        guard let refreshView = refreshView else { return }
+        
+        refreshView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(refreshView)
+        
+        NSLayoutConstraint.activate([
+            refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            refreshView.widthAnchor.constraint(equalToConstant: 300),
+            refreshView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    private func removeRefreshView() {
+        guard let refreshView = refreshView else { return }
+        UIView.animate(withDuration: 0.3, animations: {
+            refreshView.alpha = 0.0
+        }, completion: { _ in
+            refreshView.removeFromSuperview()
+            self.refreshView = nil
+            self.timer?.invalidate()
+        })
+    }
     
 }
 
@@ -248,6 +234,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -285,6 +272,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
+                            cell.selectionStyle = .default
                             cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
@@ -311,6 +299,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let gathering = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
+                            cell.selectionStyle = .default
                             cell.configure(with:gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)

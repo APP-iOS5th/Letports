@@ -50,7 +50,7 @@ class GatheringTVCell: UITableViewCell {
         return label
     }()
     
-    private  lazy var gatheringMasterIV: UIImageView = {
+    private lazy var gatheringMasterIV: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 5
         iv.contentMode = .scaleAspectFill
@@ -102,22 +102,30 @@ class GatheringTVCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.selectionStyle = .none
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        containerView.transform = CGAffineTransform.identity
     }
     
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV,gatheringMasterName,personIV,memberCount,calendarIV,createGatheringDate, isGatheringMasterIV].forEach {
+        [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV, gatheringMasterName, personIV, memberCount, calendarIV, createGatheringDate, isGatheringMasterIV].forEach {
             containerView.addSubview($0)
         }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
+        tapGesture.cancelsTouchesInView = false
+        containerView.addGestureRecognizer(tapGesture)
+        containerView.isUserInteractionEnabled = true
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -169,8 +177,22 @@ class GatheringTVCell: UITableViewCell {
             
             createGatheringDate.leadingAnchor.constraint(equalTo: calendarIV.trailingAnchor, constant: 4),
             createGatheringDate.centerYAnchor.constraint(equalTo: gatheringMasterIV.centerYAnchor),
-            createGatheringDate.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            createGatheringDate.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10)
         ])
+    }
+    
+    @objc private func containerViewDidTap() {
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                self.containerView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.2) {
+                    self.containerView.transform = CGAffineTransform.identity
+                }
+            }
+        )
     }
     
     func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
@@ -180,32 +202,26 @@ class GatheringTVCell: UITableViewCell {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: date)
         
-
-        if gathering.gatheringMaster == user.uid {
-            isGatheringMasterIV.isHidden = false
-        }
+        isGatheringMasterIV.isHidden = gathering.gatheringMaster != user.uid
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = truncateText(master.nickname, limit: 16)
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
         createGatheringDate.text = dateString
         
-        guard let gatheringUrl = URL(string: gathering.gatherImage) else {
+        if let gatheringUrl = URL(string: gathering.gatherImage) {
+            gatheringIV.kf.setImage(with: gatheringUrl, placeholder: UIImage(systemName: "person.circle"))
+        } else {
             gatheringIV.image = UIImage(systemName: "person.circle")
-            return
-        }
-        guard let masterUrl = URL(string: master.image) else {
-            gatheringMasterIV.image = UIImage(systemName: "person.circle")
-            return
         }
         
-        let placeholder = UIImage(systemName: "person.circle")
-        gatheringIV.kf.setImage(with: gatheringUrl, placeholder: placeholder)
-        gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: placeholder)
+        if let masterUrl = URL(string: master.image) {
+            gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: UIImage(systemName: "person.circle"))
+        } else {
+            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+        }
     }
     
-    //성근 userprofileVC에서  두개 통일 필요
-
     func configure(with gathering: Gathering) {
         let date = gathering.gatheringCreateDate.dateValue()
         
@@ -213,30 +229,22 @@ class GatheringTVCell: UITableViewCell {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: date)
         
-
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = truncateText(gathering.gatheringMaster, limit: 16)
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
         createGatheringDate.text = dateString
         
-        guard let url = URL(string: gathering.gatherImage) else {
+        if let url = URL(string: gathering.gatherImage) {
+            gatheringIV.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle"))
+            gatheringMasterIV.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle"))
+        } else {
             gatheringIV.image = UIImage(systemName: "person.circle")
             gatheringMasterIV.image = UIImage(systemName: "person.circle")
-            return
         }
-        
-        let placeholder = UIImage(systemName: "person.circle")
-        gatheringIV.kf.setImage(with: url, placeholder: placeholder)
-        gatheringMasterIV.kf.setImage(with: url, placeholder: placeholder)
     }
 }
 
 private func truncateText(_ text: String, limit: Int) -> String {
-    if text.count > limit {
-        let truncated = text.prefix(limit) + "..."
-        return String(truncated)
-    } else {
-        return text
-    }
+    return text.count > limit ? String(text.prefix(limit)) + "..." : text
 }
