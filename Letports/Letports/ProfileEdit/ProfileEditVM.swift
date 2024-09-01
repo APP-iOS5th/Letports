@@ -27,7 +27,7 @@ class ProfileEditVM {
     let maxSimpleInfoCount = 20
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileEditCoordinatorDelegate?
-
+    
     private var cellType: [ProfileEditCellType] {
         var cellTypes: [ProfileEditCellType] = []
         cellTypes.append(.profileImage)
@@ -76,11 +76,11 @@ class ProfileEditVM {
         Publishers.CombineLatest($usernickName, $userSimpleInfo)
             .map { [weak self] nickname, simpleInfo in
                 guard let self = self else { return false }
-
+                
                 guard let nickname = nickname, let simpleInfo = simpleInfo else {
                     return false
                 }
-            
+                
                 let isNicknameValid = nickname.count != 0 && nickname.count <= maxNickNameCount
                 let isSimpleInfoValid = simpleInfo.count != 0 && simpleInfo.count <= maxSimpleInfoCount
                 
@@ -101,9 +101,6 @@ class ProfileEditVM {
                     return Just(()).eraseToAnyPublisher()
                 }
                 return self.editProfile(imageUrl: imageUrl ?? "")
-                    .flatMap { _ in
-                        self.deleteImageIfNeeded(currentImageUrl: self.user?.image ?? "")
-                    }
                     .eraseToAnyPublisher()
             }
             .handleEvents(receiveCompletion: { [weak self] _ in
@@ -117,9 +114,29 @@ class ProfileEditVM {
             return Just(nil).eraseToAnyPublisher()
         }
         
-        return FirebaseStorageManager.uploadImages(images: [image], filePath: .userProfileImageUpload)
-            .map { urls in
-                urls.first?.absoluteString
+        let filePath: StorageFilePath
+        
+        if let existingImageUrl = user?.image, !existingImageUrl.isEmpty {
+            if existingImageUrl.hasPrefix("gs://") {
+                let storagePath = existingImageUrl.replacingOccurrences(of: "gs://letports-81f7f.appspot.com/", with: "")
+                filePath = .specificPath(storagePath)
+            } else if let url = URL(string: existingImageUrl), url.host == "firebasestorage.googleapis.com" {
+                let path = url.path.replacingOccurrences(of: "/v0/b/letports-81f7f.appspot.com/o/", with: "")
+                if let decodedPath = path.removingPercentEncoding {
+                    filePath = .specificPath(decodedPath)
+                } else {
+                    filePath = .userProfileImageUpload
+                }
+            } else {
+                filePath = .userProfileImageUpload
+            }
+        } else {
+            filePath = .userProfileImageUpload
+        }
+        
+        return FirebaseStorageManager.uploadSingleImages(image: image, filePath: filePath)
+            .map { url in
+                url.absoluteString
             }
             .catch { error -> Just<String?> in
                 print("Failed to upload image: \(error.localizedDescription)")
@@ -127,40 +144,6 @@ class ProfileEditVM {
             }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-    }
-    
-    private func deleteImageIfNeeded(currentImageUrl: String) -> AnyPublisher<Void, Never> {
-        guard !currentImageUrl.isEmpty else {
-            return Just(()).eraseToAnyPublisher()
-        }
-        
-        if currentImageUrl.hasPrefix("gs://") {
-            let filePath = currentImageUrl.replacingOccurrences(of: "gs://letports-81f7f.appspot.com/", with: "")
-            
-            return FirebaseStorageManager.deleteImage(filePath: filePath)
-                .catch { error -> AnyPublisher<Void, Never> in
-                    print("Failed to delete image: \(error.localizedDescription)")
-                    return Just(()).eraseToAnyPublisher()
-                }
-                .eraseToAnyPublisher()
-        } else if let url = URL(string: currentImageUrl), url.host == "firebasestorage.googleapis.com" {
-            if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems {
-                if let _ = queryItems.first(where: { $0.name == "alt" }),
-                   let pathComponent = url.pathComponents.last?.removingPercentEncoding {
-                    let filePath = pathComponent.replacingOccurrences(of: "User_Profile_Upload_Images%2F", with: "User_Profile_Upload_Images/")
-                    
-                    return FirebaseStorageManager.deleteImage(filePath: filePath)
-                        .catch { error -> AnyPublisher<Void, Never> in
-                            print("Failed to delete image: \(error.localizedDescription)")
-                            return Just(()).eraseToAnyPublisher()
-                        }
-                        .eraseToAnyPublisher()
-                }
-            }
-        }
-        
-        print("Invalid Firebase Storage URL format")
-        return Just(()).eraseToAnyPublisher()
     }
     
     private func editProfile(imageUrl: String) -> AnyPublisher<Void, Never> {
