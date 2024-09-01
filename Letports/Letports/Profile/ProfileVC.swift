@@ -4,7 +4,7 @@ import Combine
 import Kingfisher
 
 protocol ProfileDelegate: AnyObject {
-    func EditProfileBtnDidTap()
+    func editProfileBtnDidTap()
     func reloadProfileData()
 }
 
@@ -327,8 +327,8 @@ extension ProfileVC: ProfileDelegate {
     func reloadProfileData() {
         viewModel.loadUser(user: UserManager.shared.getUserUid())
     }
-    func EditProfileBtnDidTap() {
-        self.viewModel.EditProfileBtnDidTap()
+    func editProfileBtnDidTap() {
+        self.viewModel.editProfileBtnDidTap()
     }
 }
 
