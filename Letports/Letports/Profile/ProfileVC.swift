@@ -143,7 +143,7 @@ class ProfileVC: UIViewController {
         }
         
         self.remainingTime = remainingTime
-        refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
+        refreshView?.setMessage("\(self.remainingTime)초 후에 가능합니다.")
         refreshView?.isHidden = false
         refreshView?.alpha = 1.0
         
@@ -152,7 +152,7 @@ class ProfileVC: UIViewController {
             guard let self = self else { return }
             self.remainingTime -= 1
             
-            self.refreshView?.setMessage("새로 고침은 \(self.remainingTime)초 후에 가능합니다.")
+            self.refreshView?.setMessage("\(self.remainingTime)초 후에 가능합니다.")
             
             if self.remainingTime <= 0 {
                 self.timer?.invalidate() //
@@ -176,7 +176,7 @@ class ProfileVC: UIViewController {
         NSLayoutConstraint.activate([
             refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            refreshView.widthAnchor.constraint(equalToConstant: 230),
+            refreshView.widthAnchor.constraint(equalToConstant: 170),
             refreshView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
