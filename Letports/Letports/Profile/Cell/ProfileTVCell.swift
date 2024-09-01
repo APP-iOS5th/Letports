@@ -1,9 +1,3 @@
-//
-//  ProfileView.swift
-//  Letports
-//
-//  Created by mosi on 8/13/24.
-//
 import UIKit
 import Kingfisher
 
@@ -44,13 +38,14 @@ class ProfileTVCell: UITableViewCell {
         return label
     }()
     
-    private lazy var editProfileButton: UIButton = {
+    private lazy var editProfileBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("프로필 변경", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_sub")
         btn.layer.cornerRadius = 8
+        btn.isHidden = false
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        btn.addTarget(self, action: #selector(editButtonDidTap), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(editBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -64,14 +59,13 @@ class ProfileTVCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.selectionStyle = .none
-        setupUI()
     }
     
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [profileIV, nickNameLabel, simpleInfoLabel, editProfileButton].forEach {
+        [profileIV, nickNameLabel, simpleInfoLabel, editProfileBtn].forEach {
             containerView.addSubview($0)
         }
         
@@ -80,7 +74,6 @@ class ProfileTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-         
             
             profileIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
@@ -89,31 +82,44 @@ class ProfileTVCell: UITableViewCell {
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            nickNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: editProfileButton.leadingAnchor, constant: -10),
+            nickNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: editProfileBtn.leadingAnchor, constant: -10),
             
             simpleInfoLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
             simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 10),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
             
-            editProfileButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            editProfileButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            editProfileButton.widthAnchor.constraint(equalToConstant: 64),
-            editProfileButton.heightAnchor.constraint(equalToConstant: 21)
+            editProfileBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            editProfileBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            editProfileBtn.widthAnchor.constraint(equalToConstant: 64),
+            editProfileBtn.heightAnchor.constraint(equalToConstant: 21)
         ])
     }
     
-    @objc func editButtonDidTap () {
-        delegate?.EditProfileBtnDidTap()
+    @objc func editBtnDidTap() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.editProfileBtn.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.editProfileBtn.transform = CGAffineTransform.identity
+            }) { _ in
+                self.delegate?.editProfileBtnDidTap()
+            }
+        }
     }
     
     func configure(user: LetportsUser) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
+        
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
             return
         }
-        let placeholder = UIImage(systemName: "person.circle")
-        profileIV.kf.setImage(with: url, placeholder: placeholder)
+        
+        let placeholder = UIImage()
+        profileIV.kf.setImage(with: url, placeholder: placeholder, options: [
+            .transition(.fade(0.2)),
+            .cacheOriginalImage
+        ])
     }
 }

@@ -8,15 +8,15 @@ import UIKit
 import Photos
 
 protocol ProfileEditCoordinatorDelegate: AnyObject {
-    func dismissViewController()
+    func dismissOrPopViewController()
     func presentImagePickerController()
-    func backToProfileViewController()
 }
 
 class ProfileEditCoordinator: NSObject, Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var viewModel: ProfileEditVM
+    weak var delegate: ProfileCoordinatorDelegate?
     
     init(navigationController: UINavigationController , viewModel: ProfileEditVM) {
         self.navigationController = navigationController
@@ -50,12 +50,15 @@ class ProfileEditCoordinator: NSObject, Coordinator {
 
 
 extension ProfileEditCoordinator: ProfileEditCoordinatorDelegate {
-    func dismissViewController() {
-        self.navigationController.dismiss(animated: true)
-    }
-    
-    func backToProfileViewController() {
-        self.navigationController.popViewController(animated: true)
+    func dismissOrPopViewController() {
+        if navigationController.viewControllers.count > 1 {
+            self.navigationController.popViewController(animated: true)
+            delegate?.didFinishEditingOrDetail()
+        } else {
+            self.navigationController.dismiss(animated: true)
+            delegate?.didFinishEditingOrDetail()
+        }
+        
     }
     
     func presentImagePickerController() {
