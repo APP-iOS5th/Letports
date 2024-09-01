@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import FirebaseFirestore
+import FirebaseAuth
 
 enum ProfileCellType {
     case profile
@@ -17,27 +18,16 @@ class ProfileVM {
     @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
+    @Published var refreshStatus: String?
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileCoordinatorDelegate?
     
     private var cellType: [ProfileCellType] {
-        var cellTypes: [ProfileCellType] = []
-        cellTypes.append(.profile)
-        cellTypes.append(.myGatheringHeader)
-        for _ in myGatherings {
-            cellTypes.append(.myGatherings)
-        }
-        if myGatherings.count == 0 {
-            cellTypes.append(.myGatheringEmptyState)
-        }
+        var cellTypes: [ProfileCellType] = [.profile, .myGatheringHeader]
+        cellTypes.append(contentsOf: myGatherings.isEmpty ? [.myGatheringEmptyState] : Array(repeating: .myGatherings, count: myGatherings.count))
         cellTypes.append(.pendingGatheringHeader)
-        for _ in pendingGatherings {
-            cellTypes.append(.pendingGatherings)
-        }
-        if pendingGatherings.count == 0 {
-            cellTypes.append(.pendingGatheringEmptyState)
-        }
+        cellTypes.append(contentsOf: pendingGatherings.isEmpty ? [.pendingGatheringEmptyState] : Array(repeating: .pendingGatherings, count: pendingGatherings.count))
         return cellTypes
     }
     
@@ -53,12 +43,16 @@ class ProfileVM {
         return self.cellType.count
     }
     
-    func EditProfileBtnDidTap() {
-        self.delegate?.presentEditProfileController(user: user!)
+    func editProfileBtnDidTap() {
+        if let user = user {
+            self.delegate?.presentEditProfileController(user: user)
+        }
     }
     
     func gatheringCellDidTap(gatheringUID: String) {
-        self.delegate?.presentGatheringDetailController(currentUser: user!, gatheringUid: gatheringUID)
+        if let user = user {
+            self.delegate?.presentGatheringDetailController(currentUser: user, gatheringUid: gatheringUID)
+        }
     }
     
     func settingButtonTapped() {
@@ -75,34 +69,44 @@ class ProfileVM {
                 switch completionResult {
                 case .finished:
                     print("loadUser->finished")
-                    break
                 case .failure(let error):
                     print("loadUser->", error.localizedDescription)
                 }
             } receiveValue: { [weak self] fetchedUser in
+                guard let self = self else { return }
                 if let user = fetchedUser.first {
-                    self?.fetchUserGatherings(user: user)
-                    self?.user = user
+                    self.fetchUserGatherings(user: user)
+                    self.user = user
+                    self.updateMasterUserInfo(for: user)
                     completion?()
                 }
             }
             .store(in: &cancellables)
     }
     
+    private func updateMasterUserInfo(for user: LetportsUser) {
+        if masterUsers[user.uid] != nil {
+            masterUsers[user.uid] = user
+            reloadUserGatherings()
+        }
+    }
+    
+    private func reloadUserGatherings() {
+        guard let user = self.user else { return }
+        fetchUserGatherings(user: user)
+    }
+    
     func fetchMasterUser(masterId: String) {
         guard masterUsers[masterId] == nil else { return }
-        
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(masterId),
         ]
-        
         FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-            .compactMap { $0.first }  // 첫 번째 사용자만 반환
+            .compactMap { $0.first }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
-                guard let self = self else { return }
-                self.masterUsers[masterId] = masterUser
+                self?.masterUsers[masterId] = masterUser
             }
             .store(in: &cancellables)
     }
@@ -113,12 +117,11 @@ class ProfileVM {
             .document(user.uid),
             .collection(.myGathering)
         ]
-        
         FM.getData(pathComponents: collectionPath, type: MyGatherings.self)
             .sink { _ in
-            } receiveValue: { [weak self] gathering in
+            } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
-                self.getDatas(gatherings: gathering, user: user)
+                self.getDatas(gatherings: gatherings, user: user)
             }
             .store(in: &cancellables)
     }
@@ -135,10 +138,7 @@ class ProfileVM {
         Publishers.MergeMany(gatheringPublishers)
             .collect()
             .sink(receiveCompletion: { completion in
-                switch  completion {
-                case .finished:
-                    break
-                case .failure(let error):
+                if case .failure(let error) = completion {
                     print(error)
                 }
             }, receiveValue: { [weak self] allGatherings in
@@ -149,7 +149,7 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
-    private func filterGatherings(_ gatherings: [Gathering],  user: LetportsUser) {
+    private func filterGatherings(_ gatherings: [Gathering], user: LetportsUser) {
         let memberStatusPublishers = gatherings.map { gathering in
             let collectionPath3: [FirestorePathComponent] = [
                 .collection(.gatherings),
@@ -157,7 +157,6 @@ class ProfileVM {
                 .collection(.gatheringMembers),
                 .document(user.uid)
             ]
-            
             return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
                 .map { members -> (Gathering, Bool, Bool) in
                     let isJoined = members.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
@@ -170,32 +169,15 @@ class ProfileVM {
         Publishers.MergeMany(memberStatusPublishers)
             .collect()
             .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
+                if case .failure(let error) = completion {
                     print(error)
                 }
             }, receiveValue: { [weak self] results in
                 guard let self = self else { return }
-                
-                var myGatherings: [Gathering] = []
-                var pendingGatherings: [Gathering] = []
-                
-                results.forEach { gathering, isJoined, isPending in
-                    if isJoined {
-                        myGatherings.append(gathering)
-                    } else if isPending {
-                        pendingGatherings.append(gathering)
-                    }
-                }
-                
-                self.myGatherings = myGatherings
-                self.pendingGatherings = pendingGatherings
-                
+                self.myGatherings = results.filter { $0.1 }.map { $0.0 }
+                self.pendingGatherings = results.filter { $0.2 }.map { $0.0 }
+                self.refreshStatus = "새로 고침이 완료되었습니다"
             })
             .store(in: &cancellables)
     }
-    
 }
-
