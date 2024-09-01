@@ -1,9 +1,3 @@
-//
-//  ProfileView.swift
-//  Letports
-//
-//  Created by mosi on 8/13/24.
-//
 import UIKit
 import Kingfisher
 
@@ -26,13 +20,6 @@ class ProfileTVCell: UITableViewCell {
         iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
-    }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
     }()
     
     private lazy var nickNameLabel: UILabel = {
@@ -78,7 +65,7 @@ class ProfileTVCell: UITableViewCell {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [profileIV, nickNameLabel, simpleInfoLabel, editProfileBtn, activityIndicator].forEach {
+        [profileIV, nickNameLabel, simpleInfoLabel, editProfileBtn].forEach {
             containerView.addSubview($0)
         }
         
@@ -92,9 +79,6 @@ class ProfileTVCell: UITableViewCell {
             profileIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             profileIV.widthAnchor.constraint(equalToConstant: 80),
             profileIV.heightAnchor.constraint(equalToConstant: 80),
-            
-            activityIndicator.centerXAnchor.constraint(equalTo: profileIV.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: profileIV.centerYAnchor),
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
@@ -118,7 +102,7 @@ class ProfileTVCell: UITableViewCell {
             UIView.animate(withDuration: 0.1, animations: {
                 self.editProfileBtn.transform = CGAffineTransform.identity
             }) { _ in
-                self.delegate?.EditProfileBtnDidTap()
+                self.delegate?.editProfileBtnDidTap()
             }
         }
     }
@@ -132,15 +116,10 @@ class ProfileTVCell: UITableViewCell {
             return
         }
         
-        profileIV.image = nil
-        activityIndicator.startAnimating()
         let placeholder = UIImage()
-        
         profileIV.kf.setImage(with: url, placeholder: placeholder, options: [
             .transition(.fade(0.2)),
             .cacheOriginalImage
-        ]) { result in
-            self.activityIndicator.stopAnimating()
-        }
+        ])
     }
 }

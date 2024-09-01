@@ -1,5 +1,5 @@
 import UIKit
-import FirebaseCore
+import Kingfisher
 
 class GatheringTVCell: UITableViewCell {
     
@@ -112,6 +112,8 @@ class GatheringTVCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         containerView.transform = CGAffineTransform.identity
+        gatheringIV.image = nil
+        gatheringMasterIV.image = nil
     }
     
     private func setupUI() {
@@ -122,11 +124,13 @@ class GatheringTVCell: UITableViewCell {
             containerView.addSubview($0)
         }
         
+        // Gesture recognizer for the container view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
         tapGesture.cancelsTouchesInView = false
         containerView.addGestureRecognizer(tapGesture)
         containerView.isUserInteractionEnabled = true
         
+        // Set up constraints
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -210,15 +214,15 @@ class GatheringTVCell: UITableViewCell {
         createGatheringDate.text = dateString
         
         if let gatheringUrl = URL(string: gathering.gatherImage) {
-            gatheringIV.kf.setImage(with: gatheringUrl, placeholder: UIImage(systemName: "person.circle"))
+            gatheringIV.kf.setImage(with: gatheringUrl)
         } else {
-            gatheringIV.image = UIImage(systemName: "person.circle")
+            gatheringIV.image = nil
         }
         
         if let masterUrl = URL(string: master.image) {
-            gatheringMasterIV.kf.setImage(with: masterUrl, placeholder: UIImage(systemName: "person.circle"))
+            gatheringMasterIV.kf.setImage(with: masterUrl)
         } else {
-            gatheringMasterIV.image = UIImage(systemName: "person.circle")
+            gatheringMasterIV.image = nil
         }
     }
     
@@ -237,11 +241,15 @@ class GatheringTVCell: UITableViewCell {
         
         if let url = URL(string: gathering.gatherImage) {
             gatheringIV.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle"))
-            gatheringMasterIV.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle"))
         } else {
             gatheringIV.image = UIImage(systemName: "person.circle")
+        }
+        if let masterurl = URL(string: gathering.gatherImage) {
+            gatheringMasterIV.kf.setImage(with: masterurl, placeholder: UIImage(systemName: "person.circle"))
+        } else {
             gatheringMasterIV.image = UIImage(systemName: "person.circle")
         }
+        
     }
 }
 
