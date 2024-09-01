@@ -163,8 +163,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		}
 		navigationView.screenType = screenType
-		tableView.reloadData()
 		self.view.setNeedsLayout()
+		tableView.reloadData()
 	}
 	// 레이아웃
 	private func setupUI() {
