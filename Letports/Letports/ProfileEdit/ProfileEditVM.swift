@@ -64,8 +64,12 @@ class ProfileEditVM {
         self.selectedImage = selectedImage
     }
     
+    func updateProfile() {
+        self.delegate?.updateProfileBackToProfileView()
+    }
+    
     func backToProfile() {
-        self.delegate?.dismissOrPopViewController()
+        self.delegate?.backToProfile()
     }
     
     func photoUploadBtnDidTap() {

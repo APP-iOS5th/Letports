@@ -153,7 +153,7 @@ extension ProfileEditVC: CustomNavigationDelegate {
                 switch completion {
                 case .finished:
                     self?.showAlert(title: "성공", message: "프로필이 성공적으로 업데이트되었습니다.") {
-                        self?.viewModel.backToProfile()
+                        self?.viewModel.updateProfile()
                     }
                 case .failure(let error):
                     self?.showAlert(title: "오류", message: "\(error.localizedDescription)") {
