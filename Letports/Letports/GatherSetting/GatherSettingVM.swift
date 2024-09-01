@@ -128,10 +128,10 @@ class GatherSettingVM {
                         switch completion {
                         case .finished:
                             print("User expulsion completed.")
-                            promise(.success(())) // 성공 시 promise를 호출합니다.
+                            promise(.success(()))
                         case .failure(let error):
                             print("Error expelling user: \(error.localizedDescription)")
-                            promise(.failure(error)) // 실패 시 promise를 호출합니다.
+                            promise(.failure(error))
                         }
                     }, receiveValue: {})
                     .store(in: &self!.cancellables)
@@ -139,7 +139,6 @@ class GatherSettingVM {
             
             let cancelAction: () -> Void = {
                 print("Expel action was cancelled.")
-                // 취소 시 수행할 작업을 추가하세요.
             }
             
             self?.alertPublisher.send((title: "확인", message: "정말로 \(nickName) 사용자를 추방하시겠습니까?", confirmAction: confirmAction, cancelAction: cancelAction))

@@ -56,13 +56,11 @@ class GatherSettingCoordinator: Coordinator {
     }
     
     private func presentSingleButtonAlert(title: String, message: String, buttonTitle: String) {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let action = UIAlertAction(title: buttonTitle, style: .default, handler: nil)
-            alert.addAction(action)
-            navigationController.present(alert, animated: true, completion: nil)
-        }
-    
-    
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: buttonTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        navigationController.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {

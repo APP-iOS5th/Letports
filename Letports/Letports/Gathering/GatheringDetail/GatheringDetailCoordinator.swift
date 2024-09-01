@@ -26,7 +26,7 @@ class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
-	
+    weak var delegate: ProfileCoordinatorDelegate?
 	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
 		self.navigationController = navigationController
 		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
@@ -105,6 +105,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
+    
 	func dismissAndUpdateUI() {
 		navigationController.popViewController(animated: true)
 	}
@@ -120,9 +121,10 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		viewModel.reportGathering()
 		// 추가적인 처리 (예: 신고 화면으로 이동 등)
 	}
-	
+    
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
+        delegate?.didFinishEditingOrDetail()
 	}
     
     func pushGatheringEditView(gathering: Gathering) {

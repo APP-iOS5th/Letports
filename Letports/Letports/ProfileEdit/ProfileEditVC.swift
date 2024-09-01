@@ -17,6 +17,7 @@ protocol ProfileEditDelegate: AnyObject {
 }
 
 class ProfileEditVC: UIViewController {
+    
     private var viewModel: ProfileEditVM
     private var cancellables: Set<AnyCancellable> = []
     
@@ -46,8 +47,16 @@ class ProfileEditVC: UIViewController {
                          NickNameTVCell.self,
                          SimpleInfoTVCell.self)
         tv.backgroundColor = .lp_background_white
+        tv.isScrollEnabled = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
+    }()
+    
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -58,7 +67,7 @@ class ProfileEditVC: UIViewController {
     }
     
     func setupUI() {
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         NSLayoutConstraint.activate([
@@ -69,7 +78,12 @@ class ProfileEditVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
@@ -78,15 +92,54 @@ class ProfileEditVC: UIViewController {
             viewModel.$user.map { _ in () }.eraseToAnyPublisher(),
             viewModel.$selectedImage.map { _ in () }.eraseToAnyPublisher()
         )
-
         mergedPublishers
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.tableView.reloadData()
+                guard let self = self else { return }
+                let indexPathsToUpdate = self.viewModel.getCellTypes().enumerated().compactMap { index, type in
+                    return type == .profileImage ? IndexPath(row: index, section: 0) : nil
+                }
+                if !indexPathsToUpdate.isEmpty {
+                    self.tableView.reloadRows(at: indexPathsToUpdate, with: .automatic)
+                }
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isFormValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.navigationView.rightBtnIsEnable(isValid)
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.$isUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isUpdate in
+                if isUpdate {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
             }
             .store(in: &cancellables)
     }
     
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            completion?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func moveToNextCell(from indexPath: IndexPath) {
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+        if let nextCell = tableView.cellForRow(at: nextIndexPath) as? NickNameTVCell {
+            nextCell.nickNameTextField.becomeFirstResponder()
+        } else if let nextCell = tableView.cellForRow(at: nextIndexPath) as? SimpleInfoTVCell {
+            nextCell.simpleInfoTextField.becomeFirstResponder()
+        }
+    }
 }
 
 extension ProfileEditVC: CustomNavigationDelegate {
@@ -95,7 +148,21 @@ extension ProfileEditVC: CustomNavigationDelegate {
     }
     
     func smallRightBtnDidTap() {
-        print("데이터 저장해야함")
+        viewModel.profileUpdate()
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    self?.showAlert(title: "성공", message: "프로필이 성공적으로 업데이트되었습니다.") {
+                        self?.viewModel.backToProfile()
+                    }
+                case .failure(let error):
+                    self?.showAlert(title: "오류", message: "\(error.localizedDescription)") {
+                    }
+                }
+            }, receiveValue: {
+                print("Profile updated successfully.")
+            })
+            .store(in: &cancellables)
     }
 }
 
@@ -109,7 +176,7 @@ extension ProfileEditVC: ProfileEditDelegate {
     }
     
     func didTapEditProfileImage() {
-        self.viewModel.photoUploadButtonTapped()
+        self.viewModel.photoUploadBtnDidTap()
     }
 }
 
@@ -124,7 +191,7 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         case .profileImage:
             return 150.0
         case .nickName, .simpleInfo:
-            return 100.0
+            return 120.0
         }
     }
     
@@ -133,17 +200,22 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
         case .profileImage:
             if let cell: ProfileImageTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configure(with: viewModel)
+                cell.configure(with: viewModel.selectedImage)
                 return cell
             }
         case .nickName:
             if let cell: NickNameTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(with: viewModel.user?.nickname ?? "")
+                cell.delegate = self
+                cell.moveToNextTextField = { [weak self] in
+                    self?.moveToNextCell(from: indexPath)
+                }
                 return cell
             }
         case .simpleInfo:
             if let cell: SimpleInfoTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(with: viewModel.user?.simpleInfo ?? "")
+                cell.delegate = self
                 return cell
             }
         }
