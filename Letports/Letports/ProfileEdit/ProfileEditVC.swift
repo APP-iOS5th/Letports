@@ -132,7 +132,8 @@ extension ProfileEditVC: CustomNavigationDelegate {
                         self?.viewModel.backToProfile()
                     }
                 case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
+                    self?.showAlert(title: "성공", message: "\(error.localizedDescription)") {
+                    }
                 }
             }, receiveValue: {
                 print("Profile updated successfully.")
