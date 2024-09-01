@@ -16,6 +16,7 @@ class GatheringTVCell: UITableViewCell {
         iv.layer.cornerRadius = 12
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.backgroundColor = .lp_gray
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -55,6 +56,7 @@ class GatheringTVCell: UITableViewCell {
         iv.layer.cornerRadius = 5
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.backgroundColor = .lp_gray
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()

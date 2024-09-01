@@ -12,7 +12,7 @@ class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
     private var refreshView: RefreshView?
-    let refreshInterval: TimeInterval = 60 * 1
+    let refreshInterval: TimeInterval = 20 * 1
     var lastRefreshDate: Date?
     var timer: Timer?
     var remainingTime: Int = 0
@@ -176,7 +176,7 @@ class ProfileVC: UIViewController {
         NSLayoutConstraint.activate([
             refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            refreshView.widthAnchor.constraint(equalToConstant: 300),
+            refreshView.widthAnchor.constraint(equalToConstant: 230),
             refreshView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
