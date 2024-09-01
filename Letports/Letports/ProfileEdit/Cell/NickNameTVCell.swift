@@ -11,6 +11,7 @@ import UIKit
 class NickNameTVCell: UITableViewCell {
     
     weak var delegate: ProfileEditDelegate?
+    var moveToNextTextField: (() -> Void)?
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
@@ -21,12 +22,13 @@ class NickNameTVCell: UITableViewCell {
         return label
     }()
     
-    private lazy var nickNameTextField : UITextField = {
+    private(set) lazy var nickNameTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "닉네임을 입력해주세요"
         tf.textColor = .lp_black
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
+        tf.delegate = self
         tf.addTarget(self, action: #selector(nickNameDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -109,3 +111,10 @@ class NickNameTVCell: UITableViewCell {
     }
 }
 
+extension NickNameTVCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        moveToNextTextField?()
+        return true
+    }
+}

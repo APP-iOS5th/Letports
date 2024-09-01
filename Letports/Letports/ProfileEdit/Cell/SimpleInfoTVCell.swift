@@ -19,12 +19,13 @@ class SimpleInfoTVCell: UITableViewCell {
         return label
     }()
     
-    private lazy var simpleInfoTextField: UITextField = {
+    private(set) lazy var simpleInfoTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "한줄소개를 입력해주세요"
         tf.textColor = .lp_black
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
+        tf.delegate = self
         tf.addTarget(self, action: #selector(simpleInfoDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -98,5 +99,12 @@ class SimpleInfoTVCell: UITableViewCell {
         simpleInfoTextField.text = simpleInfo ?? ""
         limitLabel.isHidden = true
         textCountLabel.text = "\(simpleInfo?.count ?? 0)/20"
+    }
+}
+
+extension SimpleInfoTVCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() 
+        return true
     }
 }

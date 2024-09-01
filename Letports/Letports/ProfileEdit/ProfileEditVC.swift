@@ -17,6 +17,7 @@ protocol ProfileEditDelegate: AnyObject {
 }
 
 class ProfileEditVC: UIViewController {
+    
     private var viewModel: ProfileEditVM
     private var cancellables: Set<AnyCancellable> = []
     
@@ -46,6 +47,7 @@ class ProfileEditVC: UIViewController {
                          NickNameTVCell.self,
                          SimpleInfoTVCell.self)
         tv.backgroundColor = .lp_background_white
+        tv.isScrollEnabled = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -95,14 +97,24 @@ class ProfileEditVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
                 self?.navigationView.rightBtnIsEnable(isValid)
+            }
+            .store(in: &cancellables)
     }
-    
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
             completion?()
         }))
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func moveToNextCell(from indexPath: IndexPath) {
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+        if let nextCell = tableView.cellForRow(at: nextIndexPath) as? NickNameTVCell {
+            nextCell.nickNameTextField.becomeFirstResponder()
+        } else if let nextCell = tableView.cellForRow(at: nextIndexPath) as? SimpleInfoTVCell {
+            nextCell.simpleInfoTextField.becomeFirstResponder()
+        }
     }
 }
 
@@ -170,6 +182,9 @@ extension ProfileEditVC: UITableViewDelegate, UITableViewDataSource {
             if let cell: NickNameTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(with: viewModel.user?.nickname ?? "")
                 cell.delegate = self
+                cell.moveToNextTextField = { [weak self] in
+                    self?.moveToNextCell(from: indexPath)
+                }
                 return cell
             }
         case .simpleInfo:
