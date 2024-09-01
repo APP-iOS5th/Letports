@@ -89,7 +89,6 @@ class ProfileVM {
             .store(in: &cancellables)
     }
     
-    
     func fetchMasterUser(masterId: String) {
         guard masterUsers[masterId] == nil else { return }
         
@@ -149,7 +148,6 @@ class ProfileVM {
             })
             .store(in: &cancellables)
     }
-    
     
     private func filterGatherings(_ gatherings: [Gathering],  user: LetportsUser) {
         let memberStatusPublishers = gatherings.map { gathering in
