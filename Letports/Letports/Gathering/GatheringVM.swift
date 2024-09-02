@@ -14,6 +14,8 @@ enum GatheringCellType {
     case recommendGatherings
     case gatheringListHeader
     case gatheringLists
+    case recommendGatheringEmptyState
+    case gatheringListEmptyState
 }
 
 class GatheringVM {
@@ -38,19 +40,26 @@ class GatheringVM {
         self.delegate?.pushGatheringUploadController()
     }
     
-    
     private var cellType: [GatheringCellType] {
-        var cellTypes: [GatheringCellType] = []
-        cellTypes.append(.recommendGatheringHeader)
-        for _ in recommendGatherings {
-            cellTypes.append(.recommendGatherings)
-        }
+        var cellTypes: [GatheringCellType] = [.recommendGatheringHeader]
+        cellTypes.append(contentsOf: recommendGatherings.isEmpty ? [.recommendGatheringEmptyState] : Array(repeating: .recommendGatherings, count: recommendGatherings.count))
         cellTypes.append(.gatheringListHeader)
-        for _ in gatheringLists {
-            cellTypes.append(.gatheringLists)
-        }
+        cellTypes.append(contentsOf: gatheringLists.isEmpty ? [.gatheringListEmptyState] : Array(repeating: .gatheringLists, count: gatheringLists.count))
         return cellTypes
     }
+    
+//    private var cellType: [GatheringCellType] {
+//        var cellTypes: [GatheringCellType] = []
+//        cellTypes.append(.recommendGatheringHeader)
+//        for _ in recommendGatherings {
+//            cellTypes.append(.recommendGatherings)
+//        }
+//        cellTypes.append(.gatheringListHeader)
+//        for _ in gatheringLists {
+//            cellTypes.append(.gatheringLists)
+//        }
+//        return cellTypes
+//    }
     
     func getCellTypes() -> [GatheringCellType] {
         return self.cellType

@@ -39,7 +39,7 @@ class GatheringVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none
-        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self)
+        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self, EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -149,7 +149,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .recommendGatheringHeader, .gatheringListHeader:
             return 50.0
-        case .gatheringLists, .recommendGatherings:
+        case .gatheringLists, .recommendGatherings, .recommendGatheringEmptyState, .gatheringListEmptyState:
             return 100.0
         }
     }
@@ -196,6 +196,16 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                         viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                     }
                 }
+                return cell
+            }
+        case .recommendGatheringEmptyState:
+            if let cell: EmptyStateTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "아직 생성된 소모임이 없습니다.")
+                return cell
+            }
+        case .gatheringListEmptyState:
+            if let cell: EmptyStateTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "아직 생성된 소모임이 없습니다.")
                 return cell
             }
         }
