@@ -189,7 +189,7 @@ class GatheringUploadVM {
                     }
                     .store(in: &cancellables)
             } else {
-                let collectionPath: [FirestorePathComponent] = [
+                let gatheringCollectionPath: [FirestorePathComponent] = [
                     .collection(.gatherings),
                     .document(uuid)
                 ]
@@ -216,7 +216,7 @@ class GatheringUploadVM {
                 let gatheringData = MyGatherings(uid: uuid)
                 let masterData = GatheringMember(answer: "Master", joinDate: dateString, joinStatus: "joined", userUID: UserManager.shared.getUserUid())
                 
-                FM.setData(pathComponents: collectionPath, data: gathering)
+                FM.setData(pathComponents: gatheringCollectionPath, data: gathering)
                     .map { _ in
                         FM.setData(pathComponents: userCollectionPath, data: gatheringData)
                     }
