@@ -63,12 +63,12 @@ class HomeProfileTVCell: UITableViewCell {
     
     lazy var homeIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(systemName: "house.fill"))
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleAspectFit
         iv.tintColor = .lp_black
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 20),
+            iv.widthAnchor.constraint(equalToConstant: 25),
             iv.heightAnchor.constraint(equalToConstant: 20)
         ])
         
@@ -85,12 +85,12 @@ class HomeProfileTVCell: UITableViewCell {
     
     lazy var instagramIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(named: "InstagramColor"))
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 16),
-            iv.heightAnchor.constraint(equalToConstant: 14)
+            iv.widthAnchor.constraint(equalToConstant: 25),
+            iv.heightAnchor.constraint(equalToConstant: 20)
         ])
         
         return iv
@@ -107,8 +107,8 @@ class HomeProfileTVCell: UITableViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 35),
-            iv.heightAnchor.constraint(equalToConstant: 30)
+            iv.widthAnchor.constraint(equalToConstant: 25),
+            iv.heightAnchor.constraint(equalToConstant: 20)
         ])
         
         return iv
@@ -178,31 +178,31 @@ class HomeProfileTVCell: UITableViewCell {
             
             homeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
             homeURLSV.leadingAnchor.constraint(equalTo: urlSV.leadingAnchor),
-            homeURLSV.trailingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor),
+            homeURLSV.trailingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor, constant: -2),
             homeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
             instagramURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
-            instagramURLSV.leadingAnchor.constraint(equalTo: homeURLSV.trailingAnchor, constant: 2),
-            instagramURLSV.trailingAnchor.constraint(equalTo: youtubeURLSV.leadingAnchor),
+            instagramURLSV.leadingAnchor.constraint(equalTo: homeURLSV.trailingAnchor),
+            instagramURLSV.trailingAnchor.constraint(equalTo: youtubeURLSV.leadingAnchor, constant: -6),
             instagramURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
             youtubeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
-            youtubeURLSV.leadingAnchor.constraint(equalTo: instagramURLSV.trailingAnchor, constant: 6),
+            youtubeURLSV.leadingAnchor.constraint(equalTo: instagramURLSV.trailingAnchor),
             youtubeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             youtubeURLSV.trailingAnchor.constraint(equalTo: urlSV.trailingAnchor),
             
             homeIcon.topAnchor.constraint(equalTo: homeURLSV.topAnchor),
-            homeIcon.leadingAnchor.constraint(equalTo: homeURLSV.leadingAnchor, constant: 4),
-            homeIcon.trailingAnchor.constraint(equalTo: homeLabel.leadingAnchor, constant: -10),
+            homeIcon.leadingAnchor.constraint(equalTo: homeURLSV.leadingAnchor),
+            homeIcon.trailingAnchor.constraint(equalTo: homeLabel.leadingAnchor, constant: -6),
             homeIcon.bottomAnchor.constraint(equalTo: homeURLSV.bottomAnchor),
             
             homeLabel.topAnchor.constraint(equalTo: homeURLSV.topAnchor),
-            homeLabel.leadingAnchor.constraint(equalTo: homeIcon.trailingAnchor, constant: 4),
+            homeLabel.leadingAnchor.constraint(equalTo: homeIcon.trailingAnchor),
             homeLabel.bottomAnchor.constraint(equalTo: homeURLSV.bottomAnchor),
             
             instagramIcon.topAnchor.constraint(equalTo: instagramURLSV.topAnchor),
             instagramIcon.leadingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor),
-            instagramIcon.trailingAnchor.constraint(equalTo: instagramLabel.leadingAnchor, constant: -10),
+            instagramIcon.trailingAnchor.constraint(equalTo: instagramLabel.leadingAnchor, constant: -6),
             instagramIcon.bottomAnchor.constraint(equalTo: instagramURLSV.bottomAnchor),
             
             instagramLabel.topAnchor.constraint(equalTo: instagramURLSV.topAnchor),
@@ -211,11 +211,11 @@ class HomeProfileTVCell: UITableViewCell {
             
             youtubeIcon.topAnchor.constraint(equalTo: youtubeURLSV.topAnchor),
             youtubeIcon.leadingAnchor.constraint(equalTo: youtubeURLSV.leadingAnchor),
-            youtubeIcon.trailingAnchor.constraint(equalTo: youtubeLabel.leadingAnchor, constant: -4),
+            youtubeIcon.trailingAnchor.constraint(equalTo: youtubeLabel.leadingAnchor, constant: -6),
             youtubeIcon.bottomAnchor.constraint(equalTo: youtubeURLSV.bottomAnchor),
             
             youtubeLabel.topAnchor.constraint(equalTo: youtubeURLSV.topAnchor),
-            youtubeLabel.leadingAnchor.constraint(equalTo: youtubeIcon.trailingAnchor, constant: 4),
+            youtubeLabel.leadingAnchor.constraint(equalTo: youtubeIcon.trailingAnchor),
             youtubeLabel.bottomAnchor.constraint(equalTo: youtubeURLSV.bottomAnchor),
             youtubeLabel.trailingAnchor.constraint(equalTo: youtubeURLSV.trailingAnchor),
         ])
