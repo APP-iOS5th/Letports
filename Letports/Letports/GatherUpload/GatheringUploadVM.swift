@@ -218,11 +218,9 @@ class GatheringUploadVM {
                 
                 FM.setData(pathComponents: collectionPath, data: gathering)
                     .map { _ in
-                        // 첫 번째 작업이 완료된 후 두 번째 작업을 시작합니다.
                         FM.setData(pathComponents: userCollectionPath, data: gatheringData)
                     }
                     .flatMap { secondTask in
-                        // 두 번째 작업이 완료된 후 세 번째 작업을 시작합니다.
                         secondTask.map { _ in
                             FM.setData(pathComponents: masterCollectionPath, data: masterData)
                         }
