@@ -27,6 +27,8 @@ class ProfileEditCoordinator: NSObject, Coordinator {
     func start() {
         viewModel.delegate = self
         let profileEditVC = ProfileEditVC(viewModel: viewModel)
+        profileEditVC.modalPresentationStyle = .fullScreen
+        profileEditVC.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(profileEditVC, animated: true)
     }
     
