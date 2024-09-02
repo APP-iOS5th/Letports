@@ -48,67 +48,68 @@ enum NaviButtonType {
 
 
 enum ScreenType: Equatable {
-	/// TabView Home Screen
-	case largeHome
-	/// TabView Gathering  Screen
-	case largeGathering
-	/// TabView Profile  Screen
-	case largeProfile(btnName: NaviButtonType = .gear)
-	/// Gathering Detail  Screen
-	case smallGathering(gatheringName: String, btnName: NaviButtonType)
-	/// Gathering Board Editor
-	case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
-	/// Profile Detail  Screen
-	case smallProfile(userName: String)
-	/// Gathering Setting Screen
-	case smallGatheringSetting
-	/// Gathering Upload, Update Screen
-	case smallUploadGathering(btnName: NaviButtonType, isUpdate: Bool)
-	/// Setting Screen
-	case smallSetting
-	/// Profile Edit
-	case smallEditProfile(btnName: NaviButtonType)
-	
-	
-	var title: String {
-		switch self {
-		case .largeHome:
-			return "Letports"
-		case .largeGathering:
-			return "소모임"
-		case .largeProfile:
-			return "프로필"
-		case .smallGathering(let gatheringName, _):
-			//모임명으로 바뀌어야함
-			return gatheringName
-		case .smallBoardEditor(_, let isUpload):
-			return isUpload ? "게시글 작성" : "게시글 수정"
-		case .smallProfile(let userName):
-			return userName
-		case .smallGatheringSetting:
-			return "소모임 설정"
-		case .smallUploadGathering(_, let isUpdate):
-			return isUpdate ? "소모임 수정" : "소모임 생성"
-		case .smallSetting:
-			return "설정"
-		case .smallEditProfile:
-			return "프로필 수정"
-		}
-	}
-	
-	var buttonImage: String {
-		switch self {
-			
-		case .largeProfile(let btnName),
-				.smallGathering(_, let btnName),
-				.smallBoardEditor(let btnName, _),
-				.smallUploadGathering(let btnName, _),
-				.smallEditProfile(let btnName):
-			return btnName.buttonName
-		default:
-			return ""
-		}
-	}
+    /// TabView Home Screen
+    case largeHome
+    /// TabView Gathering  Screen
+    case largeGathering
+    /// TabView Profile  Screen
+    case largeProfile(btnName: NaviButtonType = .gear)
+    /// Gathering Detail  Screen
+    case smallGathering(gatheringName: String, btnName: NaviButtonType)
+    /// Gathering Board Editor
+    case smallBoardEditor(btnName: NaviButtonType, isUpload: Bool)
+    /// Profile Detail  Screen
+    case smallProfile(userName: String)
+    /// Gathering Setting Screen
+    case smallGatheringSetting
+    /// Gathering Upload, Update Screen
+    case smallUploadGathering(btnName: NaviButtonType, isUpdate: Bool)
+    /// Setting Screen
+    case smallSetting
+    /// Profile Edit
+    case smallEditProfile(btnName: NaviButtonType)
+    
+    
+    var title: String {
+        switch self {
+        case .largeHome:
+            return "Letports"
+        case .largeGathering:
+            return "소모임"
+        case .largeProfile:
+            return "프로필"
+        case .smallGathering(let gatheringName, _):
+            //모임명으로 바뀌어야함
+            return gatheringName
+        case .smallBoardEditor(_, let isUpload):
+            return isUpload ? "게시글 작성" : "게시글 수정"
+        case .smallProfile(let userName):
+            return userName
+        case .smallGatheringSetting:
+            return "소모임 관리"
+        case .smallUploadGathering(_, let isUpdate):
+            return isUpdate ? "소모임 수정" : "소모임 생성"
+        case .smallSetting:
+            return "설정"
+        case .smallEditProfile:
+            return "프로필 수정"
+        }
+    }
+    
+    var buttonImage: String {
+        switch self {
+            
+        case .largeProfile(let btnName),
+                .smallGathering(_, let btnName),
+                .smallBoardEditor(let btnName, _),
+                .smallUploadGathering(let btnName, _),
+                .smallEditProfile(let btnName):
+            return btnName.buttonName
+        default:
+            return ""
+        }
+    }
+
 }
 
 protocol CustomNavigationDelegate: AnyObject {

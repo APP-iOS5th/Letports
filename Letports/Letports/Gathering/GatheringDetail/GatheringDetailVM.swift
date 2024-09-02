@@ -12,25 +12,25 @@ import FirebaseFirestore
 
 // 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
-    func didChangeButtonState(_ button: UIButton, isSelected: Bool)
+	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
 }
 
 enum GatheringDetailCellType {
-    case gatheringImage
-    case gatheringTitle
-    case gatheringInfo
-    case gatheringProfile
-    case currentMemLabel
-    case boardButtonType
-    case gatheringBoard
-    case separator
+	case gatheringImage
+	case gatheringTitle
+	case gatheringInfo
+	case gatheringProfile
+	case currentMemLabel
+	case boardButtonType
+	case gatheringBoard
+	case separator
 }
 
 // 가입상태
 enum MembershipStatus {
-    case notJoined
-    case pending
-    case joined
+	case notJoined
+	case pending
+	case joined
 }
 
 
@@ -90,6 +90,11 @@ class GatheringDetailVM {
 	func presentActionSheet() {
 		delegate?.presentActionSheet()
 	}
+    
+    func showGatheringEditView() {
+        guard let gathering = gathering else { return }
+        self.delegate?.pushGatheringEditView(gathering: gathering)
+    }
 	
 	func leaveGathering() {
 		delegate?.presentLeaveGatheringConfirmation()
@@ -241,7 +246,6 @@ class GatheringDetailVM {
 	// 가입중인지 아닌지
 	private func updateMembershipStatus() {
 		let gathering = self.member
-		
 		if let member = gathering.first(where: { $0.userUID == currentUser.uid }) {
 			switch member.joinStatus {
 			case "joined":
@@ -348,14 +352,37 @@ class GatheringDetailVM {
 			.document(currentGatheringUid)
 		]
 		
-		// 모든 업데이트를 동시에 실행
-		return Publishers.Zip(
-			FM.deleteDocument(pathComponents: collectionPath),
-			FM.deleteDocument(pathComponents: userMyGatheringPath)
-		)
-		.map { _, _ in () }
-		.eraseToAnyPublisher()
-	}
+		// Board에서 사용자가 작성한 게시글 제거
+		let myBoardPath: [FirestorePathComponent] = [
+			.collection(.gatherings),
+			.document(currentGatheringUid),
+			.collection(.board)
+		]
+		
+		// 사용자가 작성한 게시글 쿼리 및 삭제
+		let deleteUserPosts = FM.getData(pathComponents: myBoardPath, type: Post.self)
+			.flatMap { (posts: [Post]) -> AnyPublisher<Void, FirestoreError> in
+				let userPosts = posts.filter { $0.userUID == self.currentUser.uid }
+				let deletions = userPosts.map { post in
+					FM.deleteDocument(pathComponents: myBoardPath + [.document(post.postUID)])
+				}
+				return Publishers.MergeMany(deletions)
+					.collect()
+					.map { _ in () }
+					.eraseToAnyPublisher()
+			}
+			.mapError { $0 as FirestoreError }
+			.eraseToAnyPublisher()
+
+		   // 모든 업데이트를 동시에 실행
+		   return Publishers.Zip3(
+			   FM.deleteDocument(pathComponents: collectionPath),
+			   FM.deleteDocument(pathComponents: userMyGatheringPath),
+			   deleteUserPosts
+		   )
+		   .map { _, _, _ in () }
+		   .eraseToAnyPublisher()
+	   }
 	
 	// 모임 나가기 확인
 	func confirmLeaveGathering() {

@@ -78,8 +78,12 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private let editBtn: UIButton = {
 		let btn = UIButton()
 		var config = UIButton.Configuration.plain()
-		config.image = UIImage(systemName: "pencil.circle")
+		let image = UIImage(systemName: "pencil.circle")?.withRenderingMode(.alwaysTemplate)
+		config.image = image
+		config.baseForegroundColor = .lp_main
 		config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
+		config.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+		config.background.backgroundColor = .clear
 		btn.configuration = config
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
