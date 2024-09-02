@@ -16,7 +16,7 @@ protocol GatheringDetailDelegate: AnyObject {
 final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
-		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "모임", btnName: .ellipsis))
+		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "", btnName: .empty))
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white
 		cnv.translatesAutoresizingMaskIntoConstraints = false
@@ -78,24 +78,19 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		self.delegate = self
 		viewModel.selectedBoardType = .all
 	}
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.loadData()
-    }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		viewModel.loadData()
+	}
 	
 	// MARK: - bindVm
 	private func bindViewModel() {
 		viewModel.$gathering
+			.zip(viewModel.$membershipStatus, viewModel.$isMaster)
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] gathering in
+			.sink { [weak self] gathering, status, _ in
 				self?.updateUI(with: gathering)
-			}
-			.store(in: &cancellables)
-		
-		viewModel.$membershipStatus
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] status in
 				self?.updateJoinBtn(for: status)
 				self?.boardWritewBtn(for: status)
 			}
@@ -123,11 +118,11 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		switch status {
 		case .notJoined:
 			joinBtn.setTitle("가입하기", for: .normal)
+			joinBtn.backgroundColor = .lp_main
 			joinBtn.isHidden = false
 		case .pending:
 			joinBtn.setTitle("가입대기", for: .normal)
 			joinBtn.backgroundColor = .lightGray
-			joinBtn.isUserInteractionEnabled = false
 			joinBtn.isHidden = false
 		case .joined:
 			joinBtn.isHidden = true
@@ -151,18 +146,25 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		let gatheringName = gathering.gatherName
 		let screenType: ScreenType
 		
-		if viewModel.isMaster {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
-		} else if viewModel.membershipStatus == .joined {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
-		} else if viewModel.membershipStatus == .pending{
+		postBtn.isMaster = viewModel.isMaster
+		
+		if viewModel.membershipStatus == .joined {
+			if viewModel.isMaster {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+			} else {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+			}
+		} else if viewModel.membershipStatus == .pending {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		} else {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		}
+		
 		navigationView.screenType = screenType
+		self.view.setNeedsLayout()
 		tableView.reloadData()
 	}
+	
 	// 레이아웃
 	private func setupUI() {
 		self.navigationController?.isNavigationBarHidden = true
@@ -196,11 +198,12 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 }
 
 // MARK: - extension
+
 extension GatheringDetailVC: JoinViewDelegate {
 	func joinViewDidTapCancel(_ joinView: JoinView) {
 		removeJoinView()
 	}
-	
+	// 가입 신청 버튼
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
 		viewModel.joinGathering(answer: answer)
 			.sink(receiveCompletion: { [weak self] completion in
@@ -215,7 +218,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 				}
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
-		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
 	}
 	
 	// 가입뷰 처리
@@ -254,11 +256,22 @@ extension GatheringDetailVC: JoinViewDelegate {
 		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
 		present(alert, animated: true, completion: nil)
 	}
+	// 가입 대기 취소
+	private func showCancelWaitingConfirmation() {
+		let alert = UIAlertController(title: "가입 대기 취소", message: "가입 대기를 취소하시겠습니까?", preferredStyle: .alert)
+		
+		alert.addAction(UIAlertAction(title: "나가기", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: "가입 대기 취소", style: .destructive, handler: { [weak self] _ in
+			self?.viewModel.confirmCancelWaiting()
+		}))
+		
+		present(alert, animated: true, completion: nil)
+	}
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapEditBtn() {
-		viewModel.pushGatherSettingView()
+		
 	}
 	
 	func didTapProfileImage(profile: LetportsUser) {
@@ -280,9 +293,9 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		if viewModel.membershipStatus == .joined {
 			if viewModel.isMaster {
-				//모임장일떄 Gathering
+				viewModel.pushGatherSettingView()
 			} else {
-				viewModel.showActionSheet()
+				viewModel.presentActionSheet()
 			}
 		}
 	}
@@ -291,6 +304,11 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	}
 }
 
+extension GatheringDetailVC: PostBtnDelegate {
+	func didTapPostUploadBtn(type: PostType) {
+		self.viewModel.didTapUploadBtn(type: type)
+	}
+}
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -382,15 +400,18 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinBtnTap() {
-		guard let gathering = viewModel.gathering else {
-			return
+		switch viewModel.membershipStatus {
+		case .notJoined:
+			guard let gathering = viewModel.gathering else {
+				return
+			}
+			showUserView(existingView: &joinView, gathering: gathering)
+		case .pending:
+			showCancelWaitingConfirmation()
+		case .joined:
+			break
 		}
-		showUserView(existingView: &joinView, gathering: gathering)
 	}
 }
 
-extension GatheringDetailVC: PostBtnDelegate {
-	func didTapPostUploadBtn(type: PostType) {
-		self.viewModel.didTapUploadBtn(type: type)
-	}
-}
+

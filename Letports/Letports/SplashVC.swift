@@ -29,7 +29,7 @@ class SplashVC: UIViewController {
     private func setupView() {
         view.backgroundColor = .lpWhite
         
-        logoImageView = UIImageView(image: UIImage(named: "FCSeoul"))
+        logoImageView = UIImageView(image: UIImage(named: "YoutubeIconFull"))
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
