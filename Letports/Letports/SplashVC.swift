@@ -29,19 +29,19 @@ class SplashVC: UIViewController {
     private func setupView() {
         view.backgroundColor = .lpWhite
         
-        logoImageView = UIImageView(image: UIImage(named: "YoutubeIconFull"))
+        logoImageView = UIImageView(image: UIImage(named: "launch"))
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
         
         NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor)
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            logoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            logoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         
-        logoImageView.alpha = 0
+        
     }
     
     private func setupAudio() {
