@@ -52,6 +52,7 @@
 		B85FD8882C79CCF3007B4962 /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
 		B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
 		B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */; };
+		B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */; };
 		B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
@@ -68,7 +69,6 @@
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
 		BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
 		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
-		BF8119D72C82F7F7005FF242 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */; };
 		BF8874042C7A538000E86CA0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874032C7A538000E86CA0 /* FirebaseAnalytics */; };
 		BF8874062C7A538000E86CA0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874052C7A538000E86CA0 /* FirebaseAuth */; };
 		BF8874082C7A538000E86CA0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874072C7A538000E86CA0 /* FirebaseFirestore */; };
@@ -133,8 +133,6 @@
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
 		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
 		D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407E2C83973D00E105F9 /* Extension+Character.swift */; };
-		D89C40812C83FA5600E105F9 /* SERVICEKEY.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */; };
-		D89C40832C83FA6500E105F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89C40822C83FA6500E105F9 /* GoogleService-Info.plist */; };
 		D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C408A2C84158800E105F9 /* RefreshView.swift */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
@@ -209,6 +207,7 @@
 		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siuuuuu.mp3; sourceTree = "<group>"; };
+		B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -225,7 +224,6 @@
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
 		BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTitleTVCell.swift; sourceTree = "<group>"; };
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
-		BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
@@ -244,15 +242,15 @@
 		BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesCVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderLabelTVCell.swift; sourceTree = "<group>"; };
-		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8201FBA2C606935004DF06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8201FC12C606935004DF06C /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8201FC12C606935004DF06C /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
 		D8201FC52C606935004DF06C /* LetportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsTests.swift; sourceTree = "<group>"; };
-		D8201FCB2C606935004DF06C /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8201FCB2C606935004DF06C /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
@@ -287,8 +285,6 @@
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
 		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		D89C407E2C83973D00E105F9 /* Extension+Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Character.swift"; sourceTree = "<group>"; };
-		D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
-		D89C40822C83FA6500E105F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D89C408A2C84158800E105F9 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
@@ -434,13 +430,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		41C886302C81F99D000467AD /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		B82471372C647F560067BD09 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,19 +565,7 @@
 				D8201FB02C606934004DF06C /* Letports */,
 				D8201FC42C606935004DF06C /* LetportsTests */,
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
-				D8201FAF2C606934004DF06C /* Products */,
-				41C886302C81F99D000467AD /* Recovered References */,
 			);
-			sourceTree = "<group>";
-		};
-		D8201FAF2C606934004DF06C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D8201FAE2C606934004DF06C /* Letports.app */,
-				D8201FC12C606935004DF06C /* LetportsTests.xctest */,
-				D8201FCB2C606935004DF06C /* LetportsUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		D8201FB02C606934004DF06C /* Letports */ = {
@@ -623,7 +600,7 @@
 				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
-				BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */,
+				B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -870,7 +847,7 @@
 				410BBCAA2C778E1500FE2E18 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
-			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
+			productRefGroup = D8201FA52C606934004DF06C;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -888,9 +865,9 @@
 			files = (
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				D89C40832C83FA6500E105F9 /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
+				B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,7 +1065,7 @@
 /* Begin XCBuildConfiguration section */
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1152,7 +1129,7 @@
 		};
 		D8201FD42C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
