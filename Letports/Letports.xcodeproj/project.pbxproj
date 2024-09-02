@@ -191,7 +191,6 @@
 		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
-		41C886332C81F9D8000467AD /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
 		B824713A2C647F9F0067BD09 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -203,6 +202,7 @@
 		B85FD8832C79C539007B4962 /* TeamSelectVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectVM.swift; sourceTree = "<group>"; };
 		B85FD8852C79CCD0007B4962 /* SportsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsCategoryCell.swift; sourceTree = "<group>"; };
 		B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsTeamCell.swift; sourceTree = "<group>"; };
+		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -610,7 +610,7 @@
 				413BE64D2C65F1990070D6F9 /* Extension */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
-				41C886332C81F9D8000467AD /* Letports.entitlements */,
+				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */,
 				D89C40822C83FA6500E105F9 /* GoogleService-Info.plist */,
@@ -1076,6 +1076,7 @@
 /* Begin XCBuildConfiguration section */
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1139,6 +1140,7 @@
 		};
 		D8201FD42C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

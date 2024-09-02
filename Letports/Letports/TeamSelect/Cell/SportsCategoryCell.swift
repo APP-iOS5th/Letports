@@ -19,7 +19,7 @@ class SportsCategoryCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            contentView.backgroundColor = isSelected ? .systemBlue : .systemGray6
+            contentView.backgroundColor = isSelected ? .lpMain : .systemGray6
             titleLabel.textColor = isSelected ? .white : .black
         }
     }
