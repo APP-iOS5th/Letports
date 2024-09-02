@@ -91,7 +91,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	
 	func presentLeaveGatheringConfirmation() {
 		let alertController = UIAlertController(title: "모임 탈퇴",
-												message: "정말로 모임을 탈퇴하시겠습니까?",
+												message: "정말로 모임을 탈퇴하시겠습니까?\n작성한 게시글도 삭제됩니다",
 												preferredStyle: .alert)
 		
 		let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)

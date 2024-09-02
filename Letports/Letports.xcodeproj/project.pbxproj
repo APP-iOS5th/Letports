@@ -63,6 +63,7 @@
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
 		BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
 		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
+		BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
@@ -131,7 +132,8 @@
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
 		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
-		D89C409C2C85AE3C00E105F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89C409B2C85AE3C00E105F9 /* GoogleService-Info.plist */; };
+		D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407E2C83973D00E105F9 /* Extension+Character.swift */; };
+		D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C408A2C84158800E105F9 /* RefreshView.swift */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
@@ -216,6 +218,7 @@
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
 		BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinBtn.swift; sourceTree = "<group>"; };
 		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
+		BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
@@ -281,7 +284,8 @@
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
 		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
-		D89C409B2C85AE3C00E105F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D89C407E2C83973D00E105F9 /* Extension+Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Character.swift"; sourceTree = "<group>"; };
+		D89C408A2C84158800E105F9 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
 		F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileTVCell.swift; sourceTree = "<group>"; };
@@ -425,13 +429,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		41C886302C81F99D000467AD /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		B82471372C647F560067BD09 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -568,7 +565,6 @@
 				D8201FC42C606935004DF06C /* LetportsTests */,
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
 				D8201FAF2C606934004DF06C /* Products */,
-				41C886302C81F99D000467AD /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -613,8 +609,8 @@
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
+				BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
-				D89C409B2C85AE3C00E105F9 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -870,7 +866,7 @@
 			files = (
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				D89C409C2C85AE3C00E105F9 /* GoogleService-Info.plist in Resources */,
+				BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
 			);
@@ -1068,6 +1064,7 @@
 /* Begin XCBuildConfiguration section */
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1131,6 +1128,7 @@
 		};
 		D8201FD42C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
