@@ -19,6 +19,7 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		cv.translatesAutoresizingMaskIntoConstraints = false
 		cv.showsHorizontalScrollIndicator = false
+		cv.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 		return cv
 	}()
 	
@@ -48,8 +49,8 @@ final class GatheringDetailProfileTVCell: UITableViewCell {
 		self.contentView.addSubview(collectionView)
 		NSLayoutConstraint.activate([
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 		])
 	}
