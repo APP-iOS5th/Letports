@@ -50,6 +50,7 @@
 		B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8832C79C539007B4962 /* TeamSelectVM.swift */; };
 		B85FD8862C79CCD0007B4962 /* SportsCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8852C79CCD0007B4962 /* SportsCategoryCell.swift */; };
 		B85FD8882C79CCF3007B4962 /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
+		B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
 		B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
@@ -203,6 +204,7 @@
 		B85FD8852C79CCD0007B4962 /* SportsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsCategoryCell.swift; sourceTree = "<group>"; };
 		B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsTeamCell.swift; sourceTree = "<group>"; };
 		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
+		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				410BBCC42C77B5B300FE2E18 /* Model */,
 				41AA052E2C730001009FF289 /* Common */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
+				B8738AB52C85967500686BA0 /* SplashVC.swift */,
 				41AA05272C72D9D9009FF289 /* FirebaseService */,
 				B85FD8512C7864C4007B4962 /* TeamSelect */,
 				4143E4532C6B478D001AB3E0 /* BoadEditor */,
@@ -948,6 +951,7 @@
 				BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */,
 				BFB7754B2C7C9A9500709E5A /* GatheringVM.swift in Sources */,
 				BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */,
+				B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */,
 				F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */,
 				BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
