@@ -146,10 +146,10 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
-        case .recommendGatheringHeader, .gatheringLists:
+        case .recommendGatheringHeader, .gatheringListHeader:
             return 50.0
-        case .gatheringListHeader, .recommendGatherings:
-            return 50.0
+        case .gatheringLists, .recommendGatherings:
+            return 100.0
         }
     }
     
