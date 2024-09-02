@@ -34,6 +34,10 @@ class GatheringUploadVM {
     private var gatehringID: String?
     private var boardId: String?
     
+    private var sportsName: String?
+    private var sportsTeamName: String?
+    
+    
     private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
@@ -65,6 +69,9 @@ class GatheringUploadVM {
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             self.gatherNameText = gathering.gatherName
+            
+            self.sportsName = gathering.gatheringSports
+            self.sportsTeamName = gathering.gatheringSportsTeam
             
             self.loadImage(from: gathering.gatherImage)
                 .sink { [weak self] image in
@@ -161,7 +168,8 @@ class GatheringUploadVM {
             
             let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
             
-            
+            guard let sportsName = self.isEditMode ? self.sportsName : UserManager.shared.getUser().userSports  else { return }
+            guard let sportsTeamName =  self.isEditMode ? self.sportsTeamName : UserManager.shared.getUser().userSportsTeam  else { return }
             
             let gathering = Gathering(gatherImage: imageUrl,
                                       gatherInfo: gatherInfo,
@@ -171,8 +179,8 @@ class GatheringUploadVM {
                                       gatherQuestion: gatherQuestion,
                                       gatheringCreateDate: Timestamp(date: Date()),
                                       gatheringMaster: UserManager.shared.getUserUid(),
-                                      gatheringSports: UserManager.shared.getUser().userSports,
-                                      gatheringSportsTeam: UserManager.shared.getUser().userSportsTeam,
+                                      gatheringSports: sportsName,
+                                      gatheringSportsTeam: sportsTeamName,
                                       gatheringUid: uuid)
             
             if isEditMode {
