@@ -6,7 +6,7 @@ protocol ProfileCoordinatorDelegate: AnyObject {
     func presentEditProfileController(user: LetportsUser)
     func presentSettingViewController()
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String)
-    func didFinishEditingOrDetail()
+    func didUpdateProfile()
 }
 
 class ProfileCoordinator: Coordinator {
@@ -31,7 +31,6 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
         childCoordinators.append(coordinator)
-        coordinator.delegate = self
         coordinator.start()
     }
     
@@ -46,13 +45,9 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
         coordinator.start()
     }
     
-    func reloadProfileData() {
+    func didUpdateProfile() {
         if let profileVC = navigationController.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
             profileVC.reloadProfileData()
         }
-    }
-    
-    func didFinishEditingOrDetail() {
-        reloadProfileData()
     }
 }
