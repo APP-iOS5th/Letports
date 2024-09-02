@@ -86,7 +86,7 @@ enum ScreenType: Equatable {
         case .smallProfile(let userName):
             return userName
         case .smallGatheringSetting:
-            return "소모임 설정"
+            return "소모임 관리"
         case .smallUploadGathering(_, let isUpdate):
             return isUpdate ? "소모임 수정" : "소모임 생성"
         case .smallSetting:

@@ -258,7 +258,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapEditBtn() {
-		viewModel.pushGatherSettingView()
+        viewModel.pushGatherSettingView()
 	}
 	
 	func didTapProfileImage(profile: LetportsUser) {
@@ -280,7 +280,7 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		if viewModel.membershipStatus == .joined {
 			if viewModel.isMaster {
-				//모임장일떄 Gathering
+                viewModel.showGatherSettingView()
 			} else {
 				viewModel.showActionSheet()
 			}
