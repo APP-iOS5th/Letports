@@ -121,7 +121,7 @@ class GatheringVC: UIViewController {
 }
 
 extension GatheringVC: CustomNavigationDelegate {
-    func sportsSelectButtonDidTap() {
+    func sportsSelectBtnDidTap() {
         print("TeamChangeView")
     }
 }
@@ -146,14 +146,10 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
-        case .recommendGatheringHeader:
+        case .recommendGatheringHeader, .gatheringLists:
             return 50.0
-        case .recommendGatherings:
-            return 90.0
-        case .gatheringListHeader:
+        case .gatheringListHeader, .recommendGatherings:
             return 50.0
-        case .gatheringLists:
-            return 90.0
         }
     }
     
