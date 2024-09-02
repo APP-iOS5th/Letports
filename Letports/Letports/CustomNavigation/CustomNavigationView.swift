@@ -294,8 +294,6 @@ class CustomNavigationView: UIView {
 		case .small:
 			naviSmallSizeSetup()
 		}
-		
-		self.largeRightButton.isHidden = self.screenType.buttonImage == "" ? true : false
 	}
 	
 	private func naviLargeSizeSetup() {
@@ -332,6 +330,7 @@ class CustomNavigationView: UIView {
 	
 	private func naviSmallSizeSetup() {
 		self.smallTitle.text = self.screenType.title
+        self.rightFirstButton.isHidden = self.screenType.buttonImage == "" ? true : false
 		
 		let btnImage = UIImage(systemName: self.screenType.buttonImage)
 		self.rightFirstButton.setImage(btnImage, for: .normal)
