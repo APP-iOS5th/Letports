@@ -23,7 +23,7 @@ class GatheringVM {
     
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
-    
+
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {

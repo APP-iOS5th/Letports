@@ -50,14 +50,13 @@ class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
     @Published var gatherings: [Gathering] = []
+    @Published var recommendGatherings: [Gathering] = []
     @Published var team: Team?
     
     weak var delegate: HomeCoordinatorDelegate?
     
     private var cancellables = Set<AnyCancellable>()
     private let db = Firestore.firestore()
-//    private let youtubeAPIKey = YOUTUBE_API_KEY
-
     
     private var cellType: [HomeCellType] {
         var cellTypes: [HomeCellType] = []
@@ -82,11 +81,14 @@ class HomeViewModel {
     }
     
     func getTeamData() {
+        guard let selectedSports = UserManager.shared.selectedTeam else {
+            return
+        }
         let collectionPath: [FirestorePathComponent] = [
             .collection(.sports),
-            .document("Letports_baseball"),
+            .document(selectedSports.sportsName),
             .collection(.sportsTeam),
-            .document("KIATigers")
+            .document(selectedSports.teamUID)
         ]
         
         FM.getData(pathComponents: collectionPath, type: Team.self)
@@ -169,10 +171,15 @@ class HomeViewModel {
                     return
                 }
                 
-                // Gathering 객체로 변환하여 gatherings 배열에 저장
-                self?.gatherings = documents.compactMap { document in
-                    return try? document.data(as: Gathering.self)
+                let gatherings = documents.compactMap { document in
+                    try? document.data(as: Gathering.self)
                 }
+                
+                let sortedGatherings = gatherings.sorted { gathering1, gathering2 in
+                    return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
+                }
+                
+                self?.recommendGatherings = Array(sortedGatherings.prefix(5))
             }
     }
     
@@ -181,11 +188,11 @@ class HomeViewModel {
         self.delegate?.presentURLController(with: url)
     }
     
-    func teamChangeContorller() {
-        
+    func presentTeamChangeContorller() {
+        self.delegate?.presentTeamChangeController()
     }
     
-    func pushGatheringDetailController() {
-        self.delegate?.pushGatheringDetailController()
+    func pushGatheringDetailController(gatheringUID: String) {
+        self.delegate?.pushGatheringDetailController(gatheringUID: gatheringUID)
     }
 }
