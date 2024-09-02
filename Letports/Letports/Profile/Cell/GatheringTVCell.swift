@@ -226,31 +226,32 @@ class GatheringTVCell: UITableViewCell {
         }
     }
     
-    func configure(with gathering: Gathering) {
-        let date = gathering.gatheringCreateDate.dateValue()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-        
-        gatheringName.text = truncateText(gathering.gatherName, limit: 16)
-        gatheringInfo.text = gathering.gatherInfo
-        gatheringMasterName.text = truncateText(gathering.gatheringMaster, limit: 16)
-        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-        createGatheringDate.text = dateString
-        
-        if let url = URL(string: gathering.gatherImage) {
-            gatheringIV.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle"))
-        } else {
-            gatheringIV.image = UIImage(systemName: "person.circle")
+    func configure(with gathering: Gathering, with master: LetportsUser) {
+            let date = gathering.gatheringCreateDate.dateValue()
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateFormatter.string(from: date)
+
+            isGatheringMasterIV.isHidden = true
+            gatheringName.text = truncateText(gathering.gatherName, limit: 16)
+            gatheringInfo.text = gathering.gatherInfo
+            gatheringMasterName.text = truncateText(master.nickname, limit: 16)
+            memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+            createGatheringDate.text = dateString
+
+            if let gatheringUrl = URL(string: gathering.gatherImage) {
+                gatheringIV.kf.setImage(with: gatheringUrl)
+            } else {
+                gatheringIV.image = nil
+            }
+
+            if let masterUrl = URL(string: master.image) {
+                gatheringMasterIV.kf.setImage(with: masterUrl)
+            } else {
+                gatheringMasterIV.image = nil
+            }
         }
-        if let masterurl = URL(string: gathering.gatherImage) {
-            gatheringMasterIV.kf.setImage(with: masterurl, placeholder: UIImage(systemName: "person.circle"))
-        } else {
-            gatheringMasterIV.image = UIImage(systemName: "person.circle")
-        }
-        
-    }
 }
 
 private func truncateText(_ text: String, limit: Int) -> String {

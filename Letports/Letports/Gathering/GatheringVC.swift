@@ -172,7 +172,11 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.recommendGatherings.count {
                     let gathering = viewModel.recommendGatherings[gatheringIndex]
-                    cell.configure(with:gathering)
+                    if let master = viewModel.masterUsers[gathering.gatheringMaster] {
+                        cell.configure(with: gathering, with: master)
+                    } else {
+                        viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
+                    }
                 }
                 return cell
             }
@@ -189,7 +193,11 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.gatheringLists.count {
                     let gathering = viewModel.gatheringLists[gatheringIndex]
-                    cell.configure(with:gathering)
+                    if let master = viewModel.masterUsers[gathering.gatheringMaster] {
+                        cell.configure(with: gathering, with: master)
+                    } else {
+                        viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
+                    }
                 }
                 return cell
             }
