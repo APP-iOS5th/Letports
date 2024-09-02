@@ -19,6 +19,7 @@ protocol ManageViewJoinDelegate: AnyObject {
 
 class GatherSettingVC: UIViewController {
     
+  
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
     var manageUserView: ManageUserView?
@@ -38,6 +39,12 @@ class GatherSettingVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         return view
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return control
     }()
     
     private(set) lazy var tableView: UITableView = {
@@ -66,6 +73,9 @@ class GatherSettingVC: UIViewController {
         [navigationView, tableView, ].forEach {
             self.view.addSubview($0)
         }
+        
+        tableView.refreshControl = refreshControl
+        tableView.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = true
         
         NSLayoutConstraint.activate([
@@ -95,6 +105,16 @@ class GatherSettingVC: UIViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+    }
+    
+    @objc private func refreshData() {
+        performRefresh()
+    }
+    
+    private func performRefresh() {
+        viewModel.loadData()
+        self.refreshControl.endRefreshing()
+        
     }
     
     private func showUserView<T: UIView>(existingView: inout T?,user: GatheringMember,userData: LetportsUser,gathering: Gathering,joinDelegate: ManageViewJoinDelegate?,pendingDelegate: ManageViewPendingDelegate?) {

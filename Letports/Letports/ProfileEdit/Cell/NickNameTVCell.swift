@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class NickNameTVCell: UITableViewCell {
     
     weak var delegate: ProfileEditDelegate?
@@ -85,21 +84,20 @@ class NickNameTVCell: UITableViewCell {
         ])
     }
     
-    @objc func nickNameDidChange() {
-        guard let text = nickNameTextField.text else { return }
+    @objc private func nickNameDidChange() {
+        guard var text = nickNameTextField.text else { return }
+        let byteLength = text.calculateLength()
         
-        let length = text.calculateLength()
+        delegate?.editUserNickName(content: nickNameTextField.text ?? "")
         
-        delegate?.editUserNickName(content: text)
-        
-        if length > 16 {
-            limitLabel.text = "한글8자, 영문16자 이하로 입력해주세요."
+        if byteLength == 8 {
+            limitLabel.text = "닉네임은 한글 최대 8자, 영문 및 숫자 최대 16자까지 가능합니다."
             limitLabel.isHidden = false
         } else {
             limitLabel.isHidden = true
         }
         
-        textCountLabel.text = "\(length)/16"
+        textCountLabel.text = "\(byteLength)/8"
     }
     
     func configure(with nickName: String?) {
@@ -107,7 +105,7 @@ class NickNameTVCell: UITableViewCell {
         limitLabel.isHidden = true
         let text = nickName
         guard let length = text?.calculateLength() else { return }
-        textCountLabel.text = "\(length)/16"
+        textCountLabel.text = "\(length)/8"
     }
 }
 
@@ -116,5 +114,14 @@ extension NickNameTVCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         moveToNextTextField?()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        let byteLength = newText.calculateLength()
+        
+        return byteLength <= 8
     }
 }

@@ -380,7 +380,6 @@
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
 				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
-				D89C407E2C83973D00E105F9 /* Extension+Character.swift */,
 				41C857C52C81B8820042B305 /* Extension+Date.swift */,
 				D89C407C2C83973800E105F9 /* Extension+String.swift */,
 			);
@@ -678,7 +677,6 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				D89C408B2C84158800E105F9 /* View */,
 				D8299F3F2C77622C003D29AC /* Cell */,
 				D8299F442C77622C003D29AC /* ProfileVM.swift */,
 				D8299F692C776555003D29AC /* ProfileVC.swift */,
@@ -733,14 +731,6 @@
 				D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		D89C408B2C84158800E105F9 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D89C408A2C84158800E105F9 /* RefreshView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		F77526022C7DBF610046E5F9 /* Cell */ = {
@@ -903,7 +893,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				B85FD8532C7864DC007B4962 /* TeamSelectVC.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
@@ -973,7 +962,6 @@
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
-				D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */,
 				B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */,

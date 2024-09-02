@@ -18,7 +18,6 @@ class ProfileVM {
     @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
-    @Published var refreshStatus: String?
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileCoordinatorDelegate?
@@ -176,7 +175,6 @@ class ProfileVM {
                 guard let self = self else { return }
                 self.myGatherings = results.filter { $0.1 }.map { $0.0 }
                 self.pendingGatherings = results.filter { $0.2 }.map { $0.0 }
-                self.refreshStatus = "새로 고침이 완료되었습니다"
             })
             .store(in: &cancellables)
     }

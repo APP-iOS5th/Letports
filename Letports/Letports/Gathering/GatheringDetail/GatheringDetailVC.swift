@@ -258,10 +258,10 @@ extension GatheringDetailVC: JoinViewDelegate {
 	}
 	// 가입 신청 취소
 	private func showCancelWaitingConfirmation() {
-		let alert = UIAlertController(title: "가입 신청 중입니다", message: "가입 신청를 취소하시겠습니까?", preferredStyle: .alert)
+		let alert = UIAlertController(title: "알림", message: "가입신청을 취소하시겠습니까?", preferredStyle: .alert)
 		
-		alert.addAction(UIAlertAction(title: "나가기", style: .cancel, handler: nil))
-		alert.addAction(UIAlertAction(title: "가입 신청 취소", style: .destructive, handler: { [weak self] _ in
+		alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { [weak self] _ in
 			self?.viewModel.confirmCancelWaiting()
 		}))
 		
@@ -271,7 +271,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapEditBtn() {
-		
+        viewModel.showGatheringEditView()
 	}
 	
 	func didTapProfileImage(profile: LetportsUser) {

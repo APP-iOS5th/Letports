@@ -90,6 +90,11 @@ class GatheringDetailVM {
 	func presentActionSheet() {
 		delegate?.presentActionSheet()
 	}
+    
+    func showGatheringEditView() {
+        guard let gathering = gathering else { return }
+        self.delegate?.pushGatheringEditView(gathering: gathering)
+    }
 	
 	func leaveGathering() {
 		delegate?.presentLeaveGatheringConfirmation()
