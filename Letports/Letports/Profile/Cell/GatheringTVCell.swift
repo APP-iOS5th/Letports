@@ -228,6 +228,8 @@ class GatheringTVCell: UITableViewCell {
         }
     }
     
+
+    
     func configure(with gathering: Gathering) {
         let date = gathering.gatheringCreateDate.dateValue()
         

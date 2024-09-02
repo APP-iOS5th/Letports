@@ -24,8 +24,6 @@ class ProfileEditVM {
     @Published private(set) var isFormValid: Bool = false
     @Published private(set) var isImageChanged: Bool = false
     
-    let maxNickNameCount = 16
-    let maxSimpleInfoCount = 20
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: ProfileEditCoordinatorDelegate?
     
@@ -87,8 +85,8 @@ class ProfileEditVM {
                     return false
                 }
                 
-                let isNicknameValid = nickname.count != 0 && nickname.count <= maxNickNameCount
-                let isSimpleInfoValid = simpleInfo.count != 0 && simpleInfo.count <= maxSimpleInfoCount
+                let isNicknameValid = nickname.count != 0
+                let isSimpleInfoValid = simpleInfo.count != 0 
                 
                 return isNicknameValid && isSimpleInfoValid
             }
