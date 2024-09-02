@@ -241,7 +241,7 @@ class GatheringDetailVM {
 	// 가입중인지 아닌지
 	private func updateMembershipStatus() {
 		let gathering = self.member
-		self.membershipStatus = .notJoined
+		
 		if let member = gathering.first(where: { $0.userUID == currentUser.uid }) {
 			switch member.joinStatus {
 			case "joined":
