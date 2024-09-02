@@ -105,8 +105,13 @@ class GatheringVM {
                     return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
                 }
                 
+                // MaxMember == NowMember 필터링
+                let memberCountFilteredGathrings = sortedGatherings.filter { gathering in
+                    return gathering.gatherMaxMember != gathering.gatherNowMember
+                }
+                
                 // 정렬된 리스트 중에서 상위 2개를 추천 목록으로 저장
-                self?.recommendGatherings = Array(sortedGatherings.prefix(2))
+                self?.recommendGatherings = Array(memberCountFilteredGathrings.prefix(2))
                 
                 // 전체 리스트를 gatheringLists에 저장
                 self?.gatheringLists = sortedGatherings
