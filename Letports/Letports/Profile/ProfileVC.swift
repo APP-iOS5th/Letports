@@ -11,11 +11,6 @@ protocol ProfileDelegate: AnyObject {
 class ProfileVC: UIViewController {
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
-    private var refreshView: RefreshView?
-    let refreshInterval: TimeInterval = 20 * 1
-    var lastRefreshDate: Date?
-    var timer: Timer?
-    var remainingTime: Int = 0
     
     init(viewModel: ProfileVM) {
         self.viewModel = viewModel
@@ -98,98 +93,13 @@ class ProfileVC: UIViewController {
     }
     
     @objc private func refreshData() {
-        guard let lastRefreshDate = lastRefreshDate else {
-            performRefresh()
-            return
-        }
-        
-        let currentDate = Date()
-        let timeSinceLastRefresh = currentDate.timeIntervalSince(lastRefreshDate)
-        
-        if timeSinceLastRefresh > refreshInterval {
-            performRefresh()
-        } else {
-            let remainingTime = Int(refreshInterval - timeSinceLastRefresh)
-            showWaitingTime(remainingTime: remainingTime)
-            refreshControl.endRefreshing()
-        }
+        performRefresh()
     }
     
     private func performRefresh() {
         viewModel.loadUser(user: UserManager.shared.getUserUid()) {
             self.refreshControl.endRefreshing()
-            self.lastRefreshDate = Date()
-            self.showRefreshCompleteMessage()
         }
-    }
-    
-    private func showRefreshCompleteMessage() {
-        if refreshView == nil {
-            addRefreshView()
-        }
-        
-        refreshView?.setMessage("새로 고침이 완료되었습니다")
-        refreshView?.isHidden = false
-        refreshView?.alpha = 1.0
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.removeRefreshView()
-        }
-    }
-    
-    private func showWaitingTime(remainingTime: Int) {
-        if refreshView == nil {
-            addRefreshView()
-        }
-        
-        self.remainingTime = remainingTime
-        refreshView?.setMessage("\(self.remainingTime)초 후에 가능합니다.")
-        refreshView?.isHidden = false
-        refreshView?.alpha = 1.0
-        
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            self.remainingTime -= 1
-            
-            self.refreshView?.setMessage("\(self.remainingTime)초 후에 가능합니다.")
-            
-            if self.remainingTime <= 0 {
-                self.timer?.invalidate() //
-                self.removeRefreshView()
-            }
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            guard let self = self else { return }
-            self.removeRefreshView()
-        }
-    }
-    
-    private func addRefreshView() {
-        refreshView = RefreshView()
-        guard let refreshView = refreshView else { return }
-        
-        refreshView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(refreshView)
-        
-        NSLayoutConstraint.activate([
-            refreshView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            refreshView.widthAnchor.constraint(equalToConstant: 170),
-            refreshView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-    
-    private func removeRefreshView() {
-        guard let refreshView = refreshView else { return }
-        UIView.animate(withDuration: 0.3, animations: {
-            refreshView.alpha = 0.0
-        }, completion: { _ in
-            refreshView.removeFromSuperview()
-            self.refreshView = nil
-            self.timer?.invalidate()
-        })
     }
     
 }
