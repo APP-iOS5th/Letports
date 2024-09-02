@@ -29,7 +29,7 @@ class GatheringVM {
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {
-        
+        self.delegate?.presentTeamChangeController()
     }
     
     func pushGatheringDetailController(gatheringUid: String) {

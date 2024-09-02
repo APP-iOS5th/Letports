@@ -123,6 +123,7 @@ class GatheringVC: UIViewController {
 
 extension GatheringVC: CustomNavigationDelegate {
     func sportsSelectBtnDidTap() {
+        viewModel.presentTeamChangeController()
         print("TeamChangeView")
     }
 }
