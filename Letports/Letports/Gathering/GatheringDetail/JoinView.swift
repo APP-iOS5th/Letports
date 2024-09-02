@@ -159,8 +159,8 @@ class JoinView: UIView {
 			placeholderLabel.trailingAnchor.constraint(equalTo: answerTextView.trailingAnchor, constant: -16)
 		])
 		
-		cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-		deleteUserButton.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
+		cancelButton.addTarget(self, action: #selector(cancelButtonTap), for: .touchUpInside)
+		deleteUserButton.addTarget(self, action: #selector(joinButtonTap), for: .touchUpInside)
 	}
 	
 	private func setupTapGesture() {
@@ -175,11 +175,11 @@ class JoinView: UIView {
 		self.endEditing(true)
 	}
 	
-	@objc private func cancelButtonTapped() {
+	@objc private func cancelButtonTap() {
 		delegate?.joinViewDidTapCancel(self)
 	}
 	
-	@objc private func joinButtonTapped() {
+	@objc private func joinButtonTap() {
 		let answer = answerTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 		if answer.isEmpty {
 			showAlert(message: "가입질문에 답해주세요")

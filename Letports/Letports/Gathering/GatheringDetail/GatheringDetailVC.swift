@@ -199,11 +199,12 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 }
 
 // MARK: - extension
+
 extension GatheringDetailVC: JoinViewDelegate {
 	func joinViewDidTapCancel(_ joinView: JoinView) {
 		removeJoinView()
 	}
-	
+	// 가입 신청 버튼
 	func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
 		viewModel.joinGathering(answer: answer)
 			.sink(receiveCompletion: { [weak self] completion in
@@ -218,7 +219,6 @@ extension GatheringDetailVC: JoinViewDelegate {
 				}
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
-		print("사용자가 가입을 시도했습니다. 답변: \(answer)")
 	}
 	
 	// 가입뷰 처리
@@ -257,7 +257,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
 		present(alert, animated: true, completion: nil)
 	}
-	
+	// 가입 대기 취소
 	private func showCancelWaitingConfirmation() {
 		let alert = UIAlertController(title: "가입 대기 취소", message: "가입 대기를 취소하시겠습니까?", preferredStyle: .alert)
 		
@@ -305,6 +305,11 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 	}
 }
 
+extension GatheringDetailVC: PostBtnDelegate {
+	func didTapPostUploadBtn(type: PostType) {
+		self.viewModel.didTapUploadBtn(type: type)
+	}
+}
 
 extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -410,8 +415,4 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
-extension GatheringDetailVC: PostBtnDelegate {
-	func didTapPostUploadBtn(type: PostType) {
-		self.viewModel.didTapUploadBtn(type: type)
-	}
-}
+

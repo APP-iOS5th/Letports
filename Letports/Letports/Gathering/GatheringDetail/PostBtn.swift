@@ -126,9 +126,9 @@ class PostBtn: UIView {
 			optionsStackView.bottomAnchor.constraint(equalTo: floatingButton.topAnchor, constant: -10)
 		])
 		
-		floatingButton.addTarget(self, action: #selector(floatingBtnTapped), for: .touchUpInside)
-		postButton.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
-		noticeButton.addTarget(self, action: #selector(noticeBtnTapped), for: .touchUpInside)
+		floatingButton.addTarget(self, action: #selector(floatingBtnTap), for: .touchUpInside)
+		postButton.addTarget(self, action: #selector(postBtnTap), for: .touchUpInside)
+		noticeButton.addTarget(self, action: #selector(noticeBtnTap), for: .touchUpInside)
 	}
 	
 	private func updateButtonVisibility() {
@@ -143,18 +143,18 @@ class PostBtn: UIView {
 		self.isHidden = !isVisible
 	}
 	
-	@objc func floatingBtnTapped() {
+	@objc func floatingBtnTap() {
 		UIView.animate(withDuration: 0.3) {
 			self.optionsStackView.isHidden.toggle()
 		}
 	}
 	
-	@objc func postBtnTapped() {
+	@objc func postBtnTap() {
 		isOptionsStackViewHidden = true
 		delegate?.didTapPostUploadBtn(type: .free)
 	}
 	
-	@objc func noticeBtnTapped() {
+	@objc func noticeBtnTap() {
 		isOptionsStackViewHidden = true
 		delegate?.didTapPostUploadBtn(type: .noti)
 	}
