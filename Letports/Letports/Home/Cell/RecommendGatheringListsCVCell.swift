@@ -54,14 +54,6 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
             gatheringName.bottomAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: -5),
             gatheringName.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
-        let gatheringTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleGatheringTap))
-        gatheringImage.addGestureRecognizer(gatheringTapGesture)
-        gatheringImage.isUserInteractionEnabled = true
-    }
-    
-    @objc func handleGatheringTap() {
-        
     }
     
     func configure(gathering: Gathering) {

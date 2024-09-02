@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol RecommendGatheringListsDelegate: AnyObject {
-    func didTapRecommendGathering()
+    func didTapRecommendGathering(gatheringUID: String)
 }
 
 class RecommendGatheringTVCell: UITableViewCell {
@@ -63,11 +63,6 @@ class RecommendGatheringTVCell: UITableViewCell {
         ])
     }
     
-    //소모임 탭 액션
-    @objc func handleGatheringTap() {
-        delegate?.didTapRecommendGathering()
-    }
-    
     func configure(gatherings: [Gathering]) {
         self.gatherings = gatherings
     }
@@ -88,5 +83,9 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 300, height: 250)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didTapRecommendGathering(gatheringUID: gatherings[indexPath.item].gatheringUid)
     }
 }
