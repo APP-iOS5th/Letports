@@ -36,7 +36,6 @@ class EmptyStateTVCell: UITableViewCell {
         NSLayoutConstraint.activate([
             emptyStateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             emptyStateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
- 
         ])
     }
     

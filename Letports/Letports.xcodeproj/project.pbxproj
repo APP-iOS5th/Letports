@@ -66,6 +66,7 @@
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
 		BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
 		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
+		BF8119D72C82F7F7005FF242 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */; };
 		BF8874042C7A538000E86CA0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874032C7A538000E86CA0 /* FirebaseAnalytics */; };
 		BF8874062C7A538000E86CA0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874052C7A538000E86CA0 /* FirebaseAuth */; };
 		BF8874082C7A538000E86CA0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874072C7A538000E86CA0 /* FirebaseFirestore */; };
@@ -81,6 +82,7 @@
 		BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDF2C7440130084CA10 /* CommentInputView.swift */; };
 		BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
 		BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */; };
+		BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */; };
 		BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF52D282C6C3A4900AC72C8 /* ViewController.swift */; };
 		BFFFD3E82C7328130053A86B /* CurrentMemTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */; };
 		BFFFD3EB2C73314A0053A86B /* GatheringBoardDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */; };
@@ -127,8 +129,11 @@
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
-		D89C408E2C847FAC00E105F9 /* SERVICEKEY.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D89C408D2C847FAC00E105F9 /* SERVICEKEY.xcconfig */; };
-		D89C40902C847FB200E105F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89C408F2C847FB200E105F9 /* GoogleService-Info.plist */; };
+		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
+		D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407E2C83973D00E105F9 /* Extension+Character.swift */; };
+		D89C40812C83FA5600E105F9 /* SERVICEKEY.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */; };
+		D89C40832C83FA6500E105F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D89C40822C83FA6500E105F9 /* GoogleService-Info.plist */; };
+		D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C408A2C84158800E105F9 /* RefreshView.swift */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
@@ -216,6 +221,7 @@
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
 		BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTitleTVCell.swift; sourceTree = "<group>"; };
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
+		BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
@@ -223,6 +229,7 @@
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
+		BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
 		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BFFFD3E52C7316D40053A86B /* PostBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBtn.swift; sourceTree = "<group>"; };
 		BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMemTVCell.swift; sourceTree = "<group>"; };
@@ -274,8 +281,11 @@
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
-		D89C408D2C847FAC00E105F9 /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
-		D89C408F2C847FB200E105F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
+		D89C407E2C83973D00E105F9 /* Extension+Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Character.swift"; sourceTree = "<group>"; };
+		D89C40802C83FA5600E105F9 /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
+		D89C40822C83FA6500E105F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D89C408A2C84158800E105F9 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
 		F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileTVCell.swift; sourceTree = "<group>"; };
@@ -370,7 +380,9 @@
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
 				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
+				D89C407E2C83973D00E105F9 /* Extension+Character.swift */,
 				41C857C52C81B8820042B305 /* Extension+Date.swift */,
+				D89C407C2C83973800E105F9 /* Extension+String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -602,10 +614,9 @@
 				413BE64D2C65F1990070D6F9 /* Extension */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
-				41C886332C81F9D8000467AD /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
-				D89C408F2C847FB200E105F9 /* GoogleService-Info.plist */,
-				D89C408D2C847FAC00E105F9 /* SERVICEKEY.xcconfig */,
+				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
+				BF8119D62C82F7F7005FF242 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -672,6 +683,7 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D89C408B2C84158800E105F9 /* View */,
 				D8299F3F2C77622C003D29AC /* Cell */,
 				D8299F442C77622C003D29AC /* ProfileVM.swift */,
 				D8299F692C776555003D29AC /* ProfileVC.swift */,
@@ -726,6 +738,14 @@
 				D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		D89C408B2C84158800E105F9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D89C408A2C84158800E105F9 /* RefreshView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		F77526022C7DBF610046E5F9 /* Cell */ = {
@@ -859,9 +879,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				D89C40902C847FB200E105F9 /* GoogleService-Info.plist in Resources */,
-				D89C408E2C847FAC00E105F9 /* SERVICEKEY.xcconfig in Resources */,
+				BF8119D72C82F7F7005FF242 /* GoogleService-Info.plist in Resources */,
 				D8201FBB2C606935004DF06C /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -887,6 +907,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				B85FD8532C7864DC007B4962 /* TeamSelectVC.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
@@ -955,6 +976,7 @@
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
+				D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */,
 				B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */,
@@ -967,6 +989,7 @@
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */,
+				D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */,
 				BFFFD3F82C73BB820053A86B /* CommentHeaderLabelTVCell.swift in Sources */,
 				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,
 				BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */,
@@ -1175,6 +1198,7 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1212,6 +1236,7 @@
 		};
 		D8201FD72C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

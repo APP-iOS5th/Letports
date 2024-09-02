@@ -161,7 +161,7 @@ class GatheringUploadVM {
             
             let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
             
-       
+            
             
             let gathering = Gathering(gatherImage: imageUrl,
                                       gatherInfo: gatherInfo,
@@ -189,25 +189,56 @@ class GatheringUploadVM {
                     }
                     .store(in: &cancellables)
             } else {
-                let collectionPath: [FirestorePathComponent] = [
+                let gatheringCollectionPath: [FirestorePathComponent] = [
                     .collection(.gatherings),
                     .document(uuid)
                 ]
                 
-                FM.setData(pathComponents: collectionPath, data: gathering)
+                let userCollectionPath: [FirestorePathComponent] = [
+                    .collection(.user),
+                    .document(UserManager.shared.getUserUid()),
+                    .collection(.myGathering),
+                    .document(uuid)
+                ]
+                
+                let masterCollectionPath: [FirestorePathComponent] = [
+                    .collection(.gatherings),
+                    .document(uuid),
+                    .collection(.gatheringMembers),
+                    .document(UserManager.shared.getUserUid())
+                ]
+                
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateString = dateFormatter.string(from: currentDate)
+                
+                let gatheringData = MyGatherings(uid: uuid)
+                let masterData = GatheringMember(answer: "Master", joinDate: dateString, joinStatus: "joined", userUID: UserManager.shared.getUserUid())
+                
+                FM.setData(pathComponents: gatheringCollectionPath, data: gathering)
+                    .map { _ in
+                        FM.setData(pathComponents: userCollectionPath, data: gatheringData)
+                    }
+                    .flatMap { secondTask in
+                        secondTask.map { _ in
+                            FM.setData(pathComponents: masterCollectionPath, data: masterData)
+                        }
+                    }
+                    .switchToLatest()
                     .sink { completion in
                         switch completion {
                         case .finished:
-                            print("finished")
+                            print("All tasks finished")
                         case .failure(let error):
-                            print("gather upload error \(error)")
+                            print("An error occurred: \(error)")
                         }
                     } receiveValue: { [weak self] _ in
                         self?.isUploading = false
                         self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
-              
+                
             }
         }
     }

@@ -19,10 +19,11 @@ enum GatheringCellType {
 class GatheringVM {
     @Published var recommendGatherings: [Gathering] = []
     @Published var gatheringLists: [Gathering] = []
+    @Published var masterUsers: [String: LetportsUser] = [:]
     
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
-    
+
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {
@@ -105,6 +106,21 @@ class GatheringVM {
     
     func getRecommendGatheringCount() -> Int {
         return self.recommendGatherings.count
+    }
+    
+    func fetchMasterUser(masterId: String) {
+        guard masterUsers[masterId] == nil else { return }
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(masterId),
+        ]
+        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .compactMap { $0.first }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
+                self?.masterUsers[masterId] = masterUser
+            }
+            .store(in: &cancellables)
     }
 }
 
