@@ -24,6 +24,12 @@ class SportsTeamCell: UICollectionViewCell {
         return label
     }()
     
+    override var isSelected: Bool {
+        didSet {
+            contentView.backgroundColor = isSelected ? UIColor.lpMain : UIColor.clear
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -61,13 +67,5 @@ class SportsTeamCell: UICollectionViewCell {
         nameLabel.text = team.name
         let url = URL(string: team.logoUrl)
         logoImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
-        { result in
-            switch result {
-            case .success(let value):
-                print("Image successfully loaded: \(value.image)")
-            case .failure(let error):
-                print("Error loading image: \(error)")
-            }
-        }
     }
 }
