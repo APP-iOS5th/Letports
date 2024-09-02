@@ -92,38 +92,65 @@ class AuthService: AuthServiceProtocol {
             if let error = error {
                 completion(.failure(error))
             } else if let user = authResult?.user {
-                let letportsUser = LetportsUser(
-                    email: user.email ?? "",
-                    image: user.photoURL?.absoluteString ?? "",
-                    nickname: user.displayName ?? "",
-                    simpleInfo: "",
-                    uid: user.uid,
-                    userSports: "",
-                    userSportsTeam: ""
-                )
-                
-                UserManager.shared.login(user: letportsUser)
-                
-                self?.createNewUser(letportsUser: letportsUser)
-                    .sink(receiveCompletion: { result in
-                        switch result {
-                        case .finished:
-                            completion(.success(user))
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                    }, receiveValue: { _ in })
-                    .store(in: &self!.cancellables)
+                self?.processUserData(for: user) { result in
+                    switch result {
+                    case .success(let processedUser):
+                        completion(.success(processedUser))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
             } else {
                 completion(.failure(NSError(domain: "AuthService",
                                             code: 2,
-                                            userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])))
+                                            userInfo: [NSLocalizedDescriptionKey: "Unknown error occured"])))
             }
         }
     }
     
-    private func createNewUser(letportsUser: LetportsUser) -> AnyPublisher<Void, FirestoreError> {
-        return FM.setData(collection: "Users", document: letportsUser.uid, data: letportsUser)
+    private func processUserData(for user: User, completion: @escaping (Result<User, Error>) -> Void) {
+        let userID = user.uid
+        
+        FM.getData(collection: "Users", document: userID, type: LetportsUser.self)
+            .flatMap { existingUser -> AnyPublisher<LetportsUser, FirestoreError> in
+                let updatedUser: LetportsUser
+                if existingUser.uid.isEmpty {
+                    updatedUser = LetportsUser(
+                        email: user.email ?? "",
+                        image: user.photoURL?.absoluteString ?? "",
+                        nickname: user.displayName ?? "",
+                        simpleInfo: "",
+                        uid: userID,
+                        userSports: "",
+                        userSportsTeam: ""
+                    )
+                } else {
+                    updatedUser = LetportsUser(
+                        email: user.email ?? existingUser.email,
+                        image: user.photoURL?.absoluteString ?? existingUser.image,
+                        nickname: user.displayName ?? existingUser.nickname,
+                        simpleInfo: existingUser.simpleInfo,
+                        uid: userID,
+                        userSports: existingUser.userSports,
+                        userSportsTeam: existingUser.userSportsTeam
+                    )
+                }
+                return FM.setData(collection: "Users", document: userID, data: updatedUser)
+                    .map { updatedUser }
+                    .eraseToAnyPublisher()
+            }
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }, receiveValue: { updatedUser in
+                UserManager.shared.login(user: updatedUser)
+                completion(.success(user))
+            })
+            .store(in: &cancellables)
     }
     
     func signOut() throws {
