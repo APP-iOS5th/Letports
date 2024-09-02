@@ -26,7 +26,6 @@ class GatheringDetailCoordinator: Coordinator {
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
-    weak var delegate: ProfileCoordinatorDelegate?
 	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
 		self.navigationController = navigationController
 		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
@@ -124,7 +123,6 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
     
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
-        delegate?.didFinishEditingOrDetail()
 	}
     
     func pushGatheringEditView(gathering: Gathering) {
