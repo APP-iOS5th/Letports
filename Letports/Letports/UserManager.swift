@@ -43,7 +43,6 @@ class UserManager {
         return user
     }
     
-    
     func getTeam(completion: @escaping (Result<SportsTeam, FirestoreError>) -> Void) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.sports),

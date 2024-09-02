@@ -38,7 +38,7 @@ class TeamSelectVM {
         filteredTeams = allTeams.filter { $0.sports == sports.id }
     }
     
-    func selectTeam(_ team: Team) {
+    func selectTeam(_ team: Team?) {
         selectedTeam = team
     }
     
