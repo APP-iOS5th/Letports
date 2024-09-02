@@ -94,9 +94,10 @@ class GatheringVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.Merge(
+        Publishers.Merge3(
             viewModel.$recommendGatherings.map { _ in () } ,
-            viewModel.$gatheringLists.map {_ in () }
+            viewModel.$gatheringLists.map {_ in () },
+            viewModel.$masterUsers.map {_ in () }
         )
         .sink { [weak self] _ in
             DispatchQueue.main.async {
