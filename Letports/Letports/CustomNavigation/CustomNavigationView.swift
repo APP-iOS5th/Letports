@@ -61,7 +61,7 @@ enum ScreenType: Equatable {
     /// Profile Detail  Screen
     case smallProfile(userName: String)
     /// Gathering Setting Screen
-    case smallGatheringSetting(btnName: NaviButtonType)
+    case smallGatheringSetting
     /// Gathering Upload, Update Screen
     case smallUploadGathering(btnName: NaviButtonType, isUpdate: Bool)
     /// Setting Screen
@@ -101,7 +101,6 @@ enum ScreenType: Equatable {
             
         case .largeProfile(let btnName),
                 .smallGathering(_, let btnName),
-                .smallGatheringSetting(let btnName),
                 .smallBoardEditor(let btnName, _),
                 .smallUploadGathering(let btnName, _),
                 .smallEditProfile(let btnName):

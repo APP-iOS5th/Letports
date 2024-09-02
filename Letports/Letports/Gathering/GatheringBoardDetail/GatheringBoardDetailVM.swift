@@ -7,129 +7,209 @@
 
 import UIKit
 import Combine
+import FirebaseCore
 
 enum GatheringBoardDetailCellType {
-	case boardProfileTitle
-	case boardContents
-	case separator
-	case images
-	case commentHeaderLabel
-	case comment
+    case boardProfileTitle
+    case boardContents
+    case separator
+    case images
+    case commentHeaderLabel
+    case comment(comment: Comment)
 }
 
 protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
-	func boardDetailBackBtnTap()
+    func boardDetailBackBtnTap()
+    func presentActionSheet(post: Post)
 }
 
 final class GatheringBoardDetailVM {
-	@Published private(set) var boardPost: Post?
-	@Published private(set) var postAuthor: GatheringMember?
-	private(set) var gathering: Gathering?
-	private var cancellables = Set<AnyCancellable>()
-	weak var delegate: GatheringBoardDetailCoordinatorDelegate?
-	
-	init(postUID: String, gathering: Gathering) {
-		self.gathering = gathering
-		fetchBoardPost(postUID: postUID)
-	}
-	
-	private func fetchBoardPost(postUID: String) {
-		FirestoreManager.shared.getDocument(collection: "Board", documentId: postUID, type: Post.self)
-			.sink(receiveCompletion: { completion in
-				switch completion {
-				case .finished:
-					print("게시글 데이터 가져오기 완료")
-				case .failure(let error):
-					print("게시글 데이터 가져오기 에러: \(error)")
-				}
-			}, receiveValue: { [weak self] post in
-				self?.boardPost = post
-//				self?.fetchPostAuthor(userUID: post.userUID)
-				self?.printBoardPostDetails()
-			})
-			.store(in: &cancellables)
-	}
-	
-//	private func fetchPostAuthor(userUID: String) {
-//		if let member = gathering.gatheringMembers.first(where: { $0.userUID == userUID }) {
-//			self.postAuthor = member
-//			printMemberDetails(member)
-//		} else {
-//			print("작성자 정보를 찾을 수 없습니다.")
-//		}
-//	}
-	
-	private func printMemberDetails(_ member: GatheringMember) {
-//		print("=== 게시글 작성자 정보 ===")
-//		print("닉네임: \(member.nickName)")
-//		print("유저 UID: \(member.userUID)")
-//		print("프로필 이미지 URL: \(member.image)")
-//		print("가입 날짜: \(member.joinDate)")
-//		print("가입 상태: \(member.joinStatus)")
-//		print("답변: \(member.answer)")
-//		print("간단 정보: \(member.simpleInfo)")
-//		print("========================")
-	}
-	
-	private func printBoardPostDetails() {
-		guard let post = boardPost else {
-			print("게시글 데이터가 없습니다.")
-			return
-		}
-		
-		print("=== 게시글 상세 정보 ===")
-		print("postUID: \(post.postUID)")
-		print("제목: \(post.title)")
-		print("내용: \(post.contents)")
-		print("게시판 타입: \(post.boardType)")
-		print("작성자 UID: \(post.userUID)")
-		print("이미지 URL 개수: \(post.imageUrls.count)")
-		print("========================")
-	}
-	
-	private var cellType: [GatheringBoardDetailCellType] {
-		var cellTypes: [GatheringBoardDetailCellType] = []
-		cellTypes.append(.boardProfileTitle)
-		cellTypes.append(.boardContents)
-		cellTypes.append(.separator)
-		cellTypes.append(.images)
-		cellTypes.append(.separator)
-		cellTypes.append(.commentHeaderLabel)
-		cellTypes.append(.comment)
-		return cellTypes
-	}
-	
-	func getBoardDetailCount() -> Int {
-		return self.cellType.count
-	}
-	
-	func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
-		return self.cellType
-	}
+    @Published private(set) var boardPost: Post
+    @Published private(set) var commentsWithUsers: [(comment: Comment, user: LetportsUser)] = []
     
-    func addComment(comment: String) {
-        self.comment.append(Comment(nickName: "나 손흥민", writeDate: "2024-08-26 15:19", content: comment))
-        print(self.comment)
+    private(set) var allUsers: [LetportsUser]
+    private var cancellables = Set<AnyCancellable>()
+    weak var delegate: GatheringBoardDetailCoordinatorDelegate?
+    private(set) var gathering: Gathering
+    
+    
+    init(boardPost: Post, allUsers: [LetportsUser], gathering: Gathering) {
+        self.boardPost = boardPost
+        self.allUsers = allUsers
+        self.gathering = gathering
     }
-	
-	func boardDetailBackBtnTap() {
-		delegate?.boardDetailBackBtnTap()
-	}
-	
-	// 댓글(삭제예정)
-	struct Comment { // 퍼블리셔로
-		let nickName: String
-		let writeDate: String
-		let content: String
-	}
-	
-    var comment: [Comment] = [
-		Comment(nickName: "황희찬", writeDate: "2024-07-11 17:12", content: "댓글 내용 1 - 황희찬님의 의견"),
-		Comment(nickName: "이강인", writeDate: "2024-07-10 22:12", content: "댓글 내용 2 - 이강인님의 의견"),
-		Comment(nickName: "손흥민", writeDate: "2024-07-12 08:12", content: "댓글 내용 3 - 손흥민님의 의견"),
-		Comment(nickName: "김민재", writeDate: "2024-07-10 14:12", content: "댓글 내용 4 - 김민재님의 의견"),
-		Comment(nickName: "김민재", writeDate: "2024-07-17 07:12", content: "댓글 내용 5 - 김민재님의 의견")
-	]
-	
+    
+    private var cellType: [GatheringBoardDetailCellType] {
+        var cellTypes: [GatheringBoardDetailCellType] = []
+        cellTypes.append(.boardProfileTitle)
+        cellTypes.append(.boardContents)
+        cellTypes.append(.separator)
+        cellTypes.append(.images)
+        cellTypes.append(.separator)
+        cellTypes.append(.commentHeaderLabel)
+        for commentWithUser in self.commentsWithUsers {
+            cellTypes.append(.comment(comment: commentWithUser.comment))
+        }
+        
+        return cellTypes
+    }
+    
+    func getBoardDetailCount() -> Int {
+        return self.cellType.count
+    }
+    
+    func getBoardDetailCellTypes() -> [GatheringBoardDetailCellType] {
+        return self.cellType
+    }
+    
+    func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
+        if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
+            let result = (nickname: user.nickname, imageUrl: user.image)
+            return result
+        }
+        
+        return nil
+    }
+    
+    func getBoardData() {
+        getPost()
+        getComment()
+    }
+    
+    func getComment() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(self.gathering.gatheringUid),
+            .collection(.board),
+            .document(self.boardPost.postUID),
+            .collection(.comment)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Comment.self)
+            .flatMap { [weak self] comments in
+                self?.fetchUsersForComments(comments) ?? Just([]).eraseToAnyPublisher()
+            }
+            .sink { _ in
+            } receiveValue: { [weak self] commentsWithUsers in
+                self?.commentsWithUsers = commentsWithUsers
+            }
+            .store(in: &cancellables)
+    }
+    
+    func addComment(comment: String, completionHandler: @escaping () -> Void) {
+        
+        let uuid = UUID().uuidString
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(self.gathering.gatheringUid),
+            .collection(.board),
+            .document(self.boardPost.postUID),
+            .collection(.comment),
+            .document(uuid)
+        ]
+        
+        let comment = Comment(postUID: self.boardPost.postUID,
+                              commentUID: uuid,
+                              userUID: UserManager.shared.getUserUid(),
+                              contents: comment,
+                              createDate: Timestamp(date: Date()))
+        
+        FM.setData(pathComponents: collectionPath, data: comment)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    completionHandler()
+                case .failure(let error):
+                    print("comment upload Error \(error)")
+                }
+            } receiveValue: { _ in
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func fetchUsersForComments(_ comments: [Comment]) -> AnyPublisher<[(comment: Comment, 
+                                                                                user: LetportsUser)], Never> {
+        let sortedComments = comments.sorted {
+              $0.createDate.dateValue() < $1.createDate.dateValue()
+          }
+        
+        let userFetchers = sortedComments.map { comment in
+            return getUserData(userUid: comment.userUID)
+                .map { user -> (comment: Comment, user: LetportsUser) in
+                    return (comment: comment, user: user)
+                }
+                .replaceError(with: (comment: comment, user: LetportsUser(email: "", image: "", 
+                                                                          nickname: "", simpleInfo: "",
+                                                                          uid: "", userSports: "",
+                                                                          userSportsTeam: "")))
+        }
+        
+        return Publishers.MergeMany(userFetchers)
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
+    private func getUserData(userUid: String) -> AnyPublisher<LetportsUser, FirestoreError> {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(userUid)
+        ]
+        
+        return FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .map { users in
+                return users.first!
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func boardDetailBackBtnTap() {
+        delegate?.boardDetailBackBtnTap()
+    }
+    
+    func naviRightBtnDidTap() {
+        delegate?.presentActionSheet(post: self.boardPost)
+    }
+    
+    func getPost() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering.gatheringUid),
+            .collection(.board),
+            .document(boardPost.postUID)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Post.self)
+            .sink { _ in
+            } receiveValue: { [weak self] post in
+                guard let post = post.first else {
+                    return
+                }
+                self?.boardPost = post
+            }
+            .store(in: &cancellables)
+    }
+    
+    func deletePost() {
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering.gatheringUid),
+            .collection(.board),
+            .document(boardPost.postUID)
+        ]
+        
+        FM.deleteDocument(pathComponents: collectionPath)
+            .sink { completion in
+                switch completion{
+                case .finished:
+                    print("delete Finished")
+                case .failure(let error):
+                    print("delete Erro \(error)")
+                }
+            } receiveValue: { [weak self] _ in
+                self?.delegate?.boardDetailBackBtnTap()
+            }
+            .store(in: &cancellables)
+    }
+    
 }
 

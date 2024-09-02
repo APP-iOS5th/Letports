@@ -39,6 +39,8 @@ enum StorageFilePath {
     /// 유저 프로필 이미지 경로
     case userProfileImageUpload
     
+    case specificPath(String)
+    
     var pathStr: String {
         switch self {
         case .boardImageUpload:
@@ -47,15 +49,31 @@ enum StorageFilePath {
             return "Gather_Upload_Images/"
         case .userProfileImageUpload:
             return "User_Profile_Upload_Images/"
+        case .specificPath(let path):
+            return path
         }
     }
+
 }
 
 class FirebaseStorageManager {
     
-    static func uploadImages(images: [UIImage], 
+    static func deleteImage(filePath: String) -> AnyPublisher<Void, Error> {
+        return Future<Void, Error> { promise in
+            let storageRef = Storage.storage().reference(withPath: filePath)
+            storageRef.delete { error in
+                if let error = error {
+                    promise(.failure(error))
+                } else {
+                    promise(.success(()))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    static func uploadImages(images: [UIImage],
                              filePath: StorageFilePath) -> AnyPublisher<[URL], FirebaseStorageError> {
-        
         //images 배열에 5개만 map을 통해 uploadSingleImage 함수 실행
         //최대 이미지 개수를 5개로 제한할 것이지만 혹시 모를 상황에 대비하기 위해 prefix사용
         let uploadPublishers = images.prefix(5).map { image in
@@ -64,11 +82,14 @@ class FirebaseStorageManager {
         
         return Publishers.MergeMany(uploadPublishers)
             .collect() // URL 배열로 합침
+            .mapError { error -> FirebaseStorageError in
+                return .uploadFailed(error: error)
+            }
             .eraseToAnyPublisher()
     }
     
     
-    static func uploadSingleImage(image: UIImage, 
+    static func uploadSingleImage(image: UIImage,
                                   filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
             guard let imageData = image.jpegData(compressionQuality: 0.4) else {
@@ -76,14 +97,11 @@ class FirebaseStorageManager {
                 return
             }
             
-            
             let metaData = StorageMetadata()
             metaData.contentType = "image/jpeg"
             
             let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
-            
             let filePath = filePath.pathStr + imageName
-            
             let firebaseRef = STOREAGE.reference().child(filePath)
             
             firebaseRef.putData(imageData, metadata: metaData) { metaData, error in
@@ -104,6 +122,50 @@ class FirebaseStorageManager {
             }
         }
         .retry(3) // 업로드 실패시 3번까지 재시도
+        .eraseToAnyPublisher()
+    }
+    
+    //프로필에서 사용함 기존에 이미지가 FirebaseStorage에 있으면 프로필사진을 덮어쓰기함
+    static func uploadSingleImages(image: UIImage,
+                                  filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
+        return Future { promise in
+            guard let imageData = image.jpegData(compressionQuality: 0.4) else {
+                promise(.failure(.imageDataConversionFailed))
+                return
+            }
+            
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpeg"
+            
+            let fullPath: String
+            switch filePath {
+            case .specificPath(let existingPath):
+                fullPath = existingPath // 기존 이미지 경로를 사용하여 덮어쓰기
+            default:
+                let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
+                fullPath = filePath.pathStr + imageName
+            }
+            
+            let firebaseRef = Storage.storage().reference().child(fullPath)
+            
+            firebaseRef.putData(imageData, metadata: metaData) { metaData, error in
+                if let error = error {
+                    promise(.failure(.uploadFailed(error: error)))
+                    return
+                }
+                
+                firebaseRef.downloadURL { url, error in
+                    if let error = error {
+                        promise(.failure(.downloadURLFailed(error: error)))
+                    } else if let url = url {
+                        promise(.success(url))
+                    } else {
+                        promise(.failure(.unknown))
+                    }
+                }
+            }
+        }
+        .retry(3) // 업로드 실패 시 3번까지 재시도
         .eraseToAnyPublisher()
     }
 }

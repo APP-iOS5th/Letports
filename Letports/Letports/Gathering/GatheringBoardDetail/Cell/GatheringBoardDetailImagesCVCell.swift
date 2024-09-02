@@ -48,7 +48,6 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 		guard let url = URL(string: imageUrl) else {
 			return
 		}
-		
 		imageView.kf.setImage(
 			with: url,
 			options: [

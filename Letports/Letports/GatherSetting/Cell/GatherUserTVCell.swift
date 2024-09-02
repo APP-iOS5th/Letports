@@ -42,6 +42,14 @@ class GatherUserTVCell: UITableViewCell {
         return label
     }()
     
+    private lazy var joindateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor(named: "lp_black")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -58,7 +66,7 @@ class GatherUserTVCell: UITableViewCell {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
         
-        [profileIV, nickNameLabel, simpleInfoLabel, ].forEach {
+        [profileIV, nickNameLabel, simpleInfoLabel, joindateLabel].forEach {
             containerView.addSubview($0)
         }
         
@@ -76,21 +84,26 @@ class GatherUserTVCell: UITableViewCell {
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-
+            nickNameLabel.heightAnchor.constraint(equalToConstant: 18),
+            
             simpleInfoLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
             simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
+            
+            joindateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            joindateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5)
         ])
     }
     
-    func configure(with user: GatheringMember) {
-        //nickNameLabel.text = user.nickName
-       // simpleInfoLabel.text = user.simpleInfo
-//        guard let url = URL(string: user.image) else {
-//            profileIV.image = UIImage(systemName: "person.circle")
-//            return
-//        }
-//        let placeholder = UIImage(systemName: "person.circle")
-//        profileIV.kf.setImage(with: url, placeholder: placeholder)
+    func configure(user: LetportsUser, userData: GatheringMember, joined: Bool) {
+        joindateLabel.text = joined ? "가입일자: \(userData.joinDate)" : "가입신청일자: \(userData.joinDate)"
+        nickNameLabel.text = user.nickname
+        simpleInfoLabel.text = user.simpleInfo
+        guard let url = URL(string: user.image) else {
+            profileIV.image = UIImage(systemName: "person.circle")
+            return
+        }
+        let placeholder = UIImage(systemName: "person.circle")
+        profileIV.kf.setImage(with: url, placeholder: placeholder)
     }
 }

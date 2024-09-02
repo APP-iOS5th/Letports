@@ -8,19 +8,20 @@ import UIKit
 import Combine
 
 protocol ManageViewPendingDelegate: AnyObject {
-    func denyJoinGathering()
-    func apporveJoinGathering()
+    func denyJoinGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String)
+    func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
+    func cancelAction(_ manageUserView: ManageUserView)
 }
 protocol ManageViewJoinDelegate: AnyObject {
-    func cancelAction()
-    func expelGathering()
+    func cancelAction(_ manageUserView: ManageUserView)
+    func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
 }
 
 class GatherSettingVC: UIViewController {
     
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
-    private var manageUserView: ManageUserView?
+    var manageUserView: ManageUserView?
     
     init(viewModel: GatherSettingVM) {
         self.viewModel = viewModel
@@ -33,8 +34,9 @@ class GatherSettingVC: UIViewController {
     
     private lazy var navigationView: CustomNavigationView = {
         let btnName: NaviButtonType
-        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallGatheringSetting(btnName: .update))
+        let view = CustomNavigationView(isLargeNavi: .small, screenType: .smallGatheringSetting)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
         return view
     }()
     
@@ -45,7 +47,8 @@ class GatherSettingVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: GatherSectionTVCell.self,
                          GatherUserTVCell.self,
-                         GatherDeleteTVCell.self)
+                         GatherDeleteTVCell.self,
+                         EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -78,52 +81,135 @@ class GatherSettingVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.CombineLatest3(
-            viewModel.$gathering,
-            viewModel.$pendingGatheringMembers,
-            viewModel.$joiningGatheringMembers
+        let mergedPublishers = Publishers.MergeMany(
+            viewModel.$gathering.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$pendingMembers.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$pendingMembersData.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$joinedMembers.map { _ in }.eraseToAnyPublisher(),
+            viewModel.$joinedMembersData.map { _ in }.eraseToAnyPublisher()
         )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] (gathering, pendingMembers, joiningMembers) in
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+        
+        mergedPublishers
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
-    private func showUserView<T: UIView>(existingView: inout T?, user: GatheringMember, gathering: Gathering, joinDelegate: ManageViewJoinDelegate?, pendingDelegate: ManageViewPendingDelegate?) {
+    private func showUserView<T: UIView>(existingView: inout T?,user: GatheringMember,userData: LetportsUser,gathering: Gathering,joinDelegate: ManageViewJoinDelegate?,pendingDelegate: ManageViewPendingDelegate?) {
         if existingView == nil {
+           
             let manageUserView = ManageUserView()
             manageUserView.joindelegate = joinDelegate
             manageUserView.pendingdelegate = pendingDelegate
-            manageUserView.configure(with: user, with: gathering)
+            manageUserView.configure(user: user, gathering: gathering, userData: userData)
+            
             self.view.addSubview(manageUserView)
+            manageUserView.translatesAutoresizingMaskIntoConstraints = false
+            
             NSLayoutConstraint.activate([
                 manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
                 manageUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 manageUserView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 manageUserView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
+            
+            existingView = manageUserView as? T
+        } else {
+            print("ManageUserView already exists.")
         }
     }
+    
+    private func removeManageUserView() {
+        if let manageUserView = self.manageUserView {
+                self.view.bringSubviewToFront(manageUserView)
+                UIView.animate(withDuration: 0.3, animations: {
+                    manageUserView.alpha = 0
+                }) { _ in
+                    print("Animation completed. Removing from superview.")
+                    manageUserView.removeFromSuperview()
+                    self.manageUserView = nil
+                }
+            } else {
+                print("No ManageUserView to remove.")
+            }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
-    func cancelAction() {
-        self.viewModel.cancel()
+    func cancelAction(_ manageUserView: ManageUserView) {
+        removeManageUserView()
+        self.viewModel.loadData()
     }
     
-    func expelGathering() {
-        self.viewModel.expelUser()
+    func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.expelUser(userUid: userUid, nickName: nickName)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch completion {
+                    case .finished:
+                        self.showAlert(title: "추방", message: "\(nickName)의 추방이 완료되었습니다.")
+                        self.removeManageUserView()  // 뷰 제거
+                        self.viewModel.loadData()
+                    case .failure(let error):
+                        self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                    }
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
-    func denyJoinGathering() {
-        self.viewModel.denyUser()
+    func denyJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.denyUser(userUid: userUid)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch completion {
+                    case .finished:
+                        self.showAlert(title: "가입거절", message: "\(nickName)의 가입거절이 완료되었습니다.")
+                        self.removeManageUserView()
+                        self.viewModel.loadData()// 수정된 부분
+                    case .failure(let error):
+                        self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                    }
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
-    func apporveJoinGathering() {
-        self.viewModel.approveUser()
+    func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+        viewModel.approveUser(userUid: userUid)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch completion {
+                    case .finished:
+                        self.showAlert(title: "가입승인", message: "\(nickName)의 가입승인이 완료되었습니다.")
+                        self.removeManageUserView()
+                        self.viewModel.loadData()
+                    case .failure(let error):
+                        self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error))
+                    }
+                }
+            },receiveValue: { _ in })
+            .store(in: &cancellables)
     }
     
+}
+
+extension GatherSettingVC: CustomNavigationDelegate {
+    func backBtnDidTap() {
+        viewModel.gatherSettingBackBtnTap()
+    }
 }
 
 extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
@@ -136,7 +222,7 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .pendingGatheringUserTtitle, .joiningGatheringUserTitle, .settingTitle, .deleteGathering:
             return 40.0
-        case .pendingGatheringUser, .joiningGatheringUser:
+        case .pendingGatheringUser, .joiningGatheringUser, .joinEmptyState, .pendingEmptyState:
             return 80.0
         }
     }
@@ -146,23 +232,32 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         case .pendingGatheringUser:
             let startIndex = 1
             let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.pendingGatheringMembers.count {
-                let user = viewModel.pendingGatheringMembers[userIndex]
+            if userIndex < viewModel.pendingMembers.count {
+                let user = viewModel.pendingMembers[userIndex]
+                let userdata = viewModel.pendingMembersData[userIndex]
                 if let gathering = viewModel.gathering {
-                    showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: nil,
+                    showUserView(existingView: &manageUserView, user: user, userData: userdata, gathering: gathering, joinDelegate: nil,
                                  pendingDelegate: self)
                 }
             }
         case .joiningGatheringUser:
-            let startIndex = 2 + viewModel.pendingGatheringMembers.count
+            var startIndex = 0
+            if viewModel.pendingMembers.count == 0 {
+                startIndex = 3
+            } else {
+                startIndex = 2 + viewModel.pendingMembers.count
+            }
             let userIndex = indexPath.row - startIndex
-            if userIndex < viewModel.joiningGatheringMembers.count {
-                let user = viewModel.joiningGatheringMembers[userIndex]
+            if userIndex < viewModel.joinedMembers.count {
+                let user = viewModel.joinedMembers[userIndex]
+                let userdata = viewModel.joinedMembersData[userIndex]
                 if let gathering = viewModel.gathering {
-                    showUserView(existingView: &manageUserView, user: user, gathering: gathering, joinDelegate: self,
+                    showUserView(existingView: &manageUserView, user: user, userData: userdata, gathering: gathering, joinDelegate: self,
                                  pendingDelegate: nil)
                 }
             }
+        case .deleteGathering:
+            viewModel.deleteGathering()
         default:
             break
         }
@@ -182,43 +277,58 @@ extension GatherSettingVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .pendingGatheringUserTtitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 신청 인원")
+                cell.configure(title:"가입 신청 인원")
                 return cell
             }
         case .pendingGatheringUser:
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 1
                 let userIndex = indexPath.row - startIndex
-                if userIndex < viewModel.pendingGatheringMembers.count {
-                    let user = viewModel.pendingGatheringMembers[userIndex]
-                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
-                    cell.configure(with: user)
+                if userIndex < viewModel.pendingMembersData.count {
+                    let user = viewModel.pendingMembersData[userIndex]
+                    let userData = viewModel.pendingMembers[userIndex]
+                    cell.configure(user:user, userData: userData, joined: false)
                 }
                 return cell
             }
         case .joiningGatheringUserTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "가입 중 인원")
+                cell.configure(title:"가입 중 인원")
                 return cell
             }
         case .joiningGatheringUser:
             if let cell: GatherUserTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let startIndex = 2 + viewModel.pendingGatheringMembers.count
+                var startIndex = 0
+                if viewModel.pendingMembers.count == 0 {
+                    startIndex = 3
+                } else {
+                    startIndex = 2 + viewModel.pendingMembers.count
+                }
                 let userIndex = indexPath.row - startIndex
-                if userIndex < viewModel.joiningGatheringMembers.count {
-                    let user = viewModel.joiningGatheringMembers[userIndex]
-                    cell.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
-                    cell.configure(with: user)
+                if userIndex < viewModel.joinedMembersData.count {
+                    let user = viewModel.joinedMembersData[userIndex]
+                    let userData = viewModel.joinedMembers[userIndex]
+                    cell.configure(user:user, userData: userData, joined: true)
                 }
                 return cell
             }
         case .settingTitle:
             if let cell: GatherSectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "설정")
+                cell.configure(title: "설정")
                 return cell
             }
         case .deleteGathering:
             if let cell: GatherDeleteTVCell  = tableView.loadCell(indexPath: indexPath) {
+                return cell
+            }
+        case .pendingEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "가입 대기중인 인원이 없습니다.")
+                return cell
+            }
+        case .joinEmptyState:
+            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title:"가입 중인 인원이 없습니다.")
                 return cell
             }
         }

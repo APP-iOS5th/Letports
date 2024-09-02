@@ -24,7 +24,6 @@ class SectionTVCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
     }
     
     func setupUI() {
@@ -39,7 +38,7 @@ class SectionTVCell: UITableViewCell {
         ])
     }
     
-    func configure(withTitle title: String) {
+    func configure(title: String) {
         titleLabel.text = title
     }
 }

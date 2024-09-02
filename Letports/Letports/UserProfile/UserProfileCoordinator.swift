@@ -28,7 +28,7 @@ class UserProfileCoordinator: Coordinator {
 }
 
 extension UserProfileCoordinator: UserProfileCoordinatorDelegate {
-	func userProfileBackBtn() {
+	func userProfileBackBtnDidTap() {
 		navigationController.popViewController(animated: true)
 	}
 }

@@ -8,15 +8,15 @@ import UIKit
 import Photos
 
 protocol ProfileEditCoordinatorDelegate: AnyObject {
-    func dismissViewController()
+    func dismissOrPopViewController()
     func presentImagePickerController()
-    func backToProfileViewController()
 }
 
 class ProfileEditCoordinator: NSObject, Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var viewModel: ProfileEditVM
+    weak var delegate: ProfileCoordinatorDelegate?
     
     init(navigationController: UINavigationController , viewModel: ProfileEditVM) {
         self.navigationController = navigationController
@@ -30,13 +30,11 @@ class ProfileEditCoordinator: NSObject, Coordinator {
     }
     
     func imagePickerPresent() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        if let topViewController = topMostViewController() {
-            topViewController.present(imagePickerController, animated: true)
-        } else {
-            print("No topViewController found")
+        DispatchQueue.main.async {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .photoLibrary
+            self.navigationController.present(imagePickerController, animated: true)
         }
     }
     
@@ -48,31 +46,19 @@ class ProfileEditCoordinator: NSObject, Coordinator {
         navigationController.present(alert, animated: true)
     }
     
-    func topMostViewController() -> UIViewController? {
-        
-        guard let windowScene = UIApplication.shared.connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .compactMap({ $0 as? UIWindowScene })
-            .first else {
-            return nil
-        }
-        
-        var topViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController
-        while let presentedViewController = topViewController?.presentedViewController {
-            topViewController = presentedViewController
-        }
-        return topViewController
-    }
 }
 
 
 extension ProfileEditCoordinator: ProfileEditCoordinatorDelegate {
-    func dismissViewController() {
-        self.navigationController.dismiss(animated: true)
-    }
-    
-    func backToProfileViewController() {
-        self.navigationController.popViewController(animated: true)
+    func dismissOrPopViewController() {
+        if navigationController.viewControllers.count > 1 {
+            self.navigationController.popViewController(animated: true)
+            delegate?.didFinishEditingOrDetail()
+        } else {
+            self.navigationController.dismiss(animated: true)
+            delegate?.didFinishEditingOrDetail()
+        }
+        
     }
     
     func presentImagePickerController() {

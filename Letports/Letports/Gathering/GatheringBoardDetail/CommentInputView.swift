@@ -13,13 +13,14 @@ protocol CommentInputDelegate: AnyObject {
 
 class CommentInputView: UIView {
     
-    private let textField: UITextField = {
+    private lazy var  textField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "댓글을 입력하세요"
         tf.borderStyle = .roundedRect
         tf.clipsToBounds = true
         tf.layer.cornerRadius = 10
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return tf
     }()
     
@@ -32,6 +33,7 @@ class CommentInputView: UIView {
         btn.backgroundColor = .lp_white
         btn.addTarget(self, action: #selector(registCommentDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleColor(.gray, for: .normal)
         return btn
     }()
     
@@ -74,13 +76,22 @@ class CommentInputView: UIView {
     }
     
     @objc func registCommentDidTap() {
-        
         if let text = textField.text {
-            print("touchaddButton \(text)")
             self.delegate?.addComment(comment: text)
-            
         }
-        
     }
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text, !text.isEmpty {
+            registBtn.isEnabled = true
+            registBtn.setTitleColor(.black, for: .normal)
+        } else {
+            registBtn.isEnabled = false
+            registBtn.setTitleColor(.gray, for: .normal)
+        }
+    }
+    
+    func clearText() {
+        textField.text = ""
+    }
 }

@@ -3,10 +3,10 @@ import FirebaseAuth
 
 
 protocol ProfileCoordinatorDelegate: AnyObject {
-    func dismissViewController()
     func presentEditProfileController(user: LetportsUser)
     func presentSettingViewController()
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String)
+    func didFinishEditingOrDetail()
 }
 
 class ProfileCoordinator: Coordinator {
@@ -30,10 +30,11 @@ class ProfileCoordinator: Coordinator {
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
-            childCoordinators.append(coordinator)
-            coordinator.start()
-        }
-
+        childCoordinators.append(coordinator)
+        coordinator.delegate = self
+        coordinator.start()
+    }
+    
     func presentSettingViewController() {
         navigationController.pushViewController(SettingVC(), animated: false)
     }
@@ -41,10 +42,17 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func presentEditProfileController(user: LetportsUser) {
         let coordinator = ProfileEditCoordinator(navigationController: navigationController, viewModel: ProfileEditVM(user: user))
         childCoordinators.append(coordinator)
+        coordinator.delegate = self
         coordinator.start()
     }
     
-    func dismissViewController() {
-        self.navigationController.dismiss(animated: true)
+    func reloadProfileData() {
+        if let profileVC = navigationController.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+            profileVC.reloadProfileData()
+        }
+    }
+    
+    func didFinishEditingOrDetail() {
+        reloadProfileData()
     }
 }
