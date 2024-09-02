@@ -121,8 +121,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 			joinBtn.backgroundColor = .lp_main
 			joinBtn.isHidden = false
 		case .pending:
-			joinBtn.setTitle("가입대기", for: .normal)
-			joinBtn.backgroundColor = .lightGray
+			joinBtn.setTitle("가입신청 중", for: .normal)
+			joinBtn.backgroundColor = .lp_main
 			joinBtn.isHidden = false
 		case .joined:
 			joinBtn.isHidden = true
@@ -256,12 +256,12 @@ extension GatheringDetailVC: JoinViewDelegate {
 		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
 		present(alert, animated: true, completion: nil)
 	}
-	// 가입 대기 취소
+	// 가입 신청 취소
 	private func showCancelWaitingConfirmation() {
-		let alert = UIAlertController(title: "가입 대기 취소", message: "가입 대기를 취소하시겠습니까?", preferredStyle: .alert)
+		let alert = UIAlertController(title: "가입 신청 중입니다", message: "가입 신청를 취소하시겠습니까?", preferredStyle: .alert)
 		
 		alert.addAction(UIAlertAction(title: "나가기", style: .cancel, handler: nil))
-		alert.addAction(UIAlertAction(title: "가입 대기 취소", style: .destructive, handler: { [weak self] _ in
+		alert.addAction(UIAlertAction(title: "가입 신청 취소", style: .destructive, handler: { [weak self] _ in
 			self?.viewModel.confirmCancelWaiting()
 		}))
 		
