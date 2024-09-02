@@ -60,7 +60,7 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 		self.contentView.addSubview(collectionView)
 		NSLayoutConstraint.activate([
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
 			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
 		])

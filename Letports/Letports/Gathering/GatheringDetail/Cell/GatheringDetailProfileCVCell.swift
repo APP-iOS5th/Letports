@@ -32,6 +32,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 		let lb = UILabel()
 		lb.textAlignment = .center
 		lb.font = .systemFont(ofSize: 10, weight: .medium)
+		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
@@ -64,15 +65,19 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 			verticalStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 			verticalStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 		])
-		
 		userImageBtn.addTarget(self, action: #selector(imageTap), for: .touchUpInside)
+	}
+	
+	private func truncateText(_ text: String, limit: Int) -> String {
+		return text.count > limit ? String(text.prefix(limit)) + ".." : text
 	}
 	
 	func configure(member: LetportsUser) {
 		self.profile = member
-		self.userNickName.text = member.nickname
+		self.userNickName.text = truncateText(member.nickname, limit: 8)
 		if let url = URL(string: member.image) {
 			userImageBtn.kf.setImage(with: url, for: .normal, placeholder: UIImage(named: "person.circle.fill"))
+			
 		}
 	}
 	
