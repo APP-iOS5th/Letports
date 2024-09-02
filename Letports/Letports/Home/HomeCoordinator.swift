@@ -9,8 +9,8 @@ import UIKit
 
 protocol HomeCoordinatorDelegate: AnyObject {
 	func presentURLController(with url: URL)
-	func teamChangeController()
-	func pushGatheringDetailController()
+	func presentTeamChangeController()
+    func pushGatheringDetailController(gatheringUID: String)
 }
 
 class HomeCoordinator: Coordinator {
@@ -34,12 +34,15 @@ class HomeCoordinator: Coordinator {
 }
 
 extension HomeCoordinator: HomeCoordinatorDelegate {
-	func teamChangeController() {
-		print("teamChangeButton")
+
+	func presentTeamChangeController() {
+		let coordinator = TeamSelectionCoordinator(navigationController: navigationController)
+        coordinator.start()
+        childCoordinators.append(coordinator)
 	}
 	
-	func pushGatheringDetailController() {
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: GatheringDetailVM.dummyUser, currentGatheringUid: "")
+    func pushGatheringDetailController(gatheringUID: String) {
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: UserManager.shared.getUser(), currentGatheringUid: gatheringUID)
 		coordinator.start()
 		childCoordinators.append(coordinator)
 	}
