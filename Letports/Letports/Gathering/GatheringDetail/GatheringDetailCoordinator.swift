@@ -105,6 +105,22 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
+	
+//	func presentCancelWaiting() {
+//		let alertController = UIAlertController(title: "가입 대기 취소",
+//												message: "정말로 가입대기를 취소하시겠습니까?",
+//												preferredStyle: .alert)
+//		
+//		let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+//		let leaveAction = UIAlertAction(title: "신청취소", style: .destructive) { [weak self] _ in
+//			self?.viewModel.confirmCancelWaiting()
+//		}
+//		
+//		alertController.addAction(cancelAction)
+//		alertController.addAction(leaveAction)
+//		
+//		navigationController.present(alertController, animated: true, completion: nil)
+//	}
     
 	func dismissAndUpdateUI() {
 		navigationController.popViewController(animated: true)

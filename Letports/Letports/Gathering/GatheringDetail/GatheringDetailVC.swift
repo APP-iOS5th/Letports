@@ -78,11 +78,11 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		self.delegate = self
 		viewModel.selectedBoardType = .all
 	}
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.loadData()
-    }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		viewModel.loadData()
+	}
 	
 	// MARK: - bindVm
 	private func bindViewModel() {
@@ -123,11 +123,11 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		switch status {
 		case .notJoined:
 			joinBtn.setTitle("가입하기", for: .normal)
+			joinBtn.backgroundColor = .lp_main
 			joinBtn.isHidden = false
 		case .pending:
 			joinBtn.setTitle("가입대기", for: .normal)
 			joinBtn.backgroundColor = .lightGray
-			joinBtn.isUserInteractionEnabled = false
 			joinBtn.isHidden = false
 		case .joined:
 			joinBtn.isHidden = true
@@ -255,6 +255,17 @@ extension GatheringDetailVC: JoinViewDelegate {
 	private func showError(message: String) {
 		let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+		present(alert, animated: true, completion: nil)
+	}
+	
+	private func showCancelWaitingConfirmation() {
+		let alert = UIAlertController(title: "가입 대기 취소", message: "가입 대기를 취소하시겠습니까?", preferredStyle: .alert)
+		
+		alert.addAction(UIAlertAction(title: "나가기", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: "가입 대기 취소", style: .destructive, handler: { [weak self] _ in
+			self?.viewModel.confirmCancelWaiting()
+		}))
+		
 		present(alert, animated: true, completion: nil)
 	}
 }
@@ -385,10 +396,17 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 	// MARK: - objc메소드
 	
 	@objc private func joinBtnTap() {
-		guard let gathering = viewModel.gathering else {
-			return
+		switch viewModel.membershipStatus {
+		case .notJoined:
+			guard let gathering = viewModel.gathering else {
+				return
+			}
+			showUserView(existingView: &joinView, gathering: gathering)
+		case .pending:
+			showCancelWaitingConfirmation()
+		case .joined:
+			break
 		}
-		showUserView(existingView: &joinView, gathering: gathering)
 	}
 }
 

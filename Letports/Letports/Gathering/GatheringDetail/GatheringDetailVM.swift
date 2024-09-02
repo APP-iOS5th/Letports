@@ -374,6 +374,53 @@ class GatheringDetailVM {
 			.store(in: &cancellables)
 	}
 	
+	// 가입 대기 취소
+	func removeWaitingRegist() -> AnyPublisher<Void, FirestoreError> {
+		// Gathering에서 멤버 제거
+		let collectionPath: [FirestorePathComponent] = [
+			.collection(.gatherings),
+			.document(currentGatheringUid),
+			.collection(.gatheringMembers),
+			.document(currentUser.uid)
+		]
+		
+		// 유저의 MyGatherings에서 제거
+		let userMyGatheringPath: [FirestorePathComponent] = [
+			.collection(.user),
+			.document(currentUser.uid),
+			.collection(.myGathering),
+			.document(currentGatheringUid)
+		]
+		
+		// 모든 업데이트를 동시에 실행
+		return Publishers.Zip(
+			FM.deleteDocument(pathComponents: collectionPath),
+			FM.deleteDocument(pathComponents: userMyGatheringPath)
+		)
+		.map { _, _ in () }
+		.eraseToAnyPublisher()
+	}
+	
+	// 가입대기 취소 확인
+	func confirmCancelWaiting() {
+		guard gathering != nil else {
+			delegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			return
+		}
+		removeWaitingRegist()
+			.receive(on: DispatchQueue.main)
+			.sink(receiveCompletion: { completion in
+				switch completion {
+				case .finished:
+					print("가입 대기 취소 완료")
+					self.loadData()
+				case .failure(let error):
+					print("가입 대기 취소 실패: \(error)")
+				}
+			}, receiveValue: { _ in })
+			.store(in: &cancellables)
+	}
+	
 	private var cellType: [GatheringDetailCellType] {
 		var cellTypes: [GatheringDetailCellType] = []
 		cellTypes.append(.gatheringImage)
