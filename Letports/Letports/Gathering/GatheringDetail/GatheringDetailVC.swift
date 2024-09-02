@@ -16,7 +16,7 @@ protocol GatheringDetailDelegate: AnyObject {
 final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 	private lazy var navigationView: CustomNavigationView = {
 		let screenType: ScreenType
-		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "모임", btnName: .ellipsis))
+		let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "", btnName: .empty))
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white
 		cnv.translatesAutoresizingMaskIntoConstraints = false
@@ -87,15 +87,10 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 	// MARK: - bindVm
 	private func bindViewModel() {
 		viewModel.$gathering
+			.zip(viewModel.$membershipStatus, viewModel.$isMaster)
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] gathering in
+			.sink { [weak self] gathering, status, _ in
 				self?.updateUI(with: gathering)
-			}
-			.store(in: &cancellables)
-		
-		viewModel.$membershipStatus
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] status in
 				self?.updateJoinBtn(for: status)
 				self?.boardWritewBtn(for: status)
 			}
@@ -153,19 +148,23 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		
 		postBtn.isMaster = viewModel.isMaster
 		
-		if viewModel.isMaster {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
-		} else if viewModel.membershipStatus == .joined {
-			screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
-		} else if viewModel.membershipStatus == .pending{
+		if viewModel.membershipStatus == .joined {
+			if viewModel.isMaster {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .gear)
+			} else {
+				screenType = .smallGathering(gatheringName: gatheringName, btnName: .ellipsis)
+			}
+		} else if viewModel.membershipStatus == .pending {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		} else {
 			screenType = .smallGathering(gatheringName: gatheringName, btnName: .empty)
 		}
+		
 		navigationView.screenType = screenType
 		self.view.setNeedsLayout()
 		tableView.reloadData()
 	}
+	
 	// 레이아웃
 	private func setupUI() {
 		self.navigationController?.isNavigationBarHidden = true
@@ -296,7 +295,7 @@ extension GatheringDetailVC: CustomNavigationDelegate {
 			if viewModel.isMaster {
 				viewModel.pushGatherSettingView()
 			} else {
-				viewModel.showActionSheet()
+				viewModel.presentActionSheet()
 			}
 		}
 	}

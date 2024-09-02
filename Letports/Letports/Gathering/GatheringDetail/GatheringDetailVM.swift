@@ -55,6 +55,7 @@ class GatheringDetailVM {
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
 		self.currentGatheringUid = currentGatheringUid
+		loadData()
 	}
 	
 	// 게시판 분류
@@ -86,7 +87,7 @@ class GatheringDetailVM {
 		self.delegate?.pushProfileView(member: member)
 	}
 	
-	func showActionSheet() {
+	func presentActionSheet() {
 		delegate?.presentActionSheet()
 	}
 	
@@ -226,7 +227,7 @@ class GatheringDetailVM {
 			self.masterNickname = masterMember
 		}
 	}
-	// 모임장 상태인지
+	// 모임장 상태인지 (가입중인지 아닌지와 합치는걸로)
 	private func updateMasterStatus() {
 		guard let gathering = self.gathering else {
 			isMaster = false
@@ -236,10 +237,7 @@ class GatheringDetailVM {
 		let gatheringMaster = gathering.gatheringMaster
 		isMaster = currentUser.uid == gatheringMaster
 	}
-	// 현재 사용자 정보
-	func getCurrentUserInfo() -> LetportsUser {
-		return currentUser
-	}
+	
 	// 가입중인지 아닌지
 	private func updateMembershipStatus() {
 		let gathering = self.member
@@ -257,6 +255,11 @@ class GatheringDetailVM {
 			// 사용자가 모임 멤버 목록에 없는 경우
 			self.membershipStatus = .notJoined
 		}
+	}
+	
+	// 현재 사용자 정보
+	func getCurrentUserInfo() -> LetportsUser {
+		return currentUser
 	}
 	// 모임 멤버들 정보
 	func getGatheringMembers() -> [LetportsUser] {

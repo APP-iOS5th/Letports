@@ -196,8 +196,6 @@ class CustomNavigationView: UIView {
 			button.setTitle(self.screenType.buttonImage, for: .normal)
 		}
 		
-		button.isHidden = self.screenType.buttonImage == "" ? true : false
-		
 		button.titleLabel?.font = .systemFont(ofSize: 16)
 		button.setTitleColor(.black, for: .normal)
 		button.tintColor = .black
@@ -296,6 +294,8 @@ class CustomNavigationView: UIView {
 		case .small:
 			naviSmallSizeSetup()
 		}
+		
+		self.largeRightButton.isHidden = self.screenType.buttonImage == "" ? true : false
 	}
 	
 	private func naviLargeSizeSetup() {

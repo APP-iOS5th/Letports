@@ -149,6 +149,29 @@ final class GatheringBoardDetailVM {
 			.eraseToAnyPublisher()
 	}
 	
+	func getDatas(gatherings: [MyGatherings], user: LetportsUser) {
+			let gatheringPublishers = gatherings.map { gathering in
+				let collectionPath3: [FirestorePathComponent] = [
+					.collection(.gatherings),
+					.document(gathering.uid)
+				]
+				return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
+			}
+
+			Publishers.MergeMany(gatheringPublishers)
+				.collect()
+				.sink(receiveCompletion: { completion in
+					if case .failure(let error) = completion {
+						print(error)
+					}
+				}, receiveValue: { [weak self] allGatherings in
+					guard let self = self else { return }
+					let flatGatherings = allGatherings.flatMap { $0 }
+//					self.filterGatherings(flatGatherings, user: user)
+				})
+				.store(in: &cancellables)
+		}
+	
 	private func getUserData(userUid: String) -> AnyPublisher<LetportsUser, FirestoreError> {
 		let collectionPath: [FirestorePathComponent] = [
 			.collection(.user),
