@@ -17,6 +17,7 @@ class ProfileTVCell: UITableViewCell {
         let iv = UIImageView()
         iv.layer.cornerRadius = 12
         iv.clipsToBounds = true
+        iv.backgroundColor = .lp_gray
         iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -113,6 +114,7 @@ class ProfileTVCell: UITableViewCell {
         
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
+            profileIV.backgroundColor = .lpWhite
             return
         }
         

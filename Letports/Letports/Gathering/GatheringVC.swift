@@ -94,9 +94,10 @@ class GatheringVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.Merge(
+        Publishers.Merge3(
             viewModel.$recommendGatherings.map { _ in () } ,
-            viewModel.$gatheringLists.map {_ in () }
+            viewModel.$gatheringLists.map {_ in () },
+            viewModel.$masterUsers.map {_ in () }
         )
         .sink { [weak self] _ in
             DispatchQueue.main.async {
@@ -121,7 +122,7 @@ class GatheringVC: UIViewController {
 }
 
 extension GatheringVC: CustomNavigationDelegate {
-    func sportsSelectButtonDidTap() {
+    func sportsSelectBtnDidTap() {
         print("TeamChangeView")
     }
 }
@@ -146,14 +147,10 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
-        case .recommendGatheringHeader:
+        case .recommendGatheringHeader, .gatheringListHeader:
             return 50.0
-        case .recommendGatherings:
-            return 90.0
-        case .gatheringListHeader:
-            return 50.0
-        case .gatheringLists:
-            return 90.0
+        case .gatheringLists, .recommendGatherings:
+            return 100.0
         }
     }
     
