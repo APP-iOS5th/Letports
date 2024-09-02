@@ -14,7 +14,15 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        checkAuthAndTeamState()
+        showSplashView()
+    }
+    
+    func showSplashView() {
+        let splashVC = SplashVC()
+        splashVC.completion = { [weak self] in
+            self?.checkAuthAndTeamState()
+        }
+        navigationController.viewControllers = [splashVC]
     }
     
     func checkAuthAndTeamState() {

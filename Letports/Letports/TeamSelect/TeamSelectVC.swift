@@ -24,6 +24,15 @@ class TeamSelectVC: UICollectionViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>
     
     private var dataSource: DataSource!
+    private lazy var selectBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("선택 완료", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.layer.cornerRadius = 25
+        btn.isEnabled = false
+        btn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
+        return btn
+    }()
     
     init(viewModel: TeamSelectVM) {
         self.viewModel = viewModel
@@ -61,6 +70,14 @@ class TeamSelectVC: UICollectionViewController {
         viewModel.$filteredTeams
             .sink { [weak self] teams in
                 self?.updateTeamsSnapshot()
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$selectedTeam
+            .sink { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.updateSelectBtnState()
+                }
             }
             .store(in: &cancellables)
     }
@@ -139,11 +156,6 @@ class TeamSelectVC: UICollectionViewController {
     }
     
     private func setupSelectBtn() {
-        let selectBtn = UIButton(type: .system)
-        selectBtn.setTitle("선택 완료", for: .normal)
-        selectBtn.backgroundColor = .systemBlue
-        selectBtn.setTitleColor(.white, for: .normal)
-        selectBtn.layer.cornerRadius = 25
         view.addSubview(selectBtn)
         
         selectBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -154,7 +166,20 @@ class TeamSelectVC: UICollectionViewController {
             selectBtn.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        selectBtn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
+        updateSelectBtnState()
+    }
+    
+    private func updateSelectBtnState() {
+        let isEnabled = viewModel.selectedTeam != nil
+        selectBtn.isEnabled = isEnabled
+        
+        if isEnabled {
+            selectBtn.backgroundColor = .lpMain
+            selectBtn.setTitleColor(.lpWhite, for: .normal)
+        } else {
+            selectBtn.backgroundColor = .lpGray
+            selectBtn.setTitleColor(.lp_black, for: .normal)
+        }
     }
     
     @objc private func selectBtnDidTap() {
@@ -199,6 +224,7 @@ extension TeamSelectVC {
         case .sports:
             guard let sports = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Sports else { return }
             viewModel.selectSports(sports)
+            viewModel.selectTeam(nil)
             updateTeamsSnapshot()
         case .teams:
             if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Team {
