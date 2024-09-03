@@ -63,11 +63,17 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		coordinator.start()
 	}
 	
-	func pushProfileView(member: LetportsUser) {
-		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.uid)
-		childCoordinators.append(coordinator)
-		coordinator.start()
-	}
+    func pushProfileView(member: LetportsUser) {
+        let viewModel = ProfileVM(profileType: .userProfile, userUID: member.uid)
+        let coordinator = ProfileCoordinator(navigationController: navigationController, viewModel: viewModel)
+        childCoordinators.append(coordinator)
+        
+        let profileVC = ProfileVC(viewModel: viewModel)
+        profileVC.hidesBottomBarWhenPushed = true  // 탭 바 숨기기
+        
+        viewModel.delegate = coordinator
+        navigationController.pushViewController(profileVC, animated: true)
+    }
 	
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

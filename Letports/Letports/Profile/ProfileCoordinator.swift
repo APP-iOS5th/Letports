@@ -7,27 +7,32 @@ protocol ProfileCoordinatorDelegate: AnyObject {
     func presentSettingViewController()
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String)
     func didUpdateProfile()
+    func backToGatheringDetail()
 }
 
 class ProfileCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     var childCoordinators: [Coordinator] = []
-    
+    var viewModel : ProfileVM
     var navigationController: UINavigationController
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, viewModel: ProfileVM) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {
-        let profileVM = ProfileVM()
-        let profileVC = ProfileVC(viewModel: profileVM)
-        profileVM.delegate = self
+        let profileVC = ProfileVC(viewModel: viewModel)
+        viewModel.delegate = self
         navigationController.pushViewController(profileVC, animated: false)
     }
 }
 
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
+    func backToGatheringDetail() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
         childCoordinators.append(coordinator)

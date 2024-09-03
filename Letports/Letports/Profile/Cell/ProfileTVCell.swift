@@ -107,11 +107,13 @@ class ProfileTVCell: UITableViewCell {
             }
         }
     }
-    
-    func configure(user: LetportsUser) {
+
+    // 'isEditable' 플래그 추가
+    func configure(user: LetportsUser, isEditable: Bool) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
-        
+        editProfileBtn.isHidden = !isEditable  // 프로필 변경 버튼을 isEditable 플래그에 따라 숨기거나 표시
+
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
             profileIV.backgroundColor = .lpWhite

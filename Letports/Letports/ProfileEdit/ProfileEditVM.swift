@@ -86,7 +86,7 @@ class ProfileEditVM {
                 }
                 
                 let isNicknameValid = nickname.count != 0
-                let isSimpleInfoValid = simpleInfo.count != 0 
+                let isSimpleInfoValid = simpleInfo.count != 0
                 
                 return isNicknameValid && isSimpleInfoValid
             }
@@ -94,106 +94,106 @@ class ProfileEditVM {
     }
     
     func profileUpdate() -> AnyPublisher<Void, Never> {
-            guard !isUpdate else {
-                return Just(()).eraseToAnyPublisher()
-            }
-            isUpdate = true
-            
-            let imageUploadPublisher: AnyPublisher<String?, Never>
-            
-            if isImageChanged {
-                imageUploadPublisher = uploadImage()
-            } else {
-                imageUploadPublisher = Just(user?.image).eraseToAnyPublisher() 
-            }
-            
-            return imageUploadPublisher
-                .flatMap { [weak self] imageUrl -> AnyPublisher<Void, Never> in
-                    guard let self = self else {
-                        return Just(()).eraseToAnyPublisher()
-                    }
-                    return self.editProfile(imageUrl: imageUrl ?? "")
-                        .eraseToAnyPublisher()
-                }
-                .handleEvents(receiveCompletion: { [weak self] _ in
-                    self?.isUpdate = false
-                })
-                .eraseToAnyPublisher()
+        guard !isUpdate else {
+            return Just(()).eraseToAnyPublisher()
+        }
+        isUpdate = true
+        
+        let imageUploadPublisher: AnyPublisher<String?, Never>
+        
+        if isImageChanged {
+            imageUploadPublisher = uploadImage()
+        } else {
+            imageUploadPublisher = Just(user?.image).eraseToAnyPublisher()
         }
         
-        private func uploadImage() -> AnyPublisher<String?, Never> {
-            guard let image = selectedImage else {
-                return Just(nil).eraseToAnyPublisher()
+        return imageUploadPublisher
+            .flatMap { [weak self] imageUrl -> AnyPublisher<Void, Never> in
+                guard let self = self else {
+                    return Just(()).eraseToAnyPublisher()
+                }
+                return self.editProfile(imageUrl: imageUrl ?? "")
+                    .eraseToAnyPublisher()
             }
-            
-            let filePath: StorageFilePath
-            
-            if let existingImageUrl = user?.image, !existingImageUrl.isEmpty {
-                if existingImageUrl.hasPrefix("gs://") {
-                    let storagePath = existingImageUrl.replacingOccurrences(of: "gs://letports-81f7f.appspot.com/", with: "")
-                    filePath = .specificPath(storagePath)
-                } else if let url = URL(string: existingImageUrl), url.host == "firebasestorage.googleapis.com" {
-                    let path = url.path.replacingOccurrences(of: "/v0/b/letports-81f7f.appspot.com/o/", with: "")
-                    if let decodedPath = path.removingPercentEncoding {
-                        filePath = .specificPath(decodedPath)
-                    } else {
-                        filePath = .userProfileImageUpload
-                    }
+            .handleEvents(receiveCompletion: { [weak self] _ in
+                self?.isUpdate = false
+            })
+            .eraseToAnyPublisher()
+    }
+    
+    private func uploadImage() -> AnyPublisher<String?, Never> {
+        guard let image = selectedImage else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        let filePath: StorageFilePath
+        
+        if let existingImageUrl = user?.image, !existingImageUrl.isEmpty {
+            if existingImageUrl.hasPrefix("gs://") {
+                let storagePath = existingImageUrl.replacingOccurrences(of: "gs://letports-81f7f.appspot.com/", with: "")
+                filePath = .specificPath(storagePath)
+            } else if let url = URL(string: existingImageUrl), url.host == "firebasestorage.googleapis.com" {
+                let path = url.path.replacingOccurrences(of: "/v0/b/letports-81f7f.appspot.com/o/", with: "")
+                if let decodedPath = path.removingPercentEncoding {
+                    filePath = .specificPath(decodedPath)
                 } else {
                     filePath = .userProfileImageUpload
                 }
             } else {
                 filePath = .userProfileImageUpload
             }
-            
-            return FirebaseStorageManager.uploadSingleImages(image: image, filePath: filePath)
-                .map { url in
-                    url.absoluteString
-                }
-                .catch { error -> Just<String?> in
-                    print("Failed to upload image: \(error.localizedDescription)")
-                    return Just(nil)
-                }
-                .receive(on: DispatchQueue.main)
-                .eraseToAnyPublisher()
+        } else {
+            filePath = .userProfileImageUpload
         }
         
-        private func editProfile(imageUrl: String) -> AnyPublisher<Void, Never> {
-            guard let user = user?.uid else {
-                return Just(()).eraseToAnyPublisher()
+        return FirebaseStorageManager.uploadSingleImages(image: image, filePath: filePath)
+            .map { url in
+                url.absoluteString
             }
-            
-            let userCollectionPath: [FirestorePathComponent] = [
-                .collection(.user),
-                .document(user)
-            ]
-            
-            let updatedFields: [String: Any] = [
-                "Image": imageUrl,
-                "SimpleInfo": userSimpleInfo as Any,
-                "NickName": usernickName as Any
-            ]
-            
-            return FM.updateData(pathComponents: userCollectionPath, fields: updatedFields)
-                .map { _ in () }
-                .replaceError(with: ())
-                .eraseToAnyPublisher()
-        }
-        
-        private func loadImage(urlString: String) {
-            guard selectedImage == nil else { return }
-            guard let url = URL(string: urlString) else { return }
-            
-            let resource = KF.ImageResource(downloadURL: url)
-            KingfisherManager.shared.retrieveImage(with: resource) { [weak self] result in
-                switch result {
-                case .success(let value):
-                    self?.selectedImage = value.image
-                case .failure(let error):
-                    print("Failed to load image: \(error.localizedDescription)")
-                    self?.selectedImage = nil
-                }
+            .catch { error -> Just<String?> in
+                print("Failed to upload image: \(error.localizedDescription)")
+                return Just(nil)
             }
-        }
-        
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
+    
+    private func editProfile(imageUrl: String) -> AnyPublisher<Void, Never> {
+        guard let user = user?.uid else {
+            return Just(()).eraseToAnyPublisher()
+        }
+        
+        let userCollectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(user)
+        ]
+        
+        let updatedFields: [String: Any] = [
+            "Image": imageUrl,
+            "SimpleInfo": userSimpleInfo as Any,
+            "NickName": usernickName as Any
+        ]
+        
+        return FM.updateData(pathComponents: userCollectionPath, fields: updatedFields)
+            .map { _ in () }
+            .replaceError(with: ())
+            .eraseToAnyPublisher()
+    }
+    
+    private func loadImage(urlString: String) {
+        guard selectedImage == nil else { return }
+        guard let url = URL(string: urlString) else { return }
+        
+        let resource = KF.ImageResource(downloadURL: url)
+        KingfisherManager.shared.retrieveImage(with: resource) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.selectedImage = value.image
+            case .failure(let error):
+                print("Failed to load image: \(error.localizedDescription)")
+                self?.selectedImage = nil
+            }
+        }
+    }
+    
+}

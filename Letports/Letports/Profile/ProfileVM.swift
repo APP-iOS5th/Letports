@@ -9,53 +9,52 @@ enum ProfileCellType {
     case myGatherings
     case pendingGatheringHeader
     case pendingGatherings
+    case userGatheringHeader
+    case userGatherings
     case myGatheringEmptyState
     case pendingGatheringEmptyState
 }
 
+enum ProfileType {
+    case myProfile
+    case userProfile
+}
+
 class ProfileVM {
     @Published var user: LetportsUser?
-    @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var myGatherings: [Gathering] = []
     @Published var pendingGatherings: [Gathering] = []
-    
+    @Published var userGatherings: [Gathering] = []
+    @Published var masterUsers: [String: LetportsUser] = [:]
+    @Published var currentUserUid: String?
     private var cancellables = Set<AnyCancellable>()
+    let profileType: ProfileType
+    
     weak var delegate: ProfileCoordinatorDelegate?
     
-    private var cellType: [ProfileCellType] {
-        var cellTypes: [ProfileCellType] = [.profile, .myGatheringHeader]
-        cellTypes.append(contentsOf: myGatherings.isEmpty ? [.myGatheringEmptyState] : Array(repeating: .myGatherings, count: myGatherings.count))
-        cellTypes.append(.pendingGatheringHeader)
-        cellTypes.append(contentsOf: pendingGatherings.isEmpty ? [.pendingGatheringEmptyState] : Array(repeating: .pendingGatherings, count: pendingGatherings.count))
-        return cellTypes
-    }
-    
-    init() {
-        loadUser(user: UserManager.shared.getUserUid())
-    }
-    
-    func getCellTypes() -> [ProfileCellType] {
-        return self.cellType
-    }
-    
-    func getCellCount() -> Int {
-        return self.cellType.count
-    }
-    
-    func editProfileBtnDidTap() {
-        if let user = user {
-            self.delegate?.presentEditProfileController(user: user)
+    init(profileType: ProfileType, userUID: String) {
+        self.currentUserUid = userUID
+        self.profileType = profileType
+        switch profileType {
+        case .myProfile:
+            loadMyProfile()
+        case .userProfile:
+            if let currentUserUid = currentUserUid {
+                loadUserProfile(userUID: currentUserUid)
+            }
         }
     }
     
-    func gatheringCellDidTap(gatheringUID: String) {
-        if let user = user {
-            self.delegate?.presentGatheringDetailController(currentUser: user, gatheringUid: gatheringUID)
+    private func loadMyProfile() {
+        let userUID = UserManager.shared.getUserUid()
+        loadUser(user: userUID) {
         }
     }
     
-    func settingButtonTapped() {
-        self.delegate?.presentSettingViewController()
+    private func loadUserProfile(userUID: String) {
+        loadUser(user: userUID) {
+            self.fetchUserGatherings(userUID: userUID, isCurrentUser: false)
+        }
     }
     
     func loadUser(user: String, completion: (() -> Void)? = nil) {
@@ -74,8 +73,12 @@ class ProfileVM {
             } receiveValue: { [weak self] fetchedUser in
                 guard let self = self else { return }
                 if let user = fetchedUser.first {
-                    self.fetchUserGatherings(user: user)
                     self.user = user
+                    if self.profileType == .myProfile {
+                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: true)
+                    } else {
+                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: false)
+                    }
                     self.updateMasterUserInfo(for: user)
                     completion?()
                 }
@@ -84,48 +87,34 @@ class ProfileVM {
     }
     
     private func updateMasterUserInfo(for user: LetportsUser) {
-        if masterUsers[user.uid] != nil {
+        if masterUsers[user.uid] == nil {
             masterUsers[user.uid] = user
-            reloadUserGatherings()
         }
+        reloadUserGatherings()
     }
     
     private func reloadUserGatherings() {
         guard let user = self.user else { return }
-        fetchUserGatherings(user: user)
+        fetchUserGatherings(userUID: user.uid, isCurrentUser: profileType == .myProfile)
     }
     
-    func fetchMasterUser(masterId: String) {
-        guard masterUsers[masterId] == nil else { return }
+    func fetchUserGatherings(userUID: String, isCurrentUser: Bool) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
-            .document(masterId),
-        ]
-        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-            .compactMap { $0.first }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
-                self?.masterUsers[masterId] = masterUser
-            }
-            .store(in: &cancellables)
-    }
-    
-    func fetchUserGatherings(user: LetportsUser) {
-        let collectionPath: [FirestorePathComponent] = [
-            .collection(.user),
-            .document(user.uid),
+            .document(userUID),
             .collection(.myGathering)
         ]
+        
         FM.getData(pathComponents: collectionPath, type: MyGatherings.self)
             .sink { _ in
             } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
-                self.getDatas(gatherings: gatherings, user: user)
+                self.getDatas(gatherings: gatherings, userUID: userUID, isCurrentUser: isCurrentUser)
             }
             .store(in: &cancellables)
     }
     
-    func getDatas(gatherings: [MyGatherings], user: LetportsUser) {
+    func getDatas(gatherings: [MyGatherings], userUID: String, isCurrentUser: Bool) {
         let gatheringPublishers = gatherings.map { gathering in
             let collectionPath3: [FirestorePathComponent] = [
                 .collection(.gatherings),
@@ -143,23 +132,27 @@ class ProfileVM {
             }, receiveValue: { [weak self] allGatherings in
                 guard let self = self else { return }
                 let flatGatherings = allGatherings.flatMap { $0 }
-                self.filterGatherings(flatGatherings, user: user)
+                if isCurrentUser {
+                    self.filterGatherings(flatGatherings, userUID: userUID)
+                } else {
+                    self.filterUserGatherings(flatGatherings, userUID: userUID)
+                }
             })
             .store(in: &cancellables)
     }
     
-    private func filterGatherings(_ gatherings: [Gathering], user: LetportsUser) {
+    private func filterGatherings(_ gatherings: [Gathering], userUID: String) {
         let memberStatusPublishers = gatherings.map { gathering in
             let collectionPath3: [FirestorePathComponent] = [
                 .collection(.gatherings),
                 .document(gathering.gatheringUid),
                 .collection(.gatheringMembers),
-                .document(user.uid)
+                .document(userUID)
             ]
             return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
                 .map { members -> (Gathering, Bool, Bool) in
-                    let isJoined = members.contains { $0.userUID == user.uid && $0.joinStatus == "joined" }
-                    let isPending = members.contains { $0.userUID == user.uid && $0.joinStatus == "pending" }
+                    let isJoined = members.contains { $0.userUID == userUID && $0.joinStatus == "joined" }
+                    let isPending = members.contains { $0.userUID == userUID && $0.joinStatus == "pending" }
                     return (gathering, isJoined, isPending)
                 }
                 .eraseToAnyPublisher()
@@ -177,5 +170,90 @@ class ProfileVM {
                 self.pendingGatherings = results.filter { $0.2 }.map { $0.0 }
             })
             .store(in: &cancellables)
+    }
+    
+    private func filterUserGatherings(_ gatherings: [Gathering], userUID: String) {
+        let userStatusPublishers = gatherings.map { gathering in
+            let collectionPath3: [FirestorePathComponent] = [
+                .collection(.gatherings),
+                .document(gathering.gatheringUid),
+                .collection(.gatheringMembers),
+                .document(userUID)
+            ]
+            return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
+                .map { members -> Gathering? in
+                    let isJoined = members.contains { $0.userUID == userUID && $0.joinStatus == "joined" }
+                    return isJoined ? gathering : nil
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers.MergeMany(userStatusPublishers)
+            .collect()
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { [weak self] results in
+                guard let self = self else { return }
+                self.userGatherings = results.compactMap { $0 }
+            })
+            .store(in: &cancellables)
+    }
+    
+    func fetchMasterUser(masterId: String) {
+        guard masterUsers[masterId] == nil else { return }
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(masterId),
+        ]
+        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
+            .compactMap { $0.first }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
+                self?.masterUsers[masterId] = masterUser // 마스터 유저 캐싱
+            }
+            .store(in: &cancellables)
+    }
+    
+    func getCellTypes() -> [ProfileCellType] {
+        var cellTypes: [ProfileCellType] = [.profile]
+        switch profileType {
+        case .myProfile:
+            cellTypes.append(.myGatheringHeader)
+            cellTypes.append(contentsOf: myGatherings.isEmpty ? [.myGatheringEmptyState] : Array(repeating: .myGatherings, count: myGatherings.count))
+            cellTypes.append(.pendingGatheringHeader)
+            cellTypes.append(contentsOf: pendingGatherings.isEmpty ? [.pendingGatheringEmptyState] : Array(repeating: .pendingGatherings, count: pendingGatherings.count))
+        case .userProfile:
+            cellTypes.append(.userGatheringHeader)
+            if !userGatherings.isEmpty {
+                cellTypes.append(contentsOf: Array(repeating: .userGatherings, count: userGatherings.count))
+            }
+        }
+        return cellTypes
+    }
+    
+    func getCellCount() -> Int {
+        return getCellTypes().count
+    }
+    
+    func editProfileBtnDidTap() {
+        if let user = user {
+            self.delegate?.presentEditProfileController(user: user)
+        }
+    }
+    
+    func gatheringCellDidTap(gatheringUID: String) {
+        if let user = user {
+            self.delegate?.presentGatheringDetailController(currentUser: user, gatheringUid: gatheringUID)
+        }
+    }
+    
+    func settingButtonTapped() {
+        self.delegate?.presentSettingViewController()
+    }
+    
+    func backBtnDidTap() {
+        self.delegate?.backToGatheringDetail()
     }
 }

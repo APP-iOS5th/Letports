@@ -52,7 +52,6 @@
 		B85FD8882C79CCF3007B4962 /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
 		B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
 		B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */; };
-		B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */; };
 		B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
@@ -64,7 +63,6 @@
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
 		BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
 		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
-		BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
@@ -122,15 +120,12 @@
 		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
-		D845E0D22C79CBCC006DD879 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */; };
-		D845E0D42C79CBE1006DD879 /* UserProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */; };
-		D845E0D62C79CC17006DD879 /* UserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */; };
-		D8638D782C7C264900AC0107 /* UserProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
 		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
+		D8E9B15D2C86D0A5008D5770 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8E9B15C2C86D0A5008D5770 /* GoogleService-Info.plist */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
@@ -201,13 +196,8 @@
 		B85FD8832C79C539007B4962 /* TeamSelectVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectVM.swift; sourceTree = "<group>"; };
 		B85FD8852C79CCD0007B4962 /* SportsCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsCategoryCell.swift; sourceTree = "<group>"; };
 		B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsTeamCell.swift; sourceTree = "<group>"; };
-		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siuuuuu.mp3; sourceTree = "<group>"; };
-		B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B8738ABE2C86AB5D00686BA0 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
-		B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
-		B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -219,7 +209,6 @@
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
 		BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinBtn.swift; sourceTree = "<group>"; };
 		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
-		BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
@@ -271,15 +260,16 @@
 		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
-		D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVM.swift; sourceTree = "<group>"; };
-		D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCoordinator.swift; sourceTree = "<group>"; };
-		D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTVCell.swift; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
 		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
+		D8E9B1592C86D054008D5770 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/seonggeunan/최종프로젝트-Letports/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
+		D8E9B15A2C86D054008D5770 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/seonggeunan/최종프로젝트-Letports/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
+		D8E9B15B2C86D09E008D5770 /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
+		D8E9B15C2C86D0A5008D5770 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D8E9B15E2C86EDCC008D5770 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
 		F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileTVCell.swift; sourceTree = "<group>"; };
@@ -557,6 +547,7 @@
 				D8201FB02C606934004DF06C /* Letports */,
 				D8201FC42C606935004DF06C /* LetportsTests */,
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
+				D8E9B15E2C86EDCC008D5770 /* Letports.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -581,18 +572,16 @@
 				D8299F322C776219003D29AC /* GatherSetting */,
 				D8299F462C77622C003D29AC /* Profile */,
 				D8299F592C776313003D29AC /* ProfileEdit */,
-				D845E0D02C79CBAC006DD879 /* UserProfile */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				413BE64D2C65F1990070D6F9 /* Extension */,
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
-				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
+				D8E9B15C2C86D0A5008D5770 /* GoogleService-Info.plist */,
+				D8E9B15B2C86D09E008D5770 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
-				BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
-				B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -686,25 +675,6 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
-		D845E0D02C79CBAC006DD879 /* UserProfile */ = {
-			isa = PBXGroup;
-			children = (
-				D845E0D72C79CC20006DD879 /* Cell */,
-				D845E0D12C79CBC3006DD879 /* UserProfileVC.swift */,
-				D845E0D32C79CBE1006DD879 /* UserProfileVM.swift */,
-				D845E0D52C79CC17006DD879 /* UserProfileCoordinator.swift */,
-			);
-			path = UserProfile;
-			sourceTree = "<group>";
-		};
-		D845E0D72C79CC20006DD879 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				D8638D772C7C264400AC0107 /* UserProfileTVCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
 		D877C9742C789A8F008C4695 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,7 +723,7 @@
 				BF8874092C7A538000E86CA0 /* FirebaseStorage */,
 			);
 			productName = Letports;
-			productReference = B8738ABE2C86AB5D00686BA0 /* Letports.app */;
+			productReference = D8E9B15E2C86EDCC008D5770 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -771,7 +741,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */;
+			productReference = D8E9B1592C86D054008D5770 /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -789,7 +759,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */;
+			productReference = D8E9B15A2C86D054008D5770 /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -848,9 +818,8 @@
 			files = (
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
+				D8E9B15D2C86D0A5008D5770 /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
-				B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */,
-				BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -903,7 +872,6 @@
 				D8299F632C776425003D29AC /* ProfileCoordinator.swift in Sources */,
 				F77526042C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift in Sources */,
 				D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */,
-				D845E0D62C79CC17006DD879 /* UserProfileCoordinator.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
 				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
@@ -938,7 +906,6 @@
 				B8D4D0C22C746AE90039D33B /* AuthVM.swift in Sources */,
 				410BBCB82C778F6A00FE2E18 /* BoardEditorTitleCVCell.swift in Sources */,
 				B8D4D0C42C746B3D0039D33B /* AuthCoordinator.swift in Sources */,
-				D845E0D42C79CBE1006DD879 /* UserProfileVM.swift in Sources */,
 				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
@@ -980,8 +947,6 @@
 				D8299F712C777D2A003D29AC /* SportsTeam.swift in Sources */,
 				D8299F772C777DA7003D29AC /* Comment.swift in Sources */,
 				4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */,
-				D845E0D22C79CBCC006DD879 /* UserProfileVC.swift in Sources */,
-				D8638D782C7C264900AC0107 /* UserProfileTVCell.swift in Sources */,
 				B82471432C64994E0067BD09 /* HomeCoordinator.swift in Sources */,
 				F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */,
 				F7C1AA652C746A7C009D0728 /* HomeVM.swift in Sources */,
@@ -1171,6 +1136,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1209,6 +1175,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
