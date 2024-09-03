@@ -56,9 +56,6 @@ class GatheringUploadMainTVCell: UITableViewCell {
             teamName.centerYAnchor.constraint(equalTo: teamLogo.centerYAnchor)
         ])
         
-        
-        
-        
     }
     
     func configureCell(sportsTeam: SportsTeam) {

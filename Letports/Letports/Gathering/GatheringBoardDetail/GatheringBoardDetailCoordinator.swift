@@ -10,12 +10,18 @@ import UIKit
 
 
 class GatheringBoardDetailCoordinator: Coordinator {
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     let boardData: Post
     let allUsers: [LetportsUser]
     let gathering: Gathering
     var viewModel: GatheringBoardDetailVM
+    weak var parentCoordinator: Coordinator?
     
     init(navigationController: UINavigationController, viewModel: GatheringBoardDetailVM) {
         self.navigationController = navigationController
@@ -36,6 +42,7 @@ class GatheringBoardDetailCoordinator: Coordinator {
 extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelegate {
     func boardDetailBackBtnTap() {
         navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
     }
     
     func presentActionSheet(post: Post) {
@@ -50,6 +57,7 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
                 let viewModel = BoardEditorVM(type: post.boardType, gathering: gathering, post: post)
                 let coordinator = BoardEditorCoordinator(navigationController: navigation, viewModel: viewModel)
                 self?.childCoordinators.append(coordinator)
+                coordinator.parentCoordinator = self
                 coordinator.start()
             }
         }

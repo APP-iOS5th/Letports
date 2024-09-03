@@ -96,7 +96,7 @@ class HomeVC: UIViewController {
     private func bindViewModel() {
         Publishers.CombineLatest3(viewModel.$team, 
                                   viewModel.$latestYoutubeVideos,
-                                  viewModel.$gatherings)
+                                  viewModel.$recommendGatherings)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (team, latestYoutubeVideos, gatherings) in
                 self?.tableView.reloadData()

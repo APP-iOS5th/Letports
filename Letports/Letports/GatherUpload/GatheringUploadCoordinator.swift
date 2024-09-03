@@ -17,7 +17,12 @@ protocol GatheringUploadCoordinatorDelegate: AnyObject {
 class GatheringUploadCoordinator: NSObject, Coordinator {
     var navigationController: UINavigationController
     weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var viewModel: GatheringUploadVM
     
     init(navigationController: UINavigationController, viewModel: GatheringUploadVM) {
@@ -76,6 +81,7 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
 extension GatheringUploadCoordinator: GatheringUploadCoordinatorDelegate {
     func dismissViewController() {
         self.navigationController.dismiss(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
     }
     
     func presentImagePickerController() {
