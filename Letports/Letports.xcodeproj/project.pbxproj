@@ -354,14 +354,6 @@
 			path = GatherUpload;
 			sourceTree = "<group>";
 		};
-		413BE64A2C65F0FC0070D6F9 /* CustomNavigation */ = {
-			isa = PBXGroup;
-			children = (
-				413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */,
-			);
-			path = CustomNavigation;
-			sourceTree = "<group>";
-		};
 		413BE64D2C65F1990070D6F9 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				41AA052F2C73000C009FF289 /* Common.swift */,
+				413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */,
 				41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */,
 			);
 			path = Common;
@@ -475,6 +468,7 @@
 		B8D4D0B92C74693D0039D33B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				41AA05272C72D9D9009FF289 /* FirebaseService */,
 				B8D4D0BF2C746ADE0039D33B /* AuthService.swift */,
 			);
 			path = Service;
@@ -564,13 +558,11 @@
 				B8738AB52C85967500686BA0 /* SplashVC.swift */,
 				410BBCC42C77B5B300FE2E18 /* Model */,
 				41AA052E2C730001009FF289 /* Common */,
-				41AA05272C72D9D9009FF289 /* FirebaseService */,
+				B8D4D0B92C74693D0039D33B /* Service */,
 				B85FD8512C7864C4007B4962 /* TeamSelect */,
 				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
-				B8D4D0B92C74693D0039D33B /* Service */,
 				B824714A2C6C34360067BD09 /* Auth */,
-				413BE64A2C65F0FC0070D6F9 /* CustomNavigation */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
 				D8299F322C776219003D29AC /* GatherSetting */,
