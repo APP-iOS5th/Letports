@@ -15,10 +15,8 @@ class GatheringBoardDetailImagesCVCell: UICollectionViewCell {
 		iv.contentMode = .scaleAspectFill
 		iv.clipsToBounds = true
 		iv.layer.cornerRadius = 40
-		iv.image = UIImage(named: "sampleImage")
 		iv.layer.borderWidth = 0.5
 		iv.translatesAutoresizingMaskIntoConstraints = false
-		
 		return iv
 	}()
 	

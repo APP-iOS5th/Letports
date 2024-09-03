@@ -47,7 +47,10 @@ class HomeVC: UIViewController {
         tv.dataSource = self
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.registersCell(cellClasses: TitleTVCell.self, HomeProfileTVCell.self, YoutubeThumbnailTVCell.self, RecommendGatheringTVCell.self)
+        tv.registersCell(cellClasses: TitleTVCell.self,
+                         HomeProfileTVCell.self,
+                         YoutubeThumbnailTVCell.self,
+                         RecommendGatheringTVCell.self)
         
         return tv
     }()

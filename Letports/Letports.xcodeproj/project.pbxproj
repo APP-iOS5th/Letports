@@ -53,6 +53,7 @@
 		B85FD8882C79CCF3007B4962 /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
 		B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
 		B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */; };
+		B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */; };
 		B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
@@ -74,7 +75,6 @@
 		BF8874062C7A538000E86CA0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874052C7A538000E86CA0 /* FirebaseAuth */; };
 		BF8874082C7A538000E86CA0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874072C7A538000E86CA0 /* FirebaseFirestore */; };
 		BF88740A2C7A538000E86CA0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874092C7A538000E86CA0 /* FirebaseStorage */; };
-		BF8972692C75AC960015CBF2 /* GatheringBoardCommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */; };
 		BF89726A2C75ACAA0015CBF2 /* PostBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E52C7316D40053A86B /* PostBtn.swift */; };
 		BF89726B2C75AD2D0015CBF2 /* BoardEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */; };
 		BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */; };
@@ -205,6 +205,10 @@
 		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siuuuuu.mp3; sourceTree = "<group>"; };
+		B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8738ABE2C86AB5D00686BA0 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
+		B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
+		B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -225,7 +229,6 @@
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
-		BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardCommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
@@ -240,14 +243,11 @@
 		BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesCVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderLabelTVCell.swift; sourceTree = "<group>"; };
-		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8201FC12C606935004DF06C /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FC52C606935004DF06C /* LetportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsTests.swift; sourceTree = "<group>"; };
-		D8201FCB2C606935004DF06C /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
@@ -548,7 +548,6 @@
 				BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */,
 				BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */,
 				BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */,
-				BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */,
 				BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */,
 			);
 			path = Cell;
@@ -560,18 +559,7 @@
 				D8201FB02C606934004DF06C /* Letports */,
 				D8201FC42C606935004DF06C /* LetportsTests */,
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
-				D8201FAF2C606934004DF06C /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		D8201FAF2C606934004DF06C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D8201FAE2C606934004DF06C /* Letports.app */,
-				D8201FC12C606935004DF06C /* LetportsTests.xctest */,
-				D8201FCB2C606935004DF06C /* LetportsUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		D8201FB02C606934004DF06C /* Letports */ = {
@@ -606,6 +594,7 @@
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
+				B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -768,7 +757,7 @@
 				41C649F42C869F8A00640990 /* FirebaseCrashlytics */,
 			);
 			productName = Letports;
-			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
+			productReference = B8738ABE2C86AB5D00686BA0 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -786,7 +775,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = D8201FC12C606935004DF06C /* LetportsTests.xctest */;
+			productReference = B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -804,7 +793,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = D8201FCB2C606935004DF06C /* LetportsUITests.xctest */;
+			productReference = B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -845,7 +834,7 @@
 				410BBCAA2C778E1500FE2E18 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
-			productRefGroup = D8201FAF2C606934004DF06C /* Products */;
+			productRefGroup = D8201FA52C606934004DF06C;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -863,6 +852,8 @@
 			files = (
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
+				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
+				B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */,
 				BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 			);
@@ -934,7 +925,6 @@
 				41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */,
 				BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */,
 				411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */,
-				BF8972692C75AC960015CBF2 /* GatheringBoardCommentTVCell.swift in Sources */,
 				41AA05302C73000C009FF289 /* Common.swift in Sources */,
 				D8299F792C777DCF003D29AC /* Post.swift in Sources */,
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,

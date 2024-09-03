@@ -37,6 +37,12 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 		return btn
 	}()
 	
+	private lazy var refreshControl: UIRefreshControl = {
+		let control = UIRefreshControl()
+		control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+		return control
+	}()
+	
 	private lazy var tableView: UITableView = {
 		let tv = UITableView()
 		tv.separatorStyle = .none
@@ -174,6 +180,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
 			self.view.addSubview($0)
 		}
 		
+		tableView.refreshControl = refreshControl
+		
 		NSLayoutConstraint.activate([
 			navigationView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
 			navigationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -266,6 +274,11 @@ extension GatheringDetailVC: JoinViewDelegate {
 		}))
 		
 		present(alert, animated: true, completion: nil)
+	}
+	
+	private func performRefresh() {
+		viewModel.loadData()
+		self.refreshControl.endRefreshing()
 	}
 }
 
@@ -411,6 +424,10 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 		case .joined:
 			break
 		}
+	}
+	
+	@objc private func refreshData() {
+		performRefresh()
 	}
 }
 

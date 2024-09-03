@@ -82,7 +82,8 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 		])
 	}
 	
-	func configure(nickname: String, imageUrl: String) {
+	func configure(nickname: String, imageUrl: String, creatDate: String) {
+		createDateLabel.text = creatDate
 		nickNameLabel.text = nickname
 		if let url = URL(string: imageUrl) {
 			profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "person.circle.fill"))

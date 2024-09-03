@@ -189,7 +189,8 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 				return UITableViewCell()
 			}
 			if let userInfo = viewModel.getUserInfoForCurrentPost() {
-				cell.configure(nickname: userInfo.nickname, imageUrl: userInfo.imageUrl)
+				let createDate = viewModel.getPostDate()
+				cell.configure(nickname: userInfo.nickname, imageUrl: userInfo.imageUrl, creatDate: createDate)
 			}
 			return cell
 		case .boardContents:

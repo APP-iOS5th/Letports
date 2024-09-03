@@ -41,14 +41,20 @@ class HomeCoordinator: Coordinator {
 extension HomeCoordinator: HomeCoordinatorDelegate {
 
 	func presentTeamChangeController() {
-		let coordinator = TeamSelectionCoordinator(navigationController: navigationController)
+        let teamSelect = UINavigationController()
+		let coordinator = TeamSelectCoordinator(navigationController: teamSelect)
+        coordinator.parentCoordinator = parentCoordinator?.parentCoordinator as? AppCoordinator
         coordinator.start()
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
+        
+        navigationController.present(teamSelect, animated: true, completion: nil)
 	}
 	
     func pushGatheringDetailController(gatheringUID: String) {
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: UserManager.shared.getUser(), currentGatheringUid: gatheringUID)
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController,
+                                                     currentUser: UserManager.shared.getUser(),
+                                                     currentGatheringUid: gatheringUID)
 		coordinator.start()
         coordinator.parentCoordinator = self
 		childCoordinators.append(coordinator)

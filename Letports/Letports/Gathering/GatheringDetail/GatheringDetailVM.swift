@@ -280,9 +280,7 @@ class GatheringDetailVM {
 			.document(currentUser.uid)
 		]
 		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "yyyy-MM-dd"
-		let joinDate = dateFormatter.string(from: Date())
+		let joinDate = Date().toString()
 		
 		let newMemberDict = GatheringMember(
 			answer: answer,
@@ -482,16 +480,5 @@ class GatheringDetailVM {
 		// 기본 높이를 328으로 설정하고, 계산된 높이가 328을 초과할 경우에만 그 값을 반환
 		return max(328, calculatedHeight)
 	}
-	
-	// 예시 사용자
-	static let dummyUser = LetportsUser(
-		email: "user010@example.com",
-		image: "https://cdn.pixabay.com/photo/2023/08/07/19/47/water-lily-8175845_1280.jpg",
-		nickname: "투구천재",
-		simpleInfo: "ㅁㅁㅁ",
-		uid: "users002",
-		userSports: "KBO",
-		userSportsTeam: "기아 타이거즈"
-	)
 }
 

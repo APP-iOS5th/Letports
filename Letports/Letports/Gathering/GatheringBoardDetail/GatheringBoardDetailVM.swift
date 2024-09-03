@@ -71,6 +71,15 @@ final class GatheringBoardDetailVM {
 		return nil
 	}
 	
+	func getPostDate() -> String {
+		let createDate = DateFormatter()
+		createDate.dateFormat = "MM/dd HH:mm"
+		createDate.locale = Locale(identifier: "ko_KR")
+		
+		let date = boardPost.createDate.dateValue()
+		return createDate.string(from: date)
+	}
+	
 	func getBoardData() {
 		getPost()
 		getComment()
