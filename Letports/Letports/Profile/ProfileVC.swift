@@ -91,11 +91,10 @@ class ProfileVC: UIViewController {
             viewModel.$pendingGatherings.map { _ in () },
             viewModel.$masterUsers.map { _ in () }
         ).eraseToAnyPublisher()
-        : Publishers.Merge4(
+        : Publishers.Merge3(
             viewModel.$user.map { _ in () },
             viewModel.$userGatherings.map { _ in () },
-            viewModel.$masterUsers.map { _ in () },
-            Just(()).eraseToAnyPublisher()
+            viewModel.$masterUsers.map { _ in () }
         ).eraseToAnyPublisher()
         
         publisher
@@ -113,7 +112,7 @@ class ProfileVC: UIViewController {
     private func performRefresh() {
         switch viewModel.profileType {
         case .myProfile:
-            viewModel.loadUser(user: UserManager.shared.getUserUid()) {
+            viewModel.loadUser(user:UserManager.shared.getUserUid()) {
                 self.refreshControl.endRefreshing()
             }
         case .userProfile:
@@ -305,7 +304,5 @@ extension ProfileVC: CustomNavigationDelegate {
     func backBtnDidTap() {
         self.viewModel.backBtnDidTap()
     }
-    func backBtnDidTap() {
-        self.viewModel.backBtnDidTap()
-    }
+    
 }

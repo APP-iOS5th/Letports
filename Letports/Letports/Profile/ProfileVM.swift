@@ -20,7 +20,6 @@ enum ProfileType {
     case userProfile
 }
 
-
 class ProfileVM {
     @Published var user: LetportsUser?
     @Published var myGatherings: [Gathering] = []
@@ -48,8 +47,8 @@ class ProfileVM {
     
     private func loadMyProfile() {
         let userUID = UserManager.shared.getUserUid()
-            loadUser(user: userUID) {
-
+        loadUser(user: userUID) {
+            self.fetchUserGatherings(userUID: userUID, isCurrentUser: true)
         }
     }
     
@@ -82,11 +81,6 @@ class ProfileVM {
                         self.fetchUserGatherings(userUID: user.uid, isCurrentUser: false)
                     }
                     self.updateMasterUserInfo(for: user)
-                    if self.profileType == .myProfile {
-                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: true)
-                    } else {
-                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: false)
-                    }
                     completion?()
                 }
             }
@@ -94,9 +88,7 @@ class ProfileVM {
     }
     
     private func updateMasterUserInfo(for user: LetportsUser) {
-        if masterUsers[user.uid] == nil {
-            masterUsers[user.uid] = user
-        }
+        masterUsers[user.uid] = user
         reloadUserGatherings()
     }
     
@@ -209,7 +201,6 @@ class ProfileVM {
     }
     
     func fetchMasterUser(masterId: String) {
-        guard masterUsers[masterId] == nil else { return }
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(masterId),
@@ -218,7 +209,8 @@ class ProfileVM {
             .compactMap { $0.first }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
-                self?.masterUsers[masterId] = masterUser
+                guard let self = self else { return }
+                self.masterUsers[masterId] = masterUser
             }
             .store(in: &cancellables)
     }
