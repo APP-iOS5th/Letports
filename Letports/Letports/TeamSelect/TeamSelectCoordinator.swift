@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TeamSelectionCoordinator: Coordinator {
+class TeamSelectCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = [] {
         didSet {
@@ -29,6 +29,9 @@ class TeamSelectionCoordinator: Coordinator {
     }
     
     func didFinishTeamSelect() {
-        (parentCoordinator as? AppCoordinator)?.showMainView()
+        navigationController.dismiss(animated: true) { [weak self] in
+            (self?.parentCoordinator as? AppCoordinator)?.showMainView()
+        }
+        
     }
 }

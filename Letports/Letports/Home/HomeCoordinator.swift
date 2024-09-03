@@ -14,7 +14,7 @@ protocol HomeCoordinatorDelegate: AnyObject {
 }
 
 class HomeCoordinator: Coordinator {
-    weak var parentCoordinator: Coordinator?
+    weak var parentCoordinator: TabBarCoordinator?
 	var childCoordinators: [Coordinator] = [] {
         didSet {
             let fileName = (#file as NSString).lastPathComponent
@@ -45,7 +45,7 @@ extension HomeCoordinator: HomeCoordinatorDelegate {
 		let coordinator = TeamSelectCoordinator(navigationController: teamSelect)
         coordinator.parentCoordinator = parentCoordinator?.parentCoordinator as? AppCoordinator
         coordinator.start()
-        coordinator.parentCoordinator = self
+        
         childCoordinators.append(coordinator)
         
         navigationController.present(teamSelect, animated: true, completion: nil)
