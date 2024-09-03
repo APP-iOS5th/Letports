@@ -89,6 +89,11 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		layoutIfNeeded()
 	}
 	
+	func updateBoard() {
+		guard let viewModel = viewModel else { return }
+		self.board = viewModel.filteredBoardData
+	}
+	
 	private func updateEmptyState() {
 		emptyStateLabel.isHidden = !board.isEmpty
 	}

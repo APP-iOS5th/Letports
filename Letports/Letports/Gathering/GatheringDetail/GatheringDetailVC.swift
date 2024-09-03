@@ -284,7 +284,7 @@ extension GatheringDetailVC: JoinViewDelegate {
 
 extension GatheringDetailVC: GatheringDetailDelegate {
 	func didTapEditBtn() {
-        viewModel.showGatheringEditView()
+		viewModel.showGatheringEditView()
 	}
 	
 	func didTapProfileImage(profile: LetportsUser) {
@@ -373,6 +373,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
 				cell.viewModel = viewModel
 				cell.board = viewModel.filteredBoardData
 				cell.membershipStatus = viewModel.membershipStatus
+				cell.updateBoard()
 				cell.delegate = self
 				return cell
 			}

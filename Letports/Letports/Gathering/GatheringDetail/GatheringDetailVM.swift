@@ -90,11 +90,11 @@ class GatheringDetailVM {
 	func presentActionSheet() {
 		delegate?.presentActionSheet()
 	}
-    
-    func showGatheringEditView() {
-        guard let gathering = gathering else { return }
-        self.delegate?.pushGatheringEditView(gathering: gathering)
-    }
+	
+	func showGatheringEditView() {
+		guard let gathering = gathering else { return }
+		self.delegate?.pushGatheringEditView(gathering: gathering)
+	}
 	
 	func leaveGathering() {
 		delegate?.presentLeaveGatheringConfirmation()
@@ -215,9 +215,22 @@ class GatheringDetailVM {
 				}
 			} receiveValue: { [weak self] posts in
 				self?.boardData = posts
+				self?.boardData = self?.sortPosts(posts) ?? []
 			}
 			.store(in: &cancellables)
 	}
+	
+	// 게시글 정렬
+	private func sortPosts(_ posts: [Post]) -> [Post] {
+		let notices = posts.filter { $0.boardType == .noti }
+		let freePosts = posts.filter { $0.boardType == .free }
+		
+		let sortedNotices = notices.sorted { $0.createDate.dateValue() > $1.createDate.dateValue() }
+		let sortedFreePosts = freePosts.sorted { $0.createDate.dateValue() > $1.createDate.dateValue() }
+		
+		return sortedNotices + sortedFreePosts
+	}
+	
 	
 	// 모임장 닉네임
 	private func getMasterNickname() {
@@ -371,16 +384,16 @@ class GatheringDetailVM {
 			}
 			.mapError { $0 as FirestoreError }
 			.eraseToAnyPublisher()
-
-		   // 모든 업데이트를 동시에 실행
-		   return Publishers.Zip3(
-			   FM.deleteDocument(pathComponents: collectionPath),
-			   FM.deleteDocument(pathComponents: userMyGatheringPath),
-			   deleteUserPosts
-		   )
-		   .map { _, _, _ in () }
-		   .eraseToAnyPublisher()
-	   }
+		
+		// 모든 업데이트를 동시에 실행
+		return Publishers.Zip3(
+			FM.deleteDocument(pathComponents: collectionPath),
+			FM.deleteDocument(pathComponents: userMyGatheringPath),
+			deleteUserPosts
+		)
+		.map { _, _, _ in () }
+		.eraseToAnyPublisher()
+	}
 	
 	// 모임 나가기 확인
 	func confirmLeaveGathering() {
