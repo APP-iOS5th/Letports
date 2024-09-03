@@ -3,8 +3,13 @@
 import UIKit
 
 class AuthCoordinator: Coordinator {
-    weak var parentCoordinator: AppCoordinator?
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -16,7 +21,7 @@ class AuthCoordinator: Coordinator {
         let viewModel = AuthVM()
         viewModel.loginSuccess = { [weak self] in
             DispatchQueue.main.async {
-                self?.parentCoordinator?.checkAuthAndTeamState()
+                (self?.parentCoordinator as? AppCoordinator)?.checkAuthAndTeamState()
             }
         }
         viewModel.loginFailure = { error in

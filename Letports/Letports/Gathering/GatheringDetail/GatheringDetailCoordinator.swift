@@ -23,9 +23,15 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
 }
 
 class GatheringDetailCoordinator: Coordinator {
-	var childCoordinators: [Coordinator] = []
+	var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
+    weak var parentCoordinator: Coordinator?
 	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
 		self.navigationController = navigationController
 		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
@@ -44,6 +50,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         let viewModel = BoardEditorVM(type: type, gathering: gathering)
 		let coordinaotr = BoardEditorCoordinator(navigationController: navigationController, viewModel: viewModel)
         childCoordinators.append(coordinaotr)
+        coordinaotr.parentCoordinator = self
         coordinaotr.start()
 	}
 	
@@ -51,6 +58,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		let coordinator = GatherSettingCoordinator(navigationController: navigationController,
                                                    gathering: gathering)
 		childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
 		coordinator.start()
 	}
 	
@@ -60,12 +68,14 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
                                                           viewModel: viewModel)
 		childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
 		coordinator.start()
 	}
 	
 	func pushProfileView(member: LetportsUser) {
 		let coordinator = UserProfileCoordinator(navigationController: navigationController, gatheringMemberUid: member.uid)
 		childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
 		coordinator.start()
 	}
 	
@@ -123,12 +133,14 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
     
 	func gatheringDetailBackBtnTap() {
 		navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
 	}
     
     func pushGatheringEditView(gathering: Gathering) {
         let viewModel = GatheringUploadVM(gathering: gathering)
         let coordinator = GatheringUploadCoordinator(navigationController: navigationController, viewModel: viewModel)
         childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
         coordinator.start()
     }
 	

@@ -14,8 +14,13 @@ protocol GatheringCoordinatorDelegate: AnyObject {
 }
 
 class GatheringCoordinator: Coordinator {
-    weak var parentCoordinator: TabBarCoordinator?
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     var viewModel: GatheringVM
     
@@ -38,6 +43,7 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
         let coordinator = GatheringUploadCoordinator(navigationController: navigationController, 
                                                      viewModel: GatheringUploadVM())
         coordinator.start()
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }
     
@@ -50,6 +56,7 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
                                                      currentUser: UserManager.shared.getUser(),
                                                      currentGatheringUid: gatheringUid)
         coordinator.start()
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }
 }

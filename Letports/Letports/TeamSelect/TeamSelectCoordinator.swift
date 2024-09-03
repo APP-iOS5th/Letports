@@ -8,8 +8,13 @@
 import UIKit
 
 class TeamSelectionCoordinator: Coordinator {
-    weak var parentCoordinator: AppCoordinator?
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -24,6 +29,6 @@ class TeamSelectionCoordinator: Coordinator {
     }
     
     func didFinishTeamSelect() {
-        parentCoordinator?.showMainView()
+        (parentCoordinator as? AppCoordinator)?.showMainView()
     }
 }

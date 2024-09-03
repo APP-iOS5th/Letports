@@ -14,8 +14,13 @@ protocol HomeCoordinatorDelegate: AnyObject {
 }
 
 class HomeCoordinator: Coordinator {
-	weak var parentCoordinator: TabBarCoordinator?
-	var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+	var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
 	var navigationController: UINavigationController
 	var viewModel: HomeViewModel
 	
@@ -38,12 +43,14 @@ extension HomeCoordinator: HomeCoordinatorDelegate {
 	func presentTeamChangeController() {
 		let coordinator = TeamSelectionCoordinator(navigationController: navigationController)
         coordinator.start()
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
 	}
 	
     func pushGatheringDetailController(gatheringUID: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: UserManager.shared.getUser(), currentGatheringUid: gatheringUID)
 		coordinator.start()
+        coordinator.parentCoordinator = self
 		childCoordinators.append(coordinator)
 	}
 	

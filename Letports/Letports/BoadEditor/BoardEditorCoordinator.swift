@@ -17,7 +17,12 @@ protocol BoardEditorCoordinatorDelegate: AnyObject {
 class BoardEditorCoordinator: NSObject, Coordinator {
     var navigationController: UINavigationController
     weak var parentCoordinator: Coordinator?
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     
     private var viewModel: BoardEditorVM
     
@@ -75,6 +80,7 @@ extension BoardEditorCoordinator: BoardEditorCoordinatorDelegate {
     
     func popViewController() {
         navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
     }
 }
 

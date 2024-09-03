@@ -8,8 +8,13 @@
 import UIKit
 
 class TabBarCoordinator: Coordinator {
-    weak var parentCoordinator: AppCoordinator?
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     
     let tabBarController: UITabBarController
@@ -71,6 +76,6 @@ class TabBarCoordinator: Coordinator {
     }
     
     func userDidLogout() {
-        parentCoordinator?.userDidLogout()
+        (parentCoordinator as? AppCoordinator)?.userDidLogout()
     }
 }

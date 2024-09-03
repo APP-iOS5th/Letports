@@ -8,8 +8,13 @@ import UIKit
 
 
 class UserProfileCoordinator: Coordinator {
-    weak var parentCoordinator: TabBarCoordinator?
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     
     var navigationController: UINavigationController
 	let gatheringMemberUid: String
@@ -30,6 +35,7 @@ class UserProfileCoordinator: Coordinator {
 extension UserProfileCoordinator: UserProfileCoordinatorDelegate {
 	func userProfileBackBtnDidTap() {
 		navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
 	}
 }
 

@@ -14,10 +14,16 @@ protocol ProfileEditCoordinatorDelegate: AnyObject {
 }
 
 class ProfileEditCoordinator: NSObject, Coordinator {
-    var childCoordinators = [Coordinator]()
+    var childCoordinators = [Coordinator]() {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     var viewModel: ProfileEditVM
     weak var delegate: ProfileCoordinatorDelegate?
+    weak var parentCoordinator: Coordinator?
     
     init(navigationController: UINavigationController , viewModel: ProfileEditVM) {
         self.navigationController = navigationController
@@ -48,7 +54,6 @@ class ProfileEditCoordinator: NSObject, Coordinator {
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         navigationController.present(alert, animated: true)
     }
-    
 }
 
 
@@ -56,10 +61,12 @@ extension ProfileEditCoordinator: ProfileEditCoordinatorDelegate {
     func updateProfileBackToProfileView() {
         self.navigationController.popViewController(animated: true)
         delegate?.didUpdateProfile()
+        self.parentCoordinator?.childDidFinish(self)
     }
     
     func backToProfile() {
         self.navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
     }
     
     func presentImagePickerController() {

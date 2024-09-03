@@ -11,7 +11,12 @@ protocol ProfileCoordinatorDelegate: AnyObject {
 
 class ProfileCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     
     var navigationController: UINavigationController
     
@@ -25,12 +30,14 @@ class ProfileCoordinator: Coordinator {
         profileVM.delegate = self
         navigationController.pushViewController(profileVC, animated: false)
     }
+
 }
 
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
         childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
         coordinator.start()
     }
     
@@ -41,6 +48,7 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func presentEditProfileController(user: LetportsUser) {
         let coordinator = ProfileEditCoordinator(navigationController: navigationController, viewModel: ProfileEditVM(user: user))
         childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
         coordinator.delegate = self
         coordinator.start()
     }

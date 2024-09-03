@@ -13,9 +13,15 @@ protocol GatherSettingCoordinatorDelegate: AnyObject {
 }
 
 class GatherSettingCoordinator: Coordinator {
-    var childCoordinators = [Coordinator]()
+    var childCoordinators = [Coordinator]() {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     var viewModel: GatherSettingVM
+    weak var parentCoordinator: Coordinator?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -66,5 +72,6 @@ class GatherSettingCoordinator: Coordinator {
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
     func gatherSettingBackBtnTap() {
         navigationController.popViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
     }
 }
