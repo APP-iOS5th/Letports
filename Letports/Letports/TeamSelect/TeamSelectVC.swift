@@ -10,7 +10,7 @@ import UIKit
 import Combine
 import Kingfisher
 
-class TeamSelectVC: UICollectionViewController {
+class TeamSelectVC: UICollectionViewController { 
     
     private var cancellables = Set<AnyCancellable>()
     private let viewModel: TeamSelectVM
