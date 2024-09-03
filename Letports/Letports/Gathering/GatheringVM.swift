@@ -42,24 +42,15 @@ class GatheringVM {
     
     private var cellType: [GatheringCellType] {
         var cellTypes: [GatheringCellType] = [.recommendGatheringHeader]
-        cellTypes.append(contentsOf: recommendGatherings.isEmpty ? [.recommendGatheringEmptyState] : Array(repeating: .recommendGatherings, count: recommendGatherings.count))
+        cellTypes.append(contentsOf: recommendGatherings.isEmpty ? 
+                         [.recommendGatheringEmptyState] : Array(repeating: .recommendGatherings,
+                                                                 count: recommendGatherings.count))
         cellTypes.append(.gatheringListHeader)
-        cellTypes.append(contentsOf: gatheringLists.isEmpty ? [.gatheringListEmptyState] : Array(repeating: .gatheringLists, count: gatheringLists.count))
+        cellTypes.append(contentsOf: gatheringLists.isEmpty ?
+                         [.gatheringListEmptyState] : Array(repeating: .gatheringLists,
+                                                            count: gatheringLists.count))
         return cellTypes
     }
-    
-//    private var cellType: [GatheringCellType] {
-//        var cellTypes: [GatheringCellType] = []
-//        cellTypes.append(.recommendGatheringHeader)
-//        for _ in recommendGatherings {
-//            cellTypes.append(.recommendGatherings)
-//        }
-//        cellTypes.append(.gatheringListHeader)
-//        for _ in gatheringLists {
-//            cellTypes.append(.gatheringLists)
-//        }
-//        return cellTypes
-//    }
     
     func getCellTypes() -> [GatheringCellType] {
         return self.cellType

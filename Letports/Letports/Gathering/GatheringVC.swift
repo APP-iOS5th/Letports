@@ -137,7 +137,8 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch viewModel.getCellTypes()[indexPath.row] {
         case .recommendGatherings:
-            viewModel.pushGatheringDetailController(gatheringUid: viewModel.recommendGatherings[indexPath.row - 1].gatheringUid)
+            viewModel.pushGatheringDetailController(gatheringUid: 
+                                                        viewModel.recommendGatherings[indexPath.row - 1].gatheringUid)
             
         case .gatheringLists: viewModel.pushGatheringDetailController(gatheringUid: viewModel.gatheringLists[indexPath.row - viewModel.getRecommendGatheringCount() - 2].gatheringUid)
         default:
