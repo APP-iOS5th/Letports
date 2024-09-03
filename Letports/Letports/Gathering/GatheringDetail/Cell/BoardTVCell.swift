@@ -105,8 +105,14 @@ final class BoardTVCell: UITableViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configureCell(data: Post, isActive: Bool) {
-		//createDateLabel.text = data.createDate (데이터 없음)
+	func configureCell(data: Post, isActive: Bool, post: Post) {
+		let date = post.createDate.dateValue()
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let dateString = dateFormatter.string(from: date)
+		
+		createDateLabel.text = dateString
 		self.boardPost = data
 		boardTypeLabel.backgroundColor = .clear
 		boardTypeLabel.layer.borderWidth = 0.5

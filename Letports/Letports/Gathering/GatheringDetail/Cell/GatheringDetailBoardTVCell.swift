@@ -107,7 +107,8 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 			return UITableViewCell()
 		}
 		let isActive = membershipStatus == .joined
-		cell.configureCell(data: board[indexPath.row], isActive: isActive)
+		let post = board[indexPath.row]
+		cell.configureCell(data: board[indexPath.row], isActive: isActive, post: post)
 		cell.delegate = self
 		return cell
 	}

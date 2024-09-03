@@ -101,7 +101,6 @@ class CommentTVCell: UITableViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
             
             userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
             userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
@@ -120,6 +119,7 @@ class CommentTVCell: UITableViewCell {
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+			commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20)
         ])
     }
     
