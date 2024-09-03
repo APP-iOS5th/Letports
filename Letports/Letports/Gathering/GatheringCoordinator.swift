@@ -41,7 +41,9 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
     }
     
     func presentTeamChangeController() {
-        print("팀선택")
+        let coordinator = TeamSelectionCoordinator(navigationController: navigationController)
+        coordinator.start()
+        childCoordinators.append(coordinator)
     }
     
     func pushGatheringDetailController(gatheringUid: String) {
