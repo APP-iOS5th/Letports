@@ -43,7 +43,7 @@ class GatheringImageTVCell: UITableViewCell {
 	func configureCell(data: String?) {
 		if let imageUrlString = data,
 		   let url = URL(string: imageUrlString) {
-			gatheringImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
+			gatheringImage.kf.setImage(with: url, placeholder: UIImage(named: "person.circle.fill"))
 		}
 	}
 }
