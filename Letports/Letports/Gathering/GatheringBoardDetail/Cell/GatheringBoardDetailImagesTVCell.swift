@@ -42,18 +42,20 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 			updateCellHeight()
 		}
 	}
-	
 	private func updateCellHeight() {
-		if let post = post, !post.imageUrls.isEmpty {
-			collectionView.heightAnchor.constraint(equalToConstant: 250).isActive = true
-			collectionView.isHidden = false
-		} else {
-			collectionView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-			collectionView.isHidden = true
+			if let post = post, !post.imageUrls.isEmpty {
+				// 고정된 높이 대신 우선순위를 낮춘 제약 조건 사용
+				let heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 250)
+				heightConstraint.priority = .defaultHigh
+				heightConstraint.isActive = true
+				collectionView.isHidden = false
+			} else {
+				collectionView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+				collectionView.isHidden = true
+			}
+			setNeedsLayout()
+			layoutIfNeeded()
 		}
-		setNeedsLayout()
-		layoutIfNeeded()
-	}
 	
 	// MARK: - Setup
 	private func setupUI() {
@@ -62,7 +64,7 @@ class GatheringBoardDetailImagesTVCell: UITableViewCell {
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
 			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
 			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
+			collectionView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
 		])
 	}
 }
