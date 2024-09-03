@@ -107,11 +107,12 @@ class ProfileTVCell: UITableViewCell {
             }
         }
     }
-    
-    func configure(user: LetportsUser) {
+
+    func configure(user: LetportsUser, isEditable: Bool) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
-        
+        editProfileBtn.isHidden = !isEditable   표시
+
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
             profileIV.backgroundColor = .lpWhite
