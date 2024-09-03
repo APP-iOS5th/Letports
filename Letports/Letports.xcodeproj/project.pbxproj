@@ -190,9 +190,6 @@
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
-		41C649FA2C86BC9E00640990 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
-		41C649FB2C86BC9E00640990 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
-		41C649FC2C86BC9E00640990 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
@@ -228,6 +225,9 @@
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
+		BFB59DF52C86E7BD006565AF /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB59DF62C86E7BD006565AF /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB59DF72C86E7BD006565AF /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
@@ -757,7 +757,7 @@
 				41C649F42C869F8A00640990 /* FirebaseCrashlytics */,
 			);
 			productName = Letports;
-			productReference = 41C649FA2C86BC9E00640990 /* Letports.app */;
+			productReference = BFB59DF52C86E7BD006565AF /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -775,7 +775,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = 41C649FB2C86BC9E00640990 /* LetportsTests.xctest */;
+			productReference = BFB59DF62C86E7BD006565AF /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -793,7 +793,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = 41C649FC2C86BC9E00640990 /* LetportsUITests.xctest */;
+			productReference = BFB59DF72C86E7BD006565AF /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */

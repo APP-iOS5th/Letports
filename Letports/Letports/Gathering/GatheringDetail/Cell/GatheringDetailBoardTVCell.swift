@@ -89,6 +89,11 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		layoutIfNeeded()
 	}
 	
+	func updateBoard() {
+		guard let viewModel = viewModel else { return }
+		self.board = viewModel.filteredBoardData
+	}
+	
 	private func updateEmptyState() {
 		emptyStateLabel.isHidden = !board.isEmpty
 	}
@@ -107,7 +112,8 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 			return UITableViewCell()
 		}
 		let isActive = membershipStatus == .joined
-		cell.configureCell(data: board[indexPath.row], isActive: isActive)
+		let post = board[indexPath.row]
+		cell.configureCell(data: board[indexPath.row], isActive: isActive, post: post)
 		cell.delegate = self
 		return cell
 	}
@@ -116,7 +122,7 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension GatheringDetailBoardTVCell: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 70 + 12
+		return 50 + 12
 	}
 }
 
