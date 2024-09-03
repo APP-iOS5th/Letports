@@ -73,7 +73,6 @@
 		BF8874062C7A538000E86CA0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874052C7A538000E86CA0 /* FirebaseAuth */; };
 		BF8874082C7A538000E86CA0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874072C7A538000E86CA0 /* FirebaseFirestore */; };
 		BF88740A2C7A538000E86CA0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874092C7A538000E86CA0 /* FirebaseStorage */; };
-		BF8972692C75AC960015CBF2 /* GatheringBoardCommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */; };
 		BF89726A2C75ACAA0015CBF2 /* PostBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E52C7316D40053A86B /* PostBtn.swift */; };
 		BF89726B2C75AD2D0015CBF2 /* BoardEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */; };
 		BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */; };
@@ -131,8 +130,6 @@
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
 		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
-		D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407E2C83973D00E105F9 /* Extension+Character.swift */; };
-		D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C408A2C84158800E105F9 /* RefreshView.swift */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
@@ -226,7 +223,6 @@
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
-		BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardCommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
@@ -282,8 +278,6 @@
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
 		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
-		D89C407E2C83973D00E105F9 /* Extension+Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Character.swift"; sourceTree = "<group>"; };
-		D89C408A2C84158800E105F9 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
 		F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileTVCell.swift; sourceTree = "<group>"; };
@@ -550,7 +544,6 @@
 				BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */,
 				BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */,
 				BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */,
-				BFC55FDD2C7438E60084CA10 /* GatheringBoardCommentTVCell.swift */,
 				BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */,
 			);
 			path = Cell;
@@ -909,7 +902,6 @@
 				41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */,
 				BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */,
 				411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */,
-				BF8972692C75AC960015CBF2 /* GatheringBoardCommentTVCell.swift in Sources */,
 				41AA05302C73000C009FF289 /* Common.swift in Sources */,
 				D8299F792C777DCF003D29AC /* Post.swift in Sources */,
 				413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */,

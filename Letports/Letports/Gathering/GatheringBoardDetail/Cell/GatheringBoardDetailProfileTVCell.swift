@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import FirebaseCore
 
 final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	
