@@ -111,6 +111,7 @@ class ProfileEditVM {
             .flatMap { [weak self] imageUrl -> AnyPublisher<Void, Never> in
                 guard let self = self else {
                     return Just(()).eraseToAnyPublisher()
+                    
                 }
                 return self.editProfile(imageUrl: imageUrl ?? "")
                     .eraseToAnyPublisher()
@@ -121,6 +122,33 @@ class ProfileEditVM {
             .eraseToAnyPublisher()
     }
     
+    private func uploadImage() -> AnyPublisher<String?, Never> {
+        guard let image = selectedImage else {
+            return Just(nil).eraseToAnyPublisher()
+        }
+        
+        let filePath: StorageFilePath
+        
+        if let existingImageUrl = user?.image, !existingImageUrl.isEmpty {
+            if existingImageUrl.hasPrefix("gs://") {
+                let storagePath = existingImageUrl.replacingOccurrences(of: "gs://letports-81f7f.appspot.com/", with: "")
+                filePath = .specificPath(storagePath)
+            } else if let url = URL(string: existingImageUrl), url.host == "firebasestorage.googleapis.com" {
+                let path = url.path.replacingOccurrences(of: "/v0/b/letports-81f7f.appspot.com/o/", with: "")
+                if let decodedPath = path.removingPercentEncoding {
+                    filePath = .specificPath(decodedPath)
+                } else {
+                    filePath = .userProfileImageUpload
+                }
+                return self.editProfile(imageUrl: imageUrl ?? "")
+                    .eraseToAnyPublisher()
+            }
+                .handleEvents(receiveCompletion: { [weak self] _ in
+                    self?.isUpdate = false
+                })
+                .eraseToAnyPublisher()
+        }
+    }
     private func uploadImage() -> AnyPublisher<String?, Never> {
         guard let image = selectedImage else {
             return Just(nil).eraseToAnyPublisher()

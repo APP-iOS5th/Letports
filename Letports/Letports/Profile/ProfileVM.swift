@@ -20,9 +20,6 @@ enum ProfileType {
     case userProfile
 }
 
-import Combine
-import FirebaseFirestore
-import FirebaseAuth
 
 class ProfileVM {
     @Published var user: LetportsUser?
@@ -52,6 +49,7 @@ class ProfileVM {
     private func loadMyProfile() {
         let userUID = UserManager.shared.getUserUid()
             loadUser(user: userUID) {
+
         }
     }
     
@@ -78,6 +76,11 @@ class ProfileVM {
                 guard let self = self else { return }
                 if let user = fetchedUser.first {
                     self.user = user
+                    if self.profileType == .myProfile {
+                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: true)
+                    } else {
+                        self.fetchUserGatherings(userUID: user.uid, isCurrentUser: false)
+                    }
                     self.updateMasterUserInfo(for: user)
                     if self.profileType == .myProfile {
                         self.fetchUserGatherings(userUID: user.uid, isCurrentUser: true)
@@ -94,22 +97,7 @@ class ProfileVM {
         if masterUsers[user.uid] == nil {
             masterUsers[user.uid] = user
         }
-        fetchMasterUserImage(masterId: user.uid)
         reloadUserGatherings()
-    }
-    
-    private func fetchMasterUserImage(masterId: String) {
-        let collectionPath: [FirestorePathComponent] = [
-            .collection(.user),
-            .document(masterId),
-        ]
-        FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
-            .compactMap { $0.first }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
-                self?.masterUsers[masterId] = masterUser
-            }
-            .store(in: &cancellables)
     }
     
     private func reloadUserGatherings() {
@@ -230,7 +218,7 @@ class ProfileVM {
             .compactMap { $0.first }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }) { [weak self] masterUser in
-                self?.masterUsers[masterId] = masterUser// 마스터 유저 캐싱
+                self?.masterUsers[masterId] = masterUser
             }
             .store(in: &cancellables)
     }

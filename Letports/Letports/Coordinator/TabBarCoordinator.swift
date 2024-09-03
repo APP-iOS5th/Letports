@@ -22,7 +22,6 @@ class TabBarCoordinator: Coordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         self.tabBarController = UITabBarController()
-        
         self.navigationController.isNavigationBarHidden = true
     }
     

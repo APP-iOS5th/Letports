@@ -305,4 +305,7 @@ extension ProfileVC: CustomNavigationDelegate {
     func backBtnDidTap() {
         self.viewModel.backBtnDidTap()
     }
+    func backBtnDidTap() {
+        self.viewModel.backBtnDidTap()
+    }
 }
