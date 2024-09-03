@@ -34,16 +34,17 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
     }
     
     func imagePickerPresent() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        if let topViewController = topMostViewController() {
-            topViewController.present(imagePickerController, animated: true)
-        } else {
-            print("No topViewController found")
+        DispatchQueue.main.async {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .photoLibrary
+            if let topViewController = self.topMostViewController() {
+                topViewController.present(imagePickerController, animated: true)
+            } else {
+                print("No topViewController found")
+            }
         }
     }
-    
     func albumAccessDeniedAlert() {
         let alert = UIAlertController(title: "앨범 접근 권한 필요",
                                       message: "설정에서 앨범 접근 권한을 허용해주세요.",
