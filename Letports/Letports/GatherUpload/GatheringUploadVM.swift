@@ -34,6 +34,10 @@ class GatheringUploadVM {
     private var gatehringID: String?
     private var boardId: String?
     
+    private var sportsName: String?
+    private var sportsTeamName: String?
+    
+    
     private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
@@ -65,6 +69,9 @@ class GatheringUploadVM {
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             self.gatherNameText = gathering.gatherName
+            
+            self.sportsName = gathering.gatheringSports
+            self.sportsTeamName = gathering.gatheringSportsTeam
             
             self.loadImage(from: gathering.gatherImage)
                 .sink { [weak self] image in
@@ -161,7 +168,8 @@ class GatheringUploadVM {
             
             let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
             
-            
+            guard let sportsName = self.isEditMode ? self.sportsName : UserManager.shared.getUser().userSports  else { return }
+            guard let sportsTeamName =  self.isEditMode ? self.sportsTeamName : UserManager.shared.getUser().userSportsTeam  else { return }
             
             let gathering = Gathering(gatherImage: imageUrl,
                                       gatherInfo: gatherInfo,
@@ -171,8 +179,8 @@ class GatheringUploadVM {
                                       gatherQuestion: gatherQuestion,
                                       gatheringCreateDate: Timestamp(date: Date()),
                                       gatheringMaster: UserManager.shared.getUserUid(),
-                                      gatheringSports: UserManager.shared.getUser().userSports,
-                                      gatheringSportsTeam: UserManager.shared.getUser().userSportsTeam,
+                                      gatheringSports: sportsName,
+                                      gatheringSportsTeam: sportsTeamName,
                                       gatheringUid: uuid)
             
             if isEditMode {
@@ -254,5 +262,61 @@ class GatheringUploadVM {
             }
             .replaceError(with: nil)
             .eraseToAnyPublisher()
+    }
+    
+    func getTeamData(completion: @escaping (SportsTeam?) -> Void) {
+        
+        let firestorePublisher: AnyPublisher<SportsTeam?, Never> = {
+            if let sportsName = self.sportsName, let sportsTeamName = self.sportsTeamName {
+                let collectionPath: [FirestorePathComponent] = [
+                    .collection(.sports),
+                    .document(sportsName),
+                    .collection(.sportsTeam),
+                    .document(sportsTeamName)
+                ]
+                
+                return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
+                    .tryMap { sportsTeams in
+                        sportsTeams.first
+                    }
+                    .catch { error -> Just<SportsTeam?> in
+                        print("Error fetching sports team data: \(error)")
+                        return Just(nil)
+                    }
+                    .eraseToAnyPublisher()
+            } else {
+                return Just(nil).eraseToAnyPublisher()
+            }
+        }()
+        
+        
+        let userManagerPublisher: AnyPublisher<SportsTeam?, Never> = {
+            Future<SportsTeam?, Never> { promise in
+                UserManager.shared.getTeam { result in
+                    switch result {
+                    case .success(let team):
+                        promise(.success(team))
+                    case .failure(let error):
+                        print("getTeam error: \(error)")
+                        promise(.success(nil))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }()
+        
+        firestorePublisher
+            .flatMap { sportsTeam -> AnyPublisher<SportsTeam?, Never> in
+                if let team = sportsTeam {
+                    return Just(team).eraseToAnyPublisher()
+                } else {
+                    return userManagerPublisher
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { team in
+                completion(team)
+            }
+            .store(in: &cancellables)
     }
 }

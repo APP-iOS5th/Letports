@@ -49,7 +49,6 @@ struct YoutubeAPIResponse: Codable {
 class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
-    @Published var gatherings: [Gathering] = []
     @Published var recommendGatherings: [Gathering] = []
     @Published var team: Team?
     

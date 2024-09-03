@@ -5,9 +5,15 @@ import FirebaseAuth
 import GoogleSignIn
 
 class AppCoordinator: Coordinator {
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [Coordinator] = [] {
+        didSet {
+            let fileName = (#file as NSString).lastPathComponent
+            print("\(fileName) child coordinators:: \(childCoordinators)")
+        }
+    }
     var navigationController: UINavigationController
     private var cancellables = Set<AnyCancellable>()
+    weak var parentCoordinator: Coordinator?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -46,7 +52,7 @@ class AppCoordinator: Coordinator {
                     guard let user = user.first else { return }
                     UserManager.shared.login(user: user)
                     if user.userSports.isEmpty || user.userSportsTeam.isEmpty {
-                        self.showTeamSelectionView()
+                        self.showTeamSelectView()
                     } else {
                         self.showMainView()
                     }
@@ -65,15 +71,16 @@ class AppCoordinator: Coordinator {
         authCoordinator.start()
     }
     
-    func showTeamSelectionView() {
+    func showTeamSelectView() {
         navigationController.viewControllers.removeAll()
-        let teamSelectionCoordinator = TeamSelectionCoordinator(navigationController: navigationController)
-        teamSelectionCoordinator.parentCoordinator = self
-        childCoordinators = [teamSelectionCoordinator]
-        teamSelectionCoordinator.start()
+        let teamSelectCoordinator = TeamSelectCoordinator(navigationController: navigationController)
+        teamSelectCoordinator.parentCoordinator = self
+        childCoordinators = [teamSelectCoordinator]
+        teamSelectCoordinator.start()
     }
     
     func showMainView() {
+        navigationController.viewControllers.removeAll()
         let tabBarCoordinator = TabBarCoordinator(navigationController: navigationController)
         tabBarCoordinator.parentCoordinator = self
         childCoordinators = [tabBarCoordinator]
