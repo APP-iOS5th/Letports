@@ -88,46 +88,8 @@ class FirebaseStorageManager {
             .eraseToAnyPublisher()
     }
     
-    
     static func uploadSingleImage(image: UIImage,
-                                  filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
-        return Future { promise in
-            guard let imageData = image.jpegData(compressionQuality: 0.4) else {
-                promise(.failure(.imageDataConversionFailed))
-                return
-            }
-            
-            let metaData = StorageMetadata()
-            metaData.contentType = "image/jpeg"
-            
-            let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
-            let filePath = filePath.pathStr + imageName
-            let firebaseRef = STOREAGE.reference().child(filePath)
-            
-            firebaseRef.putData(imageData, metadata: metaData) { metaData, error in
-                if let error = error {
-                    promise(.failure(.uploadFailed(error: error)))
-                    return
-                }
-                
-                firebaseRef.downloadURL { url, error in
-                    if let error = error {
-                        promise(.failure(.downloadURLFailed(error: error)))
-                    } else if let url = url {
-                        promise(.success(url))
-                    } else {
-                        promise(.failure(.unknown))
-                    }
-                }
-            }
-        }
-        .retry(3) // 업로드 실패시 3번까지 재시도
-        .eraseToAnyPublisher()
-    }
-    
-    //프로필에서 사용함 기존에 이미지가 FirebaseStorage에 있으면 프로필사진을 덮어쓰기함
-    static func uploadSingleImages(image: UIImage,
-                                  filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
+                            filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
             guard let imageData = image.jpegData(compressionQuality: 0.4) else {
                 promise(.failure(.imageDataConversionFailed))
@@ -140,7 +102,7 @@ class FirebaseStorageManager {
             let fullPath: String
             switch filePath {
             case .specificPath(let existingPath):
-                fullPath = existingPath // 기존 이미지 경로를 사용하여 덮어쓰기
+                fullPath = existingPath
             default:
                 let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
                 fullPath = filePath.pathStr + imageName
@@ -148,7 +110,8 @@ class FirebaseStorageManager {
             
             let firebaseRef = Storage.storage().reference().child(fullPath)
             
-            firebaseRef.putData(imageData, metadata: metaData) { metaData, error in
+          
+            firebaseRef.putData(imageData, metadata: metaData) { _, error in
                 if let error = error {
                     promise(.failure(.uploadFailed(error: error)))
                     return
