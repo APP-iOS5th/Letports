@@ -202,10 +202,7 @@ class GatheringTVCell: UITableViewCell {
     func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser, isAnimationEnabled: Bool = true) {
         
         let date = gathering.gatheringCreateDate.dateValue()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
+        let dateString = date.toString()
         
         isGatheringMasterIV.isHidden = gathering.gatheringMaster != user.uid
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
@@ -226,7 +223,6 @@ class GatheringTVCell: UITableViewCell {
             gatheringMasterIV.image = nil
         }
         
-        // 컨테이너 뷰에 대한 제스처 설정 (애니메이션 활성화 여부에 따라)
         containerView.gestureRecognizers?.forEach { containerView.removeGestureRecognizer($0) }
         if isAnimationEnabled {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
@@ -236,12 +232,10 @@ class GatheringTVCell: UITableViewCell {
     }
     
     func configure(with gathering: Gathering, with master: LetportsUser, isAnimationEnabled: Bool = true) {
+        
         let date = gathering.gatheringCreateDate.dateValue()
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-
+        let dateString = date.toString()
+        
         isGatheringMasterIV.isHidden = true
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
         gatheringInfo.text = gathering.gatherInfo
@@ -261,7 +255,6 @@ class GatheringTVCell: UITableViewCell {
             gatheringMasterIV.image = nil
         }
         
-        // 컨테이너 뷰에 대한 제스처 설정 (애니메이션 활성화 여부에 따라)
         containerView.gestureRecognizers?.forEach { containerView.removeGestureRecognizer($0) }
         if isAnimationEnabled {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
