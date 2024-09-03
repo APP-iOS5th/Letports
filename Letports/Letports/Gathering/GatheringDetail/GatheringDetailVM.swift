@@ -280,9 +280,8 @@ class GatheringDetailVM {
 			.document(currentUser.uid)
 		]
 		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "yyyy-MM-dd"
-		let joinDate = dateFormatter.string(from: Date())
+		let joinDate = Date().toString()
+		print("날짜 : \(joinDate)")
 		
 		let newMemberDict = GatheringMember(
 			answer: answer,
