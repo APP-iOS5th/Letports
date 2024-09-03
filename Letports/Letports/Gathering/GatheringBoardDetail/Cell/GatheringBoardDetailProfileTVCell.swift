@@ -12,13 +12,12 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	
 	private let profileImageView: UIImageView = {
 		let iv = UIImageView()
-		iv.contentMode = .scaleAspectFit
+		iv.contentMode = .scaleAspectFill
 		iv.clipsToBounds = true
 		iv.layer.cornerRadius = 20
+		iv.clipsToBounds = true
 		iv.layer.borderWidth = 0.2
 		iv.layer.borderColor = UIColor.black.cgColor
-		iv.widthAnchor.constraint(equalToConstant: 60).isActive = true
-		iv.heightAnchor.constraint(equalToConstant: 60).isActive = true
 		iv.isUserInteractionEnabled = false
 		iv.translatesAutoresizingMaskIntoConstraints = false
 		return iv
@@ -76,6 +75,8 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 			profileImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
 			profileImageView.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant: 8),
 			profileImageView.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -8),
+			profileImageView.widthAnchor.constraint(equalToConstant: 60),
+			profileImageView.heightAnchor.constraint(equalToConstant: 60),
 			
 			nameDateSV.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
 			nameDateSV.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),

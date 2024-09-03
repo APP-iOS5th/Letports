@@ -487,7 +487,7 @@ class GatheringDetailVM {
 	// 게시판 높이계산
 	func calculateBoardHeight() -> CGFloat {
 		let numberOfRows = filteredBoardData.count
-		let cellHeight: CGFloat = 70 + 12
+		let cellHeight: CGFloat = 50 + 12
 		let calculatedHeight = CGFloat(numberOfRows) * cellHeight
 		
 		// 기본 높이를 328으로 설정하고, 계산된 높이가 328을 초과할 경우에만 그 값을 반환

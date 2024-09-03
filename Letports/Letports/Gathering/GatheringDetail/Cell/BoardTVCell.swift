@@ -45,7 +45,6 @@ final class BoardTVCell: UITableViewCell {
 		lb.font = .systemFont(ofSize: 10, weight: .bold)
 		lb.textAlignment = .center
 		lb.layer.cornerRadius = 10
-		lb.layer.borderColor = UIColor.black.cgColor
 		lb.clipsToBounds = true
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -84,7 +83,7 @@ final class BoardTVCell: UITableViewCell {
 			containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 			containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-			containerView.heightAnchor.constraint(equalToConstant: 70),
+			containerView.heightAnchor.constraint(equalToConstant: 50),
 			
 			boardTypeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
 			boardTypeLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -115,14 +114,18 @@ final class BoardTVCell: UITableViewCell {
 		createDateLabel.text = dateString
 		self.boardPost = data
 		boardTypeLabel.backgroundColor = .clear
+		boardTypeLabel.layer.borderColor = UIColor.black.cgColor
 		boardTypeLabel.layer.borderWidth = 0.5
+		boardTypeLabel.textColor = .lp_black
 		switch data.boardType {
         case .free:
 			boardTypeLabel.text = "자유"
         case .noti:
 			boardTypeLabel.text = "공지"
-			boardTypeLabel.backgroundColor = .lp_tint
-			boardTypeLabel.layer.borderWidth = 0
+			boardTypeLabel.backgroundColor = UIColor(red: 1.0, green: 0.847, blue: 0.855, alpha: 1.0) // #FFD8DA
+			boardTypeLabel.layer.borderWidth = 1
+			boardTypeLabel.layer.borderColor = UIColor.lp_tint.cgColor
+			boardTypeLabel.textColor = .lp_tint
 		default:
 			boardTypeLabel.text = "전체"
 		}

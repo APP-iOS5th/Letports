@@ -122,7 +122,7 @@ extension GatheringDetailBoardTVCell: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension GatheringDetailBoardTVCell: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 70 + 12
+		return 50 + 12
 	}
 }
 

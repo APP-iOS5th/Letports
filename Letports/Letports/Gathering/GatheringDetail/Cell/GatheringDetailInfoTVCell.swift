@@ -69,7 +69,6 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		])
 		
 		expandBtn.addTarget(self, action: #selector(expandInfo), for: .touchUpInside)
-		
 	}
 	
 	func configure(with gatherInfo: String?) {
