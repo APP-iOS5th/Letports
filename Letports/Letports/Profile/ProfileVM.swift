@@ -27,6 +27,8 @@ class ProfileVM {
     @Published var userGatherings: [Gathering] = []
     @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var currentUserUid: String?
+    @Published var isLoading: Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     let profileType: ProfileType
     
@@ -59,6 +61,7 @@ class ProfileVM {
     }
     
     func loadUser(user: String, completion: (() -> Void)? = nil) {
+        isLoading = true
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(user),
@@ -73,6 +76,7 @@ class ProfileVM {
                 }
             } receiveValue: { [weak self] fetchedUser in
                 guard let self = self else { return }
+                self.isLoading = false
                 if let user = fetchedUser.first {
                     self.user = user
                     if self.profileType == .myProfile {
@@ -98,6 +102,8 @@ class ProfileVM {
     }
     
     func fetchUserGatherings(userUID: String, isCurrentUser: Bool) {
+        isLoading = true
+        
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(userUID),
@@ -108,6 +114,7 @@ class ProfileVM {
             .sink { _ in
             } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
+                self.isLoading = false
                 self.getDatas(gatherings: gatherings, userUID: userUID, isCurrentUser: isCurrentUser)
             }
             .store(in: &cancellables)
