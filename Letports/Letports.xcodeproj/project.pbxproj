@@ -53,7 +53,6 @@
 		B85FD8882C79CCF3007B4962 /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
 		B8738AB62C85967500686BA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
 		B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */; };
-		B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */; };
 		B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
 		B8D4D0B82C7468CE0039D33B /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
 		B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0BF2C746ADE0039D33B /* AuthService.swift */; };
@@ -161,6 +160,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		410263F32C874BBF00A17FD8 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
+		410263F42C874BBF00A17FD8 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
+		410263F52C874BBF00A17FD8 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		410BBC9B2C778C9B00FE2E18 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		410BBC9C2C778C9B00FE2E18 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		410BBCC12C77B17400FE2E18 /* Extension+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
@@ -205,7 +207,6 @@
 		B8738AB22C85482C00686BA0 /* Letports.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siuuuuu.mp3; sourceTree = "<group>"; };
-		B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -225,9 +226,6 @@
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
-		BFB59DF52C86E7BD006565AF /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFB59DF62C86E7BD006565AF /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFB59DF72C86E7BD006565AF /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
@@ -594,7 +592,6 @@
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
-				B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */,
 			);
 			path = Letports;
 			sourceTree = "<group>";
@@ -757,7 +754,7 @@
 				41C649F42C869F8A00640990 /* FirebaseCrashlytics */,
 			);
 			productName = Letports;
-			productReference = BFB59DF52C86E7BD006565AF /* Letports.app */;
+			productReference = 410263F32C874BBF00A17FD8 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -775,7 +772,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = BFB59DF62C86E7BD006565AF /* LetportsTests.xctest */;
+			productReference = 410263F42C874BBF00A17FD8 /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -793,7 +790,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = BFB59DF72C86E7BD006565AF /* LetportsUITests.xctest */;
+			productReference = 410263F52C874BBF00A17FD8 /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -853,7 +850,6 @@
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
-				B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */,
 				BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 			);
