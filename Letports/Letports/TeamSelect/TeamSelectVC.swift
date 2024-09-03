@@ -14,7 +14,7 @@ class TeamSelectVC: UICollectionViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private let viewModel: TeamSelectVM
-    weak var coordinator: TeamSelectionCoordinator?
+    weak var coordinator: TeamSelectCoordinator?
     
     enum Section: Int, CaseIterable {
         case sports, teams
