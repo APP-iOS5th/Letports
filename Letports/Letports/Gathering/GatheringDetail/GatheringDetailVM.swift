@@ -281,7 +281,6 @@ class GatheringDetailVM {
 		]
 		
 		let joinDate = Date().toString()
-		print("날짜 : \(joinDate)")
 		
 		let newMemberDict = GatheringMember(
 			answer: answer,
