@@ -110,11 +110,15 @@ class GatheringVM {
                     return gathering.gatherMaxMember != gathering.gatherNowMember
                 }
                 
+                let filteredGatherings = gatherings.filter { gathering in
+                    return gathering.gatherNowMember != gathering.gatherMaxMember
+                }
+                
                 // 정렬된 리스트 중에서 상위 2개를 추천 목록으로 저장
                 self?.recommendGatherings = Array(memberCountFilteredGathrings.prefix(2))
                 
                 // 전체 리스트를 gatheringLists에 저장
-                self?.gatheringLists = sortedGatherings
+                self?.gatheringLists = filteredGatherings
             }
     }
     
