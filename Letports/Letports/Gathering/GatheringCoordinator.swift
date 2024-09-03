@@ -35,7 +35,8 @@ class GatheringCoordinator: Coordinator {
 
 extension GatheringCoordinator: GatheringCoordinatorDelegate {
     func pushGatheringUploadController() {
-        let coordinator = GatheringUploadCoordinator(navigationController: navigationController, viewModel: GatheringUploadVM())
+        let coordinator = GatheringUploadCoordinator(navigationController: navigationController, 
+                                                     viewModel: GatheringUploadVM())
         coordinator.start()
         childCoordinators.append(coordinator)
     }

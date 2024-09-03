@@ -206,14 +206,13 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .main:
             if let cell: GatheringUploadMainTVCell  = tableView.loadCell(indexPath: indexPath) {
-                UserManager.shared.getTeam() { result in
-                    switch result {
-                    case .success(let team):
-                        cell.configureCell(sportsTeam: team)
-                    case .failure(let error):
-                        print("get Team Failed \(error)")
-                    }
+
+                viewModel.getTeamData { team in
+                    guard let team = team else { return }
+                    print("teamteamteamteam", team)
+                    cell.configureCell(sportsTeam: team)
                 }
+                
                 return cell
             }
         case .separator:

@@ -263,4 +263,60 @@ class GatheringUploadVM {
             .replaceError(with: nil)
             .eraseToAnyPublisher()
     }
+    
+    func getTeamData(completion: @escaping (SportsTeam?) -> Void) {
+        
+        let firestorePublisher: AnyPublisher<SportsTeam?, Never> = {
+            if let sportsName = self.sportsName, let sportsTeamName = self.sportsTeamName {
+                let collectionPath: [FirestorePathComponent] = [
+                    .collection(.sports),
+                    .document(sportsName),
+                    .collection(.sportsTeam),
+                    .document(sportsTeamName)
+                ]
+                
+                return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
+                    .tryMap { sportsTeams in
+                        sportsTeams.first
+                    }
+                    .catch { error -> Just<SportsTeam?> in
+                        print("Error fetching sports team data: \(error)")
+                        return Just(nil)
+                    }
+                    .eraseToAnyPublisher()
+            } else {
+                return Just(nil).eraseToAnyPublisher()
+            }
+        }()
+        
+        
+        let userManagerPublisher: AnyPublisher<SportsTeam?, Never> = {
+            Future<SportsTeam?, Never> { promise in
+                UserManager.shared.getTeam { result in
+                    switch result {
+                    case .success(let team):
+                        promise(.success(team))
+                    case .failure(let error):
+                        print("getTeam error: \(error)")
+                        promise(.success(nil))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+        }()
+        
+        firestorePublisher
+            .flatMap { sportsTeam -> AnyPublisher<SportsTeam?, Never> in
+                if let team = sportsTeam {
+                    return Just(team).eraseToAnyPublisher()
+                } else {
+                    return userManagerPublisher
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { team in
+                completion(team)
+            }
+            .store(in: &cancellables)
+    }
 }
