@@ -46,7 +46,9 @@ extension HomeCoordinator: HomeCoordinatorDelegate {
 	}
 	
     func pushGatheringDetailController(gatheringUID: String) {
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: UserManager.shared.getUser(), currentGatheringUid: gatheringUID)
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController,
+                                                     currentUser: UserManager.shared.getUser(),
+                                                     currentGatheringUid: gatheringUID)
 		coordinator.start()
 		childCoordinators.append(coordinator)
 	}

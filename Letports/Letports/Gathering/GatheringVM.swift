@@ -14,6 +14,8 @@ enum GatheringCellType {
     case recommendGatherings
     case gatheringListHeader
     case gatheringLists
+    case recommendGatheringEmptyState
+    case gatheringListEmptyState
 }
 
 class GatheringVM {
@@ -27,7 +29,7 @@ class GatheringVM {
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {
-        
+        self.delegate?.presentTeamChangeController()
     }
     
     func pushGatheringDetailController(gatheringUid: String) {
@@ -38,17 +40,15 @@ class GatheringVM {
         self.delegate?.pushGatheringUploadController()
     }
     
-    
     private var cellType: [GatheringCellType] {
-        var cellTypes: [GatheringCellType] = []
-        cellTypes.append(.recommendGatheringHeader)
-        for _ in recommendGatherings {
-            cellTypes.append(.recommendGatherings)
-        }
+        var cellTypes: [GatheringCellType] = [.recommendGatheringHeader]
+        cellTypes.append(contentsOf: recommendGatherings.isEmpty ? 
+                         [.recommendGatheringEmptyState] : Array(repeating: .recommendGatherings,
+                                                                 count: recommendGatherings.count))
         cellTypes.append(.gatheringListHeader)
-        for _ in gatheringLists {
-            cellTypes.append(.gatheringLists)
-        }
+        cellTypes.append(contentsOf: gatheringLists.isEmpty ?
+                         [.gatheringListEmptyState] : Array(repeating: .gatheringLists,
+                                                            count: gatheringLists.count))
         return cellTypes
     }
     
@@ -96,11 +96,20 @@ class GatheringVM {
                     return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
                 }
                 
+                // MaxMember == NowMember 필터링
+                let memberCountFilteredGathrings = sortedGatherings.filter { gathering in
+                    return gathering.gatherMaxMember != gathering.gatherNowMember
+                }
+                
+                let filteredGatherings = gatherings.filter { gathering in
+                    return gathering.gatherNowMember != gathering.gatherMaxMember
+                }
+                
                 // 정렬된 리스트 중에서 상위 2개를 추천 목록으로 저장
-                self?.recommendGatherings = Array(sortedGatherings.prefix(2))
+                self?.recommendGatherings = Array(memberCountFilteredGathrings.prefix(2))
                 
                 // 전체 리스트를 gatheringLists에 저장
-                self?.gatheringLists = sortedGatherings
+                self?.gatheringLists = filteredGatherings
             }
     }
     

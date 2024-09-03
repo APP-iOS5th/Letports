@@ -81,14 +81,14 @@ class HomeViewModel {
     }
     
     func getTeamData() {
-        guard let selectedSports = UserManager.shared.selectedTeam else {
+        guard let userData = UserManager.shared.currentUser else {
             return
         }
         let collectionPath: [FirestorePathComponent] = [
             .collection(.sports),
-            .document(selectedSports.sportsName),
+            .document(userData.userSports),
             .collection(.sportsTeam),
-            .document(selectedSports.teamUID)
+            .document(userData.userSportsTeam)
         ]
         
         FM.getData(pathComponents: collectionPath, type: Team.self)

@@ -64,6 +64,7 @@
 		BF1283D72C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
 		BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
 		BF1283DD2C72659300BEAE4C /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
+		BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */; };
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
@@ -97,7 +98,6 @@
 		D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
 		D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
 		D8201FB82C606935004DF06C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8201FB72C606935004DF06C /* Assets.xcassets */; };
-		D8201FBB2C606935004DF06C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D8201FBA2C606935004DF06C /* Base */; };
 		D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FC52C606935004DF06C /* LetportsTests.swift */; };
 		D8201FD02C606935004DF06C /* LetportsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FCF2C606935004DF06C /* LetportsUITests.swift */; };
 		D8201FD22C606935004DF06C /* LetportsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */; };
@@ -132,8 +132,6 @@
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
 		D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
 		D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
-		D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407E2C83973D00E105F9 /* Extension+Character.swift */; };
-		D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C408A2C84158800E105F9 /* RefreshView.swift */; };
 		F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
 		F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
@@ -208,6 +206,9 @@
 		B8738AB52C85967500686BA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siuuuuu.mp3; sourceTree = "<group>"; };
 		B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8738ABE2C86AB5D00686BA0 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
+		B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
+		B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectCoordinator.swift; sourceTree = "<group>"; };
 		B8D4D0B72C7468CE0039D33B /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		B8D4D0BF2C746ADE0039D33B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -219,6 +220,7 @@
 		BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailBoardTVCell.swift; sourceTree = "<group>"; };
 		BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinBtn.swift; sourceTree = "<group>"; };
 		BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringImageTVCell.swift; sourceTree = "<group>"; };
+		BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF3882572C6B827B00C59A4F /* BoardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTVCell.swift; sourceTree = "<group>"; };
 		BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVC.swift; sourceTree = "<group>"; };
 		BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailVM.swift; sourceTree = "<group>"; };
@@ -242,15 +244,11 @@
 		BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesCVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderLabelTVCell.swift; sourceTree = "<group>"; };
-		D8201FAE2C606934004DF06C /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D8201FBA2C606935004DF06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8201FC12C606935004DF06C /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
 		D8201FC52C606935004DF06C /* LetportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsTests.swift; sourceTree = "<group>"; };
-		D8201FCB2C606935004DF06C /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/johnyun/appschool5th/최종 프로젝트/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
@@ -284,8 +282,6 @@
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
 		D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTVCell.swift; sourceTree = "<group>"; };
 		D89C407C2C83973800E105F9 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
-		D89C407E2C83973D00E105F9 /* Extension+Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Character.swift"; sourceTree = "<group>"; };
-		D89C408A2C84158800E105F9 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		F703EC312C788272003C994C /* GatheringVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringVM.swift; sourceTree = "<group>"; };
 		F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTVCell.swift; sourceTree = "<group>"; };
 		F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileTVCell.swift; sourceTree = "<group>"; };
@@ -380,7 +376,6 @@
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
 				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
-				D89C407E2C83973D00E105F9 /* Extension+Character.swift */,
 				41C857C52C81B8820042B305 /* Extension+Date.swift */,
 				D89C407C2C83973800E105F9 /* Extension+String.swift */,
 			);
@@ -596,9 +591,9 @@
 				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
-				D8201FB92C606935004DF06C /* LaunchScreen.storyboard */,
 				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
+				BF1F22A02C85A10200AF8DEF /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
 				B8738AB92C859F9100686BA0 /* GoogleService-Info.plist */,
 			);
@@ -667,7 +662,6 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				D89C408B2C84158800E105F9 /* View */,
 				D8299F3F2C77622C003D29AC /* Cell */,
 				D8299F442C77622C003D29AC /* ProfileVM.swift */,
 				D8299F692C776555003D29AC /* ProfileVC.swift */,
@@ -724,14 +718,6 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		D89C408B2C84158800E105F9 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D89C408A2C84158800E105F9 /* RefreshView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		F77526022C7DBF610046E5F9 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,7 +756,7 @@
 				BF8874092C7A538000E86CA0 /* FirebaseStorage */,
 			);
 			productName = Letports;
-			productReference = D8201FAE2C606934004DF06C /* Letports.app */;
+			productReference = B8738ABE2C86AB5D00686BA0 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -788,7 +774,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = D8201FC12C606935004DF06C /* LetportsTests.xctest */;
+			productReference = B8738ABF2C86AB5D00686BA0 /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -806,7 +792,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = D8201FCB2C606935004DF06C /* LetportsUITests.xctest */;
+			productReference = B8738AC02C86AB5D00686BA0 /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -866,8 +852,9 @@
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
 				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
-				D8201FBB2C606935004DF06C /* Base in Resources */,
 				B8738ABA2C859F9100686BA0 /* GoogleService-Info.plist in Resources */,
+				BF1F22A12C85A10200AF8DEF /* GoogleService-Info.plist in Resources */,
+				B8738AB82C8598C900686BA0 /* siuuuuu.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,7 +879,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89C408C2C84158800E105F9 /* RefreshView.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				B85FD8532C7864DC007B4962 /* TeamSelectVC.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
@@ -962,7 +948,6 @@
 				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
-				D89C407F2C83973D00E105F9 /* Extension+Character.swift in Sources */,
 				B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */,
@@ -1050,17 +1035,6 @@
 			targetProxy = D8201FCC2C606935004DF06C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		D8201FB92C606935004DF06C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D8201FBA2C606935004DF06C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D8201FD32C606935004DF06C /* Debug */ = {

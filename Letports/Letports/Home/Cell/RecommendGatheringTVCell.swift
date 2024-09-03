@@ -74,14 +74,16 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringListsCVCell", for: indexPath) as? RecommendGatheringListsCVCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringListsCVCell",
+                                                            for: indexPath) as? RecommendGatheringListsCVCell else {
             return UICollectionViewCell()
         }
         cell.configure(gathering: gatherings[indexPath.item])
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 300, height: 250)
     }
     

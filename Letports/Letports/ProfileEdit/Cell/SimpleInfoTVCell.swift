@@ -13,7 +13,7 @@ class SimpleInfoTVCell: UITableViewCell {
     private lazy var simpleInfoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.text = "한줄소개"
+        label.text = "자기소개"
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -21,7 +21,7 @@ class SimpleInfoTVCell: UITableViewCell {
     
     private(set) lazy var simpleInfoTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "한줄소개를 입력해주세요"
+        tf.placeholder = "자기소개를 입력해주세요"
         tf.textColor = .lp_black
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
@@ -36,7 +36,7 @@ class SimpleInfoTVCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true 
+        label.isHidden = true
         return label
     }()
     
@@ -85,8 +85,8 @@ class SimpleInfoTVCell: UITableViewCell {
     @objc func simpleInfoDidChange() {
         if let text = simpleInfoTextField.text {
             delegate?.editUserSimpleInfo(content: text)
-            if text.count > 20 {
-                limitLabel.text = "20자 이하로 입력해주세요."
+            if text.count == 20 {
+                limitLabel.text = "자기소개는 최대 20자까지 입력할 수 있습니다."
                 limitLabel.isHidden = false
             } else {
                 limitLabel.isHidden = true
@@ -104,7 +104,16 @@ class SimpleInfoTVCell: UITableViewCell {
 
 extension SimpleInfoTVCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder() 
+        textField.resignFirstResponder()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        let textLength = newText.count
+        
+        return textLength <= 20
     }
 }
