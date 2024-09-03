@@ -119,7 +119,6 @@ final class GatheringTitleTVCell: UITableViewCell {
 			titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
 			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
 			
-			editBtn.topAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 5),
 			editBtn.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
 			editBtn.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
 			editBtn.widthAnchor.constraint(equalToConstant: 36),
@@ -139,7 +138,6 @@ final class GatheringTitleTVCell: UITableViewCell {
 	}
 	
 	@objc func editBtnTap() {
-		print("모임장편집버튼")
 		delegate?.didTapEditBtn()
 	}
 }
