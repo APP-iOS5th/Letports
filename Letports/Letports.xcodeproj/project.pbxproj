@@ -24,7 +24,6 @@
 		413BE6432C65EA4E0070D6F9 /* GatheringUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */; };
 		413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */; };
 		413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */; };
-		413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */; };
 		413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */; };
 		413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */; };
 		413BE6592C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */; };
@@ -34,9 +33,7 @@
 		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
 		4143E4592C6B47DF001AB3E0 /* BoardEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */; };
 		4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */; };
-		41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */; };
 		41AA05302C73000C009FF289 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA052F2C73000C009FF289 /* Common.swift */; };
-		41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05312C73020C009FF289 /* FirestoreManager.swift */; };
 		41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
 		41C649F52C869F8A00640990 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 41C649F42C869F8A00640990 /* FirebaseCrashlytics */; };
 		41C857C62C81B8820042B305 /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C857C52C81B8820042B305 /* Extension+Date.swift */; };
@@ -86,7 +83,6 @@
 		BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
 		BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */; };
 		BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */; };
-		BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF52D282C6C3A4900AC72C8 /* ViewController.swift */; };
 		BFFFD3E82C7328130053A86B /* CurrentMemTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */; };
 		BFFFD3EB2C73314A0053A86B /* GatheringBoardDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */; };
 		BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EC2C7333FC0053A86B /* GatheringBoardDetailVM.swift */; };
@@ -138,7 +134,9 @@
 		F77525FF2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */; };
 		F77526042C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */; };
 		F7866CAB2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */; };
-		F78A24C22C7C4C8E00471331 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78A24C12C7C4C8E00471331 /* Team.swift */; };
+		F7866CB32C87EC2900BCA4B6 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7866CB22C87EC2900BCA4B6 /* CustomNavigationView.swift */; };
+		F7866CB72C87EC4500BCA4B6 /* FirebasStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7866CB42C87EC4500BCA4B6 /* FirebasStorageManager.swift */; };
+		F7866CB82C87EC4500BCA4B6 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7866CB52C87EC4500BCA4B6 /* FirestoreManager.swift */; };
 		F78A24C32C7C595C00471331 /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
 		F7C1AA652C746A7C009D0728 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeVM.swift */; };
 		F7C1AA672C746A94009D0728 /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA662C746A94009D0728 /* URLVC.swift */; };
@@ -175,7 +173,6 @@
 		413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVC.swift; sourceTree = "<group>"; };
 		413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVM.swift; sourceTree = "<group>"; };
 		413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadCoordinator.swift; sourceTree = "<group>"; };
-		413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadMainTVCell.swift; sourceTree = "<group>"; };
 		413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeperatorLineTVCell.swift; sourceTree = "<group>"; };
@@ -187,9 +184,7 @@
 		4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVC.swift; sourceTree = "<group>"; };
 		4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVM.swift; sourceTree = "<group>"; };
 		4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorCoordinator.swift; sourceTree = "<group>"; };
-		41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasStorageManager.swift; sourceTree = "<group>"; };
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
@@ -231,7 +226,6 @@
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
-		BFF52D282C6C3A4900AC72C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BFFFD3E52C7316D40053A86B /* PostBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBtn.swift; sourceTree = "<group>"; };
 		BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMemTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailVC.swift; sourceTree = "<group>"; };
@@ -289,7 +283,9 @@
 		F7866CA82C87DCB600BCA4B6 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7866CA92C87DCB600BCA4B6 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringEmptyCVCell.swift; sourceTree = "<group>"; };
-		F78A24C12C7C4C8E00471331 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		F7866CB22C87EC2900BCA4B6 /* CustomNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		F7866CB42C87EC4500BCA4B6 /* FirebasStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebasStorageManager.swift; sourceTree = "<group>"; };
+		F7866CB52C87EC4500BCA4B6 /* FirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		F7C1AA642C746A7C009D0728 /* HomeVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		F7C1AA662C746A94009D0728 /* URLVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -336,7 +332,6 @@
 				D8299F722C777D4B003D29AC /* Gathering.swift */,
 				D8299F702C777D27003D29AC /* SportsTeam.swift */,
 				410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */,
-				F78A24C12C7C4C8E00471331 /* Team.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -361,14 +356,6 @@
 				413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */,
 			);
 			path = GatherUpload;
-			sourceTree = "<group>";
-		};
-		413BE64A2C65F0FC0070D6F9 /* CustomNavigation */ = {
-			isa = PBXGroup;
-			children = (
-				413BE6492C65F0FC0070D6F9 /* CustomNavigationView.swift */,
-			);
-			path = CustomNavigation;
 			sourceTree = "<group>";
 		};
 		413BE64D2C65F1990070D6F9 /* Extension */ = {
@@ -409,20 +396,12 @@
 			path = BoadEditor;
 			sourceTree = "<group>";
 		};
-		41AA05272C72D9D9009FF289 /* FirebaseService */ = {
-			isa = PBXGroup;
-			children = (
-				41AA05282C72D9F2009FF289 /* FirebasStorageManager.swift */,
-				41AA05312C73020C009FF289 /* FirestoreManager.swift */,
-			);
-			path = FirebaseService;
-			sourceTree = "<group>";
-		};
 		41AA052E2C730001009FF289 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				41AA052F2C73000C009FF289 /* Common.swift */,
 				41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */,
+				F7866CB22C87EC2900BCA4B6 /* CustomNavigationView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -484,6 +463,7 @@
 		B8D4D0B92C74693D0039D33B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				F7866CB62C87EC4500BCA4B6 /* FirebaseService */,
 				B8D4D0BF2C746ADE0039D33B /* AuthService.swift */,
 			);
 			path = Service;
@@ -576,13 +556,11 @@
 				B8738AB52C85967500686BA0 /* SplashVC.swift */,
 				410BBCC42C77B5B300FE2E18 /* Model */,
 				41AA052E2C730001009FF289 /* Common */,
-				41AA05272C72D9D9009FF289 /* FirebaseService */,
 				B85FD8512C7864C4007B4962 /* TeamSelect */,
 				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
 				B8D4D0B92C74693D0039D33B /* Service */,
 				B824714A2C6C34360067BD09 /* Auth */,
-				413BE64A2C65F0FC0070D6F9 /* CustomNavigation */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
 				D8299F322C776219003D29AC /* GatherSetting */,
@@ -592,7 +570,6 @@
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				413BE64D2C65F1990070D6F9 /* Extension */,
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
-				BFF52D282C6C3A4900AC72C8 /* ViewController.swift */,
 				B8738AB72C8598C900686BA0 /* siuuuuu.mp3 */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				B8738AB22C85482C00686BA0 /* Letports.entitlements */,
@@ -733,6 +710,15 @@
 				F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		F7866CB62C87EC4500BCA4B6 /* FirebaseService */ = {
+			isa = PBXGroup;
+			children = (
+				F7866CB42C87EC4500BCA4B6 /* FirebasStorageManager.swift */,
+				F7866CB52C87EC4500BCA4B6 /* FirestoreManager.swift */,
+			);
+			path = FirebaseService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -914,13 +900,13 @@
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				F7866CAB2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift in Sources */,
 				B85FD8532C7864DC007B4962 /* TeamSelectVC.swift in Sources */,
+				F7866CB32C87EC2900BCA4B6 /* CustomNavigationView.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */,
 				F77525FF2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift in Sources */,
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				B85FD8862C79CCD0007B4962 /* SportsCategoryCell.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
-				41AA05292C72D9F2009FF289 /* FirebasStorageManager.swift in Sources */,
 				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
 				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
 				D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */,
@@ -929,7 +915,6 @@
 				410BBCC62C77B5C900FE2E18 /* LetportsUser.swift in Sources */,
 				B8D4D0C02C746ADE0039D33B /* AuthService.swift in Sources */,
 				BF89726B2C75AD2D0015CBF2 /* BoardEditorVM.swift in Sources */,
-				41AA05322C73020C009FF289 /* FirestoreManager.swift in Sources */,
 				BFD9AF072C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift in Sources */,
 				411C4A532C70929800FE3604 /* BoardEditorPhotoCVCell.swift in Sources */,
 				41AA05302C73000C009FF289 /* Common.swift in Sources */,
@@ -942,12 +927,11 @@
 				D845E0D62C79CC17006DD879 /* UserProfileCoordinator.swift in Sources */,
 				411D4E522C6337AE00B07D84 /* UserManager.swift in Sources */,
 				413BE64E2C65F1990070D6F9 /* Extension+UIImage.swift in Sources */,
-				413BE64B2C65F0FC0070D6F9 /* CustomNavigationView.swift in Sources */,
 				F77525F92C7D6CD00046E5F9 /* TitleTVCell.swift in Sources */,
 				41C857C62C81B8820042B305 /* Extension+Date.swift in Sources */,
-				F78A24C22C7C4C8E00471331 /* Team.swift in Sources */,
 				411C4A512C70925700FE3604 /* BoardEditorContentCVCell.swift in Sources */,
 				BF08A9612C78465200682AB8 /* JoinView.swift in Sources */,
+				F7866CB82C87EC4500BCA4B6 /* FirestoreManager.swift in Sources */,
 				D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */,
 				D89C405B2C80956600E105F9 /* EmptyStateTVCell.swift in Sources */,
 				BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */,
@@ -977,7 +961,6 @@
 				D845E0D42C79CBE1006DD879 /* UserProfileVM.swift in Sources */,
 				413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */,
 				41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */,
-				BFF52D292C6C3A4900AC72C8 /* ViewController.swift in Sources */,
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
 				B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */,
@@ -1005,6 +988,7 @@
 				D8299F5C2C776313003D29AC /* ProfileEditVC.swift in Sources */,
 				D8299F5D2C776313003D29AC /* ProfileEditVM.swift in Sources */,
 				D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */,
+				F7866CB72C87EC4500BCA4B6 /* FirebasStorageManager.swift in Sources */,
 				D8299F342C776219003D29AC /* GatherSectionTVCell.swift in Sources */,
 				D8299F352C776219003D29AC /* GatherSettingCoordinator.swift in Sources */,
 				D8299F362C776219003D29AC /* GatherSettingVM.swift in Sources */,

@@ -234,6 +234,10 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return UITableView.automaticDimension
 	}
+	
+	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+		   return 100 // 적절한 예상 높이 값으로 조정
+	   }
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {
 	func addComment(comment: String) {

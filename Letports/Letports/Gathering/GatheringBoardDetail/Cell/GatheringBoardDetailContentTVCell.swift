@@ -25,7 +25,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 		tv.font = .systemFont(ofSize: 16)
 		tv.textColor = .black
 		tv.isScrollEnabled = false
-		tv.textContainerInset = UIEdgeInsets(top: 50, left: 16, bottom: 16, right: 16)
+		tv.textContainerInset = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		return tv
 	}()

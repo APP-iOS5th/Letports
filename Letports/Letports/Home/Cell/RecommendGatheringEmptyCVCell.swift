@@ -12,7 +12,8 @@ class RecommendGatheringEmptyCVCell: UICollectionViewCell {
     
     lazy var emptyLabel: UILabel = {
         let label = UILabel()
-        label.text = "아직 생성된 소모임이 없습니다."
+        label.text = "아직 생성된\n소모임이 없습니다."
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.textColor = .lpGray
         label.textAlignment = .center
@@ -34,10 +35,8 @@ class RecommendGatheringEmptyCVCell: UICollectionViewCell {
         self.contentView.addSubview(emptyLabel)
         
         NSLayoutConstraint.activate([
-            emptyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
-            emptyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30),
-            emptyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            emptyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            emptyLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            emptyLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
     

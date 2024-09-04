@@ -16,7 +16,7 @@ class HomeProfileTVCell: UITableViewCell {
     
     weak var delegate: HomeProfileTVCellDelegate?
     
-    var team: Team?
+    var team: SportsTeam?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -31,7 +31,6 @@ class HomeProfileTVCell: UITableViewCell {
     private lazy var teamLogo: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         return iv
@@ -166,12 +165,12 @@ class HomeProfileTVCell: UITableViewCell {
             teamLogo.heightAnchor.constraint(equalToConstant: 70),
             teamLogo.widthAnchor.constraint(equalToConstant: 70),
             
-            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 16),
+            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 20),
             teamName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             teamName.heightAnchor.constraint(equalToConstant: 40),
             
             urlSV.topAnchor.constraint(equalTo: teamName.bottomAnchor, constant: 8),
-            urlSV.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 16),
+            urlSV.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 20),
             urlSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             urlSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             urlSV.heightAnchor.constraint(equalToConstant: 30),
@@ -233,7 +232,7 @@ class HomeProfileTVCell: UITableViewCell {
         youtubeURLSV.isUserInteractionEnabled = true
     }
     
-    func configure(with team: Team) {
+    func configure(with team: SportsTeam) {
         self.team = team
         teamName.text = team.teamName
         

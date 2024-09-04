@@ -11,7 +11,6 @@ import Kingfisher
 
 extension HomeVC: HomeProfileTVCellDelegate, YoutubeThumbnailTVCellDelegate, RecommendGatheringListsDelegate {
     func didTapRecommendGathering(gatheringUID: String) {
-        print("ddd" ,gatheringUID)
         viewModel.pushGatheringDetailController(gatheringUID: gatheringUID)
     }
     
