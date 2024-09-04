@@ -6,7 +6,28 @@
 //
 import Foundation
 
-struct SportsTeam: Codable {
+struct Sports: Hashable, Codable {
+    let id: String
+    let name: String
+    let sportsUID: String
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = try container.decode(String.self, forKey: .name)
+        self.sportsUID = try container.decode(String.self, forKey: .sportsUID)
+        
+        self.id = self.sportsUID.replacingOccurrences(of: "Letports_", with: "")
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case name = "SportsName"
+        case sportsUID = "SportsUID"
+    }
+}
+
+
+struct SportsTeam: Hashable, Codable {
     let homepage: String
     let instagram: String
     let sportsUID: String
@@ -19,7 +40,7 @@ struct SportsTeam: Codable {
     let teamUID: String
     let youtube: String
     let youtubeChannelID: String
-
+    
     enum CodingKeys: String, CodingKey {
         case homepage = "Homepage"
         case instagram = "Instagram"

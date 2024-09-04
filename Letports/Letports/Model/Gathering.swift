@@ -34,5 +34,3 @@ struct Gathering: Codable {
         case gatheringUid = "GatheringUid"
     }
 }
-
-//snapShot: Optional(["GatheringMaster": users001, "GatherMaxMember": 20, "GatherInfo": 테스트입니다, "GatheringSports": Letports_soccer, "GatherImage": , "GatherNowMember": 3, "GatheringSportsTeam": FCSeoul, "GatherName": 테스트소모임, "GatheringUid": gather004, "GatheringCreateDate": 2024-08-11, "GatherQuestion": 무엇을좋아하나요])

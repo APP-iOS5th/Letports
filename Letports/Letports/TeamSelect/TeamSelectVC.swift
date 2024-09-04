@@ -137,12 +137,13 @@ class TeamSelectVC: UICollectionViewController {
             switch section {
             case .sports:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsCategoryCell.reuseIdentifier, for: indexPath) as? SportsCategoryCell,
-                      let sports = item as? TeamSelectVM.Sports else { return nil }
+                      let sports = item as? Sports else { return nil }
                 cell.configure(with: sports)
                 return cell
             case .teams:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTeamCell.reuseIdentifier, for: indexPath) as? SportsTeamCell,
-                      let team = item as? TeamSelectVM.Team else { return nil }
+                        let team = item as? SportsTeam else { return nil }
+                print("item, \(item)")
                 cell.configure(with: team)
                 return cell
             }
@@ -222,12 +223,12 @@ extension TeamSelectVC {
         
         switch section {
         case .sports:
-            guard let sports = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Sports else { return }
+            guard let sports = dataSource.itemIdentifier(for: indexPath) as? Sports else { return }
             viewModel.selectSports(sports)
             viewModel.selectTeam(nil)
             updateTeamsSnapshot()
         case .teams:
-            if let team = dataSource.itemIdentifier(for: indexPath) as? TeamSelectVM.Team {
+            if let team = dataSource.itemIdentifier(for: indexPath) as? SportsTeam {
                 viewModel.selectTeam(team)
             }
         }

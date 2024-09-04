@@ -63,9 +63,9 @@ class SportsTeamCell: UICollectionViewCell {
         contentView.layer.borderColor = UIColor.systemGray4.cgColor
     }
     
-    func configure(with team: TeamSelectVM.Team) {
-        nameLabel.text = team.name
-        let url = URL(string: team.logoUrl)
+    func configure(with team: SportsTeam) {
+        nameLabel.text = team.teamName
+        let url = URL(string: team.teamLogo)
         logoImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder_image"))
     }
 }
