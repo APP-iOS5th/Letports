@@ -42,8 +42,11 @@ class ProfileTVCell: UITableViewCell {
     private lazy var editProfileBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("프로필 변경", for: .normal)
-        btn.backgroundColor = UIColor(named: "lp_sub")
-        btn.layer.cornerRadius = 8
+        btn.setTitleColor(.lp_main, for: .normal)
+        btn.backgroundColor = UIColor(named: "lp_white")
+        btn.layer.borderColor = UIColor.lp_main.cgColor
+        btn.layer.borderWidth = 1.0
+        btn.layer.cornerRadius = 5
         btn.isHidden = false
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         btn.addTarget(self, action: #selector(editBtnDidTap), for: .touchUpInside)
@@ -91,8 +94,8 @@ class ProfileTVCell: UITableViewCell {
             
             editProfileBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             editProfileBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            editProfileBtn.widthAnchor.constraint(equalToConstant: 64),
-            editProfileBtn.heightAnchor.constraint(equalToConstant: 21)
+            editProfileBtn.widthAnchor.constraint(equalToConstant: 100),
+            editProfileBtn.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -107,11 +110,12 @@ class ProfileTVCell: UITableViewCell {
             }
         }
     }
-    
-    func configure(user: LetportsUser) {
+
+    func configure(user: LetportsUser, isEditable: Bool) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
-        
+        editProfileBtn.isHidden = !isEditable
+
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
             profileIV.backgroundColor = .lpWhite

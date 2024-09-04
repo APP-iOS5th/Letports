@@ -10,6 +10,14 @@ import UIKit
 
 class RecommendGatheringListsCVCell: UICollectionViewCell {
     
+    lazy var gatheringNameBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     lazy var gatheringImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -42,7 +50,8 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
     
     private func setupUI() {
         self.contentView.addSubview(gatheringImage)
-        gatheringImage.addSubview(gatheringName)
+        gatheringImage.addSubview(gatheringNameBackgroundView)
+        gatheringNameBackgroundView.addSubview(gatheringName)
         
         NSLayoutConstraint.activate([
             gatheringImage.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -50,9 +59,13 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
             gatheringImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             gatheringImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            gatheringName.leadingAnchor.constraint(equalTo: gatheringImage.leadingAnchor, constant: 10),
-            gatheringName.bottomAnchor.constraint(equalTo: gatheringImage.bottomAnchor, constant: -5),
-            gatheringName.heightAnchor.constraint(equalToConstant: 40)
+            gatheringNameBackgroundView.leadingAnchor.constraint(equalTo: gatheringImage.leadingAnchor),
+            gatheringNameBackgroundView.trailingAnchor.constraint(equalTo: gatheringImage.trailingAnchor),
+            gatheringNameBackgroundView.bottomAnchor.constraint(equalTo: gatheringImage.bottomAnchor),
+            gatheringNameBackgroundView.heightAnchor.constraint(equalToConstant: 50),
+            
+            gatheringName.leadingAnchor.constraint(equalTo: gatheringNameBackgroundView.leadingAnchor, constant: 15),
+            gatheringName.centerYAnchor.constraint(equalTo: gatheringNameBackgroundView.centerYAnchor)
         ])
     }
     
