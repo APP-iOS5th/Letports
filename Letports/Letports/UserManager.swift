@@ -14,7 +14,7 @@ class UserManager {
     
     private(set) var isLoggedIn: Bool = false
     private(set) var currentUser: LetportsUser?
-    private(set) var selectedTeam: Team?
+    private(set) var selectedTeam: SportsTeam?
     private var cancellables = Set<AnyCancellable>()
     
     private init() {}

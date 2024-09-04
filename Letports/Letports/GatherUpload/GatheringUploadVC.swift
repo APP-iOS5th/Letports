@@ -209,7 +209,6 @@ extension GatheringUploadVC: UITableViewDelegate, UITableViewDataSource {
 
                 viewModel.getTeamData { team in
                     guard let team = team else { return }
-                    print("teamteamteamteam", team)
                     cell.configureCell(sportsTeam: team)
                 }
                 
