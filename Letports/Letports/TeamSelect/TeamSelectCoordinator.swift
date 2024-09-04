@@ -45,6 +45,7 @@ class TeamSelectCoordinator: Coordinator {
                     UserManager.shared.setTeam(selectTeam: team)
                 }
             }
+            self?.parentCoordinator?.childDidFinish(self)
         }
     }
 }

@@ -93,6 +93,10 @@ class TeamSelectVC: UICollectionViewController {
             .store(in: &cancellables)
     }
     
+    deinit {
+        self.coordinator?.didFinishTeamSelect()
+    }
+    
     static func createLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             guard let section = Section(rawValue: sectionIndex) else { return nil }
