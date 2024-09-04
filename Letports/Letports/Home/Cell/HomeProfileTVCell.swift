@@ -16,7 +16,7 @@ class HomeProfileTVCell: UITableViewCell {
     
     weak var delegate: HomeProfileTVCellDelegate?
     
-    var team: Team?
+    var team: SportsTeam?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -233,7 +233,7 @@ class HomeProfileTVCell: UITableViewCell {
         youtubeURLSV.isUserInteractionEnabled = true
     }
     
-    func configure(with team: Team) {
+    func configure(with team: SportsTeam) {
         self.team = team
         teamName.text = team.teamName
         

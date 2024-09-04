@@ -50,7 +50,7 @@ class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
     @Published var recommendGatherings: [Gathering] = []
-    @Published var team: Team?
+    @Published var team: SportsTeam?
     
     weak var delegate: HomeCoordinatorDelegate?
     
@@ -90,7 +90,7 @@ class HomeViewModel {
             .document(userData.userSportsTeam)
         ]
         
-        FM.getData(pathComponents: collectionPath, type: Team.self)
+        FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
             .sink { completion in
                 switch completion {
                 case .finished:
