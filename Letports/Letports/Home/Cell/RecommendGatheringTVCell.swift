@@ -31,7 +31,7 @@ class RecommendGatheringTVCell: UITableViewCell {
         cv.delegate = self
         cv.dataSource = self
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.registersCell(cellClasses: RecommendGatheringListsCVCell.self)
+        cv.registersCell(cellClasses: RecommendGatheringListsCVCell.self, RecommendGatheringEmptyCVCell.self)
         cv.showsHorizontalScrollIndicator = false
         
         return cv
@@ -70,24 +70,37 @@ class RecommendGatheringTVCell: UITableViewCell {
 
 extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gatherings.count
+        return gatherings.isEmpty ? 1 : gatherings.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringListsCVCell",
-                                                            for: indexPath) as? RecommendGatheringListsCVCell else {
-            return UICollectionViewCell()
+        if gatherings.isEmpty {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringEmptyCVCell", for: indexPath) as? RecommendGatheringEmptyCVCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringListsCVCell",
+                                                                for: indexPath) as? RecommendGatheringListsCVCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(gathering: gatherings[indexPath.item])
+            return cell
         }
-        cell.configure(gathering: gatherings[indexPath.item])
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 300, height: 250)
+        if gatherings.isEmpty {
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        } else {
+            return CGSize(width: 300, height: 250)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didTapRecommendGathering(gatheringUID: gatherings[indexPath.item].gatheringUid)
+        if !gatherings.isEmpty {
+            delegate?.didTapRecommendGathering(gatheringUID: gatherings[indexPath.item].gatheringUid)
+        }
     }
 }
