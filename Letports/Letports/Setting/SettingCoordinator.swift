@@ -18,13 +18,14 @@ protocol SettingCoordinatorDelegate: AnyObject {
 }
 
 class SettingCoodinator : Coordinator {
+    var navigationController: UINavigationController
+    
     var childCoordinators = [Coordinator]() {
         didSet {
             let fileName = (#file as NSString).lastPathComponent
             print("\(fileName) child coordinators:: \(childCoordinators)")
         }
     }
-    var navigationController: UINavigationController
     weak var parentCoordinator: Coordinator?
     var viewModel : SettingVM
     
@@ -35,7 +36,6 @@ class SettingCoodinator : Coordinator {
     
     func start() {
         let vc = SettingVC(viewModel: viewModel)
-        vc.modalPresentationStyle = .fullScreen
         vc.hidesBottomBarWhenPushed = true
         viewModel.delegate = self
         navigationController.pushViewController(vc, animated: true)

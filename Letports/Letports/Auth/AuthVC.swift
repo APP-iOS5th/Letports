@@ -5,6 +5,7 @@ import GoogleSignIn
 
 
 class AuthVC: UIViewController {
+    
     private let viewModel: AuthVM
     private let authService: AuthService
     

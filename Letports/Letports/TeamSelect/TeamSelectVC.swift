@@ -30,7 +30,7 @@ class TeamSelectVC: UICollectionViewController {
         btn.setTitleColor(.white, for: .normal)
         btn.layer.cornerRadius = 25
         btn.isEnabled = false
-        btn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
+        
         return btn
     }()
     
@@ -49,7 +49,7 @@ class TeamSelectVC: UICollectionViewController {
         configureDataSource()
         applyInitialSnapshot()
         setupSelectBtn()
-        
+        selectBtn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
         // UI 나중에 한번에 잡을게요.
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true

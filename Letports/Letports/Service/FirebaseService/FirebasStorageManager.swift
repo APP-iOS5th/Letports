@@ -33,9 +33,9 @@ enum FirebaseStorageError: Error {
 
 enum StorageFilePath {
     /// 모임 이미지 경로
-    case gatherImageUpload
+    case gatherImageUpload(path: String)
     /// 게시글 이미지 경로
-    case boardImageUpload
+    case boardImageUpload(path: String)
     /// 유저 프로필 이미지 경로
     case userProfileImageUpload
     
@@ -43,17 +43,17 @@ enum StorageFilePath {
     
     var pathStr: String {
         switch self {
-        case .boardImageUpload:
-            return "Board_Upload_Images/"
-        case .gatherImageUpload:
-            return "Gather_Upload_Images/"
+        case .boardImageUpload(let path):
+            return "Board_Upload_Images/\(path)/"
+        case .gatherImageUpload(let path):
+            return "Gather_Upload_Images/\(path)/"
         case .userProfileImageUpload:
             return "User_Profile_Upload_Images/"
         case .specificPath(let path):
             return path
         }
     }
-
+    
 }
 
 class FirebaseStorageManager {
@@ -89,9 +89,15 @@ class FirebaseStorageManager {
     }
     
     static func uploadSingleImage(image: UIImage,
-                            filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
+                                  filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
-            guard let imageData = image.jpegData(compressionQuality: 0.4) else {
+            
+            guard let resizedImage = image.resized() else {
+                promise(.failure(.imageDataConversionFailed))
+                return
+            }
+            
+            guard let imageData = resizedImage.jpegData(compressionQuality: 0.4) else {
                 promise(.failure(.imageDataConversionFailed))
                 return
             }
@@ -110,7 +116,6 @@ class FirebaseStorageManager {
             
             let firebaseRef = Storage.storage().reference().child(fullPath)
             
-          
             firebaseRef.putData(imageData, metadata: metaData) { _, error in
                 if let error = error {
                     promise(.failure(.uploadFailed(error: error)))

@@ -67,7 +67,9 @@ class BoardEditorVM {
             .map { boardTitle, boardContents in
                 return boardTitle != nil && boardContents != nil
             }
-            .assign(to: \.addButtonEnable, on: self)
+            .sink { [weak self] addButtonEnabled in
+                self?.addButtonEnable = addButtonEnabled
+            }
             .store(in: &cancellables)
     }
     
@@ -75,16 +77,18 @@ class BoardEditorVM {
         guard !isUploading else { return }
         self.isUploading = true
         
-        uploadImage()
+        let boardUuid = self.isEditMode ? self.postID ?? UUID().uuidString : UUID().uuidString
+        
+        uploadImage(postUid: boardUuid)
             .sink { [weak self] imageUrls in
                 guard let self = self else { return }
-                self.boardUpload(images: imageUrls)
+                self.boardUpload(postUid: boardUuid, images: imageUrls)
             }
             .store(in: &cancellables)
     }
     
-    private func uploadImage() -> AnyPublisher<[String], Never> {
-        return FirebaseStorageManager.uploadImages(images: boardPhotos, filePath: .boardImageUpload)
+    private func uploadImage(postUid: String) -> AnyPublisher<[String], Never> {
+        return FirebaseStorageManager.uploadImages(images: boardPhotos, filePath: .boardImageUpload(path: postUid))
             .map { urls in
                 return urls.map { $0.absoluteString }
             }
@@ -96,16 +100,16 @@ class BoardEditorVM {
     }
     
     
-    private func boardUpload(images: [String]) {
+    private func boardUpload(postUid: String, images: [String]) {
         if let title = boardTitle,
            let contents = boardContents,
            let gatheringUid = gathering?.gatheringUid{
             
-            let boardUuid = UUID().uuidString
+            
             guard let myUserUid = Auth.auth().currentUser?.uid else { return }
             
             
-            let post = Post(postUID: self.isEditMode ? self.postID ?? boardUuid : boardUuid,
+            let post = Post(postUID: postUid,
                             userUID: myUserUid,
                             title: title, contents: contents,
                             imageUrls: images, boardType: self.postType,

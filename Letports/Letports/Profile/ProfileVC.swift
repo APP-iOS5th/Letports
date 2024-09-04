@@ -9,6 +9,7 @@ protocol ProfileDelegate: AnyObject {
 }
 
 class ProfileVC: UIViewController {
+    
     private var viewModel: ProfileVM
     private var cancellables: Set<AnyCancellable> = []
     

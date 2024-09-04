@@ -10,7 +10,7 @@ import Combine
 import Photos
 
 class BoardEditorVC: UIViewController {
-	
+    
 	private(set) lazy var navigationView: CustomNavigationView = {
 		let cnv = CustomNavigationView(isLargeNavi: .small,
 									   screenType: .smallBoardEditor(btnName: viewModel.isEditMode ? .update : .write,
@@ -22,10 +22,10 @@ class BoardEditorVC: UIViewController {
 		return cnv
 	}()
 	
-	private lazy var collectionView: UICollectionView = {
-		let layout = createLayout()
+	private lazy var collectionView: UICollectionView = { [weak self] in
+        let layout = self?.createLayout()
 		let cv = UICollectionView(frame: .zero,
-								  collectionViewLayout: layout)
+								  collectionViewLayout: layout!)
 		cv.delegate = self
 		cv.dataSource = self
 		cv.backgroundColor = .lp_background_white
@@ -191,14 +191,14 @@ extension BoardEditorVC: CustomNavigationDelegate {
 extension BoardEditorVC {
 	//Composition Layout 생성
 	func createLayout() -> UICollectionViewCompositionalLayout {
-		return UICollectionViewCompositionalLayout { sectionIndex, environment in
+		return UICollectionViewCompositionalLayout { [weak self] sectionIndex, environment in
 			switch sectionIndex {
 			case 0:
-				return self.createTitleSection()
+				return self?.createTitleSection()
 			case 1:
-				return self.createContentSection()
+				return self?.createContentSection()
 			case 2:
-				return self.createHorizontalScrollSection()
+				return self?.createHorizontalScrollSection()
 			default:
 				return nil
 			}
@@ -337,24 +337,26 @@ extension BoardEditorVC: UICollectionViewDelegate, UICollectionViewDataSource {
 						at indexPath: IndexPath) -> UICollectionReusableView {
 		switch kind {
 		case UICollectionView.elementKindSectionHeader:
-			let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+			if let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
 																		 withReuseIdentifier: "BoadEditorHeaderCVCell",
-																		 for: indexPath) as! BoardEditorHeaderCVCell
-			
-			// 섹션별로 다른 텍스트를 설정
-			switch indexPath.section {
-			case 0:
-				header.configureText(text: "제목")
-			case 1:
-				header.configureText(text: "내용")
-			case 2:
-                let photoCount = self.viewModel.getPhotoCount()
-                header.configureText(text: "사진", photoCount: viewModel.isEditMode ? photoCount : photoCount - 1)
-			default:
-				header.configureText(text: nil)
-			}
-			
-			return header
+                                                                            for: indexPath) as? BoardEditorHeaderCVCell {
+                
+                // 섹션별로 다른 텍스트를 설정
+                switch indexPath.section {
+                case 0:
+                    header.configureText(text: "제목")
+                case 1:
+                    header.configureText(text: "내용")
+                case 2:
+                    let photoCount = self.viewModel.getPhotoCount()
+                    header.configureText(text: "사진", photoCount: viewModel.isEditMode ? photoCount : photoCount - 1)
+                default:
+                    header.configureText(text: nil)
+                }
+                
+                return header
+            }
+            return UICollectionReusableView()
 		default:
 			return UICollectionReusableView()
 		}

@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class GatheringBoardDetailVC: UIViewController {
-	
+    
 	private lazy var navigationView: CustomNavigationView = {
 		let cnv = CustomNavigationView(isLargeNavi: .small,
 									   screenType: .smallGathering(gatheringName: "자유게시판", btnName: .ellipsis))

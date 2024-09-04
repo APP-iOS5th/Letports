@@ -14,6 +14,7 @@ protocol GatheringDetailDelegate: AnyObject {
 }
 
 final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
+    
     private lazy var navigationView: CustomNavigationView = {
         let screenType: ScreenType
         let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "", btnName: .empty))

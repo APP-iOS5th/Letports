@@ -14,6 +14,7 @@ protocol SettingDelegate: AnyObject {
 }
 
 class SettingVC: UIViewController {
+    
     private var viewModel: SettingVM
     
     init(viewModel: SettingVM) {
@@ -48,7 +49,7 @@ class SettingVC: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
-    
+
     func setupUI() {
         view.backgroundColor = .lp_background_white
         [navigationView, tableView].forEach {
@@ -65,17 +66,6 @@ class SettingVC: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-    }
-
-    private func configureCell(for indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
-            return UITableViewCell()
-        }
-    
-        let cellType = viewModel.getCellTypes()[indexPath.row]
-        cell.configure(cellType: cellType)
-        cell.delegate = self
-        return cell
     }
 }
 
@@ -97,6 +87,7 @@ extension SettingVC: SettingDelegate {
 
 extension SettingVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return viewModel.getCellCount()
     }
     
@@ -105,6 +96,14 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return configureCell(for: indexPath)
+        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
+            return UITableViewCell()
+        }
+    
+        let cellType = viewModel.getCellTypes()[indexPath.row]
+            cell.configure(cellType: cellType)
+            cell.delegate = self
+        
+        return cell
     }
 }

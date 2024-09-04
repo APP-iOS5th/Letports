@@ -89,7 +89,9 @@ class GatheringUploadVM {
                 && gatherQuestionText != nil
                 && gatherNameText != nil
             }
-            .assign(to: \.addButtonEnable, on: self)
+            .sink { [weak self] addButtonEnabled in
+                self?.addButtonEnable = addButtonEnabled
+            }
             .store(in: &cancellables)
     }
     
@@ -132,22 +134,23 @@ class GatheringUploadVM {
     func gatheringUpload() {
         guard !isUploading else { return }
         isUploading = true
+        let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
         
-        uploadImage()
+        uploadImage(uuid: uuid)
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
-                self.gatehringUpload(imageUrl: imageUrl ?? "")
+                self.gatehringUpload(uuid: uuid, imageUrl: imageUrl ?? "")
                 self.delegate?.dismissViewController()
             }
             .store(in: &cancellables)
     }
     
-    private func uploadImage() -> AnyPublisher<String?, Never> {
+    private func uploadImage(uuid: String) -> AnyPublisher<String?, Never> {
         guard let image = selectedImage else {
             return Just(nil).eraseToAnyPublisher()
         }
         
-        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload)
+        return FirebaseStorageManager.uploadImages(images: [image], filePath: .gatherImageUpload(path: uuid))
             .map { urls in
                 urls.first?.absoluteString
             }
@@ -161,12 +164,12 @@ class GatheringUploadVM {
     
     
     
-    private func gatehringUpload(imageUrl: String) {
+    private func gatehringUpload(uuid: String, imageUrl: String) {
         if let gatherName = gatherNameText,
            let gatherInfo = gatherInfoText,
            let gatherQuestion = gatherQuestionText {
             
-            let uuid = self.gatehringID == nil ? UUID().uuidString : self.gatehringID!
+            
             
             guard let sportsName = self.isEditMode ? self.sportsName : UserManager.shared.getUser().userSports  else { return }
             guard let sportsTeamName =  self.isEditMode ? self.sportsTeamName : UserManager.shared.getUser().userSportsTeam  else { return }
