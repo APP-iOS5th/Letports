@@ -121,6 +121,9 @@
 		D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
 		D8299F772C777DA7003D29AC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
 		D8299F792C777DCF003D29AC /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
+		D82BAC832C875597009644BA /* SettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC822C875591009644BA /* SettingVM.swift */; };
+		D82BAC852C8755A1009644BA /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC842C87559A009644BA /* SettingCoordinator.swift */; };
+		D82BAC932C87612D009644BA /* SettingSectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC922C876122009644BA /* SettingSectionTVCell.swift */; };
 		D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
@@ -261,6 +264,9 @@
 		D8299F742C777D7B003D29AC /* GatheringMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringMember.swift; sourceTree = "<group>"; };
 		D8299F762C777DA2003D29AC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		D8299F782C777DCD003D29AC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		D82BAC822C875591009644BA /* SettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVM.swift; sourceTree = "<group>"; };
+		D82BAC842C87559A009644BA /* SettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCoordinator.swift; sourceTree = "<group>"; };
+		D82BAC922C876122009644BA /* SettingSectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSectionTVCell.swift; sourceTree = "<group>"; };
 		D8361B6D2C87273800140A79 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8361B6E2C87273800140A79 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8361B6F2C87273800140A79 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -674,9 +680,20 @@
 		D8299F6B2C7766D2003D29AC /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				D82BAC862C8757D3009644BA /* Cell */,
+				D82BAC842C87559A009644BA /* SettingCoordinator.swift */,
+				D82BAC822C875591009644BA /* SettingVM.swift */,
 				D8299F452C77622C003D29AC /* SettingVC.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		D82BAC862C8757D3009644BA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D82BAC922C876122009644BA /* SettingSectionTVCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		D877C9742C789A8F008C4695 /* Cell */ = {
@@ -921,6 +938,7 @@
 				F77525FB2C7D6CE10046E5F9 /* HomeProfileTVCell.swift in Sources */,
 				BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */,
 				D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */,
+				D82BAC852C8755A1009644BA /* SettingCoordinator.swift in Sources */,
 				BF1283DB2C725CBF00BEAE4C /* JoinBtn.swift in Sources */,
 				F78A24C32C7C595C00471331 /* GatheringVM.swift in Sources */,
 				BFFFD3E82C7328130053A86B /* CurrentMemTVCell.swift in Sources */,
@@ -943,6 +961,7 @@
 				BF89726C2C75AD5E0015CBF2 /* SeperatorLineTVCell.swift in Sources */,
 				B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */,
 				B85FD8842C79C539007B4962 /* TeamSelectVM.swift in Sources */,
+				D82BAC932C87612D009644BA /* SettingSectionTVCell.swift in Sources */,
 				413BE6552C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift in Sources */,
 				410BBCB92C778F8200FE2E18 /* Extension+UICollectionView.swift in Sources */,
 				BFFFD3F22C7341720053A86B /* GatheringBoardDetailContentTVCell.swift in Sources */,
@@ -950,6 +969,7 @@
 				B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */,
 				BFFFD3F42C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift in Sources */,
 				410BBCB62C778F1D00FE2E18 /* BoardEditorVC.swift in Sources */,
+				D82BAC832C875597009644BA /* SettingVM.swift in Sources */,
 				B88D9FB02C816E7300123410 /* TeamSelectCoordinator.swift in Sources */,
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,

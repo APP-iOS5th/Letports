@@ -48,7 +48,10 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
     }
     
     func presentSettingViewController() {
-        navigationController.pushViewController(SettingVC(), animated: false)
+        let coordinator = SettingCoodinator(navigationController: navigationController, viewModel: SettingVM())
+        childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
+        coordinator.start()
     }
     
     func presentEditProfileController(user: LetportsUser) {
