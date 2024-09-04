@@ -54,10 +54,21 @@ class TeamSelectVC: UICollectionViewController {
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        collectionView.allowsMultipleSelection = true
+        
         viewModel.loadData { [weak self] in
             DispatchQueue.main.async {
                 self?.updateSportsSnapshot()
                 self?.updateTeamsSnapshot()
+                
+                
+                if let firstSports = self?.viewModel.sportsCategories.first {
+                    self?.viewModel.selectSports(firstSports)
+                    self?.updateTeamsSnapshot()
+                    
+                    let firstIndexPath = IndexPath(item: 0, section: Section.sports.rawValue)
+                    self?.collectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: [])
+                }
             }
         }
         
@@ -120,6 +131,7 @@ class TeamSelectVC: UICollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.interGroupSpacing = 10
         
         return section
     }
@@ -128,6 +140,7 @@ class TeamSelectVC: UICollectionViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(SportsCategoryCell.self, forCellWithReuseIdentifier: SportsCategoryCell.reuseIdentifier)
         collectionView.register(SportsTeamCell.self, forCellWithReuseIdentifier: SportsTeamCell.reuseIdentifier)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
     }
     
     private func configureDataSource() {
@@ -142,8 +155,7 @@ class TeamSelectVC: UICollectionViewController {
                 return cell
             case .teams:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTeamCell.reuseIdentifier, for: indexPath) as? SportsTeamCell,
-                        let team = item as? SportsTeam else { return nil }
-                print("item, \(item)")
+                      let team = item as? SportsTeam else { return nil }
                 cell.configure(with: team)
                 return cell
             }
@@ -224,11 +236,23 @@ extension TeamSelectVC {
         switch section {
         case .sports:
             guard let sports = dataSource.itemIdentifier(for: indexPath) as? Sports else { return }
+            
+            if let previouslySelectedIndex = viewModel.sportsCategories.firstIndex(where: { $0 == viewModel.selectedSports }) {
+                let previousIndexPath = IndexPath(item: previouslySelectedIndex, section: Section.sports.rawValue)
+                collectionView.deselectItem(at: previousIndexPath, animated: true)
+            }
+            
+            
             viewModel.selectSports(sports)
             viewModel.selectTeam(nil)
             updateTeamsSnapshot()
         case .teams:
             if let team = dataSource.itemIdentifier(for: indexPath) as? SportsTeam {
+                if let previouslySelectedTeam = viewModel.selectedTeam,
+                   let previousIndex = viewModel.filteredTeams.firstIndex(of: previouslySelectedTeam) {
+                    let previousIndexPath = IndexPath(item: previousIndex, section: Section.teams.rawValue)
+                    collectionView.deselectItem(at: previousIndexPath, animated: true)
+                }
                 viewModel.selectTeam(team)
             }
         }

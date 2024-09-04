@@ -17,13 +17,13 @@ class SplashVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupAudio()
+//        setupAudio()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animateLogo()
-        playSound()
+//        playSound()
     }
     
     private func setupView() {
