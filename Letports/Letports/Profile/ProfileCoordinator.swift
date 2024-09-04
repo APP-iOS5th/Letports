@@ -11,7 +11,7 @@ protocol ProfileCoordinatorDelegate: AnyObject {
 }
 
 class ProfileCoordinator: Coordinator {
-    weak var parentCoordinator: TabBarCoordinator?
+    weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = [] {
         didSet {
             let fileName = (#file as NSString).lastPathComponent
@@ -38,6 +38,7 @@ class ProfileCoordinator: Coordinator {
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func backToGatheringDetail() {
         navigationController.popViewController(animated: true)
+        parentCoordinator?.childDidFinish(self)
     }
     
     func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {

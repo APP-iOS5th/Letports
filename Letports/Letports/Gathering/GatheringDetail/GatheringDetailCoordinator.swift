@@ -75,10 +75,11 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
     func pushProfileView(member: LetportsUser) {
         let viewModel = ProfileVM(profileType: .userProfile, userUID: member.uid)
         let coordinator = ProfileCoordinator(navigationController: navigationController, viewModel: viewModel)
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
         
         let profileVC = ProfileVC(viewModel: viewModel)
-        profileVC.hidesBottomBarWhenPushed = true  // 탭 바 숨기기
+        profileVC.hidesBottomBarWhenPushed = true
         
         viewModel.delegate = coordinator
         navigationController.pushViewController(profileVC, animated: true)
