@@ -238,6 +238,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             self.joinBtn.alpha = 1
         }
     }
+    
 }
 
 // MARK: - extension
