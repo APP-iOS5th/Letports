@@ -138,9 +138,9 @@ class GatheringTVCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             isGatheringMasterIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
-            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 18),
-            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 18),
+            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 15),
+            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 15),
             
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
