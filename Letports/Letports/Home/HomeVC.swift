@@ -102,6 +102,12 @@ class HomeVC: UIViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+        
+        UserManager.shared.$currentUser
+            .sink { [weak self] _ in
+                self?.viewModel.getTeamData()
+            }
+            .store(in: &cancellables)
     }
 }
 
