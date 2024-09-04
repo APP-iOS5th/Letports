@@ -106,6 +106,12 @@ class GatheringVC: UIViewController {
             }
         }
         .store(in: &cancellables)
+        
+        UserManager.shared.$selectedTeam
+            .sink {[weak self] team in
+                self?.viewModel.loadTeam()
+            }
+            .store(in: &cancellables)
     }
     
     

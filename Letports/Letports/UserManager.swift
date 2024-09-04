@@ -13,8 +13,8 @@ class UserManager {
     static let shared = UserManager()
     
     private(set) var isLoggedIn: Bool = false
-    private(set) var currentUser: LetportsUser?
-    private(set) var selectedTeam: SportsTeam?
+    @Published private(set) var currentUser: LetportsUser?
+    @Published private(set) var selectedTeam: SportsTeam?
     private var cancellables = Set<AnyCancellable>()
     
     private init() {}
@@ -67,5 +67,50 @@ class UserManager {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    func setTeam(selectTeam: SportsTeam) {
+        self.selectedTeam = selectTeam
+        //유저데이터에 선택된 팀 업데이트해줘야함.
+        if let userUid = currentUser?.uid {
+            
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.user),
+                .document(userUid)
+            ]
+            let updateSelectTeam: [String: Any] = [
+                "UserSports": selectTeam.sportsUID,
+                "UserSportsTeam": selectTeam.teamUID
+            ]
+            
+            
+            FM.updateData(pathComponents: collectionPath, fields: updateSelectTeam)
+                .sink { [weak self] completionResult in
+                    switch completionResult {
+                    case .failure(let error):
+                        print("User Data Update Error \(error)")
+                    case .finished:
+                        
+                        if let email = self?.currentUser?.email,
+                           let image = self?.currentUser?.image,
+                           let simpleInfo = self?.currentUser?.simpleInfo,
+                           let nickname = self?.currentUser?.nickname,
+                           let uid = self?.currentUser?.uid {
+                            
+                            self?.currentUser = LetportsUser(email: email,
+                                                             image: image,
+                                                             nickname: nickname,
+                                                             simpleInfo: simpleInfo,
+                                                             uid: uid,
+                                                             userSports: selectTeam.sportsUID,
+                                                             userSportsTeam: selectTeam.teamUID)
+                        }
+                        
+                    }
+                } receiveValue: { }
+                .store(in: &cancellables)
+
+        }
+        
     }
 }
