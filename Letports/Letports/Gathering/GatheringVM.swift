@@ -61,6 +61,10 @@ class GatheringVM {
     }
     
     init() {
+        loadTeam()
+    }
+    
+    func loadTeam() {
         UserManager.shared.getTeam { result in
             switch result {
             case .success(let team):

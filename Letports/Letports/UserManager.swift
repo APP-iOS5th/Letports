@@ -14,7 +14,11 @@ class UserManager {
     
     private(set) var isLoggedIn: Bool = false
     private(set) var currentUser: LetportsUser?
-    private(set) var selectedTeam: SportsTeam?
+    @Published private(set) var selectedTeam: SportsTeam? {
+        didSet {
+            print("team team", selectedTeam )
+        }
+    }
     private var cancellables = Set<AnyCancellable>()
     
     private init() {}
@@ -67,5 +71,9 @@ class UserManager {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    func setTeam(selectTeam: SportsTeam) {
+        self.selectedTeam = selectTeam
     }
 }

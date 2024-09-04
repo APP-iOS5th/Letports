@@ -28,10 +28,23 @@ class TeamSelectCoordinator: Coordinator {
         navigationController.setViewControllers([teamSelectVC], animated: true)
     }
     
-    func didFinishTeamSelect() {
+    func presentStart() {
+        let viewModel = TeamSelectVM()
+        let teamSelectVC = TeamSelectVC(viewModel: viewModel)
+        teamSelectVC.coordinator = self
+        navigationController.present(teamSelectVC, animated: true)
+    }
+    
+    
+    func didFinishTeamSelect(_ team: SportsTeam? = nil) {
         navigationController.dismiss(animated: true) { [weak self] in
-            (self?.parentCoordinator as? AppCoordinator)?.showMainView()
+            if (self?.parentCoordinator) is AppCoordinator  {
+                (self?.parentCoordinator as? AppCoordinator)?.showMainView()
+            } else {
+                if let team = team {
+                    UserManager.shared.setTeam(selectTeam: team)
+                }
+            }
         }
-        
     }
 }

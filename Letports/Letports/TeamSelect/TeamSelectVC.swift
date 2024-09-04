@@ -206,7 +206,7 @@ class TeamSelectVC: UICollectionViewController {
                 switch completion {
                 case .finished:
                     print("User data updated successfully")
-                    self?.coordinator?.didFinishTeamSelect()
+                    self?.coordinator?.didFinishTeamSelect(selectedTeam)
                 case .failure(let error):
                     print("Failed to update user data: \(error.localizedDescription)")
                 }
