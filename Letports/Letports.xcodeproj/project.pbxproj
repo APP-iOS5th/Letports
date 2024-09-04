@@ -137,6 +137,7 @@
 		F77525FD2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
 		F77525FF2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */; };
 		F77526042C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */; };
+		F7866CAB2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */; };
 		F78A24C22C7C4C8E00471331 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78A24C12C7C4C8E00471331 /* Team.swift */; };
 		F78A24C32C7C595C00471331 /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
 		F7C1AA652C746A7C009D0728 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeVM.swift */; };
@@ -190,9 +191,6 @@
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05312C73020C009FF289 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
-		41C649FA2C86BC9E00640990 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
-		41C649FB2C86BC9E00640990 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
-		41C649FC2C86BC9E00640990 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringUploadVMTests.swift; sourceTree = "<group>"; };
 		41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITableView.swift"; sourceTree = "<group>"; };
@@ -287,6 +285,10 @@
 		F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeThumbnailTVCell.swift; sourceTree = "<group>"; };
 		F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringTVCell.swift; sourceTree = "<group>"; };
 		F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringListsCVCell.swift; sourceTree = "<group>"; };
+		F7866CA72C87DCB600BCA4B6 /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7866CA82C87DCB600BCA4B6 /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7866CA92C87DCB600BCA4B6 /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringEmptyCVCell.swift; sourceTree = "<group>"; };
 		F78A24C12C7C4C8E00471331 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		F7C1AA642C746A7C009D0728 /* HomeVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		F7C1AA662C746A94009D0728 /* URLVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLVC.swift; sourceTree = "<group>"; };
@@ -559,6 +561,9 @@
 				D8201FB02C606934004DF06C /* Letports */,
 				D8201FC42C606935004DF06C /* LetportsTests */,
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
+				F7866CA72C87DCB600BCA4B6 /* Letports.app */,
+				F7866CA82C87DCB600BCA4B6 /* LetportsTests.xctest */,
+				F7866CA92C87DCB600BCA4B6 /* LetportsUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -725,6 +730,7 @@
 				F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */,
 				F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */,
 				F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */,
+				F7866CAA2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -757,7 +763,7 @@
 				41C649F42C869F8A00640990 /* FirebaseCrashlytics */,
 			);
 			productName = Letports;
-			productReference = 41C649FA2C86BC9E00640990 /* Letports.app */;
+			productReference = F7866CA72C87DCB600BCA4B6 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -775,7 +781,7 @@
 			);
 			name = LetportsTests;
 			productName = LetportsTests;
-			productReference = 41C649FB2C86BC9E00640990 /* LetportsTests.xctest */;
+			productReference = F7866CA82C87DCB600BCA4B6 /* LetportsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D8201FCA2C606935004DF06C /* LetportsUITests */ = {
@@ -793,7 +799,7 @@
 			);
 			name = LetportsUITests;
 			productName = LetportsUITests;
-			productReference = 41C649FC2C86BC9E00640990 /* LetportsUITests.xctest */;
+			productReference = F7866CA92C87DCB600BCA4B6 /* LetportsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -906,6 +912,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
+				F7866CAB2C87DE8000BCA4B6 /* RecommendGatheringEmptyCVCell.swift in Sources */,
 				B85FD8532C7864DC007B4962 /* TeamSelectVC.swift in Sources */,
 				BF1283D52C72170B00BEAE4C /* BoardBtnCVCell.swift in Sources */,
 				410BBCC32C77B28900FE2E18 /* BoardEditorHeaderCVCell.swift in Sources */,
