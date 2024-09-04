@@ -126,13 +126,11 @@ class GatheringTVCell: UITableViewCell {
             containerView.addSubview($0)
         }
         
-        // Gesture recognizer for the container view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
         tapGesture.cancelsTouchesInView = false
         containerView.addGestureRecognizer(tapGesture)
         containerView.isUserInteractionEnabled = true
         
-        // Set up constraints
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -140,9 +138,9 @@ class GatheringTVCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             isGatheringMasterIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
-            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 18),
-            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 18),
+            isGatheringMasterIV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            isGatheringMasterIV.heightAnchor.constraint(equalToConstant: 15),
+            isGatheringMasterIV.widthAnchor.constraint(equalToConstant: 15),
             
             gatheringIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             gatheringIV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
@@ -201,12 +199,10 @@ class GatheringTVCell: UITableViewCell {
         )
     }
     
-    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser) {
-        let date = gathering.gatheringCreateDate.dateValue()
+    func configure(with gathering: Gathering, with user: LetportsUser, with master: LetportsUser, isAnimationEnabled: Bool = true) {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
+        let date = gathering.gatheringCreateDate.dateValue()
+        let dateString = date.toString()
         
         isGatheringMasterIV.isHidden = gathering.gatheringMaster != user.uid
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
@@ -226,34 +222,46 @@ class GatheringTVCell: UITableViewCell {
         } else {
             gatheringMasterIV.image = nil
         }
+        
+        containerView.gestureRecognizers?.forEach { containerView.removeGestureRecognizer($0) }
+        if isAnimationEnabled {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
+            tapGesture.cancelsTouchesInView = false
+            containerView.addGestureRecognizer(tapGesture)
+        }
     }
     
-    func configure(with gathering: Gathering, with master: LetportsUser) {
-            let date = gathering.gatheringCreateDate.dateValue()
+    func configure(with gathering: Gathering, with master: LetportsUser, isAnimationEnabled: Bool = true) {
+        
+        let date = gathering.gatheringCreateDate.dateValue()
+        let dateString = date.toString()
+        
+        isGatheringMasterIV.isHidden = true
+        gatheringName.text = truncateText(gathering.gatherName, limit: 16)
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = truncateText(master.nickname, limit: 16)
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = dateString
 
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let dateString = dateFormatter.string(from: date)
-
-            isGatheringMasterIV.isHidden = true
-            gatheringName.text = truncateText(gathering.gatherName, limit: 16)
-            gatheringInfo.text = gathering.gatherInfo
-            gatheringMasterName.text = truncateText(master.nickname, limit: 16)
-            memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
-            createGatheringDate.text = dateString
-
-            if let gatheringUrl = URL(string: gathering.gatherImage) {
-                gatheringIV.kf.setImage(with: gatheringUrl)
-            } else {
-                gatheringIV.image = nil
-            }
-
-            if let masterUrl = URL(string: master.image) {
-                gatheringMasterIV.kf.setImage(with: masterUrl)
-            } else {
-                gatheringMasterIV.image = nil
-            }
+        if let gatheringUrl = URL(string: gathering.gatherImage) {
+            gatheringIV.kf.setImage(with: gatheringUrl)
+        } else {
+            gatheringIV.image = nil
         }
+
+        if let masterUrl = URL(string: master.image) {
+            gatheringMasterIV.kf.setImage(with: masterUrl)
+        } else {
+            gatheringMasterIV.image = nil
+        }
+        
+        containerView.gestureRecognizers?.forEach { containerView.removeGestureRecognizer($0) }
+        if isAnimationEnabled {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(containerViewDidTap))
+            tapGesture.cancelsTouchesInView = false
+            containerView.addGestureRecognizer(tapGesture)
+        }
+    }
 }
 
 private func truncateText(_ text: String, limit: Int) -> String {
