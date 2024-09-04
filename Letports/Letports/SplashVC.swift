@@ -11,19 +11,16 @@ import AVFoundation
 class SplashVC: UIViewController {
     
     private var logoImageView: UIImageView!
-    private var audioPlayer: AVAudioPlayer?
     var completion: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupAudio()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animateLogo()
-        playSound()
     }
     
     private func setupView() {
@@ -44,19 +41,6 @@ class SplashVC: UIViewController {
         
     }
     
-    private func setupAudio() {
-        guard let soundURL = Bundle.main.url(forResource: "siuuuuu", withExtension: "mp3") else {
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-            audioPlayer?.prepareToPlay()
-        } catch {
-            print("Error setting up audio player: \(error.localizedDescription)")
-        }
-    }
-    
     private func animateLogo() {
         UIView.animate(withDuration: 1.0, animations: {
             self.logoImageView.alpha = 1
@@ -67,7 +51,5 @@ class SplashVC: UIViewController {
         }
     }
     
-    private func playSound() {
-        audioPlayer?.play()
-    }
+    
 }
