@@ -60,6 +60,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.textColor = .lp_black
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -94,6 +95,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.textColor = .lp_black
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
