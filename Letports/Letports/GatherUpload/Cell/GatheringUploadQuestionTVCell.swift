@@ -15,6 +15,7 @@ class GatheringUploadQuestionTVCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.text = "사전질문"
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,6 +23,7 @@ class GatheringUploadQuestionTVCell: UITableViewCell {
     private lazy var contentTextView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .lp_white
+        tv.textColor = .lp_black
         tv.layer.cornerRadius = 10
         tv.isScrollEnabled = true
         tv.delegate = self

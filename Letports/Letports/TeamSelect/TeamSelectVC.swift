@@ -53,7 +53,6 @@ class TeamSelectVC: UICollectionViewController {
         // UI 나중에 한번에 잡을게요.
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         collectionView.allowsMultipleSelection = true
         
         viewModel.loadData { [weak self] in

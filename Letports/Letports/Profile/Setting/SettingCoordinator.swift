@@ -53,7 +53,9 @@ extension SettingCoodinator: SettingCoordinatorDelegate  {
     }
     
     func openLibraryDidTap() {
-        print("오픈 라이브러리")
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL, options:[:], completionHandler: nil)
+            }
     }
     
     func appInfoDidTap() {

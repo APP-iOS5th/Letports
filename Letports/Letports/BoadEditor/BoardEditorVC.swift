@@ -15,7 +15,6 @@ class BoardEditorVC: UIViewController {
 		let cnv = CustomNavigationView(isLargeNavi: .small,
 									   screenType: .smallBoardEditor(btnName: viewModel.isEditMode ? .update : .write,
 																	 isUpload: !viewModel.isEditMode))
-		
 		cnv.delegate = self
 		cnv.backgroundColor = .lp_background_white
 		cnv.translatesAutoresizingMaskIntoConstraints = false

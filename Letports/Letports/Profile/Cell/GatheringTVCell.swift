@@ -207,7 +207,7 @@ class GatheringTVCell: UITableViewCell {
         isGatheringMasterIV.isHidden = gathering.gatheringMaster != user.uid
         gatheringName.text = truncateText(gathering.gatherName, limit: 16)
         gatheringInfo.text = gathering.gatherInfo
-        gatheringMasterName.text = truncateText(master.nickname, limit: 16)
+        gatheringMasterName.text = truncateText(master.nickname, limit: 12)
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
         createGatheringDate.text = dateString
         

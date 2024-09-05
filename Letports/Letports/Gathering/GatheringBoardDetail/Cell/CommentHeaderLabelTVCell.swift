@@ -12,6 +12,7 @@ class CommentHeaderLabelTVCell: UITableViewCell {
 	private let commentHeaderLabel: UILabel = {
 		let lb = UILabel()
 		lb.text = "댓글"
+        lb.textColor = .lp_black
 		lb.font = UIFont.boldSystemFont(ofSize: 16)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

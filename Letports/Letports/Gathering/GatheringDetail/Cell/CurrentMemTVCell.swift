@@ -12,6 +12,7 @@ class CurrentMemTVCell: UITableViewCell {
 	private let currentMem: UILabel = {
 		let lb = UILabel()
 		lb.text = "현재 인원"
+        lb.textColor = .lp_black
 		lb.font = UIFont.boldSystemFont(ofSize: 16)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

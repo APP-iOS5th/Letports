@@ -15,6 +15,7 @@ class GatheringUploadInfoTVCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.text = "모임 소개"
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,6 +23,7 @@ class GatheringUploadInfoTVCell: UITableViewCell {
     private lazy var contentTextView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .lp_white
+        tv.textColor = .lp_black
         tv.layer.cornerRadius = 10
         tv.isScrollEnabled = true
         tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)

@@ -23,6 +23,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		let tv = UITextView()
 		tv.backgroundColor = .lp_white
 		tv.layer.cornerRadius = 10
+        tv.textColor = .lp_black
 		tv.isUserInteractionEnabled = false
 		tv.isScrollEnabled = false
 		tv.textContainerInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
@@ -50,6 +51,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	
 	// MARK: - Setup
 	private func setupUI() {
+        self.contentView.backgroundColor = .lp_background_white
 		[gatheringInfoTextView, expandBtn].forEach {
 			self.contentView.addSubview($0)
 		}

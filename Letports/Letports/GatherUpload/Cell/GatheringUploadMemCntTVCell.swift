@@ -13,6 +13,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.text = "모집 인원"
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -37,7 +38,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     private lazy var minusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "minus"), for: .normal)
-        button.tintColor = .lpBlack
+        button.tintColor = .lp_black
         button.addTarget(self, action: #selector(didTapMinusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -46,6 +47,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     private let countLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,7 +55,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     private lazy var plusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .lpBlack
+        button.tintColor = .lp_black
         button.addTarget(self, action: #selector(didTapPlusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

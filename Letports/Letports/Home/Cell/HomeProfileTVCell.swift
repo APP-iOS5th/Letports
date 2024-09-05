@@ -30,7 +30,8 @@ class HomeProfileTVCell: UITableViewCell {
     // 팀 로고
     private lazy var teamLogo: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         return iv
@@ -39,7 +40,7 @@ class HomeProfileTVCell: UITableViewCell {
     // 팀 이름
     private lazy var teamName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -275,6 +276,7 @@ class HomeProfileTVCell: UITableViewCell {
         label.text = text
         label.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lp_black
         return label
     }
     

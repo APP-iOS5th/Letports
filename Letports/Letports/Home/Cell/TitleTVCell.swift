@@ -12,7 +12,7 @@ class TitleTVCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         
