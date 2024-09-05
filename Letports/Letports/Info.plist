@@ -2,8 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao$(KAKAO_NATIVE_APP_KEY)</string>
+			</array>
+		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -14,7 +25,7 @@
 		</dict>
 	</array>
 	<key>GIDClientID</key>
-	<string>350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s.apps.googleusercontent.com</string>
+	<string>$(GOOGLE_CLIENT_ID)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
