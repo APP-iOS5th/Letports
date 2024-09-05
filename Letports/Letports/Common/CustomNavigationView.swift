@@ -139,7 +139,7 @@ class CustomNavigationView: UIView {
         label.textColor = self.screenType == .largeHome ? .lpMain : .lp_black
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .center
-		label.font = .boldSystemFont(ofSize: 35)
+		label.font = .lp_Font(.regular, size: 35)
 		label.sizeToFit()
 		return label
 	}()
@@ -149,7 +149,7 @@ class CustomNavigationView: UIView {
 		let title = "팀 선택"
 		
 		button.setTitle(title, for: .normal)
-		button.titleLabel?.font = .systemFont(ofSize: 20)
+		button.titleLabel?.font = .lp_Font(.regular, size: 20)
 		button.setTitleColor(.black, for: .normal)
 		button.semanticContentAttribute = .forceRightToLeft
 		
@@ -166,7 +166,7 @@ class CustomNavigationView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .center
         label.textColor = .lp_black
-		label.font = .boldSystemFont(ofSize: 18)
+		label.font = .lp_Font(.regular, size: 18)
 		label.sizeToFit()
 		return label
 	}()
