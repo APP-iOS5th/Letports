@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GmarketSansLight.otf</string>
+		<string>GmarketSansMedium.otf</string>
+		<string>GmarketSansBold.otf</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +42,7 @@
 	</dict>
 	<key>YOUTUBE_API_KEY</key>
 	<string>${YOUTUBE_API_KEY}</string>
-    <key>UIUserInterfaceStyle</key>
-    <string>Light</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

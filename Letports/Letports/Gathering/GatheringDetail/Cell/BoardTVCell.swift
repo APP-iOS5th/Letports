@@ -43,7 +43,7 @@ final class BoardTVCell: UITableViewCell {
 	
 	private let boardTypeLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 10, weight: .bold)
+		lb.font = .lp_Font(.regular, size: 10)
 		lb.textAlignment = .center
 		lb.layer.cornerRadius = 10
 		lb.clipsToBounds = true
