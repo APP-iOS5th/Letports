@@ -25,6 +25,7 @@ class NickNameTVCell: UITableViewCell {
         let tf = UITextField()
         tf.placeholder = "닉네임을 입력해주세요"
         tf.textColor = .lp_black
+        tf.backgroundColor = .lp_white
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.delegate = self
@@ -36,7 +37,7 @@ class NickNameTVCell: UITableViewCell {
     private let limitLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .red
+        label.textColor = .lp_tint
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
         return label
@@ -45,7 +46,7 @@ class NickNameTVCell: UITableViewCell {
     private let textCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .gray
+        label.textColor = .lp_gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -85,7 +86,7 @@ class NickNameTVCell: UITableViewCell {
     }
     
     @objc private func nickNameDidChange() {
-        guard var text = nickNameTextField.text else { return }
+        guard var text = nickNameTextField.text else { return  }
         let byteLength = text.calculateLength()
         
         delegate?.editUserNickName(content: nickNameTextField.text ?? "")

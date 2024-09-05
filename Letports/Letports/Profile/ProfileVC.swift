@@ -204,7 +204,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .myGatheringHeader:
             if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title: "내 소모임")
+                cell.configure(title: "내 소모임",count: viewModel.myGatherings.count)
                 return cell
             }
         case .myGatherings:
@@ -226,7 +226,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatheringHeader:
             if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title: "가입 대기중 소모임")
+                cell.configure(title: "가입 대기중 소모임", count: viewModel.pendingGatherings.count)
                 return cell
             }
         case .pendingGatherings:
@@ -263,7 +263,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .userGatheringHeader:
             if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title: "\(viewModel.user?.nickname ?? "")의 소모임")
+                cell.configure(title: "\(viewModel.user?.nickname ?? "")의 소모임", count: viewModel.userGatherings.count)
                 return cell
             }
         case .userGatherings:
@@ -275,7 +275,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: false) // 애니메이션 비활성화
+                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: false)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -294,6 +294,7 @@ extension ProfileVC: ProfileDelegate {
     }
     func editProfileBtnDidTap() {
         self.viewModel.editProfileBtnDidTap()
+
     }
 }
 

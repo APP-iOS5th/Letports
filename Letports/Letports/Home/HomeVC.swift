@@ -162,7 +162,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .recommendGatheringTitleLabel:
             if let cell: TitleTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(withTitle: "추천 소모임🔥")
+                cell.configure(withTitle: "추천 소모임")
                 return cell
             }
         case .recommendGatheringLists:

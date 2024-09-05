@@ -31,6 +31,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
 	private let userNickName: UILabel = {
 		let lb = UILabel()
 		lb.textAlignment = .center
+        lb.textColor = .lp_black
 		lb.font = .systemFont(ofSize: 10, weight: .medium)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

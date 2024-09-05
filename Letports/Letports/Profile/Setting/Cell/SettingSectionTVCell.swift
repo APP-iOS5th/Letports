@@ -110,7 +110,8 @@ class SettingSectionTVCell: UITableViewCell {
                 .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
                 .resized(size: CGSize(width: 20, height: 20))
             titleLabel.setTitle("앱 정보", for: .normal)
-            versionLabel.text = "v1.00.00"
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+            versionLabel.text = version
             versionLabel.isHidden = false
         case .notification:
             titleIV.image = UIImage(systemName: "bell")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
