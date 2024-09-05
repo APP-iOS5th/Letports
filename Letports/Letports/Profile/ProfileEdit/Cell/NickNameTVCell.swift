@@ -86,7 +86,7 @@ class NickNameTVCell: UITableViewCell {
     }
     
     @objc private func nickNameDidChange() {
-        guard var text = nickNameTextField.text else { return  }
+        guard let text = nickNameTextField.text else { return  }
         let byteLength = text.calculateLength()
         
         delegate?.editUserNickName(content: nickNameTextField.text ?? "")
