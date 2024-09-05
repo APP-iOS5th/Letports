@@ -16,6 +16,7 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.text = "소모임명"
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -31,6 +32,7 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
         tf.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10, height: 0.0))
         tf.leftViewMode = .always
         tf.font = .systemFont(ofSize: 12)
+        tf.textColor = .lp_black
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf

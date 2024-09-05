@@ -93,7 +93,6 @@ extension BoardEditorCoordinator: UIImagePickerControllerDelegate & UINavigation
         picker.dismiss(animated: true)
     }
     
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }   

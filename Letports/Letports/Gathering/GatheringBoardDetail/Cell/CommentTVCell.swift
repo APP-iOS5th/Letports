@@ -20,7 +20,7 @@ class CommentTVCell: UITableViewCell {
     
     private let userImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 10
         iv.layer.borderWidth = 0.5
@@ -31,7 +31,7 @@ class CommentTVCell: UITableViewCell {
     private let createDateLabel: UILabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 8)
-        lb.textColor = .lightGray
+        lb.textColor = .lp_lightGray
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -39,7 +39,7 @@ class CommentTVCell: UITableViewCell {
     private let nickNameLabel: UILabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 14)
-        lb.textColor = .black
+        lb.textColor = .lp_black
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()

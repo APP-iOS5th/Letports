@@ -21,6 +21,8 @@ class BoardEditorContentCVCell: UICollectionViewCell {
     private lazy var contentTextView: UITextView = {
         let tv = UITextView()
         tv.font = .systemFont(ofSize: 16, weight: .regular)
+        tv.backgroundColor = .lp_white
+        tv.textColor = .lp_black
         tv.delegate = self
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv

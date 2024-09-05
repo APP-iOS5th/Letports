@@ -136,7 +136,7 @@ class CustomNavigationView: UIView {
 	
 	private lazy var largeTitle: UILabel = {
 		let label = UILabel()
-		label.textColor = self.screenType == .largeHome ? .lpMain : .black
+        label.textColor = self.screenType == .largeHome ? .lpMain : .lp_black
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .center
 		label.font = .boldSystemFont(ofSize: 35)
@@ -165,6 +165,7 @@ class CustomNavigationView: UIView {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .center
+        label.textColor = .lp_black
 		label.font = .boldSystemFont(ofSize: 18)
 		label.sizeToFit()
 		return label

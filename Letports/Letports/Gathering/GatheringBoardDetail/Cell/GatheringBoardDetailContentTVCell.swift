@@ -11,7 +11,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
-		lb.textColor = .black
+		lb.textColor = .lp_black
 		lb.font = .systemFont(ofSize: 18, weight: .semibold)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -23,7 +23,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 		tv.layer.cornerRadius = 10
 		tv.isUserInteractionEnabled = false
 		tv.font = .systemFont(ofSize: 16)
-		tv.textColor = .black
+		tv.textColor = .lp_black
 		tv.isScrollEnabled = false
 		tv.textContainerInset = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
 		tv.translatesAutoresizingMaskIntoConstraints = false

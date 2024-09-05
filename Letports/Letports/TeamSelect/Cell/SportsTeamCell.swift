@@ -42,7 +42,7 @@ class SportsTeamCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(logoImageView)
         contentView.addSubview(nameLabel)
-        
+        contentView.backgroundColor = .lp_background_white
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         

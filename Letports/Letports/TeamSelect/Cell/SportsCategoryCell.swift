@@ -35,6 +35,7 @@ class SportsCategoryCell: UICollectionViewCell {
     
     private func setupViews() {
         contentView.addSubview(titleLabel)
+        contentView.backgroundColor = .lp_background_white
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
