@@ -9,7 +9,6 @@ import UIKit
 import Combine
 import FirebaseFirestore
 
-
 // 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
 	func didChangeButtonState(_ button: UIButton, isSelected: Bool)
@@ -24,6 +23,12 @@ enum GatheringDetailCellType {
 	case boardButtonType
 	case gatheringBoard
 	case separator
+}
+
+enum GatheringError: Error {
+	case gatheringNotFound
+	case leaveFailed
+	case cancelWaitingFailed
 }
 
 // 가입상태
@@ -112,6 +117,17 @@ class GatheringDetailVM {
 	func didTapUploadBtn(type: PostType) {
 		guard let gathering = self.gathering else { return }
 		self.delegate?.pushPostUploadViewController(type: type, gathering: gathering)
+	}
+	
+	private func handleError(_ error: GatheringError) {
+		switch error {
+		case .gatheringNotFound:
+			delegate?.showError(message: "모임 정보를 찾을 수 없습니다")
+		case .leaveFailed:
+			delegate?.showError(message: "모임 탈퇴에 실패했습니다")
+		case .cancelWaitingFailed:
+			delegate?.showError(message: "가입 대기 취소에 실패했습니다")
+		}
 	}
 	
 	//모임데이터
@@ -398,7 +414,7 @@ class GatheringDetailVM {
 	// 모임 나가기 확인
 	func confirmLeaveGathering() {
 		guard gathering != nil else {
-			delegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			handleError(.gatheringNotFound)
 			return
 		}
 		removeGatheringFromUser()
@@ -409,7 +425,7 @@ class GatheringDetailVM {
 					print("모임 탈퇴 완료")
 					self.loadData() // 데이터 새로고침
 				case .failure(let error):
-					print("모임 탈퇴 실패: \(error)")
+					self.handleError(.leaveFailed)
 				}
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)
@@ -445,7 +461,7 @@ class GatheringDetailVM {
 	// 가입대기 취소 확인
 	func confirmCancelWaiting() {
 		guard gathering != nil else {
-			delegate?.showError(message: "모임 정보를 찾을 수 없습니다.")
+			handleError(.gatheringNotFound)
 			return
 		}
 		removeWaitingRegist()
@@ -456,7 +472,7 @@ class GatheringDetailVM {
 					print("가입 대기 취소 완료")
 					self.loadData()
 				case .failure(let error):
-					print("가입 대기 취소 실패: \(error)")
+					self.handleError(.cancelWaitingFailed)
 				}
 			}, receiveValue: { _ in })
 			.store(in: &cancellables)

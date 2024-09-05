@@ -14,7 +14,10 @@ class PostBtn: UIView {
         btn.setImage(UIImage(systemName: "pencil"), for: .normal)
         btn.tintColor = .white
         btn.imageView?.contentMode = .scaleAspectFit
-        btn.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+		var configuration = UIButton.Configuration.plain()
+		configuration.imagePadding = 8
+		configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+		btn.configuration = configuration
         return btn
     }()
     
