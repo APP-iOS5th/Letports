@@ -38,6 +38,7 @@ class ProfileCoordinator: Coordinator {
 extension ProfileCoordinator: ProfileCoordinatorDelegate {
     func backToGatheringDetail() {
         navigationController.popViewController(animated: true)
+        navigationController.dismiss(animated: true, completion: nil)
         parentCoordinator?.childDidFinish(self)
     }
     

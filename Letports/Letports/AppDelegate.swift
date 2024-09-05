@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
         
+        UITabBar.appearance().unselectedItemTintColor = .lp_gray
         return true
     }
     

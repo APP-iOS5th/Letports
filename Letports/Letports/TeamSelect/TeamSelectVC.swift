@@ -52,7 +52,6 @@ class TeamSelectVC: UICollectionViewController {
         
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         collectionView.allowsMultipleSelection = true
         
         viewModel.loadData { [weak self] in
@@ -253,8 +252,13 @@ extension TeamSelectVC {
                 cell.setSelected(true)
             }
             
-            viewModel.selectTeam(nil)
             updateTeamsSnapshot()
+            
+            collectionView.visibleCells.forEach { cell in
+                if let teamCell = cell as? SportsTeamCell {
+                    teamCell.setSelected(false)
+                }
+            }
             
         case .teams:
             if let team = dataSource.itemIdentifier(for: indexPath) as? SportsTeam {

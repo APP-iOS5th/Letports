@@ -1,161 +1,186 @@
-//
-//  FloatButton.swift
-//  Letports
-//
-//  Created by Yachae on 8/19/24.
-//
-
 import UIKit
 
 protocol PostBtnDelegate: AnyObject {
-	func didTapPostUploadBtn(type: PostType)
+    func didTapPostUploadBtn(type: PostType)
 }
 
-
 class PostBtn: UIView {
-	private let floatingButton: UIButton = {
-		let btn = UIButton(type: .custom)
-		btn.translatesAutoresizingMaskIntoConstraints = false
-		btn.backgroundColor = .lp_main
-		btn.layer.cornerRadius = 30
-		btn.clipsToBounds = true
-		
-		let plusLayer = CAShapeLayer()
-		plusLayer.strokeColor = UIColor.white.cgColor
-		plusLayer.lineWidth = 3
-		plusLayer.fillColor = nil
-		
-		let path = UIBezierPath()
-		path.move(to: CGPoint(x: 20, y: 30))
-		path.addLine(to: CGPoint(x: 40, y: 30))
-		path.move(to: CGPoint(x: 30, y: 20))
-		path.addLine(to: CGPoint(x: 30, y: 40))
-		
-		plusLayer.path = path.cgPath
-		btn.layer.addSublayer(plusLayer)
-		
-		return btn
-	}()
-	
-	let optionsStackView: UIStackView = {
-		let sv = UIStackView()
-		sv.axis = .vertical
-		sv.spacing = 10
-		sv.alignment = .trailing
-		sv.translatesAutoresizingMaskIntoConstraints = false
-		sv.isHidden = true
-		return sv
-	}()
-	
-	let postButton: UIButton = {
-		let btn = UIButton(type: .system)
-		btn.setTitle("게시글 등록", for: .normal)
-		btn.backgroundColor = .white
-		btn.layer.cornerRadius = 15
-		btn.layer.borderWidth = 1
-		btn.layer.borderColor = UIColor.lightGray.cgColor
+    private let floatingButton: UIButton = {
+        let btn = UIButton(type: .custom)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = .lp_main
+        btn.layer.cornerRadius = 30
+        btn.clipsToBounds = true
+        btn.setImage(UIImage(systemName: "pencil"), for: .normal)
+        btn.tintColor = .white
+        btn.imageView?.contentMode = .scaleAspectFit
 		var configuration = UIButton.Configuration.plain()
-		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+		configuration.imagePadding = 8
+		configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
 		btn.configuration = configuration
-		return btn
-	}()
-	
-	let noticeButton: UIButton = {
-		let btn = UIButton(type: .system)
-		btn.setTitle("공지사항 등록", for: .normal)
-		btn.backgroundColor = .white
-		btn.layer.cornerRadius = 15
-		btn.layer.borderWidth = 1
-		btn.layer.borderColor = UIColor.lightGray.cgColor
-		var configuration = UIButton.Configuration.plain()
-		configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-		btn.configuration = configuration
-		return btn
-	}()
-	
-	var isMaster: Bool = false {
-		didSet {
-			updateButtonVisibility()
-		}
-	}
-	
-	var isOptionsStackViewHidden: Bool {
-		get { optionsStackView.isHidden }
-		set { optionsStackView.isHidden = newValue }
-	}
-	
-	weak var delegate: PostBtnDelegate?
-	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		setupUI()
-	}
-	
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-		if let hitView = optionsStackView.hitTest(convert(point,
-														  to: optionsStackView), with: event),
-		   !optionsStackView.isHidden {
-			return hitView
-		}
-		
-		if let hitView = floatingButton.hitTest(convert(point, to: floatingButton), with: event) {
-			return hitView
-		}
-		
-		return super.hitTest(point, with: event)
-	}
-	
-	private func setupUI() {
-		addSubview(floatingButton)
-		addSubview(optionsStackView)
-		
-		optionsStackView.addArrangedSubview(postButton)
-		optionsStackView.addArrangedSubview(noticeButton)
-		
-		NSLayoutConstraint.activate([
-			floatingButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-			floatingButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-			floatingButton.widthAnchor.constraint(equalToConstant: 60),
-			floatingButton.heightAnchor.constraint(equalToConstant: 60),
-			
-			optionsStackView.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor),
-			optionsStackView.bottomAnchor.constraint(equalTo: floatingButton.topAnchor, constant: -10)
-		])
-		
-		floatingButton.addTarget(self, action: #selector(floatingBtnTap), for: .touchUpInside)
-		postButton.addTarget(self, action: #selector(postBtnTap), for: .touchUpInside)
-		noticeButton.addTarget(self, action: #selector(noticeBtnTap), for: .touchUpInside)
-	}
-	
-	private func updateButtonVisibility() {
-		if isMaster {
-			optionsStackView.addArrangedSubview(noticeButton)
-		} else {
-			noticeButton.removeFromSuperview()
-		}
-	}
-	
-	func setVisible(_ isVisible: Bool) {
-		self.isHidden = !isVisible
-	}
-	
-	@objc func floatingBtnTap() {
-		UIView.animate(withDuration: 0.3) {
-			self.optionsStackView.isHidden.toggle()
-		}
-	}
-	
-	@objc func postBtnTap() {
-		isOptionsStackViewHidden = true
-		delegate?.didTapPostUploadBtn(type: .free)
-	}
-	
-	@objc func noticeBtnTap() {
-		isOptionsStackViewHidden = true
-		delegate?.didTapPostUploadBtn(type: .noti)
-	}
+        return btn
+    }()
+    
+    private let optionsStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.spacing = 5
+        sv.backgroundColor = .lp_main
+        sv.layer.cornerRadius = 10
+        sv.alignment = .leading
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.alpha = 0.5
+        sv.isHidden = true
+        return sv
+    }()
+    
+    private let postButton: UIButton = {
+        let btn = UIButton(type: .custom)
+        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        let attributedTitle = NSAttributedString(string: "게시글 작성", attributes: [.font: boldFont])
+        btn.setAttributedTitle(attributedTitle, for: .normal)
+        btn.setTitleColor(UIColor(named: "lp_white"), for: .normal)
+        btn.setImage(UIImage(systemName: "pencil"), for: .normal)
+        btn.tintColor = .white
+        btn.layer.cornerRadius = 10
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePadding = 8
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 10, bottom: 10, trailing: 10)
+        btn.configuration = configuration
+        return btn
+    }()
+    
+    private let noticeButton: UIButton = {
+        let btn = UIButton(type: .custom)
+        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        let attributedTitle = NSAttributedString(string: "공지사항 작성", attributes: [.font: boldFont])
+        btn.setAttributedTitle(attributedTitle, for: .normal)
+        btn.setTitleColor(UIColor(named: "lp_white"), for: .normal)
+        btn.setImage(UIImage(systemName: "bell"), for: .normal)
+        btn.tintColor = .white
+        btn.layer.cornerRadius = 10
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePadding = 8
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 10)
+        btn.configuration = configuration
+        return btn
+    }()
+    
+    var isMaster: Bool = false {
+        didSet {
+            updateButtonVisibility()
+        }
+    }
+    
+    weak var delegate: PostBtnDelegate?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let hitView = optionsStackView.hitTest(convert(point, to: optionsStackView), with: event),
+           !optionsStackView.isHidden {
+            return hitView
+        }
+        
+        if let hitView = floatingButton.hitTest(convert(point, to: floatingButton), with: event) {
+            return hitView
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+    
+    private func setupUI() {
+        addSubview(floatingButton)
+        addSubview(optionsStackView)
+        
+        optionsStackView.addArrangedSubview(postButton)
+        optionsStackView.addArrangedSubview(noticeButton)
+        
+        NSLayoutConstraint.activate([
+            floatingButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            floatingButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            floatingButton.widthAnchor.constraint(equalToConstant: 60),
+            floatingButton.heightAnchor.constraint(equalToConstant: 60),
+            optionsStackView.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor),
+            optionsStackView.bottomAnchor.constraint(equalTo: floatingButton.topAnchor, constant: -10)
+        ])
+        
+        updateFloatingButtonIcon(isPlus: true)
+        
+        floatingButton.addTarget(self, action: #selector(floatingBtnTap), for: .touchUpInside)
+        postButton.addTarget(self, action: #selector(postBtnTap), for: .touchUpInside)
+        noticeButton.addTarget(self, action: #selector(noticeBtnTap), for: .touchUpInside)
+        
+        optionsStackView.transform = CGAffineTransform(translationX: 0, y: -10)
+    }
+    
+    private func updateButtonVisibility() {
+        if isMaster {
+            if !optionsStackView.arrangedSubviews.contains(noticeButton) {
+                optionsStackView.addArrangedSubview(noticeButton)
+            }
+        } else {
+            noticeButton.removeFromSuperview()
+        }
+    }
+    
+    private func updateFloatingButtonIcon(isPlus: Bool) {
+        if isPlus {
+            floatingButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+            floatingButton.backgroundColor = .lp_main
+        } else {
+            floatingButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+            floatingButton.backgroundColor = .lp_gray
+        }
+    }
+    
+    func setVisible(_ isVisible: Bool) {
+        self.isHidden = !isVisible
+    }
+    
+    @objc func floatingBtnTap() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.floatingButton.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.floatingButton.transform = .identity
+            })
+        })
+        
+        if optionsStackView.isHidden {
+            optionsStackView.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                self.optionsStackView.alpha = 1
+                self.optionsStackView.transform = .identity
+                self.updateFloatingButtonIcon(isPlus: false)
+            })
+        } else {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.optionsStackView.alpha = 0
+                self.optionsStackView.transform = CGAffineTransform(translationX: 0, y: 60)
+                self.updateFloatingButtonIcon(isPlus: true)
+            }) { _ in
+                self.optionsStackView.isHidden = true
+            }
+        }
+    }
+    
+    @objc func postBtnTap() {
+        optionsStackView.isHidden = true
+        updateFloatingButtonIcon(isPlus: true)
+        delegate?.didTapPostUploadBtn(type: .free)
+    }
+    
+    @objc func noticeBtnTap() {
+        optionsStackView.isHidden = true
+        updateFloatingButtonIcon(isPlus: true)
+        delegate?.didTapPostUploadBtn(type: .noti)
+    }
 }

@@ -23,6 +23,7 @@ class SimpleInfoTVCell: UITableViewCell {
         let tf = UITextField()
         tf.placeholder = "자기소개를 입력해주세요"
         tf.textColor = .lp_black
+        tf.backgroundColor = .lp_white
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.delegate = self
@@ -34,7 +35,7 @@ class SimpleInfoTVCell: UITableViewCell {
     private let limitLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .red
+        label.textColor = .lp_tint
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
         return label
@@ -43,7 +44,7 @@ class SimpleInfoTVCell: UITableViewCell {
     private let textCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .gray
+        label.textColor = .lp_gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

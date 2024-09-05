@@ -17,6 +17,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 26, weight: .semibold)
+        lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
@@ -24,21 +25,24 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private let masterNameLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 15, weight: .medium)
+        lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
 	private let memberLabel: UILabel = {
 		let lb = UILabel()
-		lb.translatesAutoresizingMaskIntoConstraints = false
 		lb.font = .systemFont(ofSize: 15, weight: .medium)
+        lb.textColor = .lp_black
 		lb.text = "현재인원 :"
+        lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
 	private let spliteLabel: UILabel = {
 		let lb = UILabel()
 		lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.textColor = .lp_black
 		lb.font = .systemFont(ofSize: 15, weight: .medium)
 		lb.text = "/"
 		return lb
@@ -47,6 +51,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private let gatherMaxMemberLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 15, weight: .bold)
+        lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
@@ -54,6 +59,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	private let gatherNowMemberLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 15, weight: .bold)
+        lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()

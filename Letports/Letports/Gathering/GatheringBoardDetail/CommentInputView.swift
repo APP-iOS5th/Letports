@@ -19,6 +19,8 @@ class CommentInputView: UIView {
         tf.borderStyle = .roundedRect
         tf.clipsToBounds = true
         tf.layer.cornerRadius = 10
+        tf.backgroundColor = .lp_white
+        tf.textColor = .lp_black
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return tf
@@ -84,10 +86,10 @@ class CommentInputView: UIView {
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             registBtn.isEnabled = true
-            registBtn.setTitleColor(.black, for: .normal)
+            registBtn.setTitleColor(.lp_black, for: .normal)
         } else {
             registBtn.isEnabled = false
-            registBtn.setTitleColor(.gray, for: .normal)
+            registBtn.setTitleColor(.lp_gray, for: .normal)
         }
     }
     

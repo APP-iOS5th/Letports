@@ -27,6 +27,7 @@ final class BoardTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
+        lb.textColor = .lp_black
 		lb.font = .systemFont(ofSize: 10)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

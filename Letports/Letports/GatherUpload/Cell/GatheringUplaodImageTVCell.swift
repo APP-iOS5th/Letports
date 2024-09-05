@@ -13,6 +13,7 @@ class GatheringUplaodImageTVCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.text = "모임 대표 사진"
+        label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
