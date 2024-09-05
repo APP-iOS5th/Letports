@@ -78,8 +78,7 @@ class ProfileEditVM {
     
     private func setupValidation() {
         Publishers.CombineLatest($usernickName, $userSimpleInfo)
-            .map { [weak self] nickname, simpleInfo in
-                guard let self = self else { return false }
+            .map { nickname, simpleInfo in
                 
                 guard let nickname = nickname, let simpleInfo = simpleInfo else {
                     return false

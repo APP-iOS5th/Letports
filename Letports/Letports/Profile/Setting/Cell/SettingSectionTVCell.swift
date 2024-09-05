@@ -10,7 +10,7 @@ import UIKit
 class SettingSectionTVCell: UITableViewCell {
     
     var celltype: SettingCellType?
-    var delegate: SettingDelegate?
+    weak var delegate: SettingDelegate?
     
     private lazy var containerView: UIView = {
         let view = UIView()

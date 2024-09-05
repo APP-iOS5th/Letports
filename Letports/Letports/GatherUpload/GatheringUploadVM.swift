@@ -89,8 +89,7 @@ class GatheringUploadVM {
                 && gatherQuestionText != nil
                 && gatherNameText != nil
             }
-            .assign(to: \.addButtonEnable, on: self)
-            .store(in: &cancellables)
+            .assign(to: &$addButtonEnable)
     }
     
     func getCellTypes() -> [BoardUploadCellType] {

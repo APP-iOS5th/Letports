@@ -19,7 +19,6 @@ protocol ManageViewJoinDelegate: AnyObject {
 
 class GatherSettingVC: UIViewController {
     
-  
     private var viewModel: GatherSettingVM
     private var cancellables: Set<AnyCancellable> = []
     var manageUserView: ManageUserView?

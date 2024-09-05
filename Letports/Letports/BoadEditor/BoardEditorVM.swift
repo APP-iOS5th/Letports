@@ -67,8 +67,7 @@ class BoardEditorVM {
             .map { boardTitle, boardContents in
                 return boardTitle != nil && boardContents != nil
             }
-            .assign(to: \.addButtonEnable, on: self)
-            .store(in: &cancellables)
+            .assign(to: &$addButtonEnable)
     }
     
     func boardUpload() {
