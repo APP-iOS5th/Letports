@@ -22,8 +22,13 @@ class ProfileVC: UIViewController {
     }
     
     private lazy var navigationView: CustomNavigationView = {
-        let btnName: NaviButtonType
-        let view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
+        let view: CustomNavigationView
+        switch viewModel.profileType {
+        case .myProfile:
+            view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
+        case .userProfile:
+            view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile)
+        }
         view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -79,17 +84,25 @@ class ProfileVC: UIViewController {
     }
     
     private func bindViewModel() {
-        Publishers.Merge4(
+        let publisher = viewModel.profileType == .myProfile
+        ? Publishers.Merge4(
             viewModel.$user.map { _ in () },
             viewModel.$myGatherings.map { _ in () },
             viewModel.$pendingGatherings.map { _ in () },
             viewModel.$masterUsers.map { _ in () }
-        )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] (_) in
-            self?.tableView.reloadData()
-        }
-        .store(in: &cancellables)
+        ).eraseToAnyPublisher()
+        : Publishers.Merge3(
+            viewModel.$user.map { _ in () },
+            viewModel.$userGatherings.map { _ in () },
+            viewModel.$masterUsers.map { _ in () }
+        ).eraseToAnyPublisher()
+        
+        publisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (_) in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     @objc private func refreshData() {
@@ -97,11 +110,21 @@ class ProfileVC: UIViewController {
     }
     
     private func performRefresh() {
-        viewModel.loadUser(user: UserManager.shared.getUserUid()) {
-            self.refreshControl.endRefreshing()
+        switch viewModel.profileType {
+        case .myProfile:
+            viewModel.loadUser(user:UserManager.shared.getUserUid()) {
+                self.refreshControl.endRefreshing()
+            }
+        case .userProfile:
+            if let userUID = viewModel.currentUserUid {
+                viewModel.loadUser(user: userUID) {
+                    self.refreshControl.endRefreshing()
+                }
+            } else {
+                self.refreshControl.endRefreshing()
+            }
         }
     }
-    
 }
 
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
@@ -111,15 +134,25 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cellType = viewModel.getCellTypes()[indexPath.row]
-        switch cellType {
-        case .profile, .myGatherings, .pendingGatherings:
-            return indexPath
-        default:
+        switch viewModel.profileType {
+        case .myProfile:
+            switch cellType {
+            case .profile, .myGatherings, .pendingGatherings:
+                return indexPath
+            default:
+                return nil
+            }
+        case .userProfile:
             return nil
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard viewModel.profileType == .myProfile else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        
         let cellType = self.viewModel.getCellTypes()[indexPath.row]
         switch cellType {
         case .myGatherings:
@@ -152,9 +185,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .profile:
             return 120.0
-        case .myGatheringHeader, .pendingGatheringHeader:
+        case .myGatheringHeader, .pendingGatheringHeader, .userGatheringHeader:
             return 40.0
-        case .myGatherings, .pendingGatherings, .myGatheringEmptyState, .pendingGatheringEmptyState:
+        case .myGatherings, .pendingGatherings, .userGatherings, .myGatheringEmptyState, .pendingGatheringEmptyState:
             return 100.0
         }
     }
@@ -162,20 +195,20 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch self.viewModel.getCellTypes()[indexPath.row] {
         case .profile:
-            if let cell: ProfileTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: ProfileTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
                 if let user = viewModel.user {
-                    cell.configure(user: user)
+                    cell.configure(user: user, isEditable: viewModel.profileType == .myProfile)
                 }
                 return cell
             }
         case .myGatheringHeader:
-            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(title: "내 소모임")
                 return cell
             }
         case .myGatherings:
-            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
@@ -183,7 +216,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with:gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -192,12 +225,12 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .pendingGatheringHeader:
-            if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(title: "가입 대기중 소모임")
                 return cell
             }
         case .pendingGatherings:
-            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 var startIndex = 0
                 if viewModel.myGatherings.count == 0 {
                     startIndex = 4
@@ -210,7 +243,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with:gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -219,13 +252,35 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .myGatheringEmptyState:
-            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: EmptyStateTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(title: "가입된 소모임이 없습니다")
                 return cell
             }
         case .pendingGatheringEmptyState:
-            if let cell: EmptyStateTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: EmptyStateTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(title: "가입대기중인 소모임이 없습니다")
+                return cell
+            }
+        case .userGatheringHeader:
+            if let cell: SectionTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(title: "\(viewModel.user?.nickname ?? "")의 소모임")
+                return cell
+            }
+        case .userGatherings:
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+                let startIndex = 2
+                let gatheringIndex = indexPath.row - startIndex
+                if gatheringIndex < viewModel.userGatherings.count {
+                    let gathering = viewModel.userGatherings[gatheringIndex]
+                    if let user = viewModel.user {
+                        if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
+                            cell.selectionStyle = .default
+                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: false) // 애니메이션 비활성화
+                        } else {
+                            viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
+                        }
+                    }
+                }
                 return cell
             }
         }
@@ -244,6 +299,10 @@ extension ProfileVC: ProfileDelegate {
 
 extension ProfileVC: CustomNavigationDelegate {
     func smallRightBtnDidTap() {
-        self.viewModel.settingButtonTapped()
+        self.viewModel.settingBtnDidTap()
     }
+    func backBtnDidTap() {
+        self.viewModel.backBtnDidTap()
+    }
+    
 }

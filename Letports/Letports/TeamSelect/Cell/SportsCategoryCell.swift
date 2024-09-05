@@ -47,7 +47,7 @@ class SportsCategoryCell: UICollectionViewCell {
         contentView.backgroundColor = .systemGray6
     }
     
-    func configure(with category: TeamSelectVM.Sports) {
+    func configure(with category: Sports) {
         titleLabel.text = category.name
     }
 }

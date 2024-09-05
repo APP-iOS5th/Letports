@@ -11,7 +11,6 @@ import Kingfisher
 
 extension HomeVC: HomeProfileTVCellDelegate, YoutubeThumbnailTVCellDelegate, RecommendGatheringListsDelegate {
     func didTapRecommendGathering(gatheringUID: String) {
-        print("ddd" ,gatheringUID)
         viewModel.pushGatheringDetailController(gatheringUID: gatheringUID)
     }
     
@@ -100,6 +99,12 @@ class HomeVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (team, latestYoutubeVideos, gatherings) in
                 self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
+        UserManager.shared.$currentUser
+            .sink { [weak self] _ in
+                self?.viewModel.getTeamData()
             }
             .store(in: &cancellables)
     }

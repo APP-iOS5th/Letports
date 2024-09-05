@@ -36,11 +36,9 @@ class BoardEditorVM {
     private(set) var postType: PostType = .free
     private(set) var gathering: Gathering?
     
-    
     private(set) var isEditMode: Bool
     private var postID: String?
     private var cancellables = Set<AnyCancellable>()
-    
     
     weak var delegate: BoardEditorCoordinatorDelegate?
     

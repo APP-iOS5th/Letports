@@ -49,7 +49,8 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
     
     func presentTeamChangeController() {
         let coordinator = TeamSelectCoordinator(navigationController: navigationController)
-        coordinator.start()
+        coordinator.presentStart()
+        coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }
     

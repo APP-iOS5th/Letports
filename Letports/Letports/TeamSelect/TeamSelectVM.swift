@@ -11,34 +11,21 @@ import Kingfisher
 
 
 class TeamSelectVM {
-    struct Sports: Hashable, Codable {
-        let id: String
-        let name: String
-        let sportsUID: String
-    }
-    
-    struct Team: Hashable, Codable {
-        let id: String
-        let name: String
-        let logoUrl: String
-        let sports: String
-        let teamUID: String
-    }
-    
+
     @Published var sportsCategories: [Sports] = []
-    @Published var allTeams: [Team] = []
-    @Published var filteredTeams: [Team] = []
+    @Published var allTeams: [SportsTeam] = []
+    @Published var filteredTeams: [SportsTeam] = []
     @Published var selectedSports: Sports?
-    @Published var selectedTeam: Team?
+    @Published var selectedTeam: SportsTeam?
     
     private var cancellables = Set<AnyCancellable>()
     
     func selectSports(_ sports: Sports) {
         selectedSports = sports
-        filteredTeams = allTeams.filter { $0.sports == sports.id }
+        filteredTeams = allTeams.filter { $0.sportsUID == sports.sportsUID }
     }
     
-    func selectTeam(_ team: Team?) {
+    func selectTeam(_ team: SportsTeam?) {
         selectedTeam = team
     }
     
@@ -51,21 +38,28 @@ class TeamSelectVM {
     }
     
     private func loadSportsCategories(completion: @escaping () -> Void) {
-        FM.getSportsCategories()
-            .sink(receiveCompletion: { completion in
-                if case .failure(let error) = completion {
-                    print("Error loading sports categories: \(error)")
-                }
-            }, receiveValue: { [weak self] sportsCategories in
-                self?.sportsCategories = sportsCategories
+        let collectionPath: [FirestorePathComponent] = [
+            .collection(.sports)
+        ]
+        
+        FM.getData(pathComponents: collectionPath, type: Sports.self)
+            .sink { _ in
+            } receiveValue: { sports in
+                self.sportsCategories = sports
                 completion()
-            })
+            }
             .store(in: &cancellables)
+
     }
     
     private func loadAllTeams(completion: @escaping () -> Void) {
         Publishers.MergeMany(sportsCategories.map { sports in
-            FM.getSportsTeams(sports.id)
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.sports),
+                .document(sports.sportsUID),
+                .collection(.sportsTeam)]
+            
+                return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
         })
         .collect()
         .sink(receiveCompletion: { completion in
@@ -81,7 +75,7 @@ class TeamSelectVM {
 }
 
 extension TeamSelectVM {
-    func updateUserSportsAndTeam(sports: Sports, team: Team) -> AnyPublisher<Void, Error> {
+    func updateUserSportsAndTeam(sports: Sports, team: SportsTeam) -> AnyPublisher<Void, Error> {
         guard let currentUser = UserManager.shared.currentUser else {
             return Fail(error: NSError(domain: "UserError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No current user found"]))
                 .eraseToAnyPublisher()
