@@ -130,6 +130,7 @@
 		D835EDEB2C8ADD6E00D24AC8 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */; };
 		D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */; };
 		D84749202C884135009474B3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
+		D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
@@ -280,6 +281,7 @@
 		D8361B712C8729B000140A79 /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D847491F2C884135009474B3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		413BE64D2C65F1990070D6F9 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */,
 				410BBCC12C77B17400FE2E18 /* Extension+Color.swift */,
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
@@ -916,6 +919,7 @@
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				B85FD8862C79CCD0007B4962 /* SportsCategoryCell.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
+				D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */,
 				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
 				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
 				D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */,
@@ -1187,7 +1191,6 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
