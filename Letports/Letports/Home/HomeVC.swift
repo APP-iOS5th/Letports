@@ -40,6 +40,12 @@ class HomeVC: UIViewController {
         return cnv
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return control
+    }()
+    
     private(set) lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.delegate = self
@@ -50,7 +56,6 @@ class HomeVC: UIViewController {
                          HomeProfileTVCell.self,
                          YoutubeThumbnailTVCell.self,
                          RecommendGatheringTVCell.self)
-        
         return tv
     }()
     
@@ -79,6 +84,9 @@ class HomeVC: UIViewController {
             self.view.addSubview($0)
         }
         
+        tableView.refreshControl = refreshControl
+        tableView.isUserInteractionEnabled = true
+        
         NSLayoutConstraint.activate([
             navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -93,20 +101,33 @@ class HomeVC: UIViewController {
     
     //데이터 바인딩
     private func bindViewModel() {
-        Publishers.CombineLatest3(viewModel.$team, 
+        Publishers.CombineLatest3(viewModel.$team,
                                   viewModel.$latestYoutubeVideos,
                                   viewModel.$recommendGatherings)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (team, latestYoutubeVideos, gatherings) in
-                self?.tableView.reloadData()
-            }
-            .store(in: &cancellables)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] (team, latestYoutubeVideos, gatherings) in
+            self?.tableView.reloadData()
+        }
+        .store(in: &cancellables)
         
         UserManager.shared.$currentUser
             .sink { [weak self] _ in
                 self?.viewModel.getTeamData()
             }
             .store(in: &cancellables)
+    }
+    
+    @objc private func refreshData() {
+        performRefresh()
+    }
+    
+    private func performRefresh() {
+        self.viewModel.getTeamData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    func reloadTeamData() {
+        self.viewModel.getTeamData()
     }
 }
 
