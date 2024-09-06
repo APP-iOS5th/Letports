@@ -24,6 +24,7 @@ class GatheringUploadCoordinator: NSObject, Coordinator {
         }
     }
     var viewModel: GatheringUploadVM
+    weak var delegate: GatheringCoordinatorDelegate?
     
     init(navigationController: UINavigationController, viewModel: GatheringUploadVM) {
         self.navigationController = navigationController
@@ -82,6 +83,7 @@ extension GatheringUploadCoordinator: GatheringUploadCoordinatorDelegate {
     func dismissViewController() {
         self.navigationController.dismiss(animated: true)
         self.parentCoordinator?.childDidFinish(self)
+        delegate?.endUploadGathering()
     }
     
     func presentImagePickerController() {
