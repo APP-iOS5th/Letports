@@ -40,8 +40,7 @@ class AuthVC: UIViewController {
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-      
-        btn.setTitle("애플로 쉬운 로그인", for: .normal)
+        btn.setTitle("애플로 로그인", for: .normal)
         
         btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
