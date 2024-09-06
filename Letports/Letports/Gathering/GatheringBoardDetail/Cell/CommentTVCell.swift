@@ -125,13 +125,9 @@ class CommentTVCell: UITableViewCell {
     
     func configureCell(with user: LetportsUser, comment: Comment) {
         let date = comment.createDate.dateValue()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-        
+                
         nickNameLabel.text = user.nickname
-        createDateLabel.text = dateString
+        createDateLabel.text = date.toString()
         commentLabel.text = comment.contents
         
         if let url = URL(string: user.image) {
