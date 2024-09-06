@@ -138,23 +138,16 @@ class YoutubeThumbnailTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 130),
             
             thumbnailSV.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             thumbnailSV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             thumbnailSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             thumbnailSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
-            firstThumbnailSV.widthAnchor.constraint(equalToConstant: 130),
-            firstThumbnailSV.heightAnchor.constraint(equalToConstant: 70),
-            secondThumbnailSV.widthAnchor.constraint(equalToConstant: 130),
-            secondThumbnailSV.heightAnchor.constraint(equalToConstant: 70),
-            
-            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.7),
+            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.65),
             firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.3),
             
-            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.7),
+            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.65),
             secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.3)
         ])
         
