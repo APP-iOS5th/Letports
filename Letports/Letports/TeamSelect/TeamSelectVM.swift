@@ -22,6 +22,7 @@ class TeamSelectVM {
     
     func selectSports(_ sports: Sports) {
         selectedSports = sports
+        selectedTeam = nil
         filteredTeams = allTeams.filter { $0.sportsUID == sports.sportsUID }
     }
     

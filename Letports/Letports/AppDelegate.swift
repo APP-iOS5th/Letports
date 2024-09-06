@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String {
+            KakaoSDK.initSDK(appKey: kakaoAppKey)
+        }
+        
         UITabBar.appearance().unselectedItemTintColor = .lp_gray
         return true
     }

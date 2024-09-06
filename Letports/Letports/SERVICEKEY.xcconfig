@@ -8,5 +8,7 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
+GOOGLE_CLIENT_ID = 350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s.apps.googleusercontent.com
 REVERSED_GOOGLE_CLIENT_ID = com.googleusercontent.apps.350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s
 YOUTUBE_API_KEY =  AIzaSyDgT5EF4qe7Q2zTo-c3XABa3l57DBRKt-w
+KAKAO_NATIVE_APP_KEY = 0fd094f93bdc5209cf24d3e38fda46dd
