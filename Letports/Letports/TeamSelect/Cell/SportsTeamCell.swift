@@ -24,10 +24,11 @@ class SportsTeamCell: UICollectionViewCell {
         return label
     }()
     
-    override var isSelected: Bool {
-        didSet {
-            contentView.backgroundColor = isSelected ? UIColor.lpMain : UIColor.clear
-        }
+    private var isCellSelected: Bool = false
+    
+    func setSelected(_ selected: Bool) {
+        isCellSelected = selected
+        contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.clear
     }
     
     override init(frame: CGRect) {

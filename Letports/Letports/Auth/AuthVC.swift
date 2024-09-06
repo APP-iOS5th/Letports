@@ -35,12 +35,13 @@ class AuthVC: UIViewController {
         
         configuration.imagePadding = 10
         
-        configuration.image = UIImage(named: "apple_Logo")
+        configuration.image = UIImage(named: "apple_login")
         configuration.imagePlacement = .leading
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-        btn.setTitle("Apple로 로그인", for: .normal)
+      
+        btn.setTitle("애플로 쉬운 로그인", for: .normal)
         
         btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +54,7 @@ class AuthVC: UIViewController {
         configuration.baseBackgroundColor = .white
         configuration.baseForegroundColor = .black
         configuration.imagePadding = 10
-        configuration.image = UIImage(named: "google_Logo")
+        configuration.image = UIImage(named: "google_login")
         configuration.imagePlacement = .leading
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
@@ -61,7 +62,7 @@ class AuthVC: UIViewController {
         btn.layer.borderWidth = 0.5
         btn.layer.borderColor = UIColor.black.cgColor
         
-        btn.setTitle("구글로 로그인", for: .normal)
+        btn.setTitle("구글로 쉬운 로그인", for: .normal)
         
         btn.addTarget(self, action: #selector(googleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false

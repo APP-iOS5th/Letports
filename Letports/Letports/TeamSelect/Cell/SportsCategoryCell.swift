@@ -17,11 +17,12 @@ class SportsCategoryCell: UICollectionViewCell {
         return label
     }()
     
-    override var isSelected: Bool {
-        didSet {
-            contentView.backgroundColor = isSelected ? .lpMain : .systemGray6
-            titleLabel.textColor = isSelected ? .white : .black
-        }
+    private var isCellSelected: Bool = false
+    
+    func setSelected(_ selected: Bool) {
+        isCellSelected = selected
+        contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.clear
+        titleLabel.textColor = isCellSelected ? .lpWhite : .lpBlack
     }
     
     override init(frame: CGRect) {
