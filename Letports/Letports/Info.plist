@@ -22,7 +22,7 @@
 		</dict>
 	</array>
 	<key>GIDClientID</key>
-	<string>350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s.apps.googleusercontent.com</string>
+	<string>${GOOGLE_CLIENT_ID}</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
