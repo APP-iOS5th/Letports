@@ -24,8 +24,6 @@ class GatherSettingVM {
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatherSettingCoordinatorDelegate?
     
-    var alertPublisher = PassthroughSubject<(title: String, message: String, confirmAction: () -> Void, cancelAction: () -> Void), Never>()
-    
     private var cellType: [GatheringSettingCellType] {
         var cellTypes: [GatheringSettingCellType] = []
         cellTypes.append(.pendingGatheringUserTtitle)
@@ -122,52 +120,49 @@ class GatherSettingVM {
             .flatMap { [weak self] in
                 self?.showCompletionAlert() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
-            .eraseToAnyPublisher() 
+            .eraseToAnyPublisher()
     }
     
     
-    // 팝업을 Combine의 Future로 처리
     private func showCompletionAlert() -> AnyPublisher<Void, FirestoreError> {
         return Future { [weak self] promise in
             self?.delegate?.gatherDeleteFinish()
-            promise(.success(())) // 성공적으로 완료되었음을 알림
+            promise(.success(()))
         }
         .setFailureType(to: FirestoreError.self)
         .eraseToAnyPublisher()
     }
     
-    // 1. 소모임 유저들의 MyGatherings 문서 삭제
+    
     func deleteAllGatheringMembers() -> AnyPublisher<Void, FirestoreError> {
         guard let gatheringUid = gathering?.gatheringUid else {
             return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
         }
-
+        
         let gatheringMembersCollectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gatheringUid),
             .collection(.gatheringMembers)
         ]
-
-        // 1. GatheringMember 문서들을 모두 가져옴
+        
         return FM.getData(pathComponents: gatheringMembersCollectionPath, type: GatheringMember.self)
             .flatMap { [weak self] gatheringMembers -> AnyPublisher<Void, FirestoreError> in
                 let deletePublishers = gatheringMembers.map { member -> AnyPublisher<Void, FirestoreError> in
-                    // 멤버들의 MyGathering 컬렉션 내 문서를 삭제
+                    
                     let userMyGatheringPath: [FirestorePathComponent] = [
                         .collection(.user),
                         .document(member.userUID),
                         .collection(.myGathering),
                         .document(gatheringUid)
                     ]
-
+                    
                     let gatheringMemberPath: [FirestorePathComponent] = [
                         .collection(.gatherings),
                         .document(gatheringUid),
                         .collection(.gatheringMembers),
                         .document(member.userUID)
                     ]
-
-                    // MyGathering에서 해당 문서와 소모임의 GatheringMember 문서도 삭제
+                    
                     return Publishers.Zip(
                         FM.deleteDocument(pathComponents: userMyGatheringPath),
                         FM.deleteDocument(pathComponents: gatheringMemberPath)
@@ -176,7 +171,7 @@ class GatherSettingVM {
                     .mapError { _ in FirestoreError.deleteFailed }
                     .eraseToAnyPublisher()
                 }
-
+                
                 return Publishers.MergeMany(deletePublishers)
                     .collect()
                     .map { _ in () }
@@ -186,19 +181,17 @@ class GatherSettingVM {
             .eraseToAnyPublisher()
     }
     
-    // 2. 소모임의 이미지 삭제
     func deleteGatheringImage() -> AnyPublisher<Void, FirestoreError> {
         guard let imageUrlString = gathering?.gatherImage else {
-            return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher() // 이미지가 없는 경우
+            return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher()
         }
-        
         let storageReference = Storage.storage().reference(forURL: imageUrlString)
         
         return Future<Void, FirestoreError> { promise in
             storageReference.delete { error in
                 if let error = error {
                     print("Error deleting gathering image: \(error.localizedDescription)")
-                    promise(.failure(.unknownError(error))) // 오류를 unknownError로 처리
+                    promise(.failure(.unknownError(error)))
                 } else {
                     print("Successfully deleted gathering image.")
                     promise(.success(()))
@@ -208,7 +201,8 @@ class GatherSettingVM {
         .eraseToAnyPublisher()
     }
     
-    // 3. 게시글의 이미지 배열에 있는 모든 사진 삭제
+    
+    
     func deleteBoardImages() -> AnyPublisher<Void, FirestoreError> {
         guard let gatheringUid = gathering?.gatheringUid else {
             return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
@@ -254,7 +248,6 @@ class GatherSettingVM {
         .eraseToAnyPublisher()
     }
     
-    // 4. 소모임 문서 삭제
     func deleteGatheringDocument() -> AnyPublisher<Void, FirestoreError> {
         guard let gatheringUid = gathering?.gatheringUid else {
             return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
@@ -420,3 +413,4 @@ class GatherSettingVM {
         }
     }
 }
+

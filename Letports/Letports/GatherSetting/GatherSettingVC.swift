@@ -12,12 +12,13 @@ protocol ManageViewPendingDelegate: AnyObject {
     func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
     func cancelAction(_ manageUserView: ManageUserView)
 }
+
 protocol ManageViewJoinDelegate: AnyObject {
     func cancelAction(_ manageUserView: ManageUserView)
     func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String)
 }
 
-protocol GatherSettingDelegate {
+protocol GatherSettingDelegate: AnyObject {
     func deleteGathering()
 }
 
@@ -195,7 +196,7 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                         switch completion {
                         case .finished:
                             self.showAlert(title: "알림", message: "\(nickName)유저의 추방이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
-                            self.removeManageUserView()  // 뷰 제거
+                            self.removeManageUserView()
                             self.viewModel.loadData()
                         case .failure(let error):
                             self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error), confirmTitle: "확인", onConfirm: {})
