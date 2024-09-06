@@ -127,7 +127,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     private func updateTitleLabel() {
         let titleText = "모집 인원"
         if memCount >= memMaxCount {
-            let fullText = "\(titleText) 최대 모인원은 \(memMaxCount)명 입니다."
+            let fullText = "\(titleText) 최대 모임원은 \(memMaxCount)명 입니다."
             let attributedString = NSMutableAttributedString(string: fullText)
             let range = (fullText as NSString).range(of: "최대 모인원은 \(memMaxCount)명 입니다.")
             
