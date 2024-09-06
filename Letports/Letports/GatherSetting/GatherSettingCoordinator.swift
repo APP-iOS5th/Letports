@@ -10,6 +10,7 @@ import Combine
 
 protocol GatherSettingCoordinatorDelegate: AnyObject {
     func gatherSettingBackBtnTap()
+    func gatherDeleteFinish()
 }
 
 class GatherSettingCoordinator: Coordinator {
@@ -28,7 +29,6 @@ class GatherSettingCoordinator: Coordinator {
     init(navigationController: UINavigationController, gathering: Gathering) {
         self.navigationController = navigationController
         self.viewModel = GatherSettingVM(gathering: gathering)
-        bindViewModel()
     }
     
     func start() {
@@ -38,41 +38,38 @@ class GatherSettingCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    private func bindViewModel() {
-        viewModel.alertPublisher
-            .sink { [weak self] alertData in
-                self?.presentAlert(title: alertData.title, message: alertData.message, confirmAction: alertData.confirmAction, cancelAction: alertData.cancelAction)
-            }
-            .store(in: &cancellables)
-    }
-    
-    private func presentAlert(title: String, message: String, confirmAction: @escaping () -> Void, cancelAction: @escaping () -> Void) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let confirm = UIAlertAction(title: "확인", style: .destructive) { _ in
-            confirmAction()
-        }
-        alert.addAction(confirm)
-        
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-            cancelAction()
-        }
-        alert.addAction(cancel)
-        
-        navigationController.present(alert, animated: true, completion: nil)
-    }
-    
-    private func presentSingleButtonAlert(title: String, message: String, buttonTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: buttonTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        navigationController.present(alert, animated: true, completion: nil)
-    }
 }
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
+    func gatherDeleteFinish() {
+        navigationController.popViewController(animated: false)
+        navigationController.popViewController(animated: true)
+        viewModel.deleteGatheringDocument()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    self.reloadParentView()
+                case .failure(let error):
+                    print("문서 삭제 중 오류 발생: \(error.localizedDescription)")
+                }
+            }, receiveValue: {})
+            .store(in: &cancellables)
+    }
+    
     func gatherSettingBackBtnTap() {
         navigationController.popViewController(animated: true)
         self.parentCoordinator?.childDidFinish(self)
+    }
+    
+    private func reloadParentView() {
+        for viewController in navigationController.viewControllers {
+            if let homeVC = viewController as? HomeVC {
+                homeVC.reloadTeamData()
+            } else if let gatheringVC = viewController as? GatheringVC {
+                gatheringVC.loadGathering()
+            } else if let profileVC = viewController as? ProfileVC {
+                profileVC.reloadProfileData()
+            }
+        }
     }
 }
