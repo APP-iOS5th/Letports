@@ -4,6 +4,9 @@
 //
 //  Created by mosi on 9/3/24.
 //
+
+import Foundation
+
 enum SettingCellType {
     case notification
     case AppTermsofService

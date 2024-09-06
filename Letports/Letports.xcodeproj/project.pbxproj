@@ -77,6 +77,10 @@
 		BF90E8B42C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */; };
 		BFAA71212C6C94C500FC402C /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */; };
 		BFB7754B2C7C9A9500709E5A /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
+		BFBF9A282C898561006DACAD /* Extenstion+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBF9A272C898561006DACAD /* Extenstion+UIFont.swift */; };
+		BFBF9A2F2C898B75006DACAD /* GmarketSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2B2C898B75006DACAD /* GmarketSansBold.otf */; };
+		BFBF9A302C898B75006DACAD /* GmarketSansLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2C2C898B75006DACAD /* GmarketSansLight.otf */; };
+		BFBF9A312C898B75006DACAD /* GmarketSansMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2D2C898B75006DACAD /* GmarketSansMedium.otf */; };
 		BFC55FDC2C742F9A0084CA10 /* CommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */; };
 		BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDF2C7440130084CA10 /* CommentInputView.swift */; };
 		BFD9AEF22C76D9FB000C3A20 /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
@@ -220,6 +224,11 @@
 		BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailInfoTVCell.swift; sourceTree = "<group>"; };
 		BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileTVCell.swift; sourceTree = "<group>"; };
 		BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatheringDetailProfileCVCell.swift; sourceTree = "<group>"; };
+		BFBF9A202C893D59006DACAD /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFBF9A272C898561006DACAD /* Extenstion+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extenstion+UIFont.swift"; sourceTree = "<group>"; };
+		BFBF9A2B2C898B75006DACAD /* GmarketSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansBold.otf; sourceTree = "<group>"; };
+		BFBF9A2C2C898B75006DACAD /* GmarketSansLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansLight.otf; sourceTree = "<group>"; };
+		BFBF9A2D2C898B75006DACAD /* GmarketSansMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansMedium.otf; sourceTree = "<group>"; };
 		BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTVCell.swift; sourceTree = "<group>"; };
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
@@ -369,6 +378,7 @@
 				4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */,
 				41C857C52C81B8820042B305 /* Extension+Date.swift */,
 				D89C407C2C83973800E105F9 /* Extension+String.swift */,
+				BFBF9A272C898561006DACAD /* Extenstion+UIFont.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -489,6 +499,16 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		BFBF9A2E2C898B75006DACAD /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				BFBF9A2B2C898B75006DACAD /* GmarketSansBold.otf */,
+				BFBF9A2C2C898B75006DACAD /* GmarketSansLight.otf */,
+				BFBF9A2D2C898B75006DACAD /* GmarketSansMedium.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		BFE5B5722C6B7ECB00C0103F /* GatheringDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +582,7 @@
 				D8201FBC2C606935004DF06C /* Info.plist */,
 				D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
+				BFBF9A2E2C898B75006DACAD /* Font */,
 				D847491F2C884135009474B3 /* Settings.bundle */,
 			);
 			path = Letports;
@@ -741,7 +762,6 @@
 				B8738AC92C884E1A00686BA0 /* KakaoSDKCommon */,
 			);
 			productName = Letports;
-			productReference = B8738AD12C88505100686BA0 /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -836,7 +856,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D84749202C884135009474B3 /* Settings.bundle in Resources */,
+				BFBF9A2F2C898B75006DACAD /* GmarketSansBold.otf in Resources */,
 				BFE7F6CB2C82F70C004B720D /* SERVICEKEY.xcconfig in Resources */,
+				BFBF9A302C898B75006DACAD /* GmarketSansLight.otf in Resources */,
+				BFBF9A312C898B75006DACAD /* GmarketSansMedium.otf in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
 				D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */,
 			);
@@ -968,6 +991,7 @@
 				413BE6472C65EA670070D6F9 /* GatheringUploadCoordinator.swift in Sources */,
 				413BE65D2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift in Sources */,
 				BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */,
+				BFBF9A282C898561006DACAD /* Extenstion+UIFont.swift in Sources */,
 				D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */,
 				BFFFD3F82C73BB820053A86B /* CommentHeaderLabelTVCell.swift in Sources */,
 				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,

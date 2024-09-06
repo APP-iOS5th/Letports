@@ -95,7 +95,7 @@ extension BoardBtnTVCell: UICollectionViewDelegateFlowLayout {
 		case .free: title = "자유게시판"
 		}
 		
-		let font = UIFont.systemFont(ofSize: 14, weight: .regular)
+		let font = UIFont.lp_Font(.regular, size: 14)
 		let width = title.size(withAttributes: [.font: font]).width + 50
 		return CGSize(width: width, height: 25)
 	}

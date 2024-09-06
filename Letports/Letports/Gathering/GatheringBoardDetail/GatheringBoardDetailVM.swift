@@ -176,7 +176,6 @@ final class GatheringBoardDetailVM {
 				}, receiveValue: { [weak self] allGatherings in
 					guard let self = self else { return }
 					let flatGatherings = allGatherings.flatMap { $0 }
-//					self.filterGatherings(flatGatherings, user: user)
 				})
 				.store(in: &cancellables)
 		}

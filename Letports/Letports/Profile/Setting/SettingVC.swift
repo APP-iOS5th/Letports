@@ -67,16 +67,6 @@ class SettingVC: UIViewController {
         ])
     }
 
-    private func configureCell(for indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
-            return UITableViewCell()
-        }
-    
-        let cellType = viewModel.getCellTypes()[indexPath.row]
-        cell.configure(cellType: cellType)
-        cell.delegate = self
-        return cell
-    }
 }
 
 extension SettingVC: CustomNavigationDelegate {
@@ -105,6 +95,13 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return configureCell(for: indexPath)
+        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
+            return UITableViewCell()
+        }
+    
+        let cellType = viewModel.getCellTypes()[indexPath.row]
+        cell.configure(cellType: cellType)
+        cell.delegate = self
+        return cell
     }
 }

@@ -75,7 +75,7 @@ class HomeProfileTVCell: UITableViewCell {
         return iv
     }()
     
-    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 14)
+    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 12)
     
     // 인스타 아이콘, 이름 스택뷰
     lazy var instagramURLSV = createSV(axis: .horizontal,
@@ -96,7 +96,7 @@ class HomeProfileTVCell: UITableViewCell {
         return iv
     }()
     
-    lazy var instagramLabel = createLabel(text: "인스타그램", fontSize: 14)
+    lazy var instagramLabel = createLabel(text: "인스타그램", fontSize: 12)
     
     // 유튜뷰 아이콘, 이름 스택뷰
     lazy var youtubeURLSV = createSV(axis: .horizontal, alignment: .center, distribution: .fillProportionally)
@@ -114,7 +114,7 @@ class HomeProfileTVCell: UITableViewCell {
         return iv
     }()
     
-    lazy var youtubeLabel = createLabel(text: "유튜브", fontSize: 14)
+    lazy var youtubeLabel = createLabel(text: "유튜브", fontSize: 12)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -6,6 +6,11 @@
 	<array>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GmarketSansLight.otf</string>
+		<string>GmarketSansMedium.otf</string>
+		<string>GmarketSansBold.otf</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string></string>
@@ -47,7 +52,7 @@
 	</dict>
 	<key>YOUTUBE_API_KEY</key>
 	<string>${YOUTUBE_API_KEY}</string>
-    <key>UIUserInterfaceStyle</key>
-    <string>Light</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>
