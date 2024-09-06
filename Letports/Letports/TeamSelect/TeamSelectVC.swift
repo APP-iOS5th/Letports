@@ -28,7 +28,7 @@ class TeamSelectVC: UICollectionViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("선택 완료", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 25
+        btn.layer.cornerRadius = 15
         btn.isEnabled = false
         btn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
         return btn
