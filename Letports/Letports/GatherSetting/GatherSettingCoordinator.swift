@@ -32,9 +32,10 @@ class GatherSettingCoordinator: Coordinator {
     }
     
     func start() {
-        let profileVC = GatherSettingVC(viewModel: viewModel)
+        let vc = GatherSettingVC(viewModel: viewModel)
         viewModel.delegate = self
-        navigationController.pushViewController(profileVC, animated: true)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(vc, animated: true)
     }
     
     private func bindViewModel() {
