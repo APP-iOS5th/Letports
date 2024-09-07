@@ -114,28 +114,15 @@ class AuthService: AuthServiceProtocol {
         FM.getData(collection: "Users", document: userID, type: LetportsUser.self)
             .flatMap { existingUser -> AnyPublisher<LetportsUser, FirestoreError> in
                 let updatedUser: LetportsUser
-                
-                if existingUser.uid.isEmpty {
-                    updatedUser = LetportsUser(
-                        email: user.email ?? "",
-                        image: user.photoURL?.absoluteString ?? "",
-                        nickname: user.displayName ?? "",
-                        simpleInfo: "",
-                        uid: userID,
-                        userSports: "",
-                        userSportsTeam: ""
-                    )
-                } else {
-                    updatedUser = LetportsUser(
-                        email: user.email ?? existingUser.email,
-                        image: user.photoURL?.absoluteString ?? existingUser.image,
-                        nickname: user.displayName ?? existingUser.nickname,
-                        simpleInfo: existingUser.simpleInfo,
-                        uid: userID,
-                        userSports: existingUser.userSports,
-                        userSportsTeam: existingUser.userSportsTeam
-                    )
-                }
+                updatedUser = LetportsUser(
+                    email: user.email ?? existingUser.email,
+                    image: user.photoURL?.absoluteString ?? existingUser.image,
+                    nickname: user.displayName ?? existingUser.nickname,
+                    simpleInfo: existingUser.simpleInfo,
+                    uid: userID,
+                    userSports: existingUser.userSports,
+                    userSportsTeam: existingUser.userSportsTeam
+                )
                 return FM.setData(collection: "Users", document: userID, data: updatedUser)
                     .map { updatedUser }
                     .eraseToAnyPublisher()
