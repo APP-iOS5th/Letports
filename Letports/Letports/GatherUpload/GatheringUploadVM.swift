@@ -136,6 +136,7 @@ class GatheringUploadVM {
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
                 self.gatehringUpload(imageUrl: imageUrl ?? "")
+                self.delegate?.dismissViewController()
             }
             .store(in: &cancellables)
     }
@@ -213,18 +214,25 @@ class GatheringUploadVM {
                     .collection(.gatheringMembers),
                     .document(UserManager.shared.getUserUid())
                 ]
-              
+                
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateString = dateFormatter.string(from: currentDate)
+                
                 let gatheringData = MyGatherings(uid: uuid)
-                let masterData = GatheringMember(answer: "Master", joinDate: Date().toString(), joinStatus: "joined",
-                                                 userUID: UserManager.shared.getUserUid())
+                let masterData = GatheringMember(answer: "Master", joinDate: dateString, joinStatus: "joined", userUID: UserManager.shared.getUserUid())
                 
                 FM.setData(pathComponents: gatheringCollectionPath, data: gathering)
-                    .flatMap { _ in
+                    .map { _ in
                         FM.setData(pathComponents: userCollectionPath, data: gatheringData)
                     }
-                    .flatMap { _ in
-                        FM.setData(pathComponents: masterCollectionPath, data: masterData)
+                    .flatMap { secondTask in
+                        secondTask.map { _ in
+                            FM.setData(pathComponents: masterCollectionPath, data: masterData)
+                        }
                     }
+                    .switchToLatest()
                     .sink { completion in
                         switch completion {
                         case .finished:
@@ -237,6 +245,7 @@ class GatheringUploadVM {
                         self?.delegate?.dismissViewController()
                     }
                     .store(in: &cancellables)
+                
             }
         }
     }

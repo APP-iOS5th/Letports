@@ -91,14 +91,7 @@ class FirebaseStorageManager {
     static func uploadSingleImage(image: UIImage,
                             filePath: StorageFilePath) -> AnyPublisher<URL, FirebaseStorageError> {
         return Future { promise in
-            
-            guard let resizedImage = image.resized(size: CGSize(width: 256, height: 256)) else {
-                promise(.failure(.imageDataConversionFailed))
-                return
-            }
-            
-            guard let imageData = resizedImage.jpegData(compressionQuality: 0.4) else {
-
+            guard let imageData = image.jpegData(compressionQuality: 0.4) else {
                 promise(.failure(.imageDataConversionFailed))
                 return
             }
