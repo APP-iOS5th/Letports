@@ -25,7 +25,7 @@ enum LetportsCollection: String {
 }
 
 
-enum FirestoreError: LocalizedError {
+enum FirestoreError: LocalizedError, Equatable {
     case documentNotFound
     case dataEncodingFailed
     case dataDecodingFailed
@@ -49,6 +49,21 @@ enum FirestoreError: LocalizedError {
             return "An unknown error occurred: \(error.localizedDescription)"
         }
     }
+    
+    static func == (lhs: FirestoreError, rhs: FirestoreError) -> Bool {
+           switch (lhs, rhs) {
+           case (.documentNotFound, .documentNotFound),
+                (.dataEncodingFailed, .dataEncodingFailed),
+                (.dataDecodingFailed, .dataDecodingFailed),
+                (.updateFailed, .updateFailed),
+                (.deleteFailed, .deleteFailed):
+               return true
+           case (.unknownError(let lhsError), .unknownError(let rhsError)):
+               return lhsError.localizedDescription == rhsError.localizedDescription
+           default:
+               return false
+           }
+       }
 }
 
 class FirestoreManager {

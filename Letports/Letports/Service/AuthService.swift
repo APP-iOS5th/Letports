@@ -114,6 +114,7 @@ class AuthService: AuthServiceProtocol {
         FM.getData(collection: "Users", document: userID, type: LetportsUser.self)
             .flatMap { existingUser -> AnyPublisher<LetportsUser, FirestoreError> in
                 let updatedUser: LetportsUser
+                
                 if existingUser.uid.isEmpty {
                     updatedUser = LetportsUser(
                         email: user.email ?? "",
@@ -138,6 +139,24 @@ class AuthService: AuthServiceProtocol {
                 return FM.setData(collection: "Users", document: userID, data: updatedUser)
                     .map { updatedUser }
                     .eraseToAnyPublisher()
+            }
+            .catch { error -> AnyPublisher<LetportsUser, FirestoreError> in
+                if error == .documentNotFound {
+                    let newUser = LetportsUser(
+                        email: user.email ?? "",
+                        image: user.photoURL?.absoluteString ?? "",
+                        nickname: user.displayName ?? "",
+                        simpleInfo: "",
+                        uid: userID,
+                        userSports: "",
+                        userSportsTeam: ""
+                    )
+                    return FM.setData(collection: "Users", document: userID, data: newUser)
+                        .map { newUser }
+                        .eraseToAnyPublisher()
+                } else {
+                    return Fail(error: error).eraseToAnyPublisher()
+                }
             }
             .sink(receiveCompletion: { result in
                 switch result {
