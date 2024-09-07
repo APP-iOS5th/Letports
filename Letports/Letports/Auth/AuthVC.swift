@@ -40,9 +40,8 @@ class AuthVC: UIViewController {
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
+        btn.setTitle("Apple로 로그인", for: .normal)
       
-        btn.setTitle("애플로 쉬운 로그인", for: .normal)
-        
         btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -62,7 +61,7 @@ class AuthVC: UIViewController {
         btn.layer.borderWidth = 0.5
         btn.layer.borderColor = UIColor.black.cgColor
         
-        btn.setTitle("구글로 쉬운 로그인", for: .normal)
+        btn.setTitle("Google로 로그인", for: .normal)
         
         btn.addTarget(self, action: #selector(googleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +80,7 @@ class AuthVC: UIViewController {
         view.addSubview(logoIconImage)
         
         NSLayoutConstraint.activate([
-            logoIconImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+            logoIconImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -150),
             logoIconImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoIconImage.widthAnchor.constraint(equalToConstant: 250),
             logoIconImage.heightAnchor.constraint(equalTo: logoIconImage.widthAnchor, multiplier: 1/3.2),
@@ -134,7 +133,6 @@ extension AuthVC: ASAuthorizationControllerDelegate {
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
-            
             viewModel.signInWithApple(idTokenString: idTokenString, nonce: nonce)
         }
     }

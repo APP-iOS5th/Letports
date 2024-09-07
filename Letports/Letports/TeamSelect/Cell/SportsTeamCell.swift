@@ -19,7 +19,8 @@ class SportsTeamCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .lp_black
+        label.font = UIFont.boldSystemFont(ofSize: 12)
         label.numberOfLines = 2
         return label
     }()
@@ -29,6 +30,7 @@ class SportsTeamCell: UICollectionViewCell {
     func setSelected(_ selected: Bool) {
         isCellSelected = selected
         contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.clear
+        nameLabel.textColor = isCellSelected ? UIColor.lpWhite : UIColor.lpBlack
     }
     
     override init(frame: CGRect) {
@@ -43,7 +45,6 @@ class SportsTeamCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(logoImageView)
         contentView.addSubview(nameLabel)
-        contentView.backgroundColor = .lp_background_white
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         

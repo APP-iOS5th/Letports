@@ -67,7 +67,9 @@ class ProfileVC: UIViewController {
             self.view.addSubview($0)
         }
         
-        tableView.refreshControl = refreshControl
+        if viewModel.profileType == .myProfile {
+            tableView.refreshControl = refreshControl
+        }
         tableView.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = true
         
@@ -216,7 +218,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
+                            cell.configure(with: gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -243,7 +245,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
+                            cell.configure(with: gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -275,7 +277,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: false)
+                            cell.configure(with: gathering, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -294,7 +296,7 @@ extension ProfileVC: ProfileDelegate {
     }
     func editProfileBtnDidTap() {
         self.viewModel.editProfileBtnDidTap()
-
+        
     }
 }
 

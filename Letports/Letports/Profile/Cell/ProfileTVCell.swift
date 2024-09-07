@@ -100,22 +100,14 @@ class ProfileTVCell: UITableViewCell {
     }
     
     @objc func editBtnDidTap() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.editProfileBtn.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }) { _ in
-            UIView.animate(withDuration: 0.1, animations: {
-                self.editProfileBtn.transform = CGAffineTransform.identity
-            }) { _ in
-                self.delegate?.editProfileBtnDidTap()
-            }
-        }
+        self.delegate?.editProfileBtnDidTap()
     }
-
+    
     func configure(user: LetportsUser, isEditable: Bool) {
         nickNameLabel.text = user.nickname
         simpleInfoLabel.text = user.simpleInfo
         editProfileBtn.isHidden = !isEditable
-
+        
         guard let url = URL(string: user.image) else {
             profileIV.image = UIImage(systemName: "person.circle")
             profileIV.backgroundColor = .lpWhite

@@ -5,7 +5,6 @@
 //  Created by Yachae on 8/20/24.
 //
 
-import Combine
 import UIKit
 
 protocol CommentInputDelegate: AnyObject {
@@ -14,7 +13,7 @@ protocol CommentInputDelegate: AnyObject {
 
 class CommentInputView: UIView {
     
-    private lazy var textField: UITextField = {
+    private lazy var  textField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "댓글을 입력하세요"
         tf.borderStyle = .roundedRect
@@ -23,19 +22,20 @@ class CommentInputView: UIView {
         tf.backgroundColor = .lp_white
         tf.textColor = .lp_black
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return tf
     }()
     
     private lazy var registBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("등록", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 10
         btn.backgroundColor = .lp_white
-        btn.setTitleColor(.lp_gray, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.isEnabled = false
         btn.addTarget(self, action: #selector(registCommentDidTap), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleColor(.gray, for: .normal)
         return btn
     }()
     
@@ -49,52 +49,51 @@ class CommentInputView: UIView {
     }()
     
     weak var delegate: CommentInputDelegate?
-    private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupBindings()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - setupUI()
     private func setupUI() {
         addSubview(textFieldSV)
-        [textField, registBtn].forEach { textFieldSV.addArrangedSubview($0) }
+        
+        [textField, registBtn].forEach {
+            textFieldSV.addArrangedSubview($0)
+        }
         
         NSLayoutConstraint.activate([
             textFieldSV.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             textFieldSV.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             textFieldSV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             textFieldSV.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            
             registBtn.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    private func setupBindings() {
-        NotificationCenter.default
-            .publisher(for: UITextField.textDidChangeNotification, object: textField)
-            .compactMap { ($0.object as? UITextField)?.text }
-            .map { !$0.isEmpty }
-            .sink { [weak self] isValid in
-                self?.updateButtonState(isEnabled: isValid)
-            }
-            .store(in: &cancellables)
+    @objc func registCommentDidTap() {
+        if let text = textField.text {
+            self.delegate?.addComment(comment: text)
+        }
     }
     
-    @objc private func registCommentDidTap() {
-        guard let text = textField.text else { return }
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text, !text.isEmpty {
+            registBtn.isEnabled = true
+            registBtn.setTitleColor(.lp_black, for: .normal)
+        } else {
+            registBtn.isEnabled = false
+            registBtn.setTitleColor(.lp_gray, for: .normal)
+        }
+    }
+    
+    func clearText() {
         textField.text = ""
-        delegate?.addComment(comment: text)
     }
-    
-    private func updateButtonState(isEnabled: Bool) {
-        registBtn.isEnabled = isEnabled
-        registBtn.setTitleColor(isEnabled ? .lp_black : .lp_gray, for: .normal)
-    }
-
 }

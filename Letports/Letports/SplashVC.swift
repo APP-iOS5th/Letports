@@ -27,7 +27,7 @@ class SplashVC: UIViewController {
         view.backgroundColor = .lpWhite
         
         logoImageView = UIImageView(image: UIImage(named: "launch"))
-        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.contentMode = .scaleAspectFill
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
         
