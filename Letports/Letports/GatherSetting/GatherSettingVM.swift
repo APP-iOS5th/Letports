@@ -81,9 +81,7 @@ class GatherSettingVM {
             .document(userUid)
         ]
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let joinDate = dateFormatter.string(from: Date())
+        let joinDate = Date().toString(format: "yyyy-MM-dd")
         
         let fieldsToUpdate: [String: Any] = [
             "JoinStatus": "joined",
