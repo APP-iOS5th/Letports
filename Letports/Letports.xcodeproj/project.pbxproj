@@ -132,6 +132,7 @@
 		D84749202C884135009474B3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
 		D85121AB2C8D742500E37978 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D85121AA2C8D742500E37978 /* FirebaseMessaging */; };
 		D85121AE2C8D74FE00E37978 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AD2C8D74F600E37978 /* NotificationService.swift */; };
+		D85121B02C8DC1E900E37978 /* GatheringTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AF2C8DC1E700E37978 /* GatheringTV.swift */; };
 		D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
@@ -284,6 +285,7 @@
 		D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D847491F2C884135009474B3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D85121AD2C8D74F600E37978 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		D85121AF2C8DC1E700E37978 /* GatheringTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTV.swift; sourceTree = "<group>"; };
 		D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 		D8299F3F2C77622C003D29AC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				D85121AF2C8DC1E700E37978 /* GatheringTV.swift */,
 				D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */,
 				D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */,
 				D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */,
@@ -1008,6 +1011,7 @@
 				BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */,
 				BFBF9A282C898561006DACAD /* Extenstion+UIFont.swift in Sources */,
 				D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */,
+				D85121B02C8DC1E900E37978 /* GatheringTV.swift in Sources */,
 				BFFFD3F82C73BB820053A86B /* CommentHeaderLabelTVCell.swift in Sources */,
 				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,
 				BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */,

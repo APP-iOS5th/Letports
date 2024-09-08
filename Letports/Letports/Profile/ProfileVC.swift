@@ -41,7 +41,7 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTVCell.self,
+                         GatheringTV.self,
                          EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
@@ -184,7 +184,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let startIndex = 2
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
-                let gathering = viewModel.myGatherings[gatheringIndex]
+                let (gathering,sports) = viewModel.myGatherings[gatheringIndex]
                 self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         case .pendingGatherings:
@@ -196,7 +196,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
-                let gathering = viewModel.pendingGatherings[gatheringIndex]
+                let (gathering,sports) = viewModel.pendingGatherings[gatheringIndex]
                 self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         default:
@@ -213,7 +213,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .myGatheringHeader, .pendingGatheringHeader, .userGatheringHeader:
             return 40.0
         case .myGatherings, .pendingGatherings, .userGatherings, .myGatheringEmptyState, .pendingGatheringEmptyState:
-            return 100.0
+            return 110.0
         }
     }
     
@@ -233,15 +233,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .myGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
-                    let gathering = viewModel.myGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -255,7 +255,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .pendingGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 var startIndex = 0
                 if viewModel.myGatherings.count == 0 {
                     startIndex = 4
@@ -264,11 +264,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
-                    let gathering = viewModel.pendingGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -292,15 +292,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .userGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.userGatherings.count {
-                    let gathering = viewModel.userGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.userGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
