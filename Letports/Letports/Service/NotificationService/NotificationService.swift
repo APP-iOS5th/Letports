@@ -1,10 +1,3 @@
-//
-//  NotificationService.swift
-//  Letports
-//
-//  Created by mosi on 9/8/24.
-//
-
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseMessaging
@@ -12,11 +5,19 @@ import Combine
 
 class NotificationService {
     static let shared = NotificationService()
-    private var cancellables = Set<AnyCancellable>()
     private var uid: String?
     private var fcmToken: String?
     
     private init() {}
+    
+    private var notificationServiceURL: String? {
+        if let urlString = Bundle.main.object(forInfoDictionaryKey: "NotificationService") as? String {
+            let fullURLString = "https://" + urlString
+            return fullURLString
+        } else {
+            return nil
+        }
+    }
     
     func setUIDAndRegisterToken(uid: String, fcmToken: String) {
         self.uid = uid
@@ -24,18 +25,13 @@ class NotificationService {
         updateFCMTokenInFirestore()
     }
     
-    /// FCM 토큰을 설정하는 메서드
     func setFCMToken(_ fcmToken: String) {
         self.fcmToken = fcmToken
-        print("FCM token set to: \(fcmToken)")
-        
-        // UID가 설정된 경우에만 Firestore에 업데이트
         if let uid = self.uid {
             updateFCMTokenInFirestore()
         }
     }
     
-    /// Firestore에 FCM 토큰을 업데이트하는 메서드
     private func updateFCMTokenInFirestore() {
         guard let uid = uid, let fcmToken = fcmToken else {
             print("UID or FCM token is missing.")
@@ -52,16 +48,19 @@ class NotificationService {
         }
     }
     
-    /// 저장된 UID와 FCM 토큰을 초기화하는 메서드 (로그아웃 시 호출)
     func clearStoredToken() {
         uid = nil
         fcmToken = nil
     }
     
-    /// UID를 기반으로 푸시 알림을 전송하는 메서드
     func sendPushNotificationByUID(uid: String, title: String, body: String) -> AnyPublisher<Void, FirestoreError> {
-        guard let url = URL(string: "https://letports.site/send-notification-by-uid") else {
+        guard let urlString = notificationServiceURL else {
+            print("Notification Service URL is nil or missing")
             return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])))
+                .eraseToAnyPublisher()
+        }
+        guard let url = URL(string: urlString) else {
+            return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Malformed URL"])))
                 .eraseToAnyPublisher()
         }
         

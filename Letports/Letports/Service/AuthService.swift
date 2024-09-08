@@ -1,11 +1,9 @@
-
-
 import Foundation
 import Combine
-import FirebaseAuth
-import GoogleSignIn
-import FirebaseCore
 import CryptoKit
+import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
 
 protocol AuthServiceProtocol {
     func signInWithApple(idTokenString: String, nonce: String, completion: @escaping (Result<User, Error>) -> Void)

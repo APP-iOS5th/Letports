@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         FirebaseApp.configure()
         
         if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String {
@@ -36,11 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("Push notifications permission denied with error: \(error.localizedDescription)")
             }
         }
-        
-        // 원격 알림 등록
         application.registerForRemoteNotifications()
-        
-        // Firebase Messaging 델리게이트 설정
         Messaging.messaging().delegate = self
         return true
     }
@@ -63,35 +58,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         print("APNS device token set.")
     }
-
+    
     // FCM 토큰 수신
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("FCM registration token: \(String(describing: fcmToken))")
-
+        
         if let fcmToken = fcmToken {
             // FCM 토큰을 서버에 전송하거나 Firestore에 저장하는 로직
             NotificationService.shared.setFCMToken(fcmToken)
         }
     }
-
-// 푸시 알림 수신 처리 (iOS 10 이상)
-func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    let userInfo = notification.request.content.userInfo
-    print("Push notification received with userInfo: \(userInfo)")
     
-    // 알림을 어떤 형태로 표시할지 결정
-    completionHandler([.alert, .badge, .sound])
-}
-
-// 푸시 알림 클릭 시 처리
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-    print("Push notification clicked with userInfo: \(userInfo)")
+    // 푸시 알림 수신 처리 (iOS 10 이상)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print("Push notification received with userInfo: \(userInfo)")
+        
+        // 알림을 어떤 형태로 표시할지 결정
+        completionHandler([.alert, .badge, .sound])
+    }
     
-    // 추가 작업 필요시 처리
-    
-    completionHandler()
-}
+    // 푸시 알림 클릭 시 처리
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print("Push notification clicked with userInfo: \(userInfo)")
+        
+        // 추가 작업 필요시 처리
+        
+        completionHandler()
+    }
     
 }
 
