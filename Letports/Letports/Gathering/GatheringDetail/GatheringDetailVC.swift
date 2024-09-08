@@ -249,41 +249,29 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             }
         }
     }
-}
-
-// MARK: - extension
-
-extension GatheringDetailVC: JoinViewDelegate {
-    func joinViewDidTapCancel(_ joinView: JoinView) {
-        removeJoinView()
-    }
-    // 가입 신청 버튼
-    func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
-        viewModel.joinGathering(answer: answer)
-            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
-                guard let self = self,
-                      let gatherName = self.viewModel.gathering?.gatherName,
-                      let gatheringMaster = self.viewModel.gathering?.gatheringMaster,
-                      let nickname = UserManager.shared.currentUser?.nickname else {
-                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
-                        .eraseToAnyPublisher()
-                }
-                return NotificationService.shared.sendPushNotificationByUID(uid: gatheringMaster,
-                                                                            title: "알림",
-                                                                            body: "\(nickname)님이 \(gatherName) 모임에 가입을 신청했습니다.")
+    
+    // MARK: - objc메소드
+    
+    @objc private func joinBtnTap() {
+        switch viewModel.membershipStatus {
+        case .notJoined:
+            guard let gathering = viewModel.gathering else {
+                return
             }
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case .finished:
-                    self?.removeJoinView()
-                    self?.viewModel.loadData()
-                case .failure(let error):
-                    self?.showAlert(title: "에러", message: "가입신청중 에러가 발생했습니다", confirmTitle: "확인", onConfirm: {
-                    })
-                }
-            }, receiveValue: { _ in })
-            .store(in: &cancellables)
+            showUserView(existingView: &joinView, gathering: gathering)
+        case .pending:
+            showAlert(title: "알림", message: "가입신청을 취소하시겠습니까?", confirmTitle: "확인", cancelTitle: "취소") {
+                self.viewModel.confirmCancelWaiting()
+            }
+        case .joined:
+            break
+        }
     }
+    
+    @objc private func refreshData() {
+        performRefresh()
+    }
+    
     // 가입뷰 처리
     private func showUserView<T: UIView>(existingView: inout T?, gathering: Gathering) {
         if existingView == nil {
@@ -321,25 +309,42 @@ extension GatheringDetailVC: JoinViewDelegate {
         viewModel.loadData()
         self.refreshControl.endRefreshing()
     }
-    
-    // MARK: - objc메소드
-    @objc private func joinBtnTap() {
-        switch viewModel.membershipStatus {
-        case .notJoined:
-            guard let gathering = viewModel.gathering else {
-                return
+}
+
+// MARK: - extension
+
+extension GatheringDetailVC: JoinViewDelegate {
+    func joinViewDidTapCancel(_ joinView: JoinView) {
+        removeJoinView()
+    }
+    // 가입 신청 버튼
+    func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
+        viewModel.joinGathering(answer: answer)
+            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self,
+                      let gatherName = self.viewModel.gathering?.gatherName,
+                      let gatheringMaster = self.viewModel.gathering?.gatheringMaster,
+                      let nickname = UserManager.shared.currentUser?.nickname else {
+                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
+                        .eraseToAnyPublisher()
+                }
+                return NotificationService.shared.sendPushNotificationByUID(uid: gatheringMaster,
+                                                                            title: "알림",
+                                                                            body: "\(nickname)님이 \(gatherName) 모임에 가입을 신청했습니다.")
             }
-            showUserView(existingView: &joinView, gathering: gathering)
-        case .pending:
-            showCancelWaitingConfirmation()
-        case .joined:
-            break
-        }
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    self?.removeJoinView()
+                    self?.viewModel.loadData()
+                case .failure(let error):
+                    self?.showAlert(title: "에러", message: "가입신청중 에러가 발생했습니다", confirmTitle: "확인", onConfirm: {
+                    })
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
-    
-    @objc private func refreshData() {
-        performRefresh()
-    }
+  
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
@@ -464,27 +469,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    // MARK: - objc메소드
-    
-    @objc private func joinBtnTap() {
-        switch viewModel.membershipStatus {
-        case .notJoined:
-            guard let gathering = viewModel.gathering else {
-                return
-            }
-            showUserView(existingView: &joinView, gathering: gathering)
-        case .pending:
-            showAlert(title: "알림", message: "가입신청을 취소하시겠습니까?", confirmTitle: "확인", cancelTitle: "취소") {
-                self.viewModel.confirmCancelWaiting()
-            }
-        case .joined:
-            break
-        }
-    }
-    
-    @objc private func refreshData() {
-        performRefresh()
-    }
+  
 }
 
 
