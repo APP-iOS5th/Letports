@@ -31,7 +31,7 @@ class CommentTVCell: UITableViewCell {
     private let createDateLabel: UILabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 8)
-        lb.textColor = .lp_lightGray
+        lb.textColor = .lightGray
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
