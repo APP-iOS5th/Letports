@@ -308,7 +308,7 @@ class GatheringDetailVM {
 			.document(currentUser.uid)
 		]
 		
-		let joinDate = Date().toString()
+        let joinDate = Date().toString(format: "yyyy-MM-dd")
 		
 		let newMemberDict = GatheringMember(
 			answer: answer,
