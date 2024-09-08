@@ -133,14 +133,13 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         case .notJoined:
             joinBtn.setTitle("가입하기", for: .normal)
             joinBtn.backgroundColor = .lp_main
-            joinBtn.isHidden = false
+            scrollView.isHidden = false
         case .pending:
             joinBtn.setTitle("가입신청 중", for: .normal)
             joinBtn.backgroundColor = .lp_main
-            joinBtn.isHidden = false
+            scrollView.isHidden = false
         case .joined:
-            self.scrollView.isHidden = true
-            self.joinBtn.isHidden = true
+            scrollView.isHidden = true
         }
     }
     
