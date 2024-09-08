@@ -106,8 +106,7 @@ class GatheringDetailVM {
 	}
 	
 	func reportGathering() {
-		// 신고하기 로직 구현
-		print("신고하기")
+        delegate?.presentReportConfirmView() 
 	}
 	
 	func gatheringDetailBackBtnTap() {
@@ -424,7 +423,7 @@ class GatheringDetailVM {
 				case .finished:
 					print("모임 탈퇴 완료")
 					self.loadData() // 데이터 새로고침
-				case .failure(let error):
+				case .failure(_):
 					self.handleError(.leaveFailed)
 				}
 			}, receiveValue: { _ in })
@@ -471,7 +470,7 @@ class GatheringDetailVM {
 				case .finished:
 					print("가입 대기 취소 완료")
 					self.loadData()
-				case .failure(let error):
+				case .failure(_):
 					self.handleError(.cancelWaitingFailed)
 				}
 			}, receiveValue: { _ in })
