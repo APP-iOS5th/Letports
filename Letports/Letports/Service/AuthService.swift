@@ -114,8 +114,22 @@ class AuthService: AuthServiceProtocol {
         FM.getData(collection: "Users", document: userID, type: LetportsUser.self)
             .flatMap { existingUser -> AnyPublisher<LetportsUser, FirestoreError> in
                 let updatedUser: LetportsUser
-                if existingUser.uid.isEmpty {
-                    updatedUser = LetportsUser(
+                updatedUser = LetportsUser(
+                    email: user.email ?? existingUser.email,
+                    image: user.photoURL?.absoluteString ?? existingUser.image,
+                    nickname: user.displayName ?? existingUser.nickname,
+                    simpleInfo: existingUser.simpleInfo,
+                    uid: userID,
+                    userSports: existingUser.userSports,
+                    userSportsTeam: existingUser.userSportsTeam
+                )
+                return FM.setData(collection: "Users", document: userID, data: updatedUser)
+                    .map { updatedUser }
+                    .eraseToAnyPublisher()
+            }
+            .catch { error -> AnyPublisher<LetportsUser, FirestoreError> in
+                if error == .documentNotFound {
+                    let newUser = LetportsUser(
                         email: user.email ?? "",
                         image: user.photoURL?.absoluteString ?? "",
                         nickname: user.displayName ?? "",
@@ -124,20 +138,12 @@ class AuthService: AuthServiceProtocol {
                         userSports: "",
                         userSportsTeam: ""
                     )
+                    return FM.setData(collection: "Users", document: userID, data: newUser)
+                        .map { newUser }
+                        .eraseToAnyPublisher()
                 } else {
-                    updatedUser = LetportsUser(
-                        email: user.email ?? existingUser.email,
-                        image: user.photoURL?.absoluteString ?? existingUser.image,
-                        nickname: user.displayName ?? existingUser.nickname,
-                        simpleInfo: existingUser.simpleInfo,
-                        uid: userID,
-                        userSports: existingUser.userSports,
-                        userSportsTeam: existingUser.userSportsTeam
-                    )
+                    return Fail(error: error).eraseToAnyPublisher()
                 }
-                return FM.setData(collection: "Users", document: userID, data: updatedUser)
-                    .map { updatedUser }
-                    .eraseToAnyPublisher()
             }
             .sink(receiveCompletion: { result in
                 switch result {

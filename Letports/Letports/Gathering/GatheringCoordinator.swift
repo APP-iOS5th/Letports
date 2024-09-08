@@ -11,6 +11,7 @@ protocol GatheringCoordinatorDelegate: AnyObject {
     func presentTeamChangeController()
     func pushGatheringUploadController()
     func pushGatheringDetailController(gatheringUid: String)
+    func endUploadGathering()
 }
 
 class GatheringCoordinator: Coordinator {
@@ -43,6 +44,7 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
         let coordinator = GatheringUploadCoordinator(navigationController: navigationController, 
                                                      viewModel: GatheringUploadVM())
         coordinator.start()
+        coordinator.delegate = self
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }
@@ -61,5 +63,11 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
         coordinator.start()
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
+    }
+    
+    func endUploadGathering() {
+        if let gatheringVC = navigationController.viewControllers.first(where: { $0 is GatheringVC }) as? GatheringVC {
+            gatheringVC.loadGathering()
+        }
     }
 }

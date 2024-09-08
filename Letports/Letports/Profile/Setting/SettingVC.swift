@@ -81,7 +81,13 @@ extension SettingVC: SettingDelegate {
     }
     
     func buttonDidTap(cellType: SettingCellType) {
-        viewModel.buttonAction(cellType: cellType)
+        if cellType == .logout {
+            self.showAlert(title: "알림", message: "정말로 로그아웃하시겠습니까?", confirmTitle: "로그아웃", cancelTitle: "취소") {
+                self.viewModel.logout()
+            }
+        } else {
+            viewModel.buttonAction(cellType: cellType)
+        }
     }
 }
 
