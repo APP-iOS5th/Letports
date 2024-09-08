@@ -35,7 +35,7 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	private let createDateLabel: UILabel = {
 		let lb = UILabel()
 		lb.font = .systemFont(ofSize: 8, weight: .regular)
-        lb.textColor = .lp_lightGray
+        lb.textColor = .lightGray
 		lb.isUserInteractionEnabled = false
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

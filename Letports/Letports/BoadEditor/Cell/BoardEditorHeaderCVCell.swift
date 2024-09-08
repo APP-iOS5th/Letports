@@ -60,7 +60,7 @@ class BoardEditorHeaderCVCell: UICollectionReusableView {
         if let photoCount = photoCount {
             let photoCountString = NSAttributedString(string: " \(photoCount)/5", attributes: [
                 .font: UIFont.systemFont(ofSize: 12),
-                .foregroundColor: UIColor.lp_lightGray
+                .foregroundColor: UIColor.lightGray
             ])
             fullText.append(photoCountString)
         }
