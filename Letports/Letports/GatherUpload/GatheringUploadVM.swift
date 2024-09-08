@@ -136,7 +136,6 @@ class GatheringUploadVM {
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
                 self.gatehringUpload(imageUrl: imageUrl ?? "")
-                self.delegate?.dismissViewController()
             }
             .store(in: &cancellables)
     }
