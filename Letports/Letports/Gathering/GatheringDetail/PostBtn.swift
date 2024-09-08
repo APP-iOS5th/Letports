@@ -93,6 +93,10 @@ class PostBtn: UIView {
             return hitView
         }
         
+        if !optionsStackView.isHidden {
+            hideOptionsStackView()
+        }
+        
         return super.hitTest(point, with: event)
     }
     
@@ -155,20 +159,9 @@ class PostBtn: UIView {
         })
         
         if optionsStackView.isHidden {
-            optionsStackView.isHidden = false
-            UIView.animate(withDuration: 0.3, animations: {
-                self.optionsStackView.alpha = 1
-                self.optionsStackView.transform = .identity
-                self.updateFloatingButtonIcon(isPlus: false)
-            })
+            showOptionsStackView()
         } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.optionsStackView.alpha = 0
-                self.optionsStackView.transform = CGAffineTransform(translationX: 0, y: 60)
-                self.updateFloatingButtonIcon(isPlus: true)
-            }) { _ in
-                self.optionsStackView.isHidden = true
-            }
+            hideOptionsStackView()
         }
     }
     
@@ -182,5 +175,25 @@ class PostBtn: UIView {
         optionsStackView.isHidden = true
         updateFloatingButtonIcon(isPlus: true)
         delegate?.didTapPostUploadBtn(type: .noti)
+    }
+    
+    private func hideOptionsStackView() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.optionsStackView.alpha = 0
+            self.optionsStackView.transform = CGAffineTransform(translationX: 0, y: 60)
+            self.updateFloatingButtonIcon(isPlus: true)
+        }) { _ in
+            self.optionsStackView.isHidden = true
+        }
+    }
+    
+    private func showOptionsStackView() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.optionsStackView.alpha = 1
+            self.optionsStackView.transform = .identity
+            self.updateFloatingButtonIcon(isPlus: false)
+        }) { _ in
+            self.optionsStackView.isHidden = false
+        }
     }
 }

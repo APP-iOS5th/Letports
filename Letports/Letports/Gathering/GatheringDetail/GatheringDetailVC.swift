@@ -16,7 +16,9 @@ protocol GatheringDetailDelegate: AnyObject {
 final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     private lazy var navigationView: CustomNavigationView = {
         let screenType: ScreenType
-        let cnv = CustomNavigationView(isLargeNavi: .small, screenType: .smallGathering(gatheringName: "", btnName: .empty))
+        let cnv = CustomNavigationView(isLargeNavi: .small, 
+                                       screenType: .smallGathering(gatheringName: "", 
+                                                                   btnName: .empty))
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
         cnv.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +28,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.delegate = self
         scrollView.backgroundColor = .clear
         return scrollView
     }()
@@ -128,7 +129,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     }
     
     private func updateJoinBtn(for status: MembershipStatus) {
-        print("status: \(status)")
         switch status {
         case .notJoined:
             joinBtn.setTitle("가입하기", for: .normal)
@@ -139,7 +139,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             joinBtn.backgroundColor = .lp_main
             joinBtn.isHidden = false
         case .joined:
-            joinBtn.isHidden = true
+            self.scrollView.isHidden = true
+            self.joinBtn.isHidden = true
         }
     }
     
@@ -219,6 +220,10 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard viewModel.membershipStatus != .joined else {
+             return
+         }
+        
         let yOffset = scrollView.contentOffset.y
         if yOffset > 100 {
             hideJoinButton()
@@ -228,14 +233,20 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     }
     
     private func hideJoinButton() {
-        UIView.animate(withDuration: 0.3) {
-            self.joinBtn.alpha = 0
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3) {
+                self.joinBtn.alpha = 0
+                self.scrollView.isHidden = true
+            }
         }
     }
     
     private func showJoinButton() {
-        UIView.animate(withDuration: 0.3) {
-            self.joinBtn.alpha = 1
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3) {
+                self.joinBtn.alpha = 1
+                self.scrollView.isHidden = false
+            }
         }
     }
     
@@ -253,11 +264,9 @@ extension GatheringDetailVC: JoinViewDelegate {
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .finished:
-                    print("가입 처리가 완료되었습니다.")
                     self?.removeJoinView()
                     self?.viewModel.loadData() // 데이터 새로고침
                 case .failure(let error):
-                    print("가입 처리 중 오류 발생: \(error)")
                     self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
                 }
             }, receiveValue: { _ in })
@@ -300,6 +309,7 @@ extension GatheringDetailVC: JoinViewDelegate {
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
     // 가입 신청 취소
     private func showCancelWaitingConfirmation() {
         let alert = UIAlertController(title: "알림", message: "가입신청을 취소하시겠습니까?", preferredStyle: .alert)
@@ -315,6 +325,25 @@ extension GatheringDetailVC: JoinViewDelegate {
     private func performRefresh() {
         viewModel.loadData()
         self.refreshControl.endRefreshing()
+    }
+    
+    // MARK: - objc메소드
+    @objc private func joinBtnTap() {
+        switch viewModel.membershipStatus {
+        case .notJoined:
+            guard let gathering = viewModel.gathering else {
+                return
+            }
+            showUserView(existingView: &joinView, gathering: gathering)
+        case .pending:
+            showCancelWaitingConfirmation()
+        case .joined:
+            break
+        }
+    }
+    
+    @objc private func refreshData() {
+        performRefresh()
     }
 }
 
@@ -404,8 +433,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
         case .gatheringBoard:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "GatheringDetailBoardTVCell",
-                                                        for: indexPath) as? GatheringDetailBoardTVCell {
+            if let cell: GatheringDetailBoardTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.viewModel = viewModel
                 cell.board = viewModel.filteredBoardData
                 cell.membershipStatus = viewModel.membershipStatus
@@ -430,41 +458,15 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
         switch cellType {
         case .gatheringImage:
             return 200
-        case .gatheringTitle:
-            return UITableView.automaticDimension
-        case .gatheringInfo:
-            return UITableView.automaticDimension
         case .gatheringProfile:
             return 80
-        case .boardButtonType:
-            return UITableView.automaticDimension
         case .gatheringBoard:
             return viewModel.calculateBoardHeight()
         case .separator:
             return 1
-        case .currentMemLabel:
+        default:
             return UITableView.automaticDimension
         }
-    }
-    
-    // MARK: - objc메소드
-    
-    @objc private func joinBtnTap() {
-        switch viewModel.membershipStatus {
-        case .notJoined:
-            guard let gathering = viewModel.gathering else {
-                return
-            }
-            showUserView(existingView: &joinView, gathering: gathering)
-        case .pending:
-            showCancelWaitingConfirmation()
-        case .joined:
-            break
-        }
-    }
-    
-    @objc private func refreshData() {
-        performRefresh()
     }
 }
 
