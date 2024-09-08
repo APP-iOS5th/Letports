@@ -238,7 +238,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             self.joinBtn.alpha = 1
         }
     }
-    
 }
 
 // MARK: - extension
@@ -268,7 +267,8 @@ extension GatheringDetailVC: JoinViewDelegate {
                     self?.removeJoinView()
                     self?.viewModel.loadData()
                 case .failure(let error):
-                    self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
+                    self?.showAlert(title: "에러", message: "가입신청중 에러가 발생했습니다", confirmTitle: "확인", onConfirm: {
+                    })
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)
@@ -304,23 +304,6 @@ extension GatheringDetailVC: JoinViewDelegate {
                 }
             }
         }
-    }
-    
-    private func showError(message: String) {
-        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    // 가입 신청 취소
-    private func showCancelWaitingConfirmation() {
-        let alert = UIAlertController(title: "알림", message: "가입신청을 취소하시겠습니까?", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { [weak self] _ in
-            self?.viewModel.confirmCancelWaiting()
-        }))
-        
-        present(alert, animated: true, completion: nil)
     }
     
     private func performRefresh() {
@@ -468,7 +451,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
             }
             showUserView(existingView: &joinView, gathering: gathering)
         case .pending:
-            showCancelWaitingConfirmation()
+            showAlert(title: "알림", message: "가입신청을 취소하시겠습니까?", confirmTitle: "확인", cancelTitle: "취소") {
+                self.viewModel.confirmCancelWaiting()
+            }
         case .joined:
             break
         }
