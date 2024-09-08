@@ -250,20 +250,29 @@ extension GatheringDetailVC: JoinViewDelegate {
     // 가입 신청 버튼
     func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
         viewModel.joinGathering(answer: answer)
+            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self,
+                      let gatherName = self.viewModel.gathering?.gatherName,
+                      let gatheringMaster = self.viewModel.gathering?.gatheringMaster,
+                      let nickname = UserManager.shared.currentUser?.nickname else {
+                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
+                        .eraseToAnyPublisher()
+                }
+                return NotificationService.shared.sendPushNotificationByUID(uid: gatheringMaster,
+                                                                            title: "알림",
+                                                                            body: "\(nickname)님이 \(gatherName) 모임에 가입을 신청했습니다.")
+            }
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .finished:
-                    print("가입 처리가 완료되었습니다.")
                     self?.removeJoinView()
-                    self?.viewModel.loadData() // 데이터 새로고침
+                    self?.viewModel.loadData()
                 case .failure(let error):
-                    print("가입 처리 중 오류 발생: \(error)")
                     self?.showError(message: "가입 처리 중 오류가 발생했습니다.")
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
-    
     // 가입뷰 처리
     private func showUserView<T: UIView>(existingView: inout T?, gathering: Gathering) {
         if existingView == nil {
@@ -285,12 +294,14 @@ extension GatheringDetailVC: JoinViewDelegate {
     
     private func removeJoinView() {
         if let joinView = self.joinView {
-            self.view.bringSubviewToFront(joinView)
-            UIView.animate(withDuration: 0.3, animations: {
-                joinView.alpha = 0
-            }) { _ in
-                joinView.removeFromSuperview()
-                self.joinView = nil
+            DispatchQueue.main.async {
+                self.view.bringSubviewToFront(joinView)
+                UIView.animate(withDuration: 0.3, animations: {
+                    joinView.alpha = 0
+                }) { _ in
+                    joinView.removeFromSuperview()
+                    self.joinView = nil
+                }
             }
         }
     }

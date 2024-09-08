@@ -187,15 +187,24 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
         self.viewModel.loadData()
     }
     
-    func expelGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
-        self.showAlert(title: "알림", message: "\(nickName)유저를 정말로 추방하시겠습니까?", confirmTitle: "추방", cancelTitle: "취소") {
+    func expelGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String) {
+        self.showAlert(title: "알림", message: "\(nickName) 유저를 정말로 추방하시겠습니까?", confirmTitle: "추방", cancelTitle: "취소") {
             self.viewModel.expelUser(userUid: userUid)
+                .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                    guard let self = self,let gatherName = self.viewModel.gathering?.gatherName else {
+                        return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
+                            .eraseToAnyPublisher()
+                    }
+                    return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
+                                                                                title: "추방 알림",
+                                                                                body: "\(gatherName) 소모임에서 추방되었습니다.")
+                }
                 .sink(receiveCompletion: { [weak self] completion in
                     guard let self = self else { return }
                     DispatchQueue.main.async {
                         switch completion {
                         case .finished:
-                            self.showAlert(title: "알림", message: "\(nickName)유저의 추방이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "알림", message: "\(nickName) 유저의 추방이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                             self.removeManageUserView()
                             self.viewModel.loadData()
                         case .failure(let error):
@@ -207,14 +216,23 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
         }
     }
     
-    func denyJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+    func denyJoinGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String) {
         viewModel.denyUser(userUid: userUid)
+            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self,let gatherName = self.viewModel.gathering?.gatherName else {
+                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
+                        .eraseToAnyPublisher()
+                }
+                return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
+                                                                            title: "가입 거절 알림",
+                                                                            body: "\(gatherName) 소모임의 가입이 거절되었습니다.")
+            }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch completion {
                     case .finished:
-                        self.showAlert(title: "알림", message: "\(nickName)유저의 가입거절이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                        self.showAlert(title: "알림", message: "\(nickName) 유저의 가입 거절이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                         self.removeManageUserView()
                         self.viewModel.loadData()
                     case .failure(let error):
@@ -226,24 +244,33 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
     }
     
     
-    func apporveJoinGathering(_ manageUserView: ManageUserView,userUid: String, nickName: String) {
+    func apporveJoinGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String) {
         viewModel.approveUser(userUid: userUid)
+            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self,
+                      let gatherName = self.viewModel.gathering?.gatherName else {
+                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "모임 이름, 마스터 정보 또는 사용자 닉네임을 가져올 수 없습니다."])))
+                        .eraseToAnyPublisher()
+                }
+                return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
+                                                                            title: "가입 승인 알림",
+                                                                            body: "\(gatherName) 소모임에 가입되었습니다.")
+            }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch completion {
                     case .finished:
-                        self.showAlert(title: "알림", message: "\(nickName)유저의 가입승인이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                        self.showAlert(title: "알림", message: "\(nickName) 유저의 가입 승인이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                         self.removeManageUserView()
                         self.viewModel.loadData()
                     case .failure(let error):
                         self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error), confirmTitle: "확인", onConfirm: {})
                     }
                 }
-            },receiveValue: { _ in })
+            }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
-    
 }
 
 extension GatherSettingVC: CustomNavigationDelegate {
