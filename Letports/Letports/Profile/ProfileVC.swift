@@ -27,7 +27,7 @@ class ProfileVC: UIViewController {
         case .myProfile:
             view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
         case .userProfile:
-            view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile)
+            view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile(btnName: .ellipsis))
         }
         view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +109,29 @@ class ProfileVC: UIViewController {
     
     @objc private func refreshData() {
         performRefresh()
+    }
+    
+    func presentActionSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { [weak self] _ in
+            if let user = self?.viewModel.user?.nickname {
+                if user == UserManager.shared.currentUser?.nickname {
+                    self?.showAlert(title: "알림", message: "자신은 신고할수 없습니다.", confirmTitle: "확인", onConfirm: {
+                    })
+                } else {
+                    self?.showAlert(title: "알림", message: "\(user)유저가 신고되었습니다.", confirmTitle: "확인", onConfirm: {
+                    })
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(reportAction)
+        alertController.addAction(cancelAction)
+        
+        navigationController?.present(alertController, animated: true, completion: nil)
     }
     
     private func performRefresh() {
@@ -302,8 +325,14 @@ extension ProfileVC: ProfileDelegate {
 
 extension ProfileVC: CustomNavigationDelegate {
     func smallRightBtnDidTap() {
-        self.viewModel.settingBtnDidTap()
+        switch viewModel.profileType {
+        case .myProfile:
+            self.viewModel.settingBtnDidTap()
+        case .userProfile:
+            presentActionSheet()
+        }
     }
+    
     func backBtnDidTap() {
         self.viewModel.backBtnDidTap()
     }
