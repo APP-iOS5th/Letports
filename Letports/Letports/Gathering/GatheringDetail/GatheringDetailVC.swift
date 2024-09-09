@@ -382,7 +382,7 @@ extension GatheringDetailVC: JoinViewDelegate {
                 case .finished:
                     self?.removeJoinView()
                     self?.viewModel.loadData()
-                case .failure(let error):
+                case .failure(_):
                     self?.showAlert(title: "에러", message: "가입신청중 에러가 발생했습니다", confirmTitle: "확인", onConfirm: {
                     })
                 }
