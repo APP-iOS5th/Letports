@@ -142,6 +142,7 @@ class GatheringTVCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.selectionStyle = .default
     }
     
     override func prepareForReuse() {

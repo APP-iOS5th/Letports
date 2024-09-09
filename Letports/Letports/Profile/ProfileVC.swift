@@ -240,7 +240,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let (gathering, sports) = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.selectionStyle = .default
                             cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
@@ -267,7 +266,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     let (gathering, sports) = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
-                            cell.selectionStyle = .default
                             cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
