@@ -31,7 +31,7 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
     lazy var gatheringName: UILabel = {
         let label = UILabel()
         label.text = ""
-		label.font = .lp_Font(.regular, size: 27)
+		label.font = .lp_Font(.regular, size: 30)
         label.textColor = .lp_white
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false

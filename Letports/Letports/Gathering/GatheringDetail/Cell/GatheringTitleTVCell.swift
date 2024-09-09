@@ -24,7 +24,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let masterNameLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 15, weight: .medium)
+		lb.font = .lp_Font(.regular, size: 13)
         lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -32,7 +32,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let memberLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 15, weight: .medium)
+		lb.font = .lp_Font(.regular, size: 13)
         lb.textColor = .lp_black
 		lb.text = "현재인원 :"
         lb.translatesAutoresizingMaskIntoConstraints = false
@@ -43,14 +43,14 @@ final class GatheringTitleTVCell: UITableViewCell {
 		let lb = UILabel()
 		lb.translatesAutoresizingMaskIntoConstraints = false
         lb.textColor = .lp_black
-		lb.font = .systemFont(ofSize: 15, weight: .medium)
+		lb.font = .lp_Font(.regular, size: 13)
 		lb.text = "/"
 		return lb
 	}()
 	
 	private let gatherMaxMemberLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 15, weight: .bold)
+		lb.font = .lp_Font(.regular, size: 13)
         lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -58,7 +58,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let gatherNowMemberLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 15, weight: .bold)
+		lb.font = .lp_Font(.regular, size: 13)
         lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -126,7 +126,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
 			
 			editBtn.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
-			editBtn.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
+			editBtn.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
 			editBtn.widthAnchor.constraint(equalToConstant: 36),
 			editBtn.heightAnchor.constraint(equalToConstant: 36)
 		])

@@ -40,7 +40,7 @@ class HomeProfileTVCell: UITableViewCell {
     // 팀 이름
     private lazy var teamName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 25)
+		label.font = .lp_Font(.bold, size: 25)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         

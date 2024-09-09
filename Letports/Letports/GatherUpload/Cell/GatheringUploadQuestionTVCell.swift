@@ -13,7 +13,7 @@ class GatheringUploadQuestionTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+		label.font = .lp_Font(.regular, size: 18)
         label.text = "사전질문"
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class GatheringUploadQuestionTVCell: UITableViewCell {
         let label = UILabel()
         label.text = "0/1000"
         label.textColor = .lp_gray
-        label.font = .systemFont(ofSize: 10)
+		label.font = .lp_Font(.regular, size: 10)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

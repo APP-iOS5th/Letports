@@ -12,7 +12,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
 		lb.textColor = .lp_black
-		lb.font = .systemFont(ofSize: 18, weight: .semibold)
+		lb.font = .lp_Font(.bold, size: 18)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()

@@ -41,6 +41,7 @@ final class BoardBtnTVCell: UITableViewCell {
 		// 초기 선택 상태를 delegate에 알림
 		DispatchQueue.main.async { [weak self] in
 			self?.delegate?.didSelectBoardType(.all)
+			self?.collectionView.reloadData()
 		}
 	}
 	

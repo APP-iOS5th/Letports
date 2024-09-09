@@ -27,6 +27,7 @@ class TeamSelectVC: UICollectionViewController {
     private lazy var selectBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("선택 완료", for: .normal)
+		btn.titleLabel?.font = .lp_Font(.regular, size: 15)
         btn.setTitleColor(.white, for: .normal)
         btn.layer.cornerRadius = 25
         btn.isEnabled = false

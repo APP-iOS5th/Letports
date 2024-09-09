@@ -11,7 +11,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+		label.font = .lp_Font(.regular, size: 18)
         label.text = "모집 인원"
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     
     private let countLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+		label.font = .lp_Font(.regular, size: 18)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

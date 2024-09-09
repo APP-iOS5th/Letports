@@ -13,7 +13,7 @@ class SportsCategoryCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		label.font = .lp_Font(.regular, size: 14)
         return label
     }()
     

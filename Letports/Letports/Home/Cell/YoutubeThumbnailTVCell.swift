@@ -60,7 +60,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false

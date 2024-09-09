@@ -28,14 +28,14 @@ final class BoardTVCell: UITableViewCell {
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
         lb.textColor = .lp_black
-		lb.font = .systemFont(ofSize: 10)
+		lb.font = .lp_Font(.regular, size: 10)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
 	private let createDateLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 8)
+		lb.font = .lp_Font(.light, size: 8)
 		lb.textColor = .lightGray
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

@@ -21,7 +21,7 @@ class GatheringUploadMainTVCell: UITableViewCell {
     
     private(set) var teamName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 28)
+		label.font = .lp_Font(.regular, size: 28)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
