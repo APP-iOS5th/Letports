@@ -121,8 +121,8 @@ class AuthService: AuthServiceProtocol {
             .flatMap { existingUser -> AnyPublisher<LetportsUser, FirestoreError> in
                 let updatedUser = LetportsUser(
                     email: user.email ?? existingUser.email,
-                    image: user.photoURL?.absoluteString ?? existingUser.image,
-                    nickname: user.displayName ?? existingUser.nickname,
+                    image: existingUser.image,
+                    nickname: existingUser.nickname,
                     simpleInfo: existingUser.simpleInfo,
                     uid: userID,
                     userSports: existingUser.userSports,

@@ -190,8 +190,6 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                     let (gathering, sports) = viewModel.recommendGatherings[gatheringIndex]
                     if let master = viewModel.masterUsers[gathering.gatheringMaster] {
                         cell.configure(with: gathering, with: sports, with: master)
-                    } else {
-                        viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                     }
                 }
                 return cell
@@ -209,9 +207,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                     let (gathering, sports) = viewModel.gatheringLists[gatheringIndex]
                     if let master = viewModel.masterUsers[gathering.gatheringMaster] {
                         cell.configure(with: gathering, with: sports, with: master)
-                    } else {
-                        viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
-                    }
+                    } 
                 }
                 return cell
             }
