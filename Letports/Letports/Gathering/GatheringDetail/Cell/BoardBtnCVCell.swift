@@ -57,8 +57,6 @@ class BoardBtnCVCell: UICollectionViewCell {
 			boardSelectButton.setTitle("자유게시판", for: .normal)
 		}
 		
-		boardSelectButton.titleLabel?.font = .lp_Font(.bold, size: 14)
-		
 		if isSelected {
 			boardSelectButton.backgroundColor = .black
 			boardSelectButton.setTitleColor(.white, for: .normal)

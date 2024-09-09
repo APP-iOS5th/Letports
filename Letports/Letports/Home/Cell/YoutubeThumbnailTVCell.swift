@@ -21,7 +21,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.backgroundColor = .lp_white
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+	
         return view
     }()
     
@@ -94,8 +94,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = .lp_black
-        label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -143,11 +142,11 @@ class YoutubeThumbnailTVCell: UITableViewCell {
             thumbnailSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             thumbnailSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
-            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.65),
-            firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.3),
+			firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.8),
+			firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.18),
             
-            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.65),
-            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.3)
+			secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.8),
+            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.18)
         ])
         
         //첫번째 썸네일 탭 제스쳐

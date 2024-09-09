@@ -148,13 +148,13 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case .profile:
             return 120
         case .latestVideoTitleLabel:
-            return 60
+            return UITableView.automaticDimension
         case .youtubeThumbnails:
             return 160
         case .recommendGatheringTitleLabel:
-            return 60
+			return UITableView.automaticDimension
         case .recommendGatheringLists:
-            return 250
+            return 200
         }
     }
     

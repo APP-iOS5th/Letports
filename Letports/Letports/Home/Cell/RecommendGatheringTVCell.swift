@@ -75,7 +75,8 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if gatherings.isEmpty {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringEmptyCVCell", for: indexPath) as? RecommendGatheringEmptyCVCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendGatheringEmptyCVCell", 
+																for: indexPath) as? RecommendGatheringEmptyCVCell else {
                 return UICollectionViewCell()
             }
             return cell
@@ -94,7 +95,7 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
         if gatherings.isEmpty {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         } else {
-            return CGSize(width: 300, height: 250)
+			return CGSize(width: 225, height: 187.5)
         }
     }
     

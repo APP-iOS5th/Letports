@@ -32,7 +32,7 @@ class BoardEditorContentCVCell: UICollectionViewCell {
        let label = UILabel()
         label.textColor = .lp_gray
         label.text = "0/1000"
-        label.font = .systemFont(ofSize: 10, weight: .regular)
+		label.font = .lp_Font(.regular, size: 10)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
