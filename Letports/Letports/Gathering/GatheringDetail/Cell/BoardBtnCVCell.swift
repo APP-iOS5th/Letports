@@ -10,7 +10,7 @@ import UIKit
 class BoardBtnCVCell: UICollectionViewCell {
 	
 	private var boardButtonType: PostType = .all
-    private var teamColor: String?
+	private var teamColor: String?
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
 		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
@@ -18,8 +18,6 @@ class BoardBtnCVCell: UICollectionViewCell {
 		btn.clipsToBounds = true
 		btn.layer.cornerRadius = 10
 		btn.layer.borderWidth = 0.2
-//		btn.layer.borderColor = UIColor.lp_black.cgColor
-//		btn.backgroundColor = .lp_white
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -48,22 +46,18 @@ class BoardBtnCVCell: UICollectionViewCell {
 	}
 	
 	func updateButtonUI(isSelected: Bool) {
-		switch boardButtonType {
-		case .all:
-			boardSelectButton.setTitle("전체", for: .normal)
-		case .noti:
-			boardSelectButton.setTitle("공지", for: .normal)
-		case .free:
-			boardSelectButton.setTitle("자유게시판", for: .normal)
-		}
-        
+		var configuration = boardSelectButton.configuration
+		var attributedTitle = AttributedString(boardButtonType.title)
+		attributedTitle.font = .lp_Font(.regular, size: 14)
+		configuration?.attributedTitle = attributedTitle
 		if isSelected {
-            boardSelectButton.backgroundColor = UIColor(hex: teamColor ?? "")
-			boardSelectButton.setTitleColor(.white, for: .normal)
+			boardSelectButton.backgroundColor = UIColor(hex: teamColor ?? "")
+			configuration?.baseForegroundColor = .white
 		} else {
 			boardSelectButton.backgroundColor = .lp_white
-			boardSelectButton.setTitleColor(.black, for: .normal)
+			configuration?.baseForegroundColor = .black
 		}
+		self.boardSelectButton.configuration = configuration
 	}
 	
 	private func tapGesture() {
