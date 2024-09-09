@@ -238,24 +238,26 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     }
     
     private func showLoadingIndicator() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-        
-        // loadingIndicatorView를 window에 추가
-        window.addSubview(loadingIndicatorView)
-        
-        // Auto Layout 제약 설정
-        NSLayoutConstraint.activate([
-            loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
-            loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
-            loadingIndicatorView.topAnchor.constraint(equalTo: window.topAnchor),
-            loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
-        ])
-        
-        // 로딩 뷰 표시
-        loadingIndicatorView.isHidden = false
-        loadingIndicatorView.startAnimating()
-        window.layoutIfNeeded()
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first else { return }
+            
+            // loadingIndicatorView를 window에 추가
+            window.addSubview(self.loadingIndicatorView)
+            
+            // Auto Layout 제약 설정
+            NSLayoutConstraint.activate([
+                self.loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+                self.loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+                self.loadingIndicatorView.topAnchor.constraint(equalTo: window.topAnchor),
+                self.loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+            ])
+            
+            // 로딩 뷰 표시
+            self.loadingIndicatorView.isHidden = false
+            self.loadingIndicatorView.startAnimating()
+            window.layoutIfNeeded()
+        }
     }
     
     private func hideLoadingIndicator() {
