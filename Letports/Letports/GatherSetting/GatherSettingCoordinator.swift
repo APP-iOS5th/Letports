@@ -42,18 +42,9 @@ class GatherSettingCoordinator: Coordinator {
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
     func gatherDeleteFinish() {
-        navigationController.popViewController(animated: false)
-        navigationController.popViewController(animated: true)
-        viewModel.deleteGatheringDocument()
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    self.reloadParentView()
-                case .failure(let error):
-                    print("문서 삭제 중 오류 발생: \(error.localizedDescription)")
-                }
-            }, receiveValue: {})
-            .store(in: &cancellables)
+        self.navigationController.popToRootViewController(animated: true)
+        self.parentCoordinator?.childDidFinish(self)
+        self.reloadParentView()
     }
     
     func gatherSettingBackBtnTap() {
