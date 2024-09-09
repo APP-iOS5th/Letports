@@ -38,10 +38,13 @@ class AuthVC: UIViewController {
         configuration.image = UIImage(named: "apple_login")
         configuration.imagePlacement = .leading
         
+        var titleAttr = AttributedString("Apple로 로그인")
+        titleAttr.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        configuration.attributedTitle = titleAttr
+        
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-        btn.setTitle("Apple로 로그인", for: .normal)
-      
         btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -56,13 +59,16 @@ class AuthVC: UIViewController {
         configuration.image = UIImage(named: "google_login")
         configuration.imagePlacement = .leading
         
+        var titleAttr = AttributedString("Google로 로그인")
+        titleAttr.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        configuration.attributedTitle = titleAttr
+        
+        
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 0.5
+        btn.layer.borderWidth = 1.0
         btn.layer.borderColor = UIColor.black.cgColor
-        
-        btn.setTitle("Google로 로그인", for: .normal)
-        
         btn.addTarget(self, action: #selector(googleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -88,13 +94,15 @@ class AuthVC: UIViewController {
             
             appleSignInBtn.topAnchor.constraint(equalTo: logoIconImage.bottomAnchor, constant: 200),
             appleSignInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appleSignInBtn.widthAnchor.constraint(equalToConstant: 280),
-            appleSignInBtn.heightAnchor.constraint(equalToConstant: 44),
+            appleSignInBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            appleSignInBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            appleSignInBtn.heightAnchor.constraint(equalToConstant: 55),
             
             googleSignInBtn.topAnchor.constraint(equalTo: appleSignInBtn.bottomAnchor, constant: 20),
             googleSignInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            googleSignInBtn.widthAnchor.constraint(equalToConstant: 280),
-            googleSignInBtn.heightAnchor.constraint(equalToConstant: 44),
+            googleSignInBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            googleSignInBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            googleSignInBtn.heightAnchor.constraint(equalToConstant: 55),
             googleSignInBtn.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: 0)
         ])
     }
