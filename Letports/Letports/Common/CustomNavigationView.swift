@@ -359,6 +359,8 @@ class CustomNavigationView: UIView {
 		
 		
 		NSLayoutConstraint.activate([
+            smallTitle.topAnchor.constraint(equalTo: self.topAnchor),
+            smallTitle.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 			smallTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			smallTitle.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 			

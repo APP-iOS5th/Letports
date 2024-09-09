@@ -121,8 +121,10 @@ final class GatheringTitleTVCell: UITableViewCell {
 		}
 		
 		NSLayoutConstraint.activate([
+            titleLabel.heightAnchor.constraint(equalToConstant: 34),
 			titleSV.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-			titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+			titleSV.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
 			titleSV.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -7),
 			
 			editBtn.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
