@@ -507,8 +507,6 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
             return 80
         case .gatheringBoard:
             return viewModel.calculateBoardHeight()
-        case .separator:
-            return 1
         default:
             return UITableView.automaticDimension
         }

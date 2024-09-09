@@ -248,6 +248,15 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
                 return cell
             }
+        case .commentEmpty:
+            let cell = UITableViewCell()
+            cell.selectionStyle = .none
+            cell.textLabel?.text = "댓글이 없어요.."
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+            cell.textLabel?.textColor = .gray
+            cell.backgroundColor = .lp_background_white
+            return cell
         case .comment(let comment):
             if let cell: CommentTVCell = tableView.loadCell(indexPath: indexPath) {
                 if let commentWithUser = viewModel.commentsWithUsers.first(where: { $0.comment.commentUID == comment.commentUID }) {
