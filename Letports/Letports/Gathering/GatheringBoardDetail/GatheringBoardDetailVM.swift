@@ -16,6 +16,7 @@ enum GatheringBoardDetailCellType {
     case separator
     case images
     case commentHeaderLabel
+    case commentEmpty
     case comment(comment: Comment)
 }
 
@@ -50,11 +51,20 @@ final class GatheringBoardDetailVM {
         cellTypes.append(.boardProfileTitle)
         cellTypes.append(.boardContents)
         cellTypes.append(.separator)
-        cellTypes.append(.images)
-        cellTypes.append(.separator)
+        
+        if !self.boardPost.imageUrls.isEmpty {
+            cellTypes.append(.images)
+            cellTypes.append(.separator)
+        }
+        
         cellTypes.append(.commentHeaderLabel)
-        for commentWithUser in self.commentsWithUsers {
-            cellTypes.append(.comment(comment: commentWithUser.comment))
+        
+        if self.commentsWithUsers.isEmpty {
+            cellTypes.append(.commentEmpty)
+        } else {
+            for commentWithUser in self.commentsWithUsers {
+                cellTypes.append(.comment(comment: commentWithUser.comment))
+            }
         }
         
         return cellTypes
@@ -164,27 +174,27 @@ final class GatheringBoardDetailVM {
             .eraseToAnyPublisher()
     }
     
-    func getDatas(gatherings: [MyGatherings], user: LetportsUser) {
-        let gatheringPublishers = gatherings.map { gathering in
-            let collectionPath3: [FirestorePathComponent] = [
-                .collection(.gatherings),
-                .document(gathering.uid)
-            ]
-            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
-        }
-        
-        Publishers.MergeMany(gatheringPublishers)
-            .collect()
-            .sink(receiveCompletion: { completion in
-                if case .failure(let error) = completion {
-                    print(error)
-                }
-            }, receiveValue: { [weak self] allGatherings in
-                guard let self = self else { return }
-                let flatGatherings = allGatherings.flatMap { $0 }
-            })
-            .store(in: &cancellables)
-    }
+//    func getDatas(gatherings: [MyGatherings], user: LetportsUser) {
+//        let gatheringPublishers = gatherings.map { gathering in
+//            let collectionPath3: [FirestorePathComponent] = [
+//                .collection(.gatherings),
+//                .document(gathering.uid)
+//            ]
+//            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
+//        }
+//        
+//        Publishers.MergeMany(gatheringPublishers)
+//            .collect()
+//            .sink(receiveCompletion: { completion in
+//                if case .failure(let error) = completion {
+//                    print(error)
+//                }
+//            }, receiveValue: { [weak self] allGatherings in
+//                guard let self = self else { return }
+//                let flatGatherings = allGatherings.flatMap { $0 }
+//            })
+//            .store(in: &cancellables)
+//    }
     
     private func getUserData(userUid: String) -> AnyPublisher<LetportsUser, FirestoreError> {
         let collectionPath: [FirestorePathComponent] = [
