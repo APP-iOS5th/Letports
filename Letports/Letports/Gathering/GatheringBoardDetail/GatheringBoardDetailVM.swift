@@ -21,7 +21,8 @@ enum GatheringBoardDetailCellType {
 
 protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
     func boardDetailBackBtnTap()
-    func presentActionSheet(post: Post)
+    func presentActionSheet(post: Post, isWriter: Bool)
+    func presentReportAlert()
 }
 
 final class GatheringBoardDetailVM {
@@ -199,7 +200,7 @@ final class GatheringBoardDetailVM {
     }
     
     func naviRightBtnDidTap() {
-        delegate?.presentActionSheet(post: self.boardPost)
+        delegate?.presentActionSheet(post: self.boardPost, isWriter: checkBoardWriter())
     }
     
     func getPost() {
@@ -236,6 +237,10 @@ final class GatheringBoardDetailVM {
                 }
             }, receiveValue: {})
             .store(in: &cancellables)
+    }
+    
+    func reportPost() {
+        self.delegate?.presentReportAlert()
     }
     
     private func deleteBoardImages() -> AnyPublisher<Void, FirestoreError> {
@@ -293,6 +298,12 @@ final class GatheringBoardDetailVM {
                 return FirestoreError.deleteFailed
             }
             .eraseToAnyPublisher()
+    }
+    
+    
+    func checkBoardWriter() -> Bool {
+        let checkWriter = self.boardPost.userUID == UserManager.shared.getUserUid()
+        return checkWriter
     }
     
 }
