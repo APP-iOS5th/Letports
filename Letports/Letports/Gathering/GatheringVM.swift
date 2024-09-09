@@ -22,6 +22,7 @@ class GatheringVM {
     @Published var recommendGatherings: [(Gathering, SportsTeam)] = []
     @Published var gatheringLists: [(Gathering, SportsTeam)] = []
     @Published var masterUsers: [String: LetportsUser] = [:]
+    @Published var isLoading: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
@@ -60,32 +61,41 @@ class GatheringVM {
         return self.cellType.count
     }
     
+    func getRecommendGatheringCount() -> Int {
+        return self.recommendGatherings.count
+    }
+    
     init() {
         loadTeam()
     }
     
     func loadTeam() {
-        UserManager.shared.getTeam { result in
-            switch result {
-            case .success(let team):
-                self.loadGatherings(forTeam: team.teamUID)
-            case .failure(let error):
-                print("getTeam Error \(error)")
-            }
-        }
-    }
+           isLoading = true
+           UserManager.shared.getTeam { result in
+               switch result {
+               case .success(let team):
+                   self.loadGatherings(forTeam: team.teamUID)
+               case .failure(let error):
+                   print("getTeam Error \(error)")
+                   self.isLoading = false
+               }
+           }
+       }
     
     func loadGatherings(forTeam teamName: String) {
         db.collection("Gatherings")
             .whereField("GatheringSportsTeam", isEqualTo: teamName)
-            .getDocuments { [weak self] (snapshot, error) in
+            .getDocuments(source: .server) { [weak self] (snapshot, error) in
+                guard let self = self else { return }
                 if let error = error {
                     print("Error fetching gatherings: \(error)")
+                    self.isLoading = false
                     return
                 }
                 
                 guard let documents = snapshot?.documents else {
                     print("No documents found")
+                    self.isLoading = false
                     return
                 }
                 
@@ -93,56 +103,67 @@ class GatheringVM {
                     try? document.data(as: Gathering.self)
                 }
                 
-                let sortedGatherings = gatherings.sorted { gathering1, gathering2 in
-                    return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
-                }
+                let sortedGatherings = gatherings.sorted { $0.gatheringCreateDate.dateValue() > $1.gatheringCreateDate.dateValue() }
                 let filteredGatherings = sortedGatherings.filter { $0.gatherNowMember < $0.gatherMaxMember }
                 
-                self?.fetchSportsTeams(forGatherings: filteredGatherings)
+                self.fetchSportsTeams(forGatherings: filteredGatherings)
             }
-    }
-    
-    func getRecommendGatheringCount() -> Int {
-        return self.recommendGatherings.count
     }
     
     private func fetchSportsTeams(forGatherings gatherings: [Gathering]) {
         let sportsTeamPublishers = gatherings.map { gathering in
-            let collectionPath: [FirestorePathComponent] = [
+            let sportsTeamPath: [FirestorePathComponent] = [
                 .collection(.sports),
                 .document(gathering.gatheringSports),
                 .collection(.sportsTeam),
                 .document(gathering.gatheringSportsTeam)
             ]
             
-            return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
-                .map { sportsTeam -> (Gathering, SportsTeam) in
-                    return (gathering, sportsTeam.first!)
-                }
-                .eraseToAnyPublisher()
+            let masterUserPath: [FirestorePathComponent] = [
+                .collection(.user),
+                .document(gathering.gatheringMaster)
+            ]
+            
+            return Publishers.Zip(
+                FM.getData(pathComponents: sportsTeamPath, type: SportsTeam.self),
+                FM.getData(pathComponents: masterUserPath, type: LetportsUser.self)
+            )
+            .map { sportsTeam, masterUser in
+                return (gathering, sportsTeam.first!, masterUser.first!)
+            }
+            .eraseToAnyPublisher()
         }
+        
         Publishers.MergeMany(sportsTeamPublishers)
             .collect()
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {
-                    print("Error fetching sports teams: \(error)")
+                    print("Error fetching sports teams or master user: \(error)")
                 }
             }, receiveValue: { [weak self] results in
                 guard let self = self else { return }
                 
-                self.recommendGatherings = Array(results.prefix(2))
-                
-                self.gatheringLists = results
+                self.recommendGatherings = Array(results.prefix(2)).map { ($0.0, $0.1) }
+                self.gatheringLists = results.map { ($0.0, $0.1) }
+                self.updateMasterUsers(results: results)
+                self.isLoading = false
             })
             .store(in: &cancellables)
     }
     
+    private func updateMasterUsers(results: [(Gathering, SportsTeam, LetportsUser)]) {
+        for result in results {
+            let (_, _, masterUser) = result
+            self.masterUsers[masterUser.uid] = masterUser
+        }
+    }
+    
     func fetchMasterUser(masterId: String) {
-        guard masterUsers[masterId] == nil else { return }
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(masterId),
         ]
+        
         FM.getData(pathComponents: collectionPath, type: LetportsUser.self)
             .compactMap { $0.first }
             .receive(on: DispatchQueue.main)

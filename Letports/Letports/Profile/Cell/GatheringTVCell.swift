@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class GatheringTV: UITableViewCell {
+class GatheringTVCell: UITableViewCell {
     
     private lazy var colorCache: NSCache<NSString, UIColor> = {
         let cache = NSCache<NSString, UIColor>()
@@ -142,6 +142,7 @@ class GatheringTV: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.selectionStyle = .default
     }
     
     override func prepareForReuse() {
