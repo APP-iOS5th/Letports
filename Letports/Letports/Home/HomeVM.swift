@@ -233,8 +233,8 @@ class HomeViewModel {
         self.delegate?.presentTeamChangeController()
     }
     
-    func pushGatheringDetailController(gatheringUID: String) {
-        self.delegate?.pushGatheringDetailController(gatheringUID: gatheringUID)
+    func pushGatheringDetailController(gatheringUID: String, teamColor: String) {
+        self.delegate?.pushGatheringDetailController(gatheringUID: gatheringUID, teamColor: teamColor)
     }
     
     

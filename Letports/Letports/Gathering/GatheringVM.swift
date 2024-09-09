@@ -19,21 +19,21 @@ enum GatheringCellType {
 }
 
 class GatheringVM {
-    @Published var recommendGatherings: [Gathering] = []
-    @Published var gatheringLists: [Gathering] = []
+    @Published var recommendGatherings: [(Gathering, SportsTeam)] = []
+    @Published var gatheringLists: [(Gathering, SportsTeam)] = []
     @Published var masterUsers: [String: LetportsUser] = [:]
     
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
-
+    
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {
         self.delegate?.presentTeamChangeController()
     }
     
-    func pushGatheringDetailController(gatheringUid: String) {
-        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
+    func pushGatheringDetailController(gatheringUid: String, teamColor: String) {
+        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid, teamColor: teamColor)
     }
     
     func pushGatheringUploadController() {
@@ -42,7 +42,7 @@ class GatheringVM {
     
     private var cellType: [GatheringCellType] {
         var cellTypes: [GatheringCellType] = [.recommendGatheringHeader]
-        cellTypes.append(contentsOf: recommendGatherings.isEmpty ? 
+        cellTypes.append(contentsOf: recommendGatherings.isEmpty ?
                          [.recommendGatheringEmptyState] : Array(repeating: .recommendGatherings,
                                                                  count: recommendGatherings.count))
         cellTypes.append(.gatheringListHeader)
@@ -75,7 +75,6 @@ class GatheringVM {
         }
     }
     
-    //Gathering 정보 가져오기
     func loadGatherings(forTeam teamName: String) {
         db.collection("Gatherings")
             .whereField("GatheringSportsTeam", isEqualTo: teamName)
@@ -90,35 +89,52 @@ class GatheringVM {
                     return
                 }
                 
-                // Gathering 객체로 변환하여 recommendGatherings 및 gatheringLists에 저장
                 let gatherings = documents.compactMap { document in
                     try? document.data(as: Gathering.self)
                 }
                 
-                // Gathering 객체를 생성일자(gatheringCreateDate) 기준으로 정렬
                 let sortedGatherings = gatherings.sorted { gathering1, gathering2 in
                     return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
                 }
+                let filteredGatherings = sortedGatherings.filter { $0.gatherNowMember < $0.gatherMaxMember }
                 
-                // MaxMember == NowMember 필터링
-                let memberCountFilteredGathrings = sortedGatherings.filter { gathering in
-                    return gathering.gatherMaxMember != gathering.gatherNowMember
-                }
-                
-                let filteredGatherings = gatherings.filter { gathering in
-                    return gathering.gatherNowMember != gathering.gatherMaxMember
-                }
-                
-                // 정렬된 리스트 중에서 상위 2개를 추천 목록으로 저장
-                self?.recommendGatherings = Array(memberCountFilteredGathrings.prefix(2))
-                
-                // 전체 리스트를 gatheringLists에 저장
-                self?.gatheringLists = filteredGatherings
+                self?.fetchSportsTeams(forGatherings: filteredGatherings)
             }
     }
     
     func getRecommendGatheringCount() -> Int {
         return self.recommendGatherings.count
+    }
+    
+    private func fetchSportsTeams(forGatherings gatherings: [Gathering]) {
+        let sportsTeamPublishers = gatherings.map { gathering in
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.sports),
+                .document(gathering.gatheringSports),
+                .collection(.sportsTeam),
+                .document(gathering.gatheringSportsTeam)
+            ]
+            
+            return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
+                .map { sportsTeam -> (Gathering, SportsTeam) in
+                    return (gathering, sportsTeam.first!)
+                }
+                .eraseToAnyPublisher()
+        }
+        Publishers.MergeMany(sportsTeamPublishers)
+            .collect()
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print("Error fetching sports teams: \(error)")
+                }
+            }, receiveValue: { [weak self] results in
+                guard let self = self else { return }
+                
+                self.recommendGatherings = Array(results.prefix(2))
+                
+                self.gatheringLists = results
+            })
+            .store(in: &cancellables)
     }
     
     func fetchMasterUser(masterId: String) {

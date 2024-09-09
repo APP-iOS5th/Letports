@@ -10,8 +10,8 @@ import Combine
 import Kingfisher
 
 extension HomeVC: HomeProfileTVCellDelegate, YoutubeThumbnailTVCellDelegate, RecommendGatheringListsDelegate {
-    func didTapRecommendGathering(gatheringUID: String) {
-        viewModel.pushGatheringDetailController(gatheringUID: gatheringUID)
+    func didTapRecommendGathering(gatheringUID: String, teamColor: String) {
+        viewModel.pushGatheringDetailController(gatheringUID: gatheringUID, teamColor: teamColor)
     }
     
     func didTapYoutubeThumbnail(at index: Int) {
@@ -189,7 +189,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case .recommendGatheringLists:
             if let cell: RecommendGatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
-                cell.configure(gatherings: viewModel.recommendGatherings)
+                cell.configure(gatherings: viewModel.recommendGatherings, teamColor: viewModel.team?.logoHex ?? "")
                 
                 return cell
             }

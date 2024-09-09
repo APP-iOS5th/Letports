@@ -382,7 +382,7 @@ extension GatheringDetailVC: JoinViewDelegate {
                 case .finished:
                     self?.removeJoinView()
                     self?.viewModel.loadData()
-                case .failure(let error):
+                case .failure(_):
                     self?.showAlert(title: "에러", message: "가입신청중 에러가 발생했습니다", confirmTitle: "확인", onConfirm: {
                     })
                 }
@@ -475,6 +475,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
         case .boardButtonType:
             if let cell: BoardBtnTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                if let teamColor = viewModel.teamColor {
+                    cell.configure(teamColor: teamColor)
+                }
                 return cell
             }
         case .gatheringBoard:

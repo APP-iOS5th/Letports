@@ -64,6 +64,8 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
             gatheringNameBackgroundView.bottomAnchor.constraint(equalTo: gatheringImage.bottomAnchor),
             gatheringNameBackgroundView.heightAnchor.constraint(equalToConstant: 50),
             
+            gatheringName.topAnchor.constraint(equalTo: gatheringNameBackgroundView.topAnchor),
+            gatheringName.bottomAnchor.constraint(equalTo: gatheringNameBackgroundView.bottomAnchor),
             gatheringName.leadingAnchor.constraint(equalTo: gatheringNameBackgroundView.leadingAnchor, constant: 15),
             gatheringName.centerYAnchor.constraint(equalTo: gatheringNameBackgroundView.centerYAnchor)
         ])

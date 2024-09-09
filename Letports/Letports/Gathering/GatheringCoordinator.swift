@@ -10,7 +10,7 @@ import UIKit
 protocol GatheringCoordinatorDelegate: AnyObject {
     func presentTeamChangeController()
     func pushGatheringUploadController()
-    func pushGatheringDetailController(gatheringUid: String)
+    func pushGatheringDetailController(gatheringUid: String, teamColor: String)
     func endUploadGathering()
 }
 
@@ -56,10 +56,10 @@ extension GatheringCoordinator: GatheringCoordinatorDelegate {
         childCoordinators.append(coordinator)
     }
     
-    func pushGatheringDetailController(gatheringUid: String) {
+    func pushGatheringDetailController(gatheringUid: String, teamColor: String) {
         let coordinator = GatheringDetailCoordinator(navigationController: navigationController,
                                                      currentUser: UserManager.shared.getUser(),
-                                                     currentGatheringUid: gatheringUid)
+                                                     currentGatheringUid: gatheringUid, teamColor: teamColor)
         coordinator.start()
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)

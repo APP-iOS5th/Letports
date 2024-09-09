@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 protocol RecommendGatheringListsDelegate: AnyObject {
-    func didTapRecommendGathering(gatheringUID: String)
+    func didTapRecommendGathering(gatheringUID: String, teamColor: String)
 }
 
 class RecommendGatheringTVCell: UITableViewCell {
     
     weak var delegate: RecommendGatheringListsDelegate?
-    
+    private var teamColor: String?
     var gatherings: [Gathering] = [] {
         didSet {
             recommendGatheringListsCV.reloadData()
@@ -63,8 +63,9 @@ class RecommendGatheringTVCell: UITableViewCell {
         ])
     }
     
-    func configure(gatherings: [Gathering]) {
+    func configure(gatherings: [Gathering], teamColor: String) {
         self.gatherings = gatherings
+        self.teamColor = teamColor
     }
 }
 
@@ -101,7 +102,7 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !gatherings.isEmpty {
-            delegate?.didTapRecommendGathering(gatheringUID: gatherings[indexPath.item].gatheringUid)
+            delegate?.didTapRecommendGathering(gatheringUID: gatherings[indexPath.item].gatheringUid, teamColor: teamColor ?? "")
         }
     }
 }

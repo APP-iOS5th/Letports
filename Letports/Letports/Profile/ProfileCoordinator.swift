@@ -5,7 +5,7 @@ import FirebaseAuth
 protocol ProfileCoordinatorDelegate: AnyObject {
     func presentEditProfileController(user: LetportsUser)
     func presentSettingViewController()
-    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String)
+    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String, teamColor: String)
     func didUpdateProfile()
     func backToGatheringDetail()
 }
@@ -42,8 +42,8 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
         parentCoordinator?.childDidFinish(self)
     }
     
-    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String) {
-        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid)
+    func presentGatheringDetailController(currentUser: LetportsUser, gatheringUid: String, teamColor: String) {
+        let coordinator = GatheringDetailCoordinator(navigationController: navigationController, currentUser: currentUser, currentGatheringUid: gatheringUid, teamColor: teamColor)
         childCoordinators.append(coordinator)
         coordinator.parentCoordinator = self
         coordinator.start()
