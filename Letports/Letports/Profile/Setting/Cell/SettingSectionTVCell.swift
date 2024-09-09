@@ -1,9 +1,3 @@
-//
-//  AppInfoTVCell.swift
-//  Letports
-//
-//  Created by mosi on 9/4/24.
-//
 import UIKit
 import UserNotifications
 
@@ -81,9 +75,11 @@ class SettingSectionTVCell: UITableViewCell {
             
             titleIV.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             titleIV.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            titleIV.widthAnchor.constraint(equalToConstant: 20),
+            titleIV.heightAnchor.constraint(equalToConstant: 20),
             
-            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: titleIV.trailingAnchor, constant: 10),
+            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
             toggleSwitch.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             toggleSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
@@ -104,56 +100,97 @@ class SettingSectionTVCell: UITableViewCell {
     
     func configure(cellType: SettingCellType, notificationState: Bool) {
         self.celltype = cellType
+        resetUI()
+        
         switch cellType {
         case .appInfo:
-            titleIV.image = UIImage(systemName: "info.circle")?
-                .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("앱 정보", for: .normal)
-            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+            configureAppInfo()
+        case .notification:
+            configureNotification(notificationState: notificationState)
+        case .appTermsofService:
+            configureAppTermsOfService()
+        case .openLibrary:
+            configureOpenLibrary()
+        case .logout:
+            configureLogout()
+        case .personnalInfo:
+            configurePersonalInfo()
+        case .exit:
+            configureExit()
+        default:
+            break
+        }
+    }
+    
+    private func resetUI() {
+        versionLabel.isHidden = true
+        toggleSwitch.isHidden = true
+        titleIV.image = nil
+        titleLabel.setTitleColor(.lp_black, for: .normal)
+        titleLabel.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
+        
+        // reset any previously set trailing anchor
+        titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = false
+    }
+    
+    private func configureAppInfo() {
+        titleIV.image = UIImage(systemName: "info.circle")?
+            .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("앱 정보", for: .normal)
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionLabel.text = version
             versionLabel.isHidden = false
-            toggleSwitch.isHidden = true
-        case .notification:
-            titleIV.image = UIImage(systemName: "bell")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("알림", for: .normal)
-            toggleSwitch.isHidden = false
-            toggleSwitch.isOn = notificationState
-            versionLabel.isHidden = true
-        case .appTermsofService:
-            titleIV.image = UIImage(systemName: "book.closed")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("서비스 이용약관", for: .normal)
-            versionLabel.isHidden = true
-            toggleSwitch.isHidden = true
-        case .openLibrary:
-            titleIV.image = UIImage(systemName: "book")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("오픈소스 라이브러리", for: .normal)
-            titleLabel.setTitleColor(.lp_black, for: .normal)
-            toggleSwitch.isHidden = true
-            versionLabel.isHidden = true
-        case .logout:
-            titleIV.image = UIImage(systemName: "arrow.down.left.circle")?.withTintColor(.lp_tint, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleIV.image?.withTintColor(.lp_tint)
-            titleLabel.setTitle("로그아웃", for: .normal)
-            titleLabel.setTitleColor(.lp_tint, for: .normal)
-            
-        case .personnalInfo:
-            titleIV.image = UIImage(systemName: "person")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("개인정보 처리방침", for: .normal)
-            versionLabel.isHidden = true
-            toggleSwitch.isHidden = true
-        case .exit:
-            titleIV.image = UIImage(systemName: "xmark.circle")?.withTintColor(.lp_tint, renderingMode: .alwaysTemplate)
-                .resized(size: CGSize(width: 20, height: 20))
-            titleIV.image?.withTintColor(.lp_tint)
-            titleLabel.setTitle("회원탈퇴", for: .normal)
-            titleLabel.setTitleColor(.lp_tint, for: .normal)
-            
         }
+    }
+    
+    private func configureNotification(notificationState: Bool) {
+        titleIV.image = UIImage(systemName: "bell")?
+            .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("알림", for: .normal)
+        toggleSwitch.isHidden = false
+        toggleSwitch.isOn = notificationState
+    }
+    
+    private func configureAppTermsOfService() {
+        titleIV.image = UIImage(systemName: "book.closed")?
+            .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("서비스 이용약관", for: .normal)
+    }
+    
+    private func configureOpenLibrary() {
+        titleIV.image = UIImage(systemName: "book")?
+            .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("오픈소스 라이브러리", for: .normal)
+    }
+    
+    private func configureLogout() {
+        titleIV.image = UIImage(systemName: "arrow.down.left.circle")?
+            .withTintColor(.lp_tint, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("로그아웃", for: .normal)
+        titleLabel.setTitleColor(.lp_tint, for: .normal)
+    }
+    
+    private func configurePersonalInfo() {
+        titleIV.image = UIImage(systemName: "person")?
+            .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+            .resized(size: CGSize(width: 20, height: 20))
+        titleLabel.setTitle("개인정보 처리방침", for: .normal)
+    }
+    
+    private func configureExit() {
+        titleIV.image = nil
+        titleLabel.setTitle("회원탈퇴", for: .normal)
+        titleLabel.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
+        
+        // '회원탈퇴'는 오른쪽에 정렬
+        titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
+        
+        // '회원탈퇴'는 왼쪽에 붙지 않도록 leading anchor 제거
+        titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16).isActive = false
     }
 }

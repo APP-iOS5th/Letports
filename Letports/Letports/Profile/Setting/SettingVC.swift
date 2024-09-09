@@ -79,7 +79,7 @@ class SettingVC: UIViewController {
                 @unknown default:
                     self.viewModel.notificationToggleState = false
                 }
-                self.tableView.reloadData()  
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic) //
             }
         }
     }
@@ -130,7 +130,7 @@ extension SettingVC: SettingDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
                 self.viewModel.notificationToggleState = granted
-                self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
             }
         }
     }
@@ -146,14 +146,15 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
-            return UITableViewCell()
-        }
-        
         let cellType = viewModel.getCellType(for: indexPath)
-        cell.configure(cellType: cellType, notificationState: viewModel.notificationToggleState)
-        cell.delegate = self
-        return cell
+        if let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath){
+            cell.configure(cellType: cellType, notificationState: viewModel.notificationToggleState)
+            cell.delegate = self
+            return cell
+            
+        }
+        return UITableViewCell()
+        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
