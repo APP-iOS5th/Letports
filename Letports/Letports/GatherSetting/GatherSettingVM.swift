@@ -119,24 +119,14 @@ class GatherSettingVM {
                 self?.deleteBoardImages() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
             .flatMap { [weak self] in
-                self?.showCompletionAlert() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+                self?.deleteGatheringDocument() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
             .handleEvents(receiveCompletion: { [weak self] _ in
                 self?.isLoading = false
+                self?.delegate?.gatherDeleteFinish()
             })
             .eraseToAnyPublisher()
     }
-    
-    
-    private func showCompletionAlert() -> AnyPublisher<Void, FirestoreError> {
-        return Future { [weak self] promise in
-            self?.delegate?.gatherDeleteFinish()
-            promise(.success(()))
-        }
-        .setFailureType(to: FirestoreError.self)
-        .eraseToAnyPublisher()
-    }
-    
     
     func deleteAllGatheringMembers() -> AnyPublisher<Void, FirestoreError> {
         guard let gatheringUid = gathering?.gatheringUid else {
@@ -226,7 +216,18 @@ class GatherSettingVM {
                     }
                 }
                 
-                return Publishers.MergeMany(deletePublishers)
+                let deleteBoardDocuments = boardDocuments.map { document -> AnyPublisher<Void, FirestoreError> in
+                    let boardDocumentPath: [FirestorePathComponent] = [
+                        .collection(.gatherings),
+                        .document(gatheringUid),
+                        .collection(.board),
+                        .document(document.postUID)
+                    ]
+                    
+                    return FM.deleteDocument(pathComponents: boardDocumentPath)
+                }
+                
+                return Publishers.MergeMany(deletePublishers + deleteBoardDocuments)
                     .collect()
                     .map { _ in () }
                     .eraseToAnyPublisher()
