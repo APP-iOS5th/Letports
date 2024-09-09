@@ -21,7 +21,7 @@ class SportsCategoryCell: UICollectionViewCell {
     
     func setSelected(_ selected: Bool) {
         isCellSelected = selected
-        contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.clear
+        contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.lp_background_white
         titleLabel.textColor = isCellSelected ? .lpWhite : .lpBlack
     }
     
@@ -46,7 +46,6 @@ class SportsCategoryCell: UICollectionViewCell {
         ])
         
         contentView.layer.cornerRadius = 15
-        contentView.backgroundColor = .systemGray6
     }
     
     func configure(with category: Sports) {

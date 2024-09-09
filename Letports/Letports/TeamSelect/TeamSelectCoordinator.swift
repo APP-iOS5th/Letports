@@ -31,8 +31,9 @@ class TeamSelectCoordinator: Coordinator {
     func presentStart() {
         let viewModel = TeamSelectVM()
         let teamSelectVC = TeamSelectVC(viewModel: viewModel)
+        let navi = UINavigationController(rootViewController: teamSelectVC)
         teamSelectVC.coordinator = self
-        navigationController.present(teamSelectVC, animated: true)
+        navigationController.present(navi, animated: true)
     }
     
     
