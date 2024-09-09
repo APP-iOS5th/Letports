@@ -17,6 +17,8 @@ class TeamSelectCoordinator: Coordinator {
     }
     var navigationController: UINavigationController
     
+    var dismissAnimation: Bool = false
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
@@ -25,7 +27,9 @@ class TeamSelectCoordinator: Coordinator {
         let viewModel = TeamSelectVM()
         let teamSelectVC = TeamSelectVC(viewModel: viewModel)
         teamSelectVC.coordinator = self
-        navigationController.setViewControllers([teamSelectVC], animated: true)
+        let navi = UINavigationController(rootViewController: teamSelectVC)
+        navi.modalPresentationStyle = .fullScreen
+        navigationController.present(navi, animated: dismissAnimation)
     }
     
     func presentStart() {
@@ -33,12 +37,11 @@ class TeamSelectCoordinator: Coordinator {
         let teamSelectVC = TeamSelectVC(viewModel: viewModel)
         let navi = UINavigationController(rootViewController: teamSelectVC)
         teamSelectVC.coordinator = self
-        navigationController.present(navi, animated: true)
+        navigationController.present(navi, animated: dismissAnimation)
     }
     
-    
     func didFinishTeamSelect(_ team: SportsTeam? = nil) {
-        navigationController.dismiss(animated: true) { [weak self] in
+        navigationController.dismiss(animated: dismissAnimation) { [weak self] in
             if (self?.parentCoordinator) is AppCoordinator  {
                 (self?.parentCoordinator as? AppCoordinator)?.showMainView()
             } else {
