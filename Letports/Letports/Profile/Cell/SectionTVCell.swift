@@ -18,7 +18,7 @@ class SectionTVCell: UITableViewCell {
     
     private lazy var countLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+		label.font = .lp_Font(.regular, size: 15)
         label.textColor = .lp_gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

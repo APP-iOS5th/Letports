@@ -66,7 +66,6 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 			
 			expandBtn.topAnchor.constraint(equalTo: gatheringInfoTextView.bottomAnchor, constant: 5),
 			expandBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-			expandBtn.heightAnchor.constraint(equalToConstant: 30),
 			expandBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
 		])
 		

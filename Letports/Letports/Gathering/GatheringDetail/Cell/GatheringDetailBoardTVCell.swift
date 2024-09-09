@@ -31,7 +31,7 @@ final class GatheringDetailBoardTVCell: UITableViewCell {
 		label.text = "글이 없어요..."
 		label.textAlignment = .center
 		label.textColor = .gray
-		label.font = UIFont.systemFont(ofSize: 16)
+		label.font = .lp_Font(.regular, size: 16)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.isHidden = true
 		return label

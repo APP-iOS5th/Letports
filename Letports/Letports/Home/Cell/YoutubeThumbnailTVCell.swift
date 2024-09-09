@@ -21,7 +21,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.backgroundColor = .lp_white
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+	
         return view
     }()
     
@@ -40,7 +40,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.alignment = .fill
-        sv.distribution = .equalSpacing
+        sv.distribution = .fill
         sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -60,8 +60,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var firstThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = .lp_black
-        label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -73,7 +72,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.alignment = .fill
-        sv.distribution = .equalSpacing
+        sv.distribution = .fill
         sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -95,8 +94,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
     lazy var secondThumbnailTitle: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = .lp_black
-        label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +132,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
@@ -144,11 +142,11 @@ class YoutubeThumbnailTVCell: UITableViewCell {
             thumbnailSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             thumbnailSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
-            firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.65),
-            firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.3),
+			firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.75),
+			firstThumbnailTitle.heightAnchor.constraint(equalToConstant: 32),
             
-            secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.65),
-            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.3)
+			secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.75),
+			secondThumbnailTitle.heightAnchor.constraint(equalToConstant: 32)
         ])
         
         //첫번째 썸네일 탭 제스쳐

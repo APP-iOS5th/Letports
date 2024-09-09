@@ -19,8 +19,7 @@ class SportsTeamCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .lp_black
-        label.font = UIFont.boldSystemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.numberOfLines = 2
         return label
     }()

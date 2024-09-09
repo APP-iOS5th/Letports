@@ -26,7 +26,7 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	private let nickNameLabel: UILabel = {
 		let lb = UILabel()
         lb.textColor = .lp_black
-		lb.font = .systemFont(ofSize: 18, weight: .semibold)
+		lb.font = .lp_Font(.regular, size: 18)
 		lb.isUserInteractionEnabled = false
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -34,8 +34,8 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
 	
 	private let createDateLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .systemFont(ofSize: 8, weight: .regular)
-        lb.textColor = .lightGray
+		lb.font = .lp_Font(.light, size: 8)
+        lb.textColor = .lp_lightGray
 		lb.isUserInteractionEnabled = false
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb

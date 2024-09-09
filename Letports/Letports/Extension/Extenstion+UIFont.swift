@@ -24,7 +24,7 @@ extension UIFont {
 
 /*
 아래처럼 사용
-label.font = .custom(.regular, size: 16)
-button.titleLabel?.font = .custom(.bold, size: 18)
+label.font = .lp_Font(.regular, size: 16)
+button.titleLabel?.font = .lp_Font(.bold, size: 18)
 */
 

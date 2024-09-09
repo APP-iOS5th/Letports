@@ -36,7 +36,7 @@ class PostBtn: UIView {
     
     private let postButton: UIButton = {
         let btn = UIButton(type: .custom)
-        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+		let boldFont = UIFont.lp_Font(.regular, size: 16)
         let attributedTitle = NSAttributedString(string: "게시글 작성", attributes: [.font: boldFont])
         btn.setAttributedTitle(attributedTitle, for: .normal)
         btn.setTitleColor(UIColor(named: "lp_white"), for: .normal)
@@ -52,7 +52,7 @@ class PostBtn: UIView {
     
     private let noticeButton: UIButton = {
         let btn = UIButton(type: .custom)
-        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        let boldFont = UIFont.lp_Font(.regular, size: 16)
         let attributedTitle = NSAttributedString(string: "공지사항 작성", attributes: [.font: boldFont])
         btn.setAttributedTitle(attributedTitle, for: .normal)
         btn.setTitleColor(UIColor(named: "lp_white"), for: .normal)

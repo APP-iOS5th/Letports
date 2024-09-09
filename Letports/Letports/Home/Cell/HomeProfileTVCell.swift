@@ -66,7 +66,6 @@ class HomeProfileTVCell: UITableViewCell {
         iv.contentMode = .scaleAspectFit
         iv.tintColor = .lp_black
         iv.translatesAutoresizingMaskIntoConstraints = false
-        
         return iv
     }()
     
@@ -99,7 +98,7 @@ class HomeProfileTVCell: UITableViewCell {
         let iv = UIImageView(image: UIImage(named: "YoutubeIconFull"))
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             iv.widthAnchor.constraint(equalToConstant: 25)
         ])
@@ -172,11 +171,13 @@ class HomeProfileTVCell: UITableViewCell {
             homeURLSV.trailingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor, constant: -6),
             homeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
+			instagramURLSV.leadingAnchor.constraint(equalTo: homeURLSV.trailingAnchor, constant: 6),
             instagramURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
             instagramURLSV.trailingAnchor.constraint(equalTo: youtubeURLSV.leadingAnchor, constant: -6),
             instagramURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
-            youtubeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
+			youtubeURLSV.leadingAnchor.constraint(equalTo: instagramURLSV.trailingAnchor, constant: 6),
+			youtubeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
             youtubeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             youtubeURLSV.trailingAnchor.constraint(equalTo: urlSV.trailingAnchor),
             
@@ -258,10 +259,10 @@ class HomeProfileTVCell: UITableViewCell {
     }
     
     // 라벨 만들기
-    func createLabel(text: String, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular) -> UILabel {
+    func createLabel(text: String, fontSize: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = text
-        label.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+		label.font = UIFont.lp_Font(.regular, size: fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lp_black
         return label
