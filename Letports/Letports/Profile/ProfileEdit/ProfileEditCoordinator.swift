@@ -43,7 +43,11 @@ class ProfileEditCoordinator: NSObject, Coordinator {
             let imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
             imagePickerController.sourceType = .photoLibrary
-            self.navigationController.present(imagePickerController, animated: true)
+            if let topViewController = self.topMostViewController() {
+                topViewController.present(imagePickerController, animated: true)
+            } else {
+                print("No topViewController found")
+            }
         }
     }
     
@@ -53,6 +57,21 @@ class ProfileEditCoordinator: NSObject, Coordinator {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         navigationController.present(alert, animated: true)
+    }
+    
+    func topMostViewController() -> UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first else {
+            return nil
+        }
+        
+        var topViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController
+        while let presentedViewController = topViewController?.presentedViewController {
+            topViewController = presentedViewController
+        }
+        return topViewController
     }
 }
 
