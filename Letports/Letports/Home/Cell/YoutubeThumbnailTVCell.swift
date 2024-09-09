@@ -40,7 +40,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.alignment = .fill
-        sv.distribution = .equalSpacing
+        sv.distribution = .fill
         sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -72,7 +72,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.alignment = .fill
-        sv.distribution = .equalSpacing
+        sv.distribution = .fill
         sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -132,7 +132,7 @@ class YoutubeThumbnailTVCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
@@ -142,11 +142,11 @@ class YoutubeThumbnailTVCell: UITableViewCell {
             thumbnailSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             thumbnailSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
-			firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.8),
-			firstThumbnailTitle.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.18),
+			firstThumbnail.heightAnchor.constraint(equalTo: firstThumbnailSV.heightAnchor, multiplier: 0.75),
+			firstThumbnailTitle.heightAnchor.constraint(equalToConstant: 32),
             
-			secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.8),
-            secondThumbnailTitle.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.18)
+			secondThumbnail.heightAnchor.constraint(equalTo: secondThumbnailSV.heightAnchor, multiplier: 0.75),
+			secondThumbnailTitle.heightAnchor.constraint(equalToConstant: 32)
         ])
         
         //첫번째 썸네일 탭 제스쳐

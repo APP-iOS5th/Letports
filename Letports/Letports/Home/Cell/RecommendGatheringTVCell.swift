@@ -56,7 +56,7 @@ class RecommendGatheringTVCell: UITableViewCell {
         contentView.addSubview(recommendGatheringListsCV)
         
         NSLayoutConstraint.activate([
-            recommendGatheringListsCV.topAnchor.constraint(equalTo: contentView.topAnchor),
+            recommendGatheringListsCV.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             recommendGatheringListsCV.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             recommendGatheringListsCV.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             recommendGatheringListsCV.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -95,7 +95,7 @@ extension RecommendGatheringTVCell: UICollectionViewDelegateFlowLayout, UICollec
         if gatherings.isEmpty {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         } else {
-			return CGSize(width: 225, height: 187.5)
+			return CGSize(width: 300 * 0.8, height: 250 * 0.8)
         }
     }
     

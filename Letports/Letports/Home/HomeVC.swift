@@ -150,7 +150,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case .latestVideoTitleLabel:
             return UITableView.automaticDimension
         case .youtubeThumbnails:
-            return 160
+            return UITableView.automaticDimension
         case .recommendGatheringTitleLabel:
 			return UITableView.automaticDimension
         case .recommendGatheringLists:
