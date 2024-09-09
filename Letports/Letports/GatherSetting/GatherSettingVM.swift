@@ -20,6 +20,8 @@ class GatherSettingVM {
     @Published var joinedMembersData: [LetportsUser] = []
     @Published var pendingMembers: [GatheringMember] = []
     @Published var pendingMembersData: [LetportsUser] = []
+    @Published var allUserUIDs: [String] = []
+    @Published var isLoading: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatherSettingCoordinatorDelegate?
@@ -108,6 +110,7 @@ class GatherSettingVM {
     }
     
     func deleteGatheringButtonTapped()-> AnyPublisher<Void, FirestoreError>{
+        isLoading = true
         return deleteAllGatheringMembers()
             .flatMap { [weak self] in
                 self?.deleteGatheringImage() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
@@ -118,6 +121,9 @@ class GatherSettingVM {
             .flatMap { [weak self] in
                 self?.showCompletionAlert() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
+            .handleEvents(receiveCompletion: { [weak self] _ in
+                self?.isLoading = false
+            })
             .eraseToAnyPublisher()
     }
     
@@ -359,7 +365,9 @@ class GatherSettingVM {
                 let pendingMembers = fetchedGatheringMembers.filter {
                     $0.userUID != gathering.gatheringMaster && $0.joinStatus == "pending"
                 }
-                
+                self.allUserUIDs = (self.joinedMembers.map { $0.userUID } + self.pendingMembers.map { $0.userUID })
+                              .filter { $0 != gathering.gatheringMaster }
+
                 self.joinedMembers = joinedMembers
                 self.pendingMembers = pendingMembers
                 
