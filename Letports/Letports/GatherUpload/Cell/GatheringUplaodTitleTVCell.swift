@@ -100,7 +100,7 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
     
     private func textCountCheck(text: String) {
         DispatchQueue.main.async { [weak self] in
-            self?.textCountLabel.text = "\(text.count)/100"
+            self?.textCountLabel.text = "\(text.count)/20"
         }
     }
     
@@ -110,6 +110,6 @@ extension GatheringUplaodTitleTVCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         return koTextLimit.shouldChangeText(for: textField, in: range, 
-                                            replacementText: string, maxCharacterLimit: 100)
+                                            replacementText: string, maxCharacterLimit: 20)
     }
 }

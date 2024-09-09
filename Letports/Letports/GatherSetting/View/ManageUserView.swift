@@ -60,6 +60,7 @@ class ManageUserView: UIView {
         textView.backgroundColor = .lp_white
         textView.textColor = .lp_black
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         return textView
     }()
     
@@ -75,10 +76,11 @@ class ManageUserView: UIView {
     private lazy var exitBtn: UIButton = {
         let btn = UIButton()
         btn.isHidden = true
-        btn.setImage(UIImage(systemName: "delete.backward"), for: .normal)
+        if let image = UIImage(systemName: "xmark")?.resized(size: CGSize(width: 15, height: 15)) {
+               btn.setImage(image, for: .normal)
+           }
         btn.tintColor = .lp_black
         btn.addTarget(self, action: #selector(exitBtnDidTap), for: .touchUpInside)
-        btn.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -144,7 +146,7 @@ class ManageUserView: UIView {
             expelBtn.widthAnchor.constraint(equalToConstant: 162),
             expelBtn.heightAnchor.constraint(equalToConstant: 30),
             
-            exitBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            exitBtn.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 5),
             exitBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
         ])
     }
