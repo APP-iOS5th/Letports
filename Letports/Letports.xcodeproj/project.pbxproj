@@ -106,7 +106,6 @@
 		D8299F3B2C776219003D29AC /* ManageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2C2C776219003D29AC /* ManageUserView.swift */; };
 		D8299F472C77622C003D29AC /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F442C77622C003D29AC /* ProfileVM.swift */; };
 		D8299F4A2C77622C003D29AC /* ProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */; };
-		D8299F4C2C77622C003D29AC /* GatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */; };
 		D8299F4D2C77622C003D29AC /* SectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3E2C77622C003D29AC /* SectionTVCell.swift */; };
 		D8299F4E2C77622C003D29AC /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F452C77622C003D29AC /* SettingVC.swift */; };
 		D8299F5B2C776313003D29AC /* ProfileEditCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F552C776313003D29AC /* ProfileEditCoordinator.swift */; };
@@ -256,7 +255,6 @@
 		D8299F2F2C776219003D29AC /* GatherSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingCoordinator.swift; sourceTree = "<group>"; };
 		D8299F302C776219003D29AC /* GatherSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingVC.swift; sourceTree = "<group>"; };
 		D8299F312C776219003D29AC /* GatherSettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSettingVM.swift; sourceTree = "<group>"; };
-		D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTVCell.swift; sourceTree = "<group>"; };
 		D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVCell.swift; sourceTree = "<group>"; };
 		D8299F3E2C77622C003D29AC /* SectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTVCell.swift; sourceTree = "<group>"; };
 		D8299F442C77622C003D29AC /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
@@ -648,7 +646,6 @@
 			children = (
 				D85121AF2C8DC1E700E37978 /* GatheringTV.swift */,
 				D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */,
-				D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */,
 				D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */,
 				D8299F3E2C77622C003D29AC /* SectionTVCell.swift */,
 			);
@@ -981,7 +978,6 @@
 				413BE65B2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift in Sources */,
 				D8299F472C77622C003D29AC /* ProfileVM.swift in Sources */,
 				D8299F4A2C77622C003D29AC /* ProfileTVCell.swift in Sources */,
-				D8299F4C2C77622C003D29AC /* GatheringTVCell.swift in Sources */,
 				D8299F4D2C77622C003D29AC /* SectionTVCell.swift in Sources */,
 				D8299F4E2C77622C003D29AC /* SettingVC.swift in Sources */,
 				B82471452C6499590067BD09 /* GatheringCoordinator.swift in Sources */,

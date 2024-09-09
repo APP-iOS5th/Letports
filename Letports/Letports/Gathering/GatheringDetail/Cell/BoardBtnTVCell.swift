@@ -15,6 +15,7 @@ final class BoardBtnTVCell: UITableViewCell {
 	
 	private let boardButtonTypes: [PostType] = [.all, .noti, .free]
 	private var selectedButtonIndex: Int = 0
+    private var logoHex: String?
 	weak var delegate: BoardBtnTVCellDelegate?
 	
 	private let collectionView: UICollectionView = {
@@ -59,6 +60,10 @@ final class BoardBtnTVCell: UITableViewCell {
 			collectionView.heightAnchor.constraint(equalToConstant: 30)
 		])
 	}
+    
+    func configure(teamColor: String) {
+        self.logoHex = teamColor
+    }
 }
 
 extension BoardBtnTVCell: UICollectionViewDataSource {
@@ -73,9 +78,9 @@ extension BoardBtnTVCell: UICollectionViewDataSource {
 		}
 		
 		let boardButtonType = boardButtonTypes[indexPath.item]
-		
-		cell.configure(with: boardButtonType)
-		
+        if let logoHex = logoHex {
+            cell.configure(with: boardButtonType, teamColor: logoHex)
+        }
 		cell.updateButtonUI(isSelected: selectedButtonIndex == indexPath.item)
 		
 		cell.delegate = self

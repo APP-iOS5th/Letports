@@ -10,7 +10,7 @@ import UIKit
 class BoardBtnCVCell: UICollectionViewCell {
 	
 	private var boardButtonType: PostType = .all
-	
+    private var teamColor: String?
 	private let boardSelectButton: UIButton = {
 		var config = UIButton.Configuration.plain()
 		config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
@@ -18,8 +18,8 @@ class BoardBtnCVCell: UICollectionViewCell {
 		btn.clipsToBounds = true
 		btn.layer.cornerRadius = 10
 		btn.layer.borderWidth = 0.2
-		btn.layer.borderColor = UIColor.lp_black.cgColor
-		btn.backgroundColor = .lp_white
+//		btn.layer.borderColor = UIColor.lp_black.cgColor
+//		btn.backgroundColor = .lp_white
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -56,9 +56,9 @@ class BoardBtnCVCell: UICollectionViewCell {
 		case .free:
 			boardSelectButton.setTitle("자유게시판", for: .normal)
 		}
-		
+        
 		if isSelected {
-			boardSelectButton.backgroundColor = .black
+            boardSelectButton.backgroundColor = UIColor(hex: teamColor ?? "")
 			boardSelectButton.setTitleColor(.white, for: .normal)
 		} else {
 			boardSelectButton.backgroundColor = .lp_white
@@ -72,8 +72,9 @@ class BoardBtnCVCell: UICollectionViewCell {
 		self.contentView.isUserInteractionEnabled = true
 	}
 	
-	func configure(with type: PostType) {
+    func configure(with type: PostType, teamColor: String) {
 		self.boardButtonType = type
+        self.teamColor = teamColor
 	}
 	// 게시판 선택 버튼(3개)
 	@objc private func boardBtnTap() {

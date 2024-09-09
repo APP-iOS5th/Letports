@@ -49,6 +49,7 @@ class GatheringDetailVM {
 	@Published private(set) var memberData: [LetportsUser] = []
 	@Published var selectedBoardType: PostType = .all
 	@Published var masterNickname: String = ""
+    @Published var teamColor: String?
     @Published var isMaster: Bool = false
 	@Published var isLoading: Bool = false
 	
@@ -58,9 +59,10 @@ class GatheringDetailVM {
 	
 	weak var delegate: GatheringDetailCoordinatorDelegate?
 	
-	init(currentUser: LetportsUser, currentGatheringUid: String) {
+    init(currentUser: LetportsUser, currentGatheringUid: String, teamColor: String) {
 		self.currentUser = currentUser
 		self.currentGatheringUid = currentGatheringUid
+        self.teamColor = teamColor
         self.loadData()
 	}
 	
