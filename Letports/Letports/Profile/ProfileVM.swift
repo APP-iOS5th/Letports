@@ -286,9 +286,9 @@ class ProfileVM {
         }
     }
     
-    func gatheringCellDidTap(gatheringUID: String) {
+    func gatheringCellDidTap(gatheringUID: String, teamColor: String) {
         if let user = user {
-            self.delegate?.presentGatheringDetailController(currentUser: user, gatheringUid: gatheringUID)
+            self.delegate?.presentGatheringDetailController(currentUser: user, gatheringUid: gatheringUID, teamColor: teamColor)
         }
     }
     

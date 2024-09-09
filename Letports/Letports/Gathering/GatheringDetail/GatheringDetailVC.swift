@@ -475,6 +475,9 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
         case .boardButtonType:
             if let cell: BoardBtnTVCell = tableView.loadCell(indexPath: indexPath) {
                 cell.delegate = self
+                if let teamColor = viewModel.teamColor {
+                    cell.configure(teamColor: teamColor)
+                }
                 return cell
             }
         case .gatheringBoard:

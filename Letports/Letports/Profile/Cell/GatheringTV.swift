@@ -11,9 +11,9 @@ import Kingfisher
 class GatheringTV: UITableViewCell {
     
     private lazy var colorCache: NSCache<NSString, UIColor> = {
-           let cache = NSCache<NSString, UIColor>()
-           return cache
-       }()
+        let cache = NSCache<NSString, UIColor>()
+        return cache
+    }()
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -231,15 +231,16 @@ class GatheringTV: UITableViewCell {
     }
     
     private func updateGatheringNameTrailingConstraint() {
-     
         gatheringNameTrailingConstraintToMasterIV?.isActive = false
         gatheringNameTrailingConstraintToContainer?.isActive = false
-
+        
         if isGatheringMasterIV.isHidden {
             gatheringNameTrailingConstraintToContainer?.isActive = true
         } else {
             gatheringNameTrailingConstraintToMasterIV?.isActive = true
         }
+    }
+    
     func configure(with gathering: Gathering, with sports: SportsTeam, with master: LetportsUser) {
         
         let date = gathering.gatheringCreateDate.dateValue()
@@ -271,11 +272,6 @@ class GatheringTV: UITableViewCell {
         }
     }
     
-    func configure(with gathering: Gathering, with sports: SportsTeam, with user: LetportsUser, with master: LetportsUser) {
-        
-        setNeedsLayout()
-        layoutIfNeeded()
-    }
     
     func configure(with gathering: Gathering, with sports: SportsTeam, with user: LetportsUser, with master: LetportsUser) {
         updateGatheringNameTrailingConstraint()

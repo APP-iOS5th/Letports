@@ -185,7 +185,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
                 let (gathering,sports) = viewModel.myGatherings[gatheringIndex]
-                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
+                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid, teamColor: sports.logoHex)
             }
         case .pendingGatherings:
             var startIndex = 3
@@ -197,7 +197,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
                 let (gathering,sports) = viewModel.pendingGatherings[gatheringIndex]
-                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
+                self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid, teamColor: sports.logoHex)
             }
         default:
             break

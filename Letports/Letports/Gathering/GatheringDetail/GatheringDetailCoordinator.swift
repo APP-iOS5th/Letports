@@ -33,9 +33,10 @@ class GatheringDetailCoordinator: Coordinator {
 	var navigationController: UINavigationController
 	var viewModel: GatheringDetailVM
     weak var parentCoordinator: Coordinator?
-	init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String) {
+    
+    init(navigationController: UINavigationController, currentUser: LetportsUser, currentGatheringUid: String, teamColor: String) {
 		self.navigationController = navigationController
-		self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid)
+        self.viewModel = GatheringDetailVM(currentUser: currentUser, currentGatheringUid: currentGatheringUid, teamColor: teamColor)
 		self.viewModel.delegate = self
 	}
 	
