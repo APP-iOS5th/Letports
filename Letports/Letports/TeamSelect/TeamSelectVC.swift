@@ -53,7 +53,14 @@ class TeamSelectVC: UICollectionViewController {
         
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
-        collectionView.allowsMultipleSelection = true
+	
+		if let navigationBar = navigationController?.navigationBar {
+			let attributes: [NSAttributedString.Key: Any] = [
+				.font: UIFont.lp_Font(.bold, size: 34)
+			]
+			navigationBar.largeTitleTextAttributes = attributes
+		}
+		collectionView.allowsMultipleSelection = true
         
         viewModel.loadData { [weak self] in
             DispatchQueue.main.async {

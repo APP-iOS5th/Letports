@@ -29,7 +29,7 @@ class SettingSectionTVCell: UITableViewCell {
     private lazy var titleLabel: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.lp_black, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
         btn.addTarget(self, action: #selector(titlebtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -46,7 +46,7 @@ class SettingSectionTVCell: UITableViewCell {
     
     private lazy var versionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20)
+		label.font = UIFont.lp_Font(.regular, size: 20)
         label.textColor = .lp_gray
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
