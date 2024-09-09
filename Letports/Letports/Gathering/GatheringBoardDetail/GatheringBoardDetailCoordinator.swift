@@ -52,7 +52,7 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         let destructiveAction = UIAlertAction(title: destructiveTitle, style: .destructive) { [weak self] _ in
             
             if isWriter {
-                self?.viewModel.deletePost()
+                self?.presentDeleteBoardAlert()
             } else {
                 self?.viewModel.reportPost()
             }
@@ -85,6 +85,20 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let reportAction = UIAlertAction(title: "신고", style: .destructive) { _ in
             print("게시글을 신고했습니다.")
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(reportAction)
+
+        self.navigationController.present(alert, animated: true, completion: nil)
+    }
+    
+    func presentDeleteBoardAlert() {
+        let alert = UIAlertController(title: "게시글 삭제", message: "해당 게시글을 삭제하시겠습니까?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let reportAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.viewModel.deletePost()
         }
 
         alert.addAction(cancelAction)

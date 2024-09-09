@@ -45,6 +45,14 @@ final class GatheringBoardDetailVC: UIViewController {
         return view
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
     private var viewModel: GatheringBoardDetailVM
     
     private var cancellables = Set<AnyCancellable>()
@@ -83,6 +91,16 @@ final class GatheringBoardDetailVC: UIViewController {
             self?.tableView.reloadData()
         }
         .store(in: &cancellables)
+        
+        viewModel.$isLoading
+            .sink { [weak self] isUploading in
+                if isUploading {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func updateUI(with boardType: PostType) {
@@ -107,7 +125,7 @@ final class GatheringBoardDetailVC: UIViewController {
     private func setupUI() {
         self.view.backgroundColor = .lp_background_white
         
-        [navigationView, tableView, commentInputView].forEach {
+        [navigationView, tableView, commentInputView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         
@@ -124,7 +142,13 @@ final class GatheringBoardDetailVC: UIViewController {
             commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            commentInputView.heightAnchor.constraint(equalToConstant: 50)
+            commentInputView.heightAnchor.constraint(equalToConstant: 50),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            
         ])
     }
     
