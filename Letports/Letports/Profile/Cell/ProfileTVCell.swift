@@ -25,7 +25,7 @@ class ProfileTVCell: UITableViewCell {
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 20)
+		label.font = UIFont.lp_Font(.regular, size: 18)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -33,7 +33,7 @@ class ProfileTVCell: UITableViewCell {
     
     private lazy var simpleInfoLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 12)
+		label.font = UIFont.lp_Font(.regular, size: 13)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -104,13 +104,14 @@ class ProfileTVCell: UITableViewCell {
             profileIV.widthAnchor.constraint(equalToConstant: 80),
             profileIV.heightAnchor.constraint(equalToConstant: 80),
             
+            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
-            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            nickNameLabel.heightAnchor.constraint(equalToConstant: 25),
             editableNickNameTrailingConstraint!,
             
             simpleInfoLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
             simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 10),
-            simpleInfoLabel.trailingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor),
+            simpleInfoLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             
             editProfileBtn.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             editProfileBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
