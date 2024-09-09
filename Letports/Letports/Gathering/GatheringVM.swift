@@ -32,8 +32,8 @@ class GatheringVM {
         self.delegate?.presentTeamChangeController()
     }
     
-    func pushGatheringDetailController(gatheringUid: String) {
-        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid)
+    func pushGatheringDetailController(gatheringUid: String, teamColor: String) {
+        self.delegate?.pushGatheringDetailController(gatheringUid: gatheringUid, teamColor: teamColor)
     }
     
     func pushGatheringUploadController() {

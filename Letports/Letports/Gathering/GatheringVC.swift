@@ -151,14 +151,14 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.recommendGatherings.count {
                 let (gathering, sports) = viewModel.recommendGatherings[gatheringIndex]
-                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid)
+                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid, teamColor: sports.logoHex)
             }
         case .gatheringLists:
             startIndex = viewModel.recommendGatherings.isEmpty ? 3 : 2 + viewModel.recommendGatherings.count
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.gatheringLists.count {
                 let (gathering, sports) = viewModel.gatheringLists[gatheringIndex]
-                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid)
+                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid, teamColor: sports.logoHex)
             }
         default:
             break
