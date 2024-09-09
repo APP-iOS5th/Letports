@@ -199,7 +199,7 @@ class CustomNavigationView: UIView {
 			button.setTitle(self.screenType.buttonImage, for: .normal)
 		}
 		
-		button.titleLabel?.font = .systemFont(ofSize: 16)
+		button.titleLabel?.font = .lp_Font(.regular, size: 16)
 		button.setTitleColor(.black, for: .normal)
 		button.tintColor = .black
 		

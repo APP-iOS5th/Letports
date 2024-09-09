@@ -45,12 +45,12 @@ class GatheringUploadMainTVCell: UITableViewCell {
                 
         NSLayoutConstraint.activate([
             teamLogo.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 11),
-            teamLogo.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 17),
+            teamLogo.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 25),
             teamLogo.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
-            teamLogo.heightAnchor.constraint(equalToConstant: 90),
-            teamLogo.widthAnchor.constraint(equalToConstant: 90),
+            teamLogo.heightAnchor.constraint(equalToConstant: 70),
+            teamLogo.widthAnchor.constraint(equalToConstant: 70),
             
-            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 16),
+            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 25),
             teamName.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
             teamName.centerYAnchor.constraint(equalTo: teamLogo.centerYAnchor)
         ])

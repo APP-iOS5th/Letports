@@ -253,7 +253,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.textLabel?.text = "댓글이 없어요.."
             cell.textLabel?.textAlignment = .center
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+			cell.textLabel?.font = UIFont.lp_Font(.regular, size: 16)
             cell.textLabel?.textColor = .gray
             cell.backgroundColor = .lp_background_white
             return cell
