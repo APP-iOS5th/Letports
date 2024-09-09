@@ -31,7 +31,7 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
         tf.delegate = self
         tf.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10, height: 0.0))
         tf.leftViewMode = .always
-		tf.font = .lp_Font(.light, size: 12)
+        tf.font = .lp_Font(.regular, size: 12)
         tf.textColor = .lp_black
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false

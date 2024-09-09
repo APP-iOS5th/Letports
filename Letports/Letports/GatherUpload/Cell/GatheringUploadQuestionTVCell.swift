@@ -24,6 +24,7 @@ class GatheringUploadQuestionTVCell: UITableViewCell {
         let tv = UITextView()
         tv.backgroundColor = .lp_white
         tv.textColor = .lp_black
+        tv.font = .lp_Font(.regular, size: 15)
         tv.layer.cornerRadius = 10
         tv.isScrollEnabled = true
         tv.delegate = self
