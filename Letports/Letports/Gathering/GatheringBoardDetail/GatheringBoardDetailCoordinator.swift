@@ -45,11 +45,17 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         self.parentCoordinator?.childDidFinish(self)
     }
     
-    func presentActionSheet(post: Post) {
+    func presentActionSheet(post: Post, isWriter: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "게시글 삭제", style: .destructive) { [weak self] _ in
-            self?.viewModel.deletePost()
+        let destructiveTitle = isWriter ? "게시글 삭제" : "게시글 신고"
+        let destructiveAction = UIAlertAction(title: destructiveTitle, style: .destructive) { [weak self] _ in
+            
+            if isWriter {
+                self?.presentDeleteBoardAlert()
+            } else {
+                self?.viewModel.reportPost()
+            }
         }
         
         let editAction = UIAlertAction(title: "게시글 수정", style: .default) { [weak self] _ in
@@ -64,10 +70,40 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
-        alertController.addAction(deleteAction)
-        alertController.addAction(editAction)
+        alertController.addAction(destructiveAction)
+        if isWriter {
+            alertController.addAction(editAction)
+        }
         alertController.addAction(cancelAction)
         
         navigationController.present(alertController, animated: true, completion: nil)
+    }
+    
+    func presentReportAlert() {
+        let alert = UIAlertController(title: "게시글 신고", message: "해당 게시글을 신고하시겠습니까?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let reportAction = UIAlertAction(title: "신고", style: .destructive) { _ in
+            print("게시글을 신고했습니다.")
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(reportAction)
+
+        self.navigationController.present(alert, animated: true, completion: nil)
+    }
+    
+    func presentDeleteBoardAlert() {
+        let alert = UIAlertController(title: "게시글 삭제", message: "해당 게시글을 삭제하시겠습니까?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let reportAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.viewModel.deletePost()
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(reportAction)
+
+        self.navigationController.present(alert, animated: true, completion: nil)
     }
 }

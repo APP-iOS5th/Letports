@@ -283,7 +283,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .pendingGatheringEmptyState:
             if let cell: EmptyStateTVCell = tableView.loadCell(indexPath: indexPath) {
-                cell.configure(title: "가입대기중인 소모임이 없습니다")
+                cell.configure(title: "가입 대기중인 소모임이 없습니다")
                 return cell
             }
         case .userGatheringHeader:
@@ -319,7 +319,6 @@ extension ProfileVC: ProfileDelegate {
     }
     func editProfileBtnDidTap() {
         self.viewModel.editProfileBtnDidTap()
-        
     }
 }
 

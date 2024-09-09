@@ -46,10 +46,9 @@ class CommentTVCell: UITableViewCell {
     
     private let commentLabel: UILabel = {
         let lb = UILabel()
-        lb.font = .systemFont(ofSize: 10)
+        lb.font = .systemFont(ofSize: 12)
         lb.textAlignment = .left
         lb.numberOfLines = 0
-        lb.lineBreakMode = .byTruncatingTail
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.lineBreakMode = .byWordWrapping
         return lb
@@ -66,6 +65,7 @@ class CommentTVCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
+        commentLabel.preferredMaxLayoutWidth = commentLabel.frame.width
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -119,7 +119,7 @@ class CommentTVCell: UITableViewCell {
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-			commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20)
+			commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 25)
         ])
     }
     
@@ -142,5 +142,8 @@ class CommentTVCell: UITableViewCell {
                                         .cacheOriginalImage
                                       ])
         }
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 }

@@ -24,24 +24,24 @@ class GatheringTV: UITableViewCell {
     }()
     
     private let sportsTeamLabel: UILabel = {
-        let lb = UILabel()
-        lb.font = .lp_Font(.regular, size: 10)
-        lb.textAlignment = .center
-        lb.layer.cornerRadius = 5
-        lb.clipsToBounds = true
-        lb.translatesAutoresizingMaskIntoConstraints = false
-        return lb
+        let label = UILabel()
+        label.font = .lp_Font(.regular, size: 10)
+        label.textAlignment = .center
+        label.layer.cornerRadius = 5
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let sportsLabel: UILabel = {
-        let lb = UILabel()
-        lb.font = .lp_Font(.regular, size: 10)
-        lb.textColor = .lp_black
-        lb.textAlignment = .center
-        lb.layer.cornerRadius = 5
-        lb.clipsToBounds = true
-        lb.translatesAutoresizingMaskIntoConstraints = false
-        return lb
+        let label = UILabel()
+        label.font = .lp_Font(.regular, size: 10)
+        label.textColor = .lp_black
+        label.textAlignment = .center
+        label.layer.cornerRadius = 5
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var gatheringIV: UIImageView = {
@@ -76,7 +76,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var gatheringInfo: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = UIColor(named: "lp_gray")
         label.textAlignment = .left
         label.numberOfLines = 3
@@ -151,6 +151,9 @@ class GatheringTV: UITableViewCell {
         gatheringMasterIV.image = nil
     }
     
+    private var gatheringNameTrailingConstraintToMasterIV: NSLayoutConstraint?
+    private var gatheringNameTrailingConstraintToContainer: NSLayoutConstraint?
+    
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
@@ -158,6 +161,9 @@ class GatheringTV: UITableViewCell {
         [gatheringIV, gatheringName, gatheringInfo, gatheringMasterIV, gatheringMasterName, personIV, memberCount, calendarIV, createGatheringDate, isGatheringMasterIV, sportsTeamLabel, sportsLabel].forEach {
             containerView.addSubview($0)
         }
+        
+        gatheringNameTrailingConstraintToMasterIV = gatheringName.trailingAnchor.constraint(equalTo: isGatheringMasterIV.leadingAnchor, constant: 5)
+        gatheringNameTrailingConstraintToContainer = gatheringName.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -224,6 +230,16 @@ class GatheringTV: UITableViewCell {
         ])
     }
     
+    private func updateGatheringNameTrailingConstraint() {
+     
+        gatheringNameTrailingConstraintToMasterIV?.isActive = false
+        gatheringNameTrailingConstraintToContainer?.isActive = false
+
+        if isGatheringMasterIV.isHidden {
+            gatheringNameTrailingConstraintToContainer?.isActive = true
+        } else {
+            gatheringNameTrailingConstraintToMasterIV?.isActive = true
+        }
     func configure(with gathering: Gathering, with sports: SportsTeam, with master: LetportsUser) {
         
         let date = gathering.gatheringCreateDate.dateValue()
@@ -257,6 +273,12 @@ class GatheringTV: UITableViewCell {
     
     func configure(with gathering: Gathering, with sports: SportsTeam, with user: LetportsUser, with master: LetportsUser) {
         
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+    
+    func configure(with gathering: Gathering, with sports: SportsTeam, with user: LetportsUser, with master: LetportsUser) {
+        updateGatheringNameTrailingConstraint()
         let date = gathering.gatheringCreateDate.dateValue()
         let dateString = date.toString(format: "yyyy-MM-dd")
         
@@ -267,7 +289,7 @@ class GatheringTV: UITableViewCell {
         sportsTeamLabel.backgroundColor = UIColor(hex: sports.logoHex).withAlphaComponent(0.1)
         sportsTeamLabel.textColor = UIColor(hex: sports.logoHex)
         isGatheringMasterIV.isHidden = gathering.gatheringMaster != user.uid
-        gatheringName.text = truncateText(gathering.gatherName, limit: 16)
+        gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = truncateText(master.nickname, limit: 10)
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"

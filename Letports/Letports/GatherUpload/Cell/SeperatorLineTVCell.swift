@@ -31,15 +31,17 @@ class SeperatorLineTVCell: UITableViewCell {
         self.contentView.addSubview(separatorView)
         
         NSLayoutConstraint.activate([
-            separatorView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            separatorView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             separatorView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             separatorView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
     }
     
     
     func configureCell(height: CGFloat) {
         separatorView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 }

@@ -16,8 +16,8 @@ protocol GatheringDetailDelegate: AnyObject {
 final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     private lazy var navigationView: CustomNavigationView = {
         let screenType: ScreenType
-        let cnv = CustomNavigationView(isLargeNavi: .small, 
-                                       screenType: .smallGathering(gatheringName: "", 
+        let cnv = CustomNavigationView(isLargeNavi: .small,
+                                       screenType: .smallGathering(gatheringName: "",
                                                                    btnName: .empty))
         cnv.delegate = self
         cnv.backgroundColor = .lp_background_white
@@ -71,6 +71,14 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         return tv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
     private var viewModel: GatheringDetailVM
     private var cancellables: Set<AnyCancellable> = []
     weak var delegate: GatheringDetailDelegate?
@@ -101,6 +109,17 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     
     // MARK: - bindVm
     private func bindViewModel() {
+        viewModel.$isLoading
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.showLoadingIndicator()
+                } else {
+                    self?.hideLoadingIndicator()
+                    
+                }
+            }
+            .store(in: &cancellables)
+        
         viewModel.$gathering
             .zip(viewModel.$membershipStatus, viewModel.$isMaster)
             .receive(on: DispatchQueue.main)
@@ -218,10 +237,37 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         ])
     }
     
+    private func showLoadingIndicator() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
+        
+        // loadingIndicatorView를 window에 추가
+        window.addSubview(loadingIndicatorView)
+        
+        // Auto Layout 제약 설정
+        NSLayoutConstraint.activate([
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+            loadingIndicatorView.topAnchor.constraint(equalTo: window.topAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+        ])
+        
+        // 로딩 뷰 표시
+        loadingIndicatorView.isHidden = false
+        loadingIndicatorView.startAnimating()
+        window.layoutIfNeeded()
+    }
+    
+    private func hideLoadingIndicator() {
+        loadingIndicatorView.stopAnimating()
+        loadingIndicatorView.isHidden = true
+        loadingIndicatorView.removeFromSuperview()
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard viewModel.membershipStatus != .joined else {
-             return
-         }
+            return
+        }
         
         let yOffset = scrollView.contentOffset.y
         if yOffset > 100 {
@@ -343,7 +389,7 @@ extension GatheringDetailVC: JoinViewDelegate {
             }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
-  
+    
 }
 
 extension GatheringDetailVC: GatheringDetailDelegate {
@@ -461,14 +507,12 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
             return 80
         case .gatheringBoard:
             return viewModel.calculateBoardHeight()
-        case .separator:
-            return 1
         default:
             return UITableView.automaticDimension
         }
     }
     
-  
+    
 }
 
 
