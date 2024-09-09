@@ -42,6 +42,7 @@ extension HomeCoordinator: HomeCoordinatorDelegate {
 
 	func presentTeamChangeController() {
         let coordinator = TeamSelectCoordinator(navigationController: navigationController)
+        coordinator.dismissAnimation = true
         coordinator.presentStart()
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
