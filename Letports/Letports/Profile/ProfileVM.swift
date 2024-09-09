@@ -114,7 +114,7 @@ class ProfileVM {
             .sink { _ in
             } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
-                self.isLoading = false
+                isLoading = false
                 self.getDatas(gatherings: gatherings, userUID: userUID, isCurrentUser: isCurrentUser)
             }
             .store(in: &cancellables)
@@ -231,11 +231,14 @@ class ProfileVM {
                 }
             }, receiveValue: { [weak self] resultsWithSportsTeam in
                 guard let self = self else { return }
+                let sortedResults = resultsWithSportsTeam.sorted { (gathering1, gathering2) -> Bool in
+                    return gathering1.0.gatheringCreateDate.dateValue() > gathering2.0.gatheringCreateDate.dateValue()
+                }
                 if isCurrentUser {
-                    self.myGatherings = resultsWithSportsTeam.filter { $0.2 }.map { ($0.0, $0.1) }
-                    self.pendingGatherings = resultsWithSportsTeam.filter { $0.3 }.map { ($0.0, $0.1) }
+                    self.myGatherings = sortedResults.filter { $0.2 }.map { ($0.0, $0.1) }
+                    self.pendingGatherings = sortedResults.filter { $0.3 }.map { ($0.0, $0.1) }
                 } else {
-                    self.userGatherings = resultsWithSportsTeam.map { ($0.0, $0.1) }
+                    self.userGatherings = sortedResults.map { ($0.0, $0.1) }
                 }
             })
             .store(in: &cancellables)
