@@ -27,7 +27,7 @@ class ManageUserView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+		label.font = .lp_Font(.bold, size: 20)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +35,7 @@ class ManageUserView: UIView {
     
     private lazy var plzAnswerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+		label.font = .lp_Font(.regular, size: 14)
         label.textColor = .lp_black
         label.text = "가입질문"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ class ManageUserView: UIView {
     private lazy var questionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-        textView.font = .systemFont(ofSize: 12)
+		textView.font = .lp_Font(.regular, size: 12)
         textView.backgroundColor = .lp_background_white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -68,7 +68,7 @@ class ManageUserView: UIView {
         let btn = UIButton()
         btn.layer.cornerRadius = 10
         btn.addTarget(self, action: #selector(cancelBtnDidTap), for: .touchUpInside)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -89,7 +89,7 @@ class ManageUserView: UIView {
         let btn = UIButton()
         btn.layer.cornerRadius = 10
         btn.addTarget(self, action: #selector(expelBtnDidTap), for: .touchUpInside)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()

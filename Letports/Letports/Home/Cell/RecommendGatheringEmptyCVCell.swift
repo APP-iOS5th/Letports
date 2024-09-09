@@ -14,7 +14,7 @@ class RecommendGatheringEmptyCVCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "아직 생성된\n소모임이 없습니다."
         label.numberOfLines = 0
-		label.font = UIFont.lp_Font(.bold, size: 30)
+		label.font = UIFont.lp_Font(.regular, size: 30)
         label.textColor = .lpGray
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false

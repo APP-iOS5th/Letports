@@ -24,7 +24,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let masterNameLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 13)
+		lb.font = .lp_Font(.regular, size: 15)
         lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
@@ -32,7 +32,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let memberLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 13)
+		lb.font = .lp_Font(.regular, size: 15)
         lb.textColor = .lp_black
 		lb.text = "현재인원 :"
         lb.translatesAutoresizingMaskIntoConstraints = false
@@ -122,6 +122,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 		
 		NSLayoutConstraint.activate([
             titleLabel.heightAnchor.constraint(equalToConstant: 34),
+			titleSV.heightAnchor.constraint(equalToConstant: 90),
 			titleSV.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             titleSV.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
             titleSV.trailingAnchor.constraint(equalTo: self.editBtn.leadingAnchor, constant: -16),
@@ -138,7 +139,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	func configureCell(data: Gathering, currentUser: LetportsUser, masterNickname: String) {
 		titleLabel.text = data.gatherName
-		masterNameLabel.text = "모임장: \(masterNickname)"
+		masterNameLabel.text = "모임장 : \(masterNickname)"
 		gatherNowMemberLabel.text = "\(data.gatherNowMember)"
 		gatherMaxMemberLabel.text = "\(data.gatherMaxMember)"
 		let isMaster = currentUser.uid == data.gatheringMaster

@@ -12,7 +12,7 @@ class BoardEditorHeaderCVCell: UICollectionReusableView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
+		label.font = .lp_Font(.regular, size: 18)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -51,7 +51,7 @@ class BoardEditorHeaderCVCell: UICollectionReusableView {
         
         if let text = text {
             let textAttributedString = NSAttributedString(string: "\(text)", attributes: [
-                .font: UIFont.systemFont(ofSize: 18),
+				.font: UIFont.lp_Font(.regular, size: 18),
                 .foregroundColor: UIColor.lp_black
             ])
             fullText.append(textAttributedString)
@@ -59,7 +59,7 @@ class BoardEditorHeaderCVCell: UICollectionReusableView {
         
         if let photoCount = photoCount {
             let photoCountString = NSAttributedString(string: " \(photoCount)/5", attributes: [
-                .font: UIFont.systemFont(ofSize: 12),
+                .font: UIFont.lp_Font(.regular, size: 12),
                 .foregroundColor: UIColor.lightGray
             ])
             fullText.append(photoCountString)

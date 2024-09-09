@@ -30,7 +30,7 @@ class CommentTVCell: UITableViewCell {
     
     private let createDateLabel: UILabel = {
         let lb = UILabel()
-        lb.font = .systemFont(ofSize: 8)
+		lb.font = .lp_Font(.regular, size: 8)
         lb.textColor = .lightGray
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -38,7 +38,7 @@ class CommentTVCell: UITableViewCell {
     
     private let nickNameLabel: UILabel = {
         let lb = UILabel()
-        lb.font = .systemFont(ofSize: 14)
+		lb.font = .lp_Font(.regular, size: 14)
         lb.textColor = .lp_black
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb

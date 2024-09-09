@@ -67,7 +67,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var gatheringName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+		label.font = .lp_Font(.regular, size: 15)
         label.textAlignment = .left
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var gatheringInfo: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+		label.font = .lp_Font(.regular, size: 12)
         label.textColor = UIColor(named: "lp_gray")
         label.textAlignment = .left
         label.numberOfLines = 3
@@ -96,7 +96,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var gatheringMasterName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+		label.font = .lp_Font(.regular, size: 10)
         label.textAlignment = .left
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -113,7 +113,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var memberCount: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+		label.font = .lp_Font(.regular, size: 10)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -129,7 +129,7 @@ class GatheringTV: UITableViewCell {
     
     private lazy var createGatheringDate: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+		label.font = .lp_Font(.regular, size: 10)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
