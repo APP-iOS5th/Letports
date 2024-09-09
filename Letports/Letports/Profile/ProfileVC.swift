@@ -41,7 +41,7 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTV.self,
+                         GatheringTVCell.self,
                          EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
@@ -233,7 +233,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .myGatherings:
-            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
@@ -255,7 +255,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .pendingGatherings:
-            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 var startIndex = 0
                 if viewModel.myGatherings.count == 0 {
                     startIndex = 4
@@ -292,7 +292,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .userGatherings:
-            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.userGatherings.count {

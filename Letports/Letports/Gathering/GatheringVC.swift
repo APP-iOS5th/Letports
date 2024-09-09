@@ -39,7 +39,7 @@ class GatheringVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none
-        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTV.self, EmptyStateTVCell.self)
+        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self, EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -180,12 +180,10 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
         case .recommendGatheringHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
                 cell.configure(title:"추천 소모임", count: viewModel.recommendGatherings.count)
-                cell.backgroundColor = .lp_background_white
                 return cell
             }
         case .recommendGatherings:
-            if let cell: GatheringTV  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 1
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.recommendGatherings.count {
@@ -200,13 +198,11 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
             }
         case .gatheringListHeader:
             if let cell: SectionTVCell  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
                 cell.configure(title:"소모임 리스트", count: viewModel.gatheringLists.count)
                 return cell
             }
         case .gatheringLists:
-            if let cell: GatheringTV  = tableView.loadCell(indexPath: indexPath) {
-                cell.backgroundColor = .lp_background_white
+            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = viewModel.getRecommendGatheringCount() + 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.gatheringLists.count {
