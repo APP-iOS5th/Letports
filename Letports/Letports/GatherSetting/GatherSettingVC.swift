@@ -104,7 +104,6 @@ class GatherSettingVC: UIViewController {
             loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        loadingIndicatorView.isHidden = true
     }
     
     private func bindViewModel() {
