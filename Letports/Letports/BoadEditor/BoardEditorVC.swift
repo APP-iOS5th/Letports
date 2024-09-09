@@ -176,11 +176,7 @@ extension BoardEditorVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		self.buttonTapSubject.send(())
 	}
-	
-	func sportsSelectBtnDidTap() {
-		
-	}
-	
+    
 	func backBtnDidTap() {
 		self.viewModel.backButtonTapped()
 	}
