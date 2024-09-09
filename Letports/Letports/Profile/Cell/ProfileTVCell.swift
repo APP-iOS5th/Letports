@@ -68,6 +68,21 @@ class ProfileTVCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        profileIV.image = nil
+        profileIV.backgroundColor = .lp_gray
+        
+        nickNameLabel.text = nil
+        simpleInfoLabel.text = nil
+        
+        editProfileBtn.isHidden = true
+        
+        editableNickNameTrailingConstraint?.isActive = false
+        nonEditableNickNameTrailingConstraint?.isActive = true
+    }
+    
     private func setupUI() {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .lp_background_white
