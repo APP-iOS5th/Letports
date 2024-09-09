@@ -46,6 +46,65 @@ struct YoutubeAPIResponse: Codable {
     let items: [Item]
 }
 
+class RSSParser: NSObject, XMLParserDelegate {
+    
+    private var currentElement = ""
+    private var currentTitle = ""
+    private var currentThumbnailURL = ""
+    private var currentVideoID = ""
+    
+    var videos: [YoutubeVideo] = []
+    
+    func parseRSSFeed(from data: Data) -> Future<[YoutubeVideo], Error> {
+        return Future { [weak self] promise in
+            let parser = XMLParser(data: data)
+            parser.delegate = self
+            let success = parser.parse()
+            
+            if success {
+                promise(.success(self?.videos ?? []))
+            } else {
+                promise(.failure(NSError(domain: "RSSParsing", code: -1, userInfo: [NSLocalizedDescriptionKey: "Parsing failed"])))
+            }
+        }
+    }
+    
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        currentElement = elementName
+        
+        if elementName == "media:thumbnail" {
+            if let url = attributeDict["url"] {
+                currentThumbnailURL = url
+            }
+        }
+        
+        if elementName == "link" {
+            if let href = attributeDict["href"], href.contains("watch?v=") {
+                currentVideoID = href.replacingOccurrences(of: "https://www.youtube.com/watch?v=", with: "")
+            }
+        }
+    }
+    
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if currentElement == "title" {
+            currentTitle += string
+        }
+    }
+    
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "entry" {
+            if let thumbnailURL = URL(string: currentThumbnailURL), let videoURL = URL(string: "https://www.youtube.com/watch?v=\(currentVideoID)") {
+                let video = YoutubeVideo(title: currentTitle, thumbnailURL: thumbnailURL, videoURL: videoURL)
+                videos.append(video)
+            }
+            
+            currentTitle = ""
+            currentThumbnailURL = ""
+            currentVideoID = ""
+        }
+    }
+}
+
 class HomeViewModel {
     
     @Published var latestYoutubeVideos: [YoutubeVideo] = []
@@ -110,51 +169,34 @@ class HomeViewModel {
     private func fetchLatestYoutubeVideos() {
         guard let team = team else { return }
         
-        let channelID = team.youtubeChannelID
+        let rssFeedURL = "https://www.youtube.com/feeds/videos.xml?channel_id=\(team.youtubeChannelID)"
         
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "YOUTUBE_API_KEY") as? String else {
-            print("API Key not found in Info.plist")
+        guard let url = URL(string: rssFeedURL) else {
+            print("Invalid URL")
             return
         }
         
-        let apiUrlString = "https://www.googleapis.com/youtube/v3/search?key=\(apiKey)&channelId=" +
-        "\(channelID)&part=snippet&order=date&maxResults=2"
-        
-        guard let apiUrl = URL(string: apiUrlString) else {
-            return
-        }
-        
-        URLSession.shared.dataTaskPublisher(for: apiUrl)
+        URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { output in
                 guard let response = output.response as? HTTPURLResponse, response.statusCode == 200 else {
                     throw URLError(.badServerResponse)
                 }
                 return output.data
             }
-            .decode(type: YoutubeAPIResponse.self, decoder: JSONDecoder())
-            .map { response in
-                response.items.compactMap { item -> YoutubeVideo? in
-                    guard let videoId = item.id.videoId,
-                          let thumbnailURL = URL(string: item.snippet.thumbnails.medium.url),
-                          let videoURL = URL(string: "https://www.youtube.com/watch?v=\(videoId)") else {
-                        return nil
-                    }
-                    return YoutubeVideo(title: item.snippet.title,
-                                        thumbnailURL: thumbnailURL,
-                                        videoURL: videoURL)
-                }
+            .flatMap { data in
+                RSSParser().parseRSSFeed(from: data)
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error fetching YouTube videos: \(error)")
+                    print("Error fetching Youtube videos: \(error)")
                 }
             }, receiveValue: { [weak self] videos in
                 self?.latestYoutubeVideos = videos
             })
             .store(in: &cancellables)
     }
-    
+          
     func fetchGatherings(forTeam teamName: String) {
         db.collection("Gatherings")
             .whereField("GatheringSportsTeam", isEqualTo: teamName)
@@ -194,4 +236,6 @@ class HomeViewModel {
     func pushGatheringDetailController(gatheringUID: String) {
         self.delegate?.pushGatheringDetailController(gatheringUID: gatheringUID)
     }
+    
+    
 }

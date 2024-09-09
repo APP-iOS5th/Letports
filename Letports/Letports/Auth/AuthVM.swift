@@ -1,6 +1,8 @@
-
-
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseMessaging
+import Combine
 
 class AuthVM {
     private let authService: AuthServiceProtocol
@@ -17,6 +19,7 @@ class AuthVM {
             DispatchQueue.main.async {
                 switch result {
                 case .success:
+                    self?.registerTokenIfNeeded()
                     self?.loginSuccess?()
                 case .failure(let error):
                     self?.loginFailure?(error)
@@ -30,12 +33,22 @@ class AuthVM {
             DispatchQueue.main.async {
                 switch result {
                 case .success:
+                    self?.registerTokenIfNeeded()
                     self?.loginSuccess?()
                 case .failure(let error):
                     self?.loginFailure?(error)
                 }
             }
         }
+    }
+    
+    private func registerTokenIfNeeded() {
+        guard let fcmToken = Messaging.messaging().fcmToken, let user = Auth.auth().currentUser else {
+            print("Cannot register FCM token, missing data.")
+            return
+        }
+        // FCM 토큰을 현재 사용자에 맞게 업데이트
+        NotificationService.shared.setUIDAndRegisterToken(uid: user.uid, fcmToken: fcmToken)
     }
     
     func signOut() {

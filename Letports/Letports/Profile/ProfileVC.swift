@@ -27,7 +27,7 @@ class ProfileVC: UIViewController {
         case .myProfile:
             view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
         case .userProfile:
-            view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile)
+            view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile(btnName: .ellipsis))
         }
         view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,7 @@ class ProfileVC: UIViewController {
         tv.separatorStyle = .none
         tv.registersCell(cellClasses: SectionTVCell.self,
                          ProfileTVCell.self,
-                         GatheringTVCell.self,
+                         GatheringTV.self,
                          EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
@@ -67,7 +67,9 @@ class ProfileVC: UIViewController {
             self.view.addSubview($0)
         }
         
-        tableView.refreshControl = refreshControl
+        if viewModel.profileType == .myProfile {
+            tableView.refreshControl = refreshControl
+        }
         tableView.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = true
         
@@ -107,6 +109,29 @@ class ProfileVC: UIViewController {
     
     @objc private func refreshData() {
         performRefresh()
+    }
+    
+    func presentActionSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { [weak self] _ in
+            if let user = self?.viewModel.user?.nickname {
+                if user == UserManager.shared.currentUser?.nickname {
+                    self?.showAlert(title: "알림", message: "자신은 신고할수 없습니다.", confirmTitle: "확인", onConfirm: {
+                    })
+                } else {
+                    self?.showAlert(title: "알림", message: "\(user)유저가 신고되었습니다.", confirmTitle: "확인", onConfirm: {
+                    })
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(reportAction)
+        alertController.addAction(cancelAction)
+        
+        navigationController?.present(alertController, animated: true, completion: nil)
     }
     
     private func performRefresh() {
@@ -159,7 +184,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let startIndex = 2
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.myGatherings.count {
-                let gathering = viewModel.myGatherings[gatheringIndex]
+                let (gathering,sports) = viewModel.myGatherings[gatheringIndex]
                 self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         case .pendingGatherings:
@@ -171,7 +196,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
             let gatheringIndex = indexPath.row - startIndex
             if gatheringIndex >= 0 && gatheringIndex < viewModel.pendingGatherings.count {
-                let gathering = viewModel.pendingGatherings[gatheringIndex]
+                let (gathering,sports) = viewModel.pendingGatherings[gatheringIndex]
                 self.viewModel.gatheringCellDidTap(gatheringUID: gathering.gatheringUid)
             }
         default:
@@ -188,7 +213,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .myGatheringHeader, .pendingGatheringHeader, .userGatheringHeader:
             return 40.0
         case .myGatherings, .pendingGatherings, .userGatherings, .myGatheringEmptyState, .pendingGatheringEmptyState:
-            return 100.0
+            return 110.0
         }
     }
     
@@ -208,15 +233,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .myGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.myGatherings.count {
-                    let gathering = viewModel.myGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.myGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -230,7 +255,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .pendingGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 var startIndex = 0
                 if viewModel.myGatherings.count == 0 {
                     startIndex = 4
@@ -239,11 +264,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.pendingGatherings.count {
-                    let gathering = viewModel.pendingGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.pendingGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: viewModel.profileType == .myProfile)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -267,15 +292,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .userGatherings:
-            if let cell: GatheringTVCell = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV = tableView.loadCell(indexPath: indexPath) {
                 let startIndex = 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.userGatherings.count {
-                    let gathering = viewModel.userGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.userGatherings[gatheringIndex]
                     if let user = viewModel.user {
                         if let masterUser = viewModel.masterUsers[gathering.gatheringMaster] {
                             cell.selectionStyle = .default
-                            cell.configure(with: gathering, with: user, with: masterUser, isAnimationEnabled: false)
+                            cell.configure(with: gathering, with: sports, with: user, with: masterUser)
                         } else {
                             viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                         }
@@ -294,14 +319,20 @@ extension ProfileVC: ProfileDelegate {
     }
     func editProfileBtnDidTap() {
         self.viewModel.editProfileBtnDidTap()
-
+        
     }
 }
 
 extension ProfileVC: CustomNavigationDelegate {
     func smallRightBtnDidTap() {
-        self.viewModel.settingBtnDidTap()
+        switch viewModel.profileType {
+        case .myProfile:
+            self.viewModel.settingBtnDidTap()
+        case .userProfile:
+            presentActionSheet()
+        }
     }
+    
     func backBtnDidTap() {
         self.viewModel.backBtnDidTap()
     }

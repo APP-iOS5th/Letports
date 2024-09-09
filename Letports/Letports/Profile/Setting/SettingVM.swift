@@ -4,6 +4,9 @@
 //
 //  Created by mosi on 9/3/24.
 //
+
+import Foundation
+
 enum SettingCellType {
     case notification
     case AppTermsofService
@@ -42,6 +45,10 @@ class SettingVM {
         print("바뀜")
     }
     
+    func logout() {
+        delegate?.logoutDidTap()
+    }
+    
     func buttonAction(cellType: SettingCellType) {
         switch cellType {
         case .AppTermsofService:
@@ -51,7 +58,7 @@ class SettingVM {
         case .appInfo:
             delegate?.appInfoDidTap()
         case .logout:
-            delegate?.logoutDidTap()
+            break;
         default:
             break
         }

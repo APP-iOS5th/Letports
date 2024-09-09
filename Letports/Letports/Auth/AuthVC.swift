@@ -35,13 +35,16 @@ class AuthVC: UIViewController {
         
         configuration.imagePadding = 10
         
-        configuration.image = UIImage(named: "apple_Logo")
+        configuration.image = UIImage(named: "apple_login")
         configuration.imagePlacement = .leading
+        
+        var titleAttr = AttributedString("Apple로 로그인")
+        titleAttr.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        configuration.attributedTitle = titleAttr
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-        btn.setTitle("애플로 로그인", for: .normal)
-        
         btn.addTarget(self, action: #selector(appleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -53,16 +56,19 @@ class AuthVC: UIViewController {
         configuration.baseBackgroundColor = .white
         configuration.baseForegroundColor = .black
         configuration.imagePadding = 10
-        configuration.image = UIImage(named: "google_Logo")
+        configuration.image = UIImage(named: "google_login")
         configuration.imagePlacement = .leading
+        
+        var titleAttr = AttributedString("Google로 로그인")
+        titleAttr.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        configuration.attributedTitle = titleAttr
+        
         
         let btn = UIButton(configuration: configuration, primaryAction: nil)
         btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 0.5
+        btn.layer.borderWidth = 1.0
         btn.layer.borderColor = UIColor.black.cgColor
-        
-        btn.setTitle("구글로 로그인", for: .normal)
-        
         btn.addTarget(self, action: #selector(googleSignInBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -80,7 +86,7 @@ class AuthVC: UIViewController {
         view.addSubview(logoIconImage)
         
         NSLayoutConstraint.activate([
-            logoIconImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+            logoIconImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -150),
             logoIconImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoIconImage.widthAnchor.constraint(equalToConstant: 250),
             logoIconImage.heightAnchor.constraint(equalTo: logoIconImage.widthAnchor, multiplier: 1/3.2),
@@ -88,13 +94,15 @@ class AuthVC: UIViewController {
             
             appleSignInBtn.topAnchor.constraint(equalTo: logoIconImage.bottomAnchor, constant: 200),
             appleSignInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appleSignInBtn.widthAnchor.constraint(equalToConstant: 280),
-            appleSignInBtn.heightAnchor.constraint(equalToConstant: 44),
+            appleSignInBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            appleSignInBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            appleSignInBtn.heightAnchor.constraint(equalToConstant: 55),
             
             googleSignInBtn.topAnchor.constraint(equalTo: appleSignInBtn.bottomAnchor, constant: 20),
             googleSignInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            googleSignInBtn.widthAnchor.constraint(equalToConstant: 280),
-            googleSignInBtn.heightAnchor.constraint(equalToConstant: 44),
+            googleSignInBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            googleSignInBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            googleSignInBtn.heightAnchor.constraint(equalToConstant: 55),
             googleSignInBtn.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: 0)
         ])
     }
@@ -133,7 +141,6 @@ extension AuthVC: ASAuthorizationControllerDelegate {
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
-            
             viewModel.signInWithApple(idTokenString: idTokenString, nonce: nonce)
         }
     }

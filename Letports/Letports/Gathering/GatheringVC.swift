@@ -125,7 +125,11 @@ class GatheringVC: UIViewController {
             }
         }
     }
-}
+    
+    func loadGathering() {
+        self.viewModel.loadGatherings(forTeam: UserManager.shared.currentUser?.userSportsTeam ?? "")
+    }
+ }
 
 extension GatheringVC: CustomNavigationDelegate {
     func sportsSelectBtnDidTap() {

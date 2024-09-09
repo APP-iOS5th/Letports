@@ -1,6 +1,7 @@
 import UIKit
 import Combine
 import FirebaseFirestore
+import FirebaseStorage
 
 enum GatheringSettingCellType {
     case pendingGatheringUserTtitle
@@ -22,8 +23,6 @@ class GatherSettingVM {
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatherSettingCoordinatorDelegate?
-    
-    var alertPublisher = PassthroughSubject<(title: String, message: String, confirmAction: () -> Void, cancelAction: () -> Void), Never>()
     
     private var cellType: [GatheringSettingCellType] {
         var cellTypes: [GatheringSettingCellType] = []
@@ -52,7 +51,6 @@ class GatherSettingVM {
     }
     
     func denyUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
-        
         let gatheringCollectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gathering?.gatheringUid ?? ""),
@@ -83,9 +81,7 @@ class GatherSettingVM {
             .document(userUid)
         ]
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let joinDate = dateFormatter.string(from: Date())
+        let joinDate = Date().toString(format: "yyyy-MM-dd")
         
         let fieldsToUpdate: [String: Any] = [
             "JoinStatus": "joined",
@@ -111,8 +107,173 @@ class GatherSettingVM {
         
     }
     
-    func deleteGathering() {
-        print("테스트")
+    func deleteGatheringButtonTapped()-> AnyPublisher<Void, FirestoreError>{
+        return deleteAllGatheringMembers()
+            .flatMap { [weak self] in
+                self?.deleteGatheringImage() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+            }
+            .flatMap { [weak self] in
+                self?.deleteBoardImages() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+            }
+            .flatMap { [weak self] in
+                self?.showCompletionAlert() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    
+    private func showCompletionAlert() -> AnyPublisher<Void, FirestoreError> {
+        return Future { [weak self] promise in
+            self?.delegate?.gatherDeleteFinish()
+            promise(.success(()))
+        }
+        .setFailureType(to: FirestoreError.self)
+        .eraseToAnyPublisher()
+    }
+    
+    
+    func deleteAllGatheringMembers() -> AnyPublisher<Void, FirestoreError> {
+        guard let gatheringUid = gathering?.gatheringUid else {
+            return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+        }
+        
+        let gatheringMembersCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gatheringUid),
+            .collection(.gatheringMembers)
+        ]
+        
+        return FM.getData(pathComponents: gatheringMembersCollectionPath, type: GatheringMember.self)
+            .flatMap { [weak self] gatheringMembers -> AnyPublisher<Void, FirestoreError> in
+                let deletePublishers = gatheringMembers.map { member -> AnyPublisher<Void, FirestoreError> in
+                    
+                    let userMyGatheringPath: [FirestorePathComponent] = [
+                        .collection(.user),
+                        .document(member.userUID),
+                        .collection(.myGathering),
+                        .document(gatheringUid)
+                    ]
+                    
+                    let gatheringMemberPath: [FirestorePathComponent] = [
+                        .collection(.gatherings),
+                        .document(gatheringUid),
+                        .collection(.gatheringMembers),
+                        .document(member.userUID)
+                    ]
+                    
+                    return Publishers.Zip(
+                        FM.deleteDocument(pathComponents: userMyGatheringPath),
+                        FM.deleteDocument(pathComponents: gatheringMemberPath)
+                    )
+                    .map { _, _ in () }
+                    .mapError { _ in FirestoreError.deleteFailed }
+                    .eraseToAnyPublisher()
+                }
+                
+                return Publishers.MergeMany(deletePublishers)
+                    .collect()
+                    .map { _ in () }
+                    .eraseToAnyPublisher()
+            }
+            .mapError { _ in FirestoreError.dataDecodingFailed }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteGatheringImage() -> AnyPublisher<Void, FirestoreError> {
+        guard let imageUrlString = gathering?.gatherImage else {
+            return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher()
+        }
+        let storageReference = Storage.storage().reference(forURL: imageUrlString)
+        
+        return Future<Void, FirestoreError> { promise in
+            storageReference.delete { error in
+                if let error = error {
+                    print("Error deleting gathering image: \(error.localizedDescription)")
+                    promise(.failure(.unknownError(error)))
+                } else {
+                    print("Successfully deleted gathering image.")
+                    promise(.success(()))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    
+    
+    func deleteBoardImages() -> AnyPublisher<Void, FirestoreError> {
+        guard let gatheringUid = gathering?.gatheringUid else {
+            return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+        }
+        
+        let boardCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gatheringUid),
+            .collection(.board)
+        ]
+        
+        return FM.getData(pathComponents: boardCollectionPath, type: Post.self)
+            .flatMap { [weak self] boardDocuments -> AnyPublisher<Void, FirestoreError> in
+                let deletePublishers = boardDocuments.flatMap { document -> [AnyPublisher<Void, FirestoreError>] in
+                    document.imageUrls.compactMap { imageUrlString in
+                        self?.deleteImageFromStorage(imageUrlString: imageUrlString)
+                    }
+                }
+                
+                return Publishers.MergeMany(deletePublishers)
+                    .collect()
+                    .map { _ in () }
+                    .eraseToAnyPublisher()
+            }
+            .mapError { _ in FirestoreError.dataDecodingFailed }
+            .eraseToAnyPublisher()
+    }
+    
+    private func deleteImageFromStorage(imageUrlString: String) -> AnyPublisher<Void, FirestoreError> {
+        let storageReference = Storage.storage().reference(forURL: imageUrlString)
+        
+        return Future<Void, FirestoreError> { promise in
+            storageReference.delete { error in
+                if let error = error {
+                    print("Error deleting board image: \(error.localizedDescription)")
+                    promise(.failure(.unknownError(error)))
+                } else {
+                    print("Successfully deleted board image.")
+                    promise(.success(()))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func deleteGatheringDocument() -> AnyPublisher<Void, FirestoreError> {
+        guard let gatheringUid = gathering?.gatheringUid else {
+            return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+        }
+        
+        let gatheringDocumentPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gatheringUid)
+        ]
+        
+        return FM.deleteDocument(pathComponents: gatheringDocumentPath)
+            .handleEvents(receiveSubscription: { _ in
+                print("삭제 작업 시작: \(gatheringDocumentPath)")
+            }, receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("문서 삭제 완료: \(gatheringDocumentPath)")
+                case .failure(let error):
+                    print("문서 삭제 실패: \(error)")
+                }
+            }, receiveCancel: {
+                print("문서 삭제 작업이 취소되었습니다.")
+            })
+            .mapError { error -> FirestoreError in
+                print("Firestore 삭제 오류: \(error.localizedDescription)")
+                return FirestoreError.deleteFailed
+            }
+            .eraseToAnyPublisher()
     }
     
     
@@ -120,33 +281,7 @@ class GatherSettingVM {
         return error.localizedDescription
     }
     
-    func expelUser(userUid: String, nickName: String) -> AnyPublisher<Void, FirestoreError> {
-        return Future<Void, FirestoreError> { [weak self] promise in
-            let confirmAction: () -> Void = { [weak self] in
-                self?.performExpelUser(userUid: userUid)
-                    .sink(receiveCompletion: { completion in
-                        switch completion {
-                        case .finished:
-                            print("User expulsion completed.")
-                            promise(.success(()))
-                        case .failure(let error):
-                            print("Error expelling user: \(error.localizedDescription)")
-                            promise(.failure(error))
-                        }
-                    }, receiveValue: {})
-                    .store(in: &self!.cancellables)
-            }
-            
-            let cancelAction: () -> Void = {
-                print("Expel action was cancelled.")
-            }
-            
-            self?.alertPublisher.send((title: "확인", message: "정말로 \(nickName) 사용자를 추방하시겠습니까?", confirmAction: confirmAction, cancelAction: cancelAction))
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    func performExpelUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
+    func expelUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
         let gatheringMemberCollectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gathering?.gatheringUid ?? ""),
@@ -180,6 +315,7 @@ class GatherSettingVM {
         .map { _, _, _ in () }
         .eraseToAnyPublisher()
     }
+    
     
     func gatherSettingBackBtnTap() {
         delegate?.gatherSettingBackBtnTap()
@@ -275,3 +411,4 @@ class GatherSettingVM {
         }
     }
 }
+

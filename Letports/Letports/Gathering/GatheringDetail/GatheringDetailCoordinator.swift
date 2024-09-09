@@ -20,6 +20,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
     func pushGatherSettingView(gathering: Gathering)
 	func pushPostUploadViewController(type: PostType, gathering: Gathering)
     func pushGatheringEditView(gathering: Gathering)
+    func presentReportConfirmView()
 }
 
 class GatheringDetailCoordinator: Coordinator {
@@ -148,6 +149,20 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         childCoordinators.append(coordinator)
         coordinator.parentCoordinator = self
         coordinator.start()
+    }
+    
+    func presentReportConfirmView() {
+        let alert = UIAlertController(title: "모임 신고", message: "해당 모임을 신고하시겠습니까?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let reportAction = UIAlertAction(title: "신고", style: .destructive) { _ in
+            print("모임을 신고했습니다.")
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(reportAction)
+
+        self.navigationController.present(alert, animated: true, completion: nil)
     }
 	
 }

@@ -29,7 +29,7 @@ class TeamSelectVC: UICollectionViewController {
         btn.setTitle("선택 완료", for: .normal)
 		btn.titleLabel?.font = .lp_Font(.regular, size: 15)
         btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 25
+        btn.layer.cornerRadius = 15
         btn.isEnabled = false
         btn.addTarget(self, action: #selector(selectBtnDidTap), for: .touchUpInside)
         return btn
@@ -51,7 +51,6 @@ class TeamSelectVC: UICollectionViewController {
         applyInitialSnapshot()
         setupSelectBtn()
         
-        // UI 나중에 한번에 잡을게요.
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
         collectionView.allowsMultipleSelection = true
@@ -241,23 +240,41 @@ extension TeamSelectVC {
         case .sports:
             guard let sports = dataSource.itemIdentifier(for: indexPath) as? Sports else { return }
             
-            if let previouslySelectedIndex = viewModel.sportsCategories.firstIndex(where: { $0 == viewModel.selectedSports }) {
-                let previousIndexPath = IndexPath(item: previouslySelectedIndex, section: Section.sports.rawValue)
+            if let previousSelectedSports = viewModel.selectedSports,
+               let previousIndex = viewModel.sportsCategories.firstIndex(of: previousSelectedSports) {
+                let previousIndexPath = IndexPath(item: previousIndex, section: Section.sports.rawValue)
                 collectionView.deselectItem(at: previousIndexPath, animated: true)
+                if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? SportsCategoryCell {
+                    previousCell.setSelected(false)
+                }
+            }
+            viewModel.selectSports(sports)
+            if let cell = collectionView.cellForItem(at: indexPath) as? SportsCategoryCell {
+                cell.setSelected(true)
             }
             
-            
-            viewModel.selectSports(sports)
-            viewModel.selectTeam(nil)
             updateTeamsSnapshot()
+            
+            collectionView.visibleCells.forEach { cell in
+                if let teamCell = cell as? SportsTeamCell {
+                    teamCell.setSelected(false)
+                }
+            }
+            
         case .teams:
             if let team = dataSource.itemIdentifier(for: indexPath) as? SportsTeam {
                 if let previouslySelectedTeam = viewModel.selectedTeam,
                    let previousIndex = viewModel.filteredTeams.firstIndex(of: previouslySelectedTeam) {
                     let previousIndexPath = IndexPath(item: previousIndex, section: Section.teams.rawValue)
                     collectionView.deselectItem(at: previousIndexPath, animated: true)
+                    if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? SportsTeamCell {
+                        previousCell.setSelected(false)
+                    }
                 }
                 viewModel.selectTeam(team)
+                if let cell = collectionView.cellForItem(at: indexPath) as? SportsTeamCell {
+                    cell.setSelected(true)
+                }
             }
         }
     }

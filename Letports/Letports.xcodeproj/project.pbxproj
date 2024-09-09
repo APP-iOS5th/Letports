@@ -127,8 +127,13 @@
 		D82BACAA2C87E5EE009644BA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACA42C87E5EE009644BA /* FirestoreManager.swift */; };
 		D82BACAE2C87E61B009644BA /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */; };
 		D82BACB32C87F102009644BA /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */; };
+		D835EDEB2C8ADD6E00D24AC8 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */; };
 		D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */; };
 		D84749202C884135009474B3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
+		D85121AB2C8D742500E37978 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D85121AA2C8D742500E37978 /* FirebaseMessaging */; };
+		D85121AE2C8D74FE00E37978 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AD2C8D74F600E37978 /* NotificationService.swift */; };
+		D85121B02C8DC1E900E37978 /* GatheringTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AF2C8DC1E700E37978 /* GatheringTV.swift */; };
+		D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
 		D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
@@ -279,6 +284,9 @@
 		D8361B712C8729B000140A79 /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
 		D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D847491F2C884135009474B3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		D85121AD2C8D74F600E37978 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		D85121AF2C8DC1E700E37978 /* GatheringTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTV.swift; sourceTree = "<group>"; };
+		D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
 		D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInfoTVCell.swift; sourceTree = "<group>"; };
@@ -301,12 +309,14 @@
 			files = (
 				410BBCA62C778DF600FE2E18 /* Kingfisher in Frameworks */,
 				BF8874062C7A538000E86CA0 /* FirebaseAuth in Frameworks */,
+				D85121AB2C8D742500E37978 /* FirebaseMessaging in Frameworks */,
 				410BBCAC2C778E1500FE2E18 /* GoogleSignIn in Frameworks */,
 				BF8874042C7A538000E86CA0 /* FirebaseAnalytics in Frameworks */,
 				BF88740A2C7A538000E86CA0 /* FirebaseStorage in Frameworks */,
 				41C649F52C869F8A00640990 /* FirebaseCrashlytics in Frameworks */,
 				410BBCA92C778E0300FE2E18 /* KoTextCountLimit in Frameworks */,
 				BF8874082C7A538000E86CA0 /* FirebaseFirestore in Frameworks */,
+				D835EDEB2C8ADD6E00D24AC8 /* KakaoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +375,7 @@
 		413BE64D2C65F1990070D6F9 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */,
 				410BBCC12C77B17400FE2E18 /* Extension+Color.swift */,
 				41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */,
 				413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */,
@@ -635,6 +646,7 @@
 		D8299F3F2C77622C003D29AC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				D85121AF2C8DC1E700E37978 /* GatheringTV.swift */,
 				D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */,
 				D8299F3C2C77622C003D29AC /* GatheringTVCell.swift */,
 				D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */,
@@ -698,10 +710,19 @@
 		D82BACA72C87E5EE009644BA /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D85121AC2C8D74ED00E37978 /* NotificationService */,
 				D82BACA52C87E5EE009644BA /* FirebaseService */,
 				D82BACA62C87E5EE009644BA /* AuthService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		D85121AC2C8D74ED00E37978 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				D85121AD2C8D74F600E37978 /* NotificationService.swift */,
+			);
+			path = NotificationService;
 			sourceTree = "<group>";
 		};
 		D877C9742C789A8F008C4695 /* Cell */ = {
@@ -753,6 +774,8 @@
 				BF8874072C7A538000E86CA0 /* FirebaseFirestore */,
 				BF8874092C7A538000E86CA0 /* FirebaseStorage */,
 				41C649F42C869F8A00640990 /* FirebaseCrashlytics */,
+				D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */,
+				D85121AA2C8D742500E37978 /* FirebaseMessaging */,
 			);
 			productName = Letports;
 			productReference = BFBF9A202C893D59006DACAD /* Letports.app */;
@@ -831,6 +854,7 @@
 				410BBCA72C778E0300FE2E18 /* XCRemoteSwiftPackageReference "KoTextCountLimit" */,
 				410BBCAA2C778E1500FE2E18 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D835EDE92C8ADD6E00D24AC8 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = D8201FA52C606934004DF06C;
 			projectDirPath = "";
@@ -912,6 +936,7 @@
 				413BE6452C65EA540070D6F9 /* GatheringUploadVM.swift in Sources */,
 				B85FD8862C79CCD0007B4962 /* SportsCategoryCell.swift in Sources */,
 				41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */,
+				D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */,
 				D8299F752C777D7F003D29AC /* GatheringMember.swift in Sources */,
 				D8299F732C777D4E003D29AC /* Gathering.swift in Sources */,
 				D877C97C2C789B97008C4695 /* SimpleInfoTVCell.swift in Sources */,
@@ -986,6 +1011,7 @@
 				BFFFD3ED2C7333FC0053A86B /* GatheringBoardDetailVM.swift in Sources */,
 				BFBF9A282C898561006DACAD /* Extenstion+UIFont.swift in Sources */,
 				D89C407D2C83973800E105F9 /* Extension+String.swift in Sources */,
+				D85121B02C8DC1E900E37978 /* GatheringTV.swift in Sources */,
 				BFFFD3F82C73BB820053A86B /* CommentHeaderLabelTVCell.swift in Sources */,
 				BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */,
 				BFC55FE02C7440130084CA10 /* CommentInputView.swift in Sources */,
@@ -1003,6 +1029,7 @@
 				D8299F362C776219003D29AC /* GatherSettingVM.swift in Sources */,
 				D8299F372C776219003D29AC /* GatherSettingVC.swift in Sources */,
 				D8299F392C776219003D29AC /* GatherUserTVCell.swift in Sources */,
+				D85121AE2C8D74FE00E37978 /* NotificationService.swift in Sources */,
 				D8299F3A2C776219003D29AC /* GatherDeleteTVCell.swift in Sources */,
 				D8299F3B2C776219003D29AC /* ManageUserView.swift in Sources */,
 				410BBCC22C77B17500FE2E18 /* Extension+Color.swift in Sources */,
@@ -1183,7 +1210,6 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1199,13 +1225,14 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1237,13 +1264,14 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1412,6 +1440,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		D835EDE92C8ADD6E00D24AC8 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.22.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1454,6 +1490,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D835EDE92C8ADD6E00D24AC8 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		D85121AA2C8D742500E37978 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

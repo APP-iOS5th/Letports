@@ -89,8 +89,7 @@ class GatheringUploadVM {
                 && gatherQuestionText != nil
                 && gatherNameText != nil
             }
-            .assign(to: \.addButtonEnable, on: self)
-            .store(in: &cancellables)
+            .assign(to: &$addButtonEnable)
     }
     
     func getCellTypes() -> [BoardUploadCellType] {
@@ -137,7 +136,6 @@ class GatheringUploadVM {
             .sink { [weak self] imageUrl in
                 guard let self = self else { return }
                 self.gatehringUpload(imageUrl: imageUrl ?? "")
-                self.delegate?.dismissViewController()
             }
             .store(in: &cancellables)
     }

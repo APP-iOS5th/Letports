@@ -22,9 +22,9 @@ enum ProfileType {
 
 class ProfileVM {
     @Published var user: LetportsUser?
-    @Published var myGatherings: [Gathering] = []
-    @Published var pendingGatherings: [Gathering] = []
-    @Published var userGatherings: [Gathering] = []
+    @Published var myGatherings: [(Gathering, SportsTeam)] = []
+    @Published var pendingGatherings: [(Gathering, SportsTeam)] = []
+    @Published var userGatherings: [(Gathering, SportsTeam)] = []
     @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var currentUserUid: String?
     @Published var isLoading: Bool = false
@@ -114,7 +114,7 @@ class ProfileVM {
             .sink { _ in
             } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
-                self.isLoading = false
+                isLoading = false
                 self.getDatas(gatherings: gatherings, userUID: userUID, isCurrentUser: isCurrentUser)
             }
             .store(in: &cancellables)
@@ -122,11 +122,11 @@ class ProfileVM {
     
     func getDatas(gatherings: [MyGatherings], userUID: String, isCurrentUser: Bool) {
         let gatheringPublishers = gatherings.map { gathering in
-            let collectionPath3: [FirestorePathComponent] = [
+            let collectionPath: [FirestorePathComponent] = [
                 .collection(.gatherings),
                 .document(gathering.uid)
             ]
-            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
+            return FM.getData(pathComponents: collectionPath, type: Gathering.self)
         }
         
         Publishers.MergeMany(gatheringPublishers)
@@ -172,8 +172,7 @@ class ProfileVM {
                 }
             }, receiveValue: { [weak self] results in
                 guard let self = self else { return }
-                self.myGatherings = results.filter { $0.1 }.map { $0.0 }
-                self.pendingGatherings = results.filter { $0.2 }.map { $0.0 }
+                self.fetchSportsTeamsAndSave(results: results, isCurrentUser: true, userUID: userUID)
             })
             .store(in: &cancellables)
     }
@@ -187,9 +186,9 @@ class ProfileVM {
                 .document(userUID)
             ]
             return FM.getData(pathComponents: collectionPath3, type: GatheringMember.self)
-                .map { members -> Gathering? in
+                .map { members -> (Gathering, Bool, Bool)? in
                     let isJoined = members.contains { $0.userUID == userUID && $0.joinStatus == "joined" }
-                    return isJoined ? gathering : nil
+                    return isJoined ? (gathering, true, false) : nil
                 }
                 .eraseToAnyPublisher()
         }
@@ -202,7 +201,45 @@ class ProfileVM {
                 }
             }, receiveValue: { [weak self] results in
                 guard let self = self else { return }
-                self.userGatherings = results.compactMap { $0 }
+                let validResults = results.compactMap { $0 }
+                self.fetchSportsTeamsAndSave(results: validResults, isCurrentUser: false, userUID: userUID)
+            })
+            .store(in: &cancellables)
+    }
+    
+    private func fetchSportsTeamsAndSave(results: [(Gathering, Bool, Bool)], isCurrentUser: Bool, userUID: String) {
+        let sportsTeamPublishers = results.map { (gathering, isJoined, isPending) in
+            let collectionPath: [FirestorePathComponent] = [
+                .collection(.sports),
+                .document(gathering.gatheringSports),
+                .collection(.sportsTeam),
+                .document(gathering.gatheringSportsTeam)
+            ]
+            
+            return FM.getData(pathComponents: collectionPath, type: SportsTeam.self)
+                .map { sportsTeam -> (Gathering, SportsTeam, Bool, Bool) in
+                    return (gathering, sportsTeam.first!, isJoined, isPending)
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers.MergeMany(sportsTeamPublishers)
+            .collect()
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { [weak self] resultsWithSportsTeam in
+                guard let self = self else { return }
+                let sortedResults = resultsWithSportsTeam.sorted { (gathering1, gathering2) -> Bool in
+                    return gathering1.0.gatheringCreateDate.dateValue() > gathering2.0.gatheringCreateDate.dateValue()
+                }
+                if isCurrentUser {
+                    self.myGatherings = sortedResults.filter { $0.2 }.map { ($0.0, $0.1) }
+                    self.pendingGatherings = sortedResults.filter { $0.3 }.map { ($0.0, $0.1) }
+                } else {
+                    self.userGatherings = sortedResults.map { ($0.0, $0.1) }
+                }
             })
             .store(in: &cancellables)
     }

@@ -35,7 +35,7 @@ class SettingCoodinator : Coordinator {
     
     func start() {
         let vc = SettingVC(viewModel: viewModel)
-        vc.modalPresentationStyle = .fullScreen
+//        vc.modalPresentationStyle = .fullScreen
         vc.hidesBottomBarWhenPushed = true
         viewModel.delegate = self
         navigationController.pushViewController(vc, animated: true)

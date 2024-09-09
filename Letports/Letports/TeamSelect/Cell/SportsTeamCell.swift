@@ -24,10 +24,12 @@ class SportsTeamCell: UICollectionViewCell {
         return label
     }()
     
-    override var isSelected: Bool {
-        didSet {
-            contentView.backgroundColor = isSelected ? UIColor.lpMain : UIColor.clear
-        }
+    private var isCellSelected: Bool = false
+    
+    func setSelected(_ selected: Bool) {
+        isCellSelected = selected
+        contentView.backgroundColor = isCellSelected ? UIColor.lpMain : UIColor.clear
+        nameLabel.textColor = isCellSelected ? UIColor.lpWhite : UIColor.lpBlack
     }
     
     override init(frame: CGRect) {
@@ -42,7 +44,6 @@ class SportsTeamCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(logoImageView)
         contentView.addSubview(nameLabel)
-        contentView.backgroundColor = .lp_background_white
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         

@@ -11,10 +11,8 @@ import Kingfisher
 class GatheringUploadMainTVCell: UITableViewCell {
     private(set) var teamLogo: UIImageView = {
         let iv = UIImageView(frame: .init())
-        iv.layer.cornerRadius = 45
-        iv.layer.borderWidth = 0.5
-        iv.layer.borderColor = UIColor.lp_gray.cgColor
-        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = .clear
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()

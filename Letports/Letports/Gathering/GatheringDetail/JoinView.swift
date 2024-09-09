@@ -93,15 +93,19 @@ class JoinView: UIView {
         return btn
     }()
     
+    private var containerViewCenterYConstraint: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         setupTapGesture()
         answerTextView.delegate = self
+        registerKeyboardNotifications()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        registerKeyboardNotifications()
     }
     
     // MARK: - setupUI
@@ -116,16 +120,11 @@ class JoinView: UIView {
         }
         answerTextView.addSubview(placeholderLabel)
         
-        NSLayoutConstraint.activate([
-            containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 468)
-        ])
+        containerViewCenterYConstraint = containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            containerViewCenterYConstraint!,
             containerView.widthAnchor.constraint(equalToConstant: 361),
             containerView.heightAnchor.constraint(equalToConstant: 468),
             
@@ -189,6 +188,33 @@ class JoinView: UIView {
         } else {
             delegate?.joinViewDidTapJoin(self, answer: answer)
         }
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            
+            containerViewCenterYConstraint?.constant = -keyboardHeight / 2
+            UIView.animate(withDuration: 0.3) {
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        containerViewCenterYConstraint?.constant = 0
+        UIView.animate(withDuration: 0.3) {
+            self.layoutIfNeeded()
+        }
+    }
+    
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func showAlert(message: String) {

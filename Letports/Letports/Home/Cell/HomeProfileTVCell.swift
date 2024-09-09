@@ -30,8 +30,7 @@ class HomeProfileTVCell: UITableViewCell {
     // 팀 로고
     private lazy var teamLogo: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         return iv
@@ -40,7 +39,7 @@ class HomeProfileTVCell: UITableViewCell {
     // 팀 이름
     private lazy var teamName: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.bold, size: 25)
+        label.font = .lp_Font(.regular, size: 25)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -53,13 +52,14 @@ class HomeProfileTVCell: UITableViewCell {
         sv.axis = .horizontal
         sv.alignment = .center
         sv.distribution = .fillEqually
+        sv.spacing = 6
         sv.translatesAutoresizingMaskIntoConstraints = false
         
         return sv
     }()
     
     // 홈 아이콘, 이름 스택뷰
-    lazy var homeURLSV = createSV(axis: .horizontal, alignment: .center, distribution: .fillProportionally)
+    lazy var homeURLSV = createSV(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 6)
     
     lazy var homeIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(systemName: "house.fill"))
@@ -67,20 +67,15 @@ class HomeProfileTVCell: UITableViewCell {
         iv.tintColor = .lp_black
         iv.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 25),
-            iv.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
         return iv
     }()
     
-    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 14)
+    lazy var homeLabel = createLabel(text: "홈페이지", fontSize: 12)
     
     // 인스타 아이콘, 이름 스택뷰
     lazy var instagramURLSV = createSV(axis: .horizontal,
                                        alignment: .center,
-                                       distribution: .fillProportionally
+                                       distribution: .fillProportionally, spacing: 6
                                        )
     
     lazy var instagramIcon: UIImageView = {
@@ -89,17 +84,16 @@ class HomeProfileTVCell: UITableViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 25),
-            iv.heightAnchor.constraint(equalToConstant: 20)
+            iv.widthAnchor.constraint(equalToConstant: 25)
         ])
         
         return iv
     }()
     
-    lazy var instagramLabel = createLabel(text: "인스타그램", fontSize: 14)
+    lazy var instagramLabel = createLabel(text: "인스타", fontSize: 12)
     
     // 유튜뷰 아이콘, 이름 스택뷰
-    lazy var youtubeURLSV = createSV(axis: .horizontal, alignment: .center, distribution: .fillProportionally)
+    lazy var youtubeURLSV = createSV(axis: .horizontal, alignment: .center, distribution: .fillProportionally, spacing: 6)
     
     lazy var youtubeIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(named: "YoutubeIconFull"))
@@ -107,14 +101,13 @@ class HomeProfileTVCell: UITableViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            iv.widthAnchor.constraint(equalToConstant: 25),
-            iv.heightAnchor.constraint(equalToConstant: 20)
+            iv.widthAnchor.constraint(equalToConstant: 25)
         ])
         
         return iv
     }()
     
-    lazy var youtubeLabel = createLabel(text: "유튜브", fontSize: 14)
+    lazy var youtubeLabel = createLabel(text: "유튜브", fontSize: 12)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -158,36 +151,32 @@ class HomeProfileTVCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            containerView.widthAnchor.constraint(equalToConstant: 361),
-            containerView.heightAnchor.constraint(equalToConstant: 120),
             
-            teamLogo.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
+            teamLogo.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
             teamLogo.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             teamLogo.heightAnchor.constraint(equalToConstant: 70),
             teamLogo.widthAnchor.constraint(equalToConstant: 70),
             
-            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 20),
+            teamName.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 30),
             teamName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            teamName.heightAnchor.constraint(equalToConstant: 40),
+            teamName.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             
             urlSV.topAnchor.constraint(equalTo: teamName.bottomAnchor, constant: 8),
-            urlSV.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 20),
+            urlSV.leadingAnchor.constraint(equalTo: teamLogo.trailingAnchor, constant: 25),
             urlSV.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             urlSV.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             urlSV.heightAnchor.constraint(equalToConstant: 30),
             
             homeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
             homeURLSV.leadingAnchor.constraint(equalTo: urlSV.leadingAnchor),
-            homeURLSV.trailingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor, constant: -2),
+            homeURLSV.trailingAnchor.constraint(equalTo: instagramURLSV.leadingAnchor, constant: -6),
             homeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
             instagramURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
-            instagramURLSV.leadingAnchor.constraint(equalTo: homeURLSV.trailingAnchor),
             instagramURLSV.trailingAnchor.constraint(equalTo: youtubeURLSV.leadingAnchor, constant: -6),
             instagramURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             
             youtubeURLSV.topAnchor.constraint(equalTo: urlSV.topAnchor),
-            youtubeURLSV.leadingAnchor.constraint(equalTo: instagramURLSV.trailingAnchor),
             youtubeURLSV.bottomAnchor.constraint(equalTo: urlSV.bottomAnchor),
             youtubeURLSV.trailingAnchor.constraint(equalTo: urlSV.trailingAnchor),
             
@@ -197,7 +186,6 @@ class HomeProfileTVCell: UITableViewCell {
             homeIcon.bottomAnchor.constraint(equalTo: homeURLSV.bottomAnchor),
             
             homeLabel.topAnchor.constraint(equalTo: homeURLSV.topAnchor),
-            homeLabel.leadingAnchor.constraint(equalTo: homeIcon.trailingAnchor),
             homeLabel.bottomAnchor.constraint(equalTo: homeURLSV.bottomAnchor),
             
             instagramIcon.topAnchor.constraint(equalTo: instagramURLSV.topAnchor),
@@ -206,7 +194,6 @@ class HomeProfileTVCell: UITableViewCell {
             instagramIcon.bottomAnchor.constraint(equalTo: instagramURLSV.bottomAnchor),
             
             instagramLabel.topAnchor.constraint(equalTo: instagramURLSV.topAnchor),
-            instagramLabel.leadingAnchor.constraint(equalTo: instagramIcon.trailingAnchor),
             instagramLabel.bottomAnchor.constraint(equalTo: instagramURLSV.bottomAnchor),
             
             youtubeIcon.topAnchor.constraint(equalTo: youtubeURLSV.topAnchor),
@@ -215,7 +202,6 @@ class HomeProfileTVCell: UITableViewCell {
             youtubeIcon.bottomAnchor.constraint(equalTo: youtubeURLSV.bottomAnchor),
             
             youtubeLabel.topAnchor.constraint(equalTo: youtubeURLSV.topAnchor),
-            youtubeLabel.leadingAnchor.constraint(equalTo: youtubeIcon.trailingAnchor),
             youtubeLabel.bottomAnchor.constraint(equalTo: youtubeURLSV.bottomAnchor),
             youtubeLabel.trailingAnchor.constraint(equalTo: youtubeURLSV.trailingAnchor),
         ])
@@ -247,12 +233,13 @@ class HomeProfileTVCell: UITableViewCell {
     // 스택뷰 만들기
     func createSV(axis: NSLayoutConstraint.Axis,
                   alignment: UIStackView.Alignment,
-                  distribution: UIStackView.Distribution
+                  distribution: UIStackView.Distribution, spacing: CGFloat
     ) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.alignment = alignment
         stackView.distribution = distribution
+        stackView.spacing = spacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }

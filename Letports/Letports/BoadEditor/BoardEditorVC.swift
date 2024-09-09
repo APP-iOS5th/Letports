@@ -176,11 +176,7 @@ extension BoardEditorVC: CustomNavigationDelegate {
 	func smallRightBtnDidTap() {
 		self.buttonTapSubject.send(())
 	}
-	
-	func sportsSelectBtnDidTap() {
-		
-	}
-	
+    
 	func backBtnDidTap() {
 		self.viewModel.backButtonTapped()
 	}
@@ -190,14 +186,14 @@ extension BoardEditorVC: CustomNavigationDelegate {
 extension BoardEditorVC {
 	//Composition Layout 생성
 	func createLayout() -> UICollectionViewCompositionalLayout {
-		return UICollectionViewCompositionalLayout { sectionIndex, environment in
+		return UICollectionViewCompositionalLayout { [weak self] sectionIndex, environment in
 			switch sectionIndex {
 			case 0:
-				return self.createTitleSection()
+				return self?.createTitleSection()
 			case 1:
-				return self.createContentSection()
+				return self?.createContentSection()
 			case 2:
-				return self.createHorizontalScrollSection()
+				return self?.createHorizontalScrollSection()
 			default:
 				return nil
 			}

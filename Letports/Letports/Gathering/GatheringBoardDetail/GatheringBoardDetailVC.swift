@@ -87,7 +87,7 @@ final class GatheringBoardDetailVC: UIViewController {
 	
 	private func updateUI(with boardType: PostType) {
 		let gatheringName: String
-		print("게시판타입: \(boardType)")
+
 		switch boardType {
 		case .free:
 			gatheringName = "자유게시판"
@@ -134,8 +134,12 @@ final class GatheringBoardDetailVC: UIViewController {
 			.compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
 			.sink { [weak self] keyboardFrame in
 				guard let self = self else { return }
+                
+                let bottomSafeArea = self.view.safeAreaInsets.bottom
+                let yOffset = keyboardFrame.height - bottomSafeArea
+                
 				UIView.animate(withDuration: 0.3) {
-					self.commentInputView.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.height)
+					self.commentInputView.transform = CGAffineTransform(translationX: 0, y: -yOffset)
 					self.tableView.contentInset = UIEdgeInsets(top: 0,
 															   left: 0,
 															   bottom: keyboardFrame.height,
@@ -160,10 +164,19 @@ final class GatheringBoardDetailVC: UIViewController {
 	
 	private func setupTapGesture() {
 		
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
 		tapGesture.cancelsTouchesInView = false
 		self.view.addGestureRecognizer(tapGesture)
 	}
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: self.view)
+        let tappedView = self.view.hitTest(location, with: nil)
+        
+        if !(tappedView?.isDescendant(of: commentInputView) ?? false) {
+            dismissKeyboard()
+        }
+    }
 	
 	@objc func dismissKeyboard() {
 		self.view.endEditing(true)
@@ -240,14 +253,15 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
 	   }
 }
 extension GatheringBoardDetailVC: CommentInputDelegate {
-	func addComment(comment: String) {
+	func didTapAddComment(comment: String) {
 		viewModel.addComment(comment: comment) {
 			self.commentInputView.clearText()
 			self.viewModel.getBoardData()
 			
-			let lastIndex = IndexPath(row: self.tableView.numberOfRows(inSection: self.tableView.numberOfSections - 1) - 1,
-									  section: self.tableView.numberOfSections - 1)
-			self.tableView.scrollToRow(at: lastIndex, at: .bottom, animated: true)
+            let lastSection = self.tableView.numberOfSections - 1
+            let lastRow = self.tableView.numberOfRows(inSection: lastSection) - 1
+            let lastIndexPath = IndexPath(row: lastRow, section: lastSection)
+            self.tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
 		}
 	}
 }
