@@ -4,8 +4,8 @@
 //
 //  Created by mosi on 9/4/24.
 //
-
 import UIKit
+import UserNotifications
 
 class SettingSectionTVCell: UITableViewCell {
     
@@ -29,7 +29,7 @@ class SettingSectionTVCell: UITableViewCell {
     private lazy var titleLabel: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.lp_black, for: .normal)
-		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
         btn.addTarget(self, action: #selector(titlebtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -46,7 +46,7 @@ class SettingSectionTVCell: UITableViewCell {
     
     private lazy var versionLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 20)
+        label.font = UIFont.lp_Font(.regular, size: 20)
         label.textColor = .lp_gray
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -93,16 +93,16 @@ class SettingSectionTVCell: UITableViewCell {
         ])
     }
     
+    @objc func toggleDidTap() {
+        delegate?.toggleDidTap()
+    }
+    
     @objc func titlebtnDidTap() {
         guard let celltype = celltype else { return }
         delegate?.buttonDidTap(cellType: celltype)
     }
     
-    @objc func toggleDidTap() {
-        delegate?.toggleDidtap()
-    }
-    
-    func configure(cellType: SettingCellType) {
+    func configure(cellType: SettingCellType, notificationState: Bool) {
         self.celltype = cellType
         switch cellType {
         case .appInfo:
@@ -113,25 +113,47 @@ class SettingSectionTVCell: UITableViewCell {
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
             versionLabel.text = version
             versionLabel.isHidden = false
+            toggleSwitch.isHidden = true
         case .notification:
             titleIV.image = UIImage(systemName: "bell")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
                 .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("알림 설정", for: .normal)
+            titleLabel.setTitle("알림", for: .normal)
             toggleSwitch.isHidden = false
-        case .AppTermsofService:
+            toggleSwitch.isOn = notificationState
+            versionLabel.isHidden = true
+        case .appTermsofService:
             titleIV.image = UIImage(systemName: "book.closed")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
                 .resized(size: CGSize(width: 20, height: 20))
-            titleLabel.setTitle("앱 사용약관", for: .normal)
+            titleLabel.setTitle("서비스 이용약관", for: .normal)
+            versionLabel.isHidden = true
+            toggleSwitch.isHidden = true
         case .openLibrary:
             titleIV.image = UIImage(systemName: "book")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
                 .resized(size: CGSize(width: 20, height: 20))
             titleLabel.setTitle("오픈소스 라이브러리", for: .normal)
+            titleLabel.setTitleColor(.lp_black, for: .normal)
+            toggleSwitch.isHidden = true
+            versionLabel.isHidden = true
         case .logout:
             titleIV.image = UIImage(systemName: "arrow.down.left.circle")?.withTintColor(.lp_tint, renderingMode: .alwaysTemplate)
                 .resized(size: CGSize(width: 20, height: 20))
             titleIV.image?.withTintColor(.lp_tint)
             titleLabel.setTitle("로그아웃", for: .normal)
             titleLabel.setTitleColor(.lp_tint, for: .normal)
+            
+        case .personnalInfo:
+            titleIV.image = UIImage(systemName: "person")?.withTintColor(.lp_black, renderingMode: .alwaysTemplate)
+                .resized(size: CGSize(width: 20, height: 20))
+            titleLabel.setTitle("개인정보 처리방침", for: .normal)
+            versionLabel.isHidden = true
+            toggleSwitch.isHidden = true
+        case .exit:
+            titleIV.image = UIImage(systemName: "xmark.circle")?.withTintColor(.lp_tint, renderingMode: .alwaysTemplate)
+                .resized(size: CGSize(width: 20, height: 20))
+            titleIV.image?.withTintColor(.lp_tint)
+            titleLabel.setTitle("회원탈퇴", for: .normal)
+            titleLabel.setTitleColor(.lp_tint, for: .normal)
+            
         }
     }
 }

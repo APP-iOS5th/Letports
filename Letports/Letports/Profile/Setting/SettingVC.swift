@@ -9,8 +9,8 @@ import Combine
 import Kingfisher
 
 protocol SettingDelegate: AnyObject {
+    func toggleDidTap()
     func buttonDidTap(cellType: SettingCellType)
-    func toggleDidtap()
 }
 
 class SettingVC: UIViewController {
@@ -47,6 +47,7 @@ class SettingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        checkNotificationPermission()
     }
     
     func setupUI() {
@@ -66,7 +67,23 @@ class SettingVC: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-
+    
+    private func checkNotificationPermission() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized, .provisional:
+                    self.viewModel.notificationToggleState = true
+                case .denied, .notDetermined:
+                    self.viewModel.notificationToggleState = false
+                @unknown default:
+                    self.viewModel.notificationToggleState = false
+                }
+                self.tableView.reloadData()  
+            }
+        }
+    }
+    
 }
 
 extension SettingVC: CustomNavigationDelegate {
@@ -76,38 +93,70 @@ extension SettingVC: CustomNavigationDelegate {
 }
 
 extension SettingVC: SettingDelegate {
-    func toggleDidtap() {
-        viewModel.notificationUpdate()
+    
+    func toggleDidTap() {
+        if viewModel.notificationToggleState {
+            openAppSettings()
+        } else {
+            requestNotificationPermission()
+        }
     }
     
+    
     func buttonDidTap(cellType: SettingCellType) {
-        if cellType == .logout {
+        switch cellType {
+        case .logout:
             self.showAlert(title: "알림", message: "정말로 로그아웃하시겠습니까?", confirmTitle: "로그아웃", cancelTitle: "취소") {
                 self.viewModel.logout()
             }
-        } else {
+        case .exit:
+            self.showAlert(title: "알림", message: "정말로 회원탈퇴 하시겠습니까? 모든 소모임, 게시글은 삭제되며 복구할수 없습니다.", confirmTitle: "로그아웃", cancelTitle: "취소") {
+                self.viewModel.exit()
+            }
+        default:
             viewModel.buttonAction(cellType: cellType)
+        }
+    }
+    
+    private func openAppSettings() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(settingsURL) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            DispatchQueue.main.async {
+                self.viewModel.notificationToggleState = granted
+                self.tableView.reloadData()
+            }
         }
     }
 }
 
 extension SettingVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getCellCount()
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.getSectionCount()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getRowCount(for: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
             return UITableViewCell()
         }
-    
-        let cellType = viewModel.getCellTypes()[indexPath.row]
-        cell.configure(cellType: cellType)
+        
+        let cellType = viewModel.getCellType(for: indexPath)
+        cell.configure(cellType: cellType, notificationState: viewModel.notificationToggleState)
         cell.delegate = self
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewModel.getSectionTitle(for: section)
     }
 }
