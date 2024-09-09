@@ -122,7 +122,7 @@ class PostBtn: UIView {
         postButton.addTarget(self, action: #selector(postBtnTap), for: .touchUpInside)
         noticeButton.addTarget(self, action: #selector(noticeBtnTap), for: .touchUpInside)
         
-        optionsStackView.transform = CGAffineTransform(translationX: 0, y: -10)
+        optionsStackView.transform = CGAffineTransform(translationX: 0, y: 60)
     }
     
     private func updateButtonVisibility() {
@@ -137,10 +137,17 @@ class PostBtn: UIView {
     
     private func updateFloatingButtonIcon(isPlus: Bool) {
         if isPlus {
-            floatingButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+            
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+            let largePencil = UIImage(systemName: "pencil", withConfiguration: largeConfig)
+            floatingButton.setImage(largePencil, for: .normal)
+        
             floatingButton.backgroundColor = .lp_main
         } else {
-            floatingButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold, scale: .large)
+            let largePencil = UIImage(systemName: "xmark", withConfiguration: largeConfig)
+            floatingButton.setImage(largePencil, for: .normal)
+        
             floatingButton.backgroundColor = .lp_gray
         }
     }
@@ -179,9 +186,9 @@ class PostBtn: UIView {
     
     private func hideOptionsStackView() {
         UIView.animate(withDuration: 0.3, animations: {
+            self.updateFloatingButtonIcon(isPlus: true)
             self.optionsStackView.alpha = 0
             self.optionsStackView.transform = CGAffineTransform(translationX: 0, y: 60)
-            self.updateFloatingButtonIcon(isPlus: true)
         }) { _ in
             self.optionsStackView.isHidden = true
         }
@@ -189,11 +196,10 @@ class PostBtn: UIView {
     
     private func showOptionsStackView() {
         UIView.animate(withDuration: 0.3, animations: {
+            self.updateFloatingButtonIcon(isPlus: false)
+            self.optionsStackView.isHidden = false
             self.optionsStackView.alpha = 1
             self.optionsStackView.transform = .identity
-            self.updateFloatingButtonIcon(isPlus: false)
-        }) { _ in
-            self.optionsStackView.isHidden = false
-        }
+        }) { _ in }
     }
 }
