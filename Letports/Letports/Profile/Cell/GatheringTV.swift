@@ -224,6 +224,37 @@ class GatheringTV: UITableViewCell {
         ])
     }
     
+    func configure(with gathering: Gathering, with sports: SportsTeam, with master: LetportsUser) {
+        
+        let date = gathering.gatheringCreateDate.dateValue()
+        let dateString = date.toString(format: "yyyy-MM-dd")
+        
+        sportsLabel.text = sports.sportsName
+        sportsLabel.textColor = .lp_black
+        sportsLabel.backgroundColor = .lp_black.withAlphaComponent(0.1)
+        sportsTeamLabel.text = sports.shortName
+        sportsTeamLabel.backgroundColor = UIColor(hex: sports.logoHex).withAlphaComponent(0.1)
+        sportsTeamLabel.textColor = UIColor(hex: sports.logoHex)
+        isGatheringMasterIV.isHidden = true
+        gatheringName.text = truncateText(gathering.gatherName, limit: 16)
+        gatheringInfo.text = gathering.gatherInfo
+        gatheringMasterName.text = truncateText(master.nickname, limit: 10)
+        memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
+        createGatheringDate.text = dateString
+        
+        if let gatheringUrl = URL(string: gathering.gatherImage) {
+            gatheringIV.kf.setImage(with: gatheringUrl)
+        } else {
+            gatheringIV.image = nil
+        }
+        
+        if let masterUrl = URL(string: master.image) {
+            gatheringMasterIV.kf.setImage(with: masterUrl)
+        } else {
+            gatheringMasterIV.image = nil
+        }
+    }
+    
     func configure(with gathering: Gathering, with sports: SportsTeam, with user: LetportsUser, with master: LetportsUser) {
         
         let date = gathering.gatheringCreateDate.dateValue()

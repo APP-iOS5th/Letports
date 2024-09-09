@@ -39,7 +39,7 @@ class GatheringVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none
-        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTVCell.self, EmptyStateTVCell.self)
+        tv.registersCell(cellClasses: SectionTVCell.self, GatheringTV.self, EmptyStateTVCell.self)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = .lp_background_white
         return tv
@@ -129,7 +129,7 @@ class GatheringVC: UIViewController {
     func loadGathering() {
         self.viewModel.loadGatherings(forTeam: UserManager.shared.currentUser?.userSportsTeam ?? "")
     }
- }
+}
 
 extension GatheringVC: CustomNavigationDelegate {
     func sportsSelectBtnDidTap() {
@@ -139,18 +139,27 @@ extension GatheringVC: CustomNavigationDelegate {
 }
 
 extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getCellCount()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var startIndex: Int
         switch viewModel.getCellTypes()[indexPath.row] {
         case .recommendGatherings:
-            viewModel.pushGatheringDetailController(gatheringUid: 
-                                                        viewModel.recommendGatherings[indexPath.row - 1].gatheringUid)
-            
-        case .gatheringLists: viewModel.pushGatheringDetailController(gatheringUid: viewModel.gatheringLists[indexPath.row - viewModel.getRecommendGatheringCount() - 2].gatheringUid)
+            startIndex = 1
+            let gatheringIndex = indexPath.row - startIndex
+            if gatheringIndex >= 0 && gatheringIndex < viewModel.recommendGatherings.count {
+                let (gathering, sports) = viewModel.recommendGatherings[gatheringIndex]
+                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid)
+            }
+        case .gatheringLists:
+            startIndex = viewModel.recommendGatherings.isEmpty ? 3 : 2 + viewModel.recommendGatherings.count
+            let gatheringIndex = indexPath.row - startIndex
+            if gatheringIndex >= 0 && gatheringIndex < viewModel.gatheringLists.count {
+                let (gathering, sports) = viewModel.gatheringLists[gatheringIndex]
+                viewModel.pushGatheringDetailController(gatheringUid: gathering.gatheringUid)
+            }
         default:
             break
         }
@@ -162,7 +171,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
         case .recommendGatheringHeader, .gatheringListHeader:
             return 50.0
         case .gatheringLists, .recommendGatherings, .recommendGatheringEmptyState, .gatheringListEmptyState:
-            return 100.0
+            return 110.0
         }
     }
     
@@ -175,14 +184,14 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .recommendGatherings:
-            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 let startIndex = 1
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.recommendGatherings.count {
-                    let gathering = viewModel.recommendGatherings[gatheringIndex]
+                    let (gathering, sports) = viewModel.recommendGatherings[gatheringIndex]
                     if let master = viewModel.masterUsers[gathering.gatheringMaster] {
-                        cell.configure(with: gathering, with: master)
+                        cell.configure(with: gathering, with: sports, with: master)
                     } else {
                         viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                     }
@@ -196,14 +205,14 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case .gatheringLists:
-            if let cell: GatheringTVCell  = tableView.loadCell(indexPath: indexPath) {
+            if let cell: GatheringTV  = tableView.loadCell(indexPath: indexPath) {
                 cell.backgroundColor = .lp_background_white
                 let startIndex = viewModel.getRecommendGatheringCount() + 2
                 let gatheringIndex = indexPath.row - startIndex
                 if gatheringIndex < viewModel.gatheringLists.count {
-                    let gathering = viewModel.gatheringLists[gatheringIndex]
+                    let (gathering, sports) = viewModel.gatheringLists[gatheringIndex]
                     if let master = viewModel.masterUsers[gathering.gatheringMaster] {
-                        cell.configure(with: gathering, with: master)
+                        cell.configure(with: gathering, with: sports, with: master)
                     } else {
                         viewModel.fetchMasterUser(masterId: gathering.gatheringMaster)
                     }
