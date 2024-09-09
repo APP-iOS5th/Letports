@@ -49,7 +49,8 @@ class GatheringDetailVM {
 	@Published private(set) var memberData: [LetportsUser] = []
 	@Published var selectedBoardType: PostType = .all
 	@Published var masterNickname: String = ""
-	@Published var isMaster: Bool = false
+    @Published var isMaster: Bool = false
+	@Published var isLoading: Bool = false
 	
 	private let currentUser: LetportsUser
 	private let currentGatheringUid: String
@@ -60,7 +61,7 @@ class GatheringDetailVM {
 	init(currentUser: LetportsUser, currentGatheringUid: String) {
 		self.currentUser = currentUser
 		self.currentGatheringUid = currentGatheringUid
-		loadData()
+        self.loadData()
 	}
 	
 	// 게시판 분류
@@ -79,8 +80,8 @@ class GatheringDetailVM {
 	}
 	
 	func loadData() {
-		fetchGatheringData()
-		fetchBoardData()
+        self.isLoading = true
+        fetchAllData()
 	}
 	
 	func didTapBoardCell(boardPost: Post) {
@@ -129,53 +130,51 @@ class GatheringDetailVM {
 		}
 	}
 	
-	//모임데이터
-	private func fetchGatheringData() {
-		let collectionPath: [FirestorePathComponent] = [
-			.collection(.gatherings),
-			.document(currentGatheringUid)
-		]
-		
-		FM.getData(pathComponents: collectionPath, type: Gathering.self)
-			.sink { completion in
-				switch completion {
-				case .finished:
-					print("fetchGatheringData Finish")
-				case .failure(let error):
-					print("fetchGatheringData Error1", error)
-				}
-			} receiveValue: { [weak self] gathering in
-				self?.gathering = gathering.first
-				self?.fetchGatheringMemberData()
-				self?.updateMasterStatus()
-			}
-			.store(in: &cancellables)
-	}
-	
-	// 모임멤버데이터
-	private func fetchGatheringMemberData() {
-		let collectionPath: [FirestorePathComponent] = [
-			.collection(.gatherings),
-			.document(currentGatheringUid),
-			.collection(.gatheringMembers)
-		]
-		
-		FM.getData(pathComponents: collectionPath, type: GatheringMember.self)
-			.sink { completion in
-				switch completion {
-				case .finished:
-					print("fetchGatheringData Finish")
-				case .failure(let error):
-					print("fetchGatheringData Error2", error)
-				}
-			} receiveValue: { [weak self] member in
-				self?.member = member
-				self?.updateMembershipStatus()
-				self?.filteringData(memberUids: member)
-			}
-			.store(in: &cancellables)
-	}
-	
+    //모임데이터 && 게시글 && 모임멤버데이터
+    private func fetchAllData() {
+        let gatheringCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid)
+        ]
+        
+        let boardCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid),
+            .collection(.board)
+        ]
+        
+        let memberCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid),
+            .collection(.gatheringMembers)
+        ]
+        
+        let gatheringPublisher = FM.getData(pathComponents: gatheringCollectionPath, type: Gathering.self)
+        let boardPublisher = FM.getData(pathComponents: boardCollectionPath, type: Post.self)
+        let memberPublisher = FM.getData(pathComponents: memberCollectionPath, type: GatheringMember.self)
+        
+        Publishers.CombineLatest3(gatheringPublisher, boardPublisher, memberPublisher)
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("fetchAllData 완료")
+                    self?.isLoading = false
+                case .failure(let error):
+                    print("fetchAllData 오류:", error)
+                }
+            } receiveValue: { [weak self] gathering, posts, members in
+                self?.gathering = gathering.first
+                self?.boardData = self?.sortPosts(posts) ?? []
+                
+                self?.member = members
+                self?.updateMembershipStatus()
+                self?.filteringData(memberUids: members)
+                
+                self?.updateMasterStatus()
+            }
+            .store(in: &cancellables)
+    }
+
 	private func filteringData(memberUids: [GatheringMember]) {
 		self.joinedMembers = memberUids.filter { $0.joinStatus == "joined" }
 		self.fetchGatheringUserData(memberUids: self.joinedMembers)
@@ -211,30 +210,7 @@ class GatheringDetailVM {
 			}
 			.store(in: &cancellables)
 	}
-	
-	// 게시글
-	private func fetchBoardData() {
-		let boardCollectionPath: [FirestorePathComponent] = [
-			.collection(.gatherings),
-			.document(currentGatheringUid),
-			.collection(.board)
-		]
-		
-		FM.getData(pathComponents: boardCollectionPath, type: Post.self)
-			.sink { completion in
-				switch completion {
-				case .finished:
-					print("fetchBoardData 완료")
-				case .failure(let error):
-					print("fetchBoardData 오류:", error)
-				}
-			} receiveValue: { [weak self] posts in
-				self?.boardData = posts
-				self?.boardData = self?.sortPosts(posts) ?? []
-			}
-			.store(in: &cancellables)
-	}
-	
+
 	// 게시글 정렬
 	private func sortPosts(_ posts: [Post]) -> [Post] {
 		let notices = posts.filter { $0.boardType == .noti }

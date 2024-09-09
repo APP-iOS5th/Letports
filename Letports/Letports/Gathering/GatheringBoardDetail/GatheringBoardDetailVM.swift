@@ -42,6 +42,7 @@ final class GatheringBoardDetailVM {
         self.boardPost = boardPost
         self.allUsers = allUsers
         self.gathering = gathering
+        self.getBoardData()
     }
     
     private var cellType: [GatheringBoardDetailCellType] {
