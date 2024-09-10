@@ -8,9 +8,20 @@ import Foundation
 import FirebaseCore
 
 enum PostType: String, Codable {
-    case all
-    case free
-    case noti
+	case all
+	case free
+	case noti
+	
+	var title: String {
+		switch self {
+		case .all:
+			return "전체"
+		case .free:
+			return "자유게시판"
+		case .noti:
+			return "공지"
+		}
+	}
 }
 
 struct Post: Codable {

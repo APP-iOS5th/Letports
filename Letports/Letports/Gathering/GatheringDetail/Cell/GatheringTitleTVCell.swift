@@ -16,7 +16,7 @@ final class GatheringTitleTVCell: UITableViewCell {
 	
 	private let titleLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 26)
+		lb.font = .lp_Font(.regular, size: 20)
         lb.textColor = .lp_black
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
