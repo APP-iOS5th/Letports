@@ -23,13 +23,10 @@ class GatheringVM {
     @Published var gatheringLists: [(Gathering, SportsTeam)] = []
     @Published var masterUsers: [String: LetportsUser] = [:]
     @Published var isLoading: Bool = false
+    @Published var currentTeamColor: String?
     
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
-    
-    var currentTeamColor: String? {
-        return UserManager.shared.selectedTeam?.logoHex
-    }
     
     weak var delegate: GatheringCoordinatorDelegate?
     
@@ -78,6 +75,7 @@ class GatheringVM {
         UserManager.shared.getTeam { result in
             switch result {
             case .success(let team):
+                self.currentTeamColor = team.logoHex
                 self.loadGatherings(forTeam: team.teamUID)
             case .failure(let error):
                 print("getTeam Error \(error)")

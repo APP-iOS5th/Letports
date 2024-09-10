@@ -63,10 +63,6 @@ class GatheringVC: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
-        
-        if let teamColorHex = viewModel.currentTeamColor {
-            updateFloatingButtonColor(hex: teamColorHex)
-        }
     }
     
     private func setupUI() {
@@ -110,23 +106,17 @@ class GatheringVC: UIViewController {
         .store(in: &cancellables)
         
         UserManager.shared.$selectedTeam
-            .sink {[weak self] team in
+            .sink { [weak self] team in
                 self?.viewModel.loadTeam()
-                if let teamColorHex = team?.logoHex {
-                    self?.updateFloatingButtonColor(hex: teamColorHex)
-                } else {
-                    self?.updateFloatingButtonColor(hex: nil)
-                }
             }
             .store(in: &cancellables)
-    }
-    
-    private func updateFloatingButtonColor(hex: String?) {
-        if let hex = hex {
-            floatingButton.backgroundColor = UIColor(hex: hex)
-        } else {
-            floatingButton.backgroundColor = .lp_main
-        }
+        
+        viewModel.$currentTeamColor
+            .sink { [weak self] colorHex in
+                guard let colorHex = colorHex else { return }
+                self?.floatingButton.backgroundColor = UIColor(hex: colorHex)
+            }
+            .store(in: &cancellables)
     }
     
     @objc func pullToRefresh(_ sender: UIRefreshControl) {

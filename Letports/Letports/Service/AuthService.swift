@@ -136,7 +136,7 @@ class AuthService: AuthServiceProtocol {
                 if error == .documentNotFound {
                     let newUser = LetportsUser(
                         email: user.email ?? "",
-                        image: user.photoURL?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=4b201641-336a-413b-a5f8-3cb09e39fffe",
+                        image: user.photoURL?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=6eef516c-7019-44ed-b87a-66345503ef49",
                         nickname: user.displayName ?? self.generateSportsNickname(),
                         simpleInfo: "",
                         uid: userID,
