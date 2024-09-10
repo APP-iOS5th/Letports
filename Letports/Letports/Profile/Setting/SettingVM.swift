@@ -241,9 +241,9 @@ class SettingVM {
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
-
+        
         let gatherImageDeletion = deleteImageFromStorage(imageUrlString: gathering.gatherImage)
-
+        
         return boardDeletion
             .merge(with: gatheringMembersDeletion)
             .merge(with: gatherImageDeletion)
@@ -262,7 +262,7 @@ class SettingVM {
         
         return Publishers.MergeMany(imageDeletionTasks)
             .collect()
-            .flatMap {_ in 
+            .flatMap {_ in
                 let boardDocPath: [FirestorePathComponent] = [
                     .collection(.gatherings),
                     .document(gatheringUid),

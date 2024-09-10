@@ -50,12 +50,10 @@ class GatheringVC: UIViewController {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
         let largePencil = UIImage(systemName: "pencil", withConfiguration: largeConfig)
         button.setImage(largePencil, for: .normal)
-        button.backgroundColor = .lp_main
         button.tintColor = .lp_white
         button.layer.cornerRadius = 30
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
-        
         return button
     }()
     
@@ -65,6 +63,10 @@ class GatheringVC: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        
+        if let teamColorHex = viewModel.currentTeamColor {
+            updateFloatingButtonColor(hex: teamColorHex)
+        }
     }
     
     private func setupUI() {
@@ -110,10 +112,22 @@ class GatheringVC: UIViewController {
         UserManager.shared.$selectedTeam
             .sink {[weak self] team in
                 self?.viewModel.loadTeam()
+                if let teamColorHex = team?.logoHex {
+                    self?.updateFloatingButtonColor(hex: teamColorHex)
+                } else {
+                    self?.updateFloatingButtonColor(hex: nil)
+                }
             }
             .store(in: &cancellables)
     }
     
+    private func updateFloatingButtonColor(hex: String?) {
+        if let hex = hex {
+            floatingButton.backgroundColor = UIColor(hex: hex)
+        } else {
+            floatingButton.backgroundColor = .lp_main
+        }
+    }
     
     @objc func pullToRefresh(_ sender: UIRefreshControl) {
         UserManager.shared.getTeam { [weak self] result in
@@ -207,7 +221,7 @@ extension GatheringVC: UITableViewDelegate, UITableViewDataSource {
                     let (gathering, sports) = viewModel.gatheringLists[gatheringIndex]
                     if let master = viewModel.masterUsers[gathering.gatheringMaster] {
                         cell.configure(with: gathering, with: sports, with: master)
-                    } 
+                    }
                 }
                 return cell
             }

@@ -18,7 +18,7 @@ class ProfileCoordinator: Coordinator {
             print("\(fileName) child coordinators:: \(childCoordinators)")
         }
     }
-
+    
     var viewModel : ProfileVM
     var navigationController: UINavigationController
     
@@ -32,7 +32,7 @@ class ProfileCoordinator: Coordinator {
         viewModel.delegate = self
         navigationController.pushViewController(profileVC, animated: false)
     }
-
+    
 }
 
 extension ProfileCoordinator: ProfileCoordinatorDelegate {

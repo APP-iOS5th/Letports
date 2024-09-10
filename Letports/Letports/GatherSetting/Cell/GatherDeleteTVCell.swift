@@ -10,7 +10,7 @@ class GatherDeleteTVCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 20)
+        label.font = .lp_Font(.regular, size: 20)
         label.textColor = .lp_tint
         label.text = "🗑️ 모임 삭제하기"
         label.translatesAutoresizingMaskIntoConstraints = false

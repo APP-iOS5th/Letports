@@ -367,8 +367,8 @@ class GatherSettingVM {
                     $0.userUID != gathering.gatheringMaster && $0.joinStatus == "pending"
                 }
                 self.allUserUIDs = (self.joinedMembers.map { $0.userUID } + self.pendingMembers.map { $0.userUID })
-                              .filter { $0 != gathering.gatheringMaster }
-
+                    .filter { $0 != gathering.gatheringMaster }
+                
                 self.joinedMembers = joinedMembers
                 self.pendingMembers = pendingMembers
                 

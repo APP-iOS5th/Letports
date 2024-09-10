@@ -12,7 +12,7 @@ class EmptyStateTVCell: UITableViewCell {
     
     private lazy var emptyStateLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 20)
+        label.font = .lp_Font(.regular, size: 20)
         label.textColor = .lp_lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

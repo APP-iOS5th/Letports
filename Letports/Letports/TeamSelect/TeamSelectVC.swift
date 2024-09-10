@@ -200,8 +200,8 @@ class TeamSelectVC: UICollectionViewController {
             selectBtn.backgroundColor = .lpMain
             selectBtn.setTitleColor(.lpWhite, for: .normal)
         } else {
-            selectBtn.backgroundColor = .lpGray
-            selectBtn.setTitleColor(.lp_black, for: .normal)
+            selectBtn.backgroundColor = .lp_background_white
+            selectBtn.setTitleColor(.lp_gray, for: .normal)
         }
     }
     

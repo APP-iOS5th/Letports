@@ -21,7 +21,7 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
     lazy var gatheringImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 10
+        iv.layer.cornerRadius = 15
         iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         
@@ -30,12 +30,9 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
     
     lazy var gatheringName: UILabel = {
         let label = UILabel()
-        label.text = ""
-		label.font = .lp_Font(.regular, size: 30)
+        label.font = .lp_Font(.regular, size: 22)
         label.textColor = .lp_white
-        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     
@@ -62,12 +59,12 @@ class RecommendGatheringListsCVCell: UICollectionViewCell {
             gatheringNameBackgroundView.leadingAnchor.constraint(equalTo: gatheringImage.leadingAnchor),
             gatheringNameBackgroundView.trailingAnchor.constraint(equalTo: gatheringImage.trailingAnchor),
             gatheringNameBackgroundView.bottomAnchor.constraint(equalTo: gatheringImage.bottomAnchor),
-            gatheringNameBackgroundView.heightAnchor.constraint(equalToConstant: 50),
+            gatheringNameBackgroundView.heightAnchor.constraint(equalToConstant: 40),
             
             gatheringName.topAnchor.constraint(equalTo: gatheringNameBackgroundView.topAnchor),
             gatheringName.bottomAnchor.constraint(equalTo: gatheringNameBackgroundView.bottomAnchor),
-            gatheringName.leadingAnchor.constraint(equalTo: gatheringNameBackgroundView.leadingAnchor, constant: 15),
-            gatheringName.centerYAnchor.constraint(equalTo: gatheringNameBackgroundView.centerYAnchor)
+            gatheringName.leadingAnchor.constraint(equalTo: gatheringNameBackgroundView.leadingAnchor, constant: 10),
+            gatheringName.trailingAnchor.constraint(equalTo: gatheringNameBackgroundView.trailingAnchor, constant: -10),
         ])
     }
     

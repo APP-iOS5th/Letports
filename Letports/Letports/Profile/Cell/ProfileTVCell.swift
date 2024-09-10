@@ -25,7 +25,7 @@ class ProfileTVCell: UITableViewCell {
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 18)
+        label.font = UIFont.lp_Font(.regular, size: 18)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -33,7 +33,7 @@ class ProfileTVCell: UITableViewCell {
     
     private lazy var simpleInfoLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 13)
+        label.font = UIFont.lp_Font(.regular, size: 13)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +48,7 @@ class ProfileTVCell: UITableViewCell {
         btn.layer.borderWidth = 1.0
         btn.layer.cornerRadius = 5
         btn.isHidden = false
-		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 12)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 12)
         btn.addTarget(self, action: #selector(editBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
