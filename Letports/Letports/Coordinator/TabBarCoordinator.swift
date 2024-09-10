@@ -75,6 +75,6 @@ class TabBarCoordinator: Coordinator {
     }
     
     func userDidLogout() {
-        (parentCoordinator as? AppCoordinator)?.userDidLogout()
+        (parentCoordinator as? AppCoordinator)?.backToShowAuthView()
     }
 }

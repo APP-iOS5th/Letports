@@ -22,6 +22,8 @@ enum LetportsCollection: String {
     case comment = "Comment"
     case myGathering = "MyGatherings"
     case gatheringMembers = "GatheringMembers"
+    case token = "Token"
+    case authDeleteError = "AuthDeleteError"
 }
 
 

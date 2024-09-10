@@ -13,6 +13,7 @@ protocol SettingCoordinatorDelegate: AnyObject {
     func presentBottomSheet(with url: URL)
     func logoutDidTap()
     func backToProfile()
+    func backToAuthView()
 }
 
 class SettingCoodinator : Coordinator {
@@ -70,12 +71,16 @@ extension SettingCoodinator: SettingCoordinatorDelegate  {
     func logoutDidTap() {
         do {
             try AuthService.shared.signOut()
-            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-               let appCoordinator = sceneDelegate.appCoordinator {
-                appCoordinator.userDidLogout()
-            }
+            self.backToAuthView()
         } catch {
             print("로그아웃 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
+    
+    func backToAuthView() {
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let appCoordinator = sceneDelegate.appCoordinator {
+            appCoordinator.backToShowAuthView()
         }
     }
     
