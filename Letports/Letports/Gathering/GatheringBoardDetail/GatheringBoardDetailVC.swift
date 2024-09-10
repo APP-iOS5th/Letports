@@ -73,10 +73,12 @@ final class GatheringBoardDetailVC: UIViewController {
         setupTapGesture()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.getBoardData()
-        updateUI(with: viewModel.boardPost.boardType)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		viewModel.getPost()
+		if let boardType = viewModel.boardPost?.boardType {
+			updateUI(with: boardType)
+		}
     }
     
     private func bindViewModel() {
@@ -230,8 +232,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             }
         case .boardContents:
             if let cell: GatheringBoardDetailContentTVCell  = tableView.loadCell(indexPath: indexPath) {
-                let post = viewModel.boardPost
-                cell.configure(with: post)
+				if let post = viewModel.boardPost {
+					cell.configure(with: post)
+				}
                 return cell
             }
         case .separator:
@@ -285,7 +288,7 @@ extension GatheringBoardDetailVC: CommentInputDelegate {
     func didTapAddComment(comment: String) {
         viewModel.addComment(comment: comment) {
             self.commentInputView.clearText()
-            self.viewModel.getBoardData()
+            self.viewModel.getPost()
             
             let lastSection = self.tableView.numberOfSections - 1
             let lastRow = self.tableView.numberOfRows(inSection: lastSection) - 1
