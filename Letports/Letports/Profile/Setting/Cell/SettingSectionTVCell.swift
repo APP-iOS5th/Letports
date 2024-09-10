@@ -40,12 +40,14 @@ class SettingSectionTVCell: UITableViewCell {
     
     private lazy var versionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.lp_Font(.regular, size: 20)
+        label.font = UIFont.lp_Font(.regular, size: 14)
         label.textColor = .lp_gray
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    var titleLabelLeadingConstraint: NSLayoutConstraint?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -67,6 +69,8 @@ class SettingSectionTVCell: UITableViewCell {
             containerView.addSubview($0)
         }
         
+        titleLabelLeadingConstraint = titleLabel.leadingAnchor.constraint(equalTo: titleIV.trailingAnchor, constant: 10)
+        
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -77,8 +81,8 @@ class SettingSectionTVCell: UITableViewCell {
             titleIV.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             titleIV.widthAnchor.constraint(equalToConstant: 20),
             titleIV.heightAnchor.constraint(equalToConstant: 20),
-            
-            titleLabel.leadingAnchor.constraint(equalTo: titleIV.trailingAnchor, constant: 10),
+
+            titleLabelLeadingConstraint!,
             titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
             toggleSwitch.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -100,7 +104,7 @@ class SettingSectionTVCell: UITableViewCell {
     
     func configure(cellType: SettingCellType, notificationState: Bool) {
         self.celltype = cellType
-        resetUI()
+        
         
         switch cellType {
         case .appInfo:
@@ -117,8 +121,6 @@ class SettingSectionTVCell: UITableViewCell {
             configurePersonalInfo()
         case .exit:
             configureExit()
-        default:
-            break
         }
     }
     
@@ -128,8 +130,7 @@ class SettingSectionTVCell: UITableViewCell {
         titleIV.image = nil
         titleLabel.setTitleColor(.lp_black, for: .normal)
         titleLabel.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
-        
-        // reset any previously set trailing anchor
+    
         titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = false
     }
     
@@ -137,6 +138,7 @@ class SettingSectionTVCell: UITableViewCell {
         titleIV.image = UIImage(systemName: "info.circle")?
             .withTintColor(.lp_black, renderingMode: .alwaysTemplate)
             .resized(size: CGSize(width: 20, height: 20))
+        
         titleLabel.setTitle("앱 정보", for: .normal)
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionLabel.text = version
@@ -185,12 +187,14 @@ class SettingSectionTVCell: UITableViewCell {
     private func configureExit() {
         titleIV.image = nil
         titleLabel.setTitle("회원탈퇴", for: .normal)
+        titleLabel.setTitleColor(.lpLightGray, for: .normal)
         titleLabel.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         
-        // '회원탈퇴'는 오른쪽에 정렬
+        titleLabelLeadingConstraint?.isActive = false
+        
         titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16).isActive = true
         
-        // '회원탈퇴'는 왼쪽에 붙지 않도록 leading anchor 제거
-        titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16).isActive = false
+        titleLabelLeadingConstraint = titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: containerView.leadingAnchor, constant: 100)
+        titleLabelLeadingConstraint?.isActive = true
     }
 }

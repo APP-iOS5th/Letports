@@ -130,7 +130,7 @@ extension SettingVC: SettingDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
                 self.viewModel.notificationToggleState = granted
-                self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+//                self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
             }
         }
     }
