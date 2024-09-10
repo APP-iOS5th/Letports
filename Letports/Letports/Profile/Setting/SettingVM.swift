@@ -190,8 +190,52 @@ class SettingVM {
                     .filter { $0.gatheringMaster == UserManager.shared.getUserUid() }
                     .map { gathering in
                         self.deleteGatheringAndRelatedData(from: gathering)
+                            .flatMap {
+                                self.deleteGatheringUserMyGatherings(gathering: gathering)
+                            }
                     }
                 return Publishers.MergeMany(deletePublishers)
+                    .collect()
+                    .map { _ in () }
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteGatheringUserMyGatherings(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
+        let userCollectionPath: [FirestorePathComponent] = [.collection(.user)]
+        
+        return FM.getData(pathComponents: userCollectionPath, type: LetportsUser.self)
+            .flatMap { users in
+                
+                let deleteTasks = users.map { user in
+                    let myGatheringPath: [FirestorePathComponent] = [
+                        .collection(.user),
+                        .document(user.uid),
+                        .collection(.myGathering)
+                    ]
+                    
+                    return FM.getData(pathComponents: myGatheringPath, type: MyGatherings.self)
+                        .flatMap { myGatherings -> AnyPublisher<Void, FirestoreError> in
+                            let deleteMyGatheringTasks = myGatherings
+                                .filter { $0.uid == gathering.gatheringUid }
+                                .map { myGathering in
+                                    let gatheringDocPath: [FirestorePathComponent] = [
+                                        .collection(.user),
+                                        .document(user.uid),
+                                        .collection(.myGathering),
+                                        .document(myGathering.uid)
+                                    ]
+                                    return FM.deleteDocument(pathComponents: gatheringDocPath)
+                                }
+                            return Publishers.MergeMany(deleteMyGatheringTasks)
+                                .collect()
+                                .map { _ in () }
+                                .eraseToAnyPublisher()
+                        }
+                        .eraseToAnyPublisher()
+                }
+                return Publishers.MergeMany(deleteTasks)
                     .collect()
                     .map { _ in () }
                     .eraseToAnyPublisher()
@@ -241,9 +285,9 @@ class SettingVM {
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
-
+        
         let gatherImageDeletion = deleteImageFromStorage(imageUrlString: gathering.gatherImage)
-
+        
         return boardDeletion
             .merge(with: gatheringMembersDeletion)
             .merge(with: gatherImageDeletion)
@@ -262,7 +306,7 @@ class SettingVM {
         
         return Publishers.MergeMany(imageDeletionTasks)
             .collect()
-            .flatMap {_ in 
+            .flatMap {_ in
                 let boardDocPath: [FirestorePathComponent] = [
                     .collection(.gatherings),
                     .document(gatheringUid),
@@ -276,25 +320,50 @@ class SettingVM {
     
     func deleteUserDocument() -> AnyPublisher<Void, FirestoreError> {
         let userUID = UserManager.shared.getUserUid()
-        let userPath: [FirestorePathComponent] = [.collection(.user), .document(userUID)]
-        let myGatheringPath: [FirestorePathComponent] = [.collection(.user), .document(userUID), .collection(.myGathering)]
-        let tokenPath: [FirestorePathComponent] = [.collection(.token), .document(userUID)]
+        let userPath: [FirestorePathComponent] = [.collection(.user),
+                                                  .document(userUID)
+        ]
+        let myGatheringPath: [FirestorePathComponent] = [.collection(.user),
+                                                         .document(userUID),
+                                                         .collection(.myGathering)
+        ]
+        let tokenPath: [FirestorePathComponent] = [.collection(.token),
+                                                   .document(userUID)
+        ]
         
-        return FM.deleteDocument(pathComponents: tokenPath)
-            .flatMap { FM.getData(pathComponents: myGatheringPath, type: MyGatherings.self) }
-            .flatMap { myGatherings in
-                let deleteTasks = myGatherings.map { gathering in
-                    let gatheringDocPath: [FirestorePathComponent] = [
-                        .collection(.user),
-                        .document(userUID),
-                        .collection(.myGathering),
-                        .document(gathering.uid)
-                    ]
-                    return FM.deleteDocument(pathComponents: gatheringDocPath)
-                }
-                return Publishers.MergeMany(deleteTasks)
-                    .collect()
-                    .flatMap { _ in FM.deleteDocument(pathComponents: userPath) }
+        // User 컬렉션에서 유저 이미지 주소를 가져옴
+        return FM.getData(pathComponents: userPath, type: LetportsUser.self)
+            .flatMap { user -> AnyPublisher<Void, FirestoreError> in
+                // Storage에서 해당 이미지 삭제
+                let deleteUserImage = self.deleteImageFromStorage(imageUrlString: user.first?.image ?? "")
+                
+                //Token 문서 삭제
+                return deleteUserImage
+                    .flatMap { _ in
+                        FM.deleteDocument(pathComponents: tokenPath)
+                    }
+                    //MyGathering 컬렉션에서 소모임 문서 삭제
+                    .flatMap { _ in
+                        FM.getData(pathComponents: myGatheringPath, type: MyGatherings.self)
+                    }
+                    .flatMap { myGatherings in
+                        let deleteTasks = myGatherings.map { gathering in
+                            let gatheringDocPath: [FirestorePathComponent] = [
+                                .collection(.user),
+                                .document(userUID),
+                                .collection(.myGathering),
+                                .document(gathering.uid)
+                            ]
+                            return FM.deleteDocument(pathComponents: gatheringDocPath)
+                        }
+                        return Publishers.MergeMany(deleteTasks)
+                            .collect()
+                            .eraseToAnyPublisher()
+                    }
+                    // 마지막으로 User 문서 삭제
+                    .flatMap {_ in
+                        FM.deleteDocument(pathComponents: userPath)
+                    }
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
