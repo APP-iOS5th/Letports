@@ -140,7 +140,7 @@ class CustomNavigationView: UIView {
         label.textColor = self.screenType == .largeHome ? .lpMain : .lp_black
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .center
-		label.font = .lp_Font(.regular, size: 35)
+        label.font = self.screenType == .largeHome ? .lp_Font(.bold, size: 35) : .lp_Font(.regular, size: 35)
 		label.sizeToFit()
 		return label
 	}()
@@ -321,8 +321,11 @@ class CustomNavigationView: UIView {
 		}
 		
 		NSLayoutConstraint.activate([
+            largeTitle.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: 8),
 			largeTitle.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-			largeTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            largeTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+			largeTitle.heightAnchor.constraint(equalToConstant: 45),
+            
 			rightButtonSV.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
 			rightButtonSV.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
 			
