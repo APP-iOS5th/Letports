@@ -34,6 +34,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     
     private lazy var joinBtn: JoinBtn = {
         let btn = JoinBtn()
+        btn.configure(logoHex: viewModel.teamColor ?? "")
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(joinBtnTap), for: .touchUpInside)
         return btn
@@ -42,6 +43,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     private lazy var postBtn: PostBtn = {
         let btn = PostBtn()
         btn.delegate = self
+        btn.configure(logoHex: viewModel.teamColor ?? "")
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -151,11 +153,11 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         switch status {
         case .notJoined:
             joinBtn.setTitle("가입하기", for: .normal)
-            joinBtn.backgroundColor = .lp_main
+            joinBtn.backgroundColor = UIColor(hex: viewModel.teamColor ?? "")
             scrollView.isHidden = false
         case .pending:
-            joinBtn.setTitle("가입신청 중", for: .normal)
-            joinBtn.backgroundColor = .lp_main
+            joinBtn.setTitle("가입신청 취소", for: .normal)
+            joinBtn.backgroundColor = UIColor(hex: viewModel.teamColor ?? "")
             scrollView.isHidden = false
         case .joined:
             scrollView.isHidden = true
@@ -449,7 +451,7 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
                let gathering = viewModel.gathering {
                 cell.configureCell(data: gathering,
                                    currentUser: viewModel.getCurrentUserInfo(),
-                                   masterNickname: viewModel.masterNickname)
+                                   masterNickname: viewModel.masterNickname, logoHex: viewModel.teamColor ?? "")
                 cell.delegate = self
                 return cell
             }

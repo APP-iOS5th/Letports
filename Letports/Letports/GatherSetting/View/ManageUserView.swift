@@ -35,7 +35,7 @@ class ManageUserView: UIView {
     
     private lazy var plzAnswerLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 14)
+        label.font = .lp_Font(.regular, size: 14)
         label.textColor = .lp_black
         label.text = "가입질문"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ class ManageUserView: UIView {
     private lazy var questionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-		textView.font = .lp_Font(.regular, size: 12)
+        textView.font = .lp_Font(.regular, size: 12)
         textView.backgroundColor = .lp_background_white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -68,7 +68,7 @@ class ManageUserView: UIView {
         let btn = UIButton()
         btn.layer.cornerRadius = 10
         btn.addTarget(self, action: #selector(cancelBtnDidTap), for: .touchUpInside)
-		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -77,8 +77,8 @@ class ManageUserView: UIView {
         let btn = UIButton()
         btn.isHidden = true
         if let image = UIImage(systemName: "xmark")?.resized(size: CGSize(width: 15, height: 15)) {
-               btn.setImage(image, for: .normal)
-           }
+            btn.setImage(image, for: .normal)
+        }
         btn.tintColor = .lp_black
         btn.addTarget(self, action: #selector(exitBtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,7 @@ class ManageUserView: UIView {
         let btn = UIButton()
         btn.layer.cornerRadius = 10
         btn.addTarget(self, action: #selector(expelBtnDidTap), for: .touchUpInside)
-		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -201,7 +201,7 @@ class ManageUserView: UIView {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
-
+        
         let questionAttributedString = NSAttributedString(
             string: gathering.gatherQuestion,
             attributes: [
@@ -211,7 +211,7 @@ class ManageUserView: UIView {
             ]
         )
         questionTextView.attributedText = questionAttributedString
-
+        
         let answerAttributedString = NSAttributedString(
             string: user.answer ?? "",
             attributes: [

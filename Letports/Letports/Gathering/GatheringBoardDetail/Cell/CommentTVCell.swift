@@ -31,7 +31,7 @@ class CommentTVCell: UITableViewCell {
     
     private let createDateLabel: UILabel = {
         let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 8)
+        lb.font = .lp_Font(.regular, size: 8)
         lb.textColor = .lp_gray
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -39,7 +39,7 @@ class CommentTVCell: UITableViewCell {
     
     private let nickNameLabel: UILabel = {
         let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 15)
+        lb.font = .lp_Font(.regular, size: 15)
         lb.textColor = .lp_black
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -121,7 +121,7 @@ class CommentTVCell: UITableViewCell {
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
-			commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 25)
+            commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 25)
         ])
     }
     

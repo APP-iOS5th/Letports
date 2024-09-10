@@ -14,7 +14,7 @@ class NickNameTVCell: UITableViewCell {
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 20)
+        label.font = .lp_Font(.regular, size: 20)
         label.text = "닉네임"
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +27,7 @@ class NickNameTVCell: UITableViewCell {
         tf.textColor = .lp_black
         tf.backgroundColor = .lp_white
         tf.borderStyle = .roundedRect
-		tf.font = .lp_Font(.regular, size: 12)
+        tf.font = .lp_Font(.regular, size: 12)
         tf.delegate = self
         tf.addTarget(self, action: #selector(nickNameDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class NickNameTVCell: UITableViewCell {
     
     private let limitLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 12)
+        label.font = .lp_Font(.regular, size: 10)
         label.textColor = .lp_tint
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isHidden = true
@@ -45,7 +45,7 @@ class NickNameTVCell: UITableViewCell {
     
     private let textCountLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 12)
+        label.font = .lp_Font(.regular, size: 10)
         label.textColor = .lp_gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

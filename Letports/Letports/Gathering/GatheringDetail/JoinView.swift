@@ -34,7 +34,7 @@ class JoinView: UIView {
     
     private lazy var plzAnswerLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.regular, size: 14)
+        label.font = UIFont.lp_Font(.regular, size: 14)
         label.textColor = .lp_black
         label.text = "가입질문에 답해주세요"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class JoinView: UIView {
     private lazy var questionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-		textView.font = .lp_Font(.regular, size: 12)
+        textView.font = .lp_Font(.regular, size: 12)
         textView.backgroundColor = .lp_background_white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -67,7 +67,7 @@ class JoinView: UIView {
     private let placeholderLabel: UILabel = {
         let label = UILabel()
         label.text = "답변을 입력해주세요"
-		label.font = .lp_Font(.regular, size: 14)
+        label.font = .lp_Font(.regular, size: 14)
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -78,7 +78,7 @@ class JoinView: UIView {
         btn.setTitle("취소하기", for: .normal)
         btn.backgroundColor = UIColor(named: "lp_tint")
         btn.layer.cornerRadius = 10
-		btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -240,7 +240,7 @@ class JoinView: UIView {
         titleLabel.text = gathering.gatherName
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
-
+        
         let attributedText = NSAttributedString(
             string: gathering.gatherQuestion ?? "",
             attributes: [
@@ -249,7 +249,7 @@ class JoinView: UIView {
                 .paragraphStyle: paragraphStyle
             ]
         )
-
+        
         questionTextView.attributedText = attributedText
         placeholderLabel.isHidden = !answerTextView.text.isEmpty
     }

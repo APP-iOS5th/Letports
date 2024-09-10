@@ -36,7 +36,7 @@ class GatherUserTVCell: UITableViewCell {
     
     private lazy var simpleInfoLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 12)
+        label.font = .lp_Font(.regular, size: 12)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -44,7 +44,7 @@ class GatherUserTVCell: UITableViewCell {
     
     private lazy var joindateLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 10)
+        label.font = .lp_Font(.regular, size: 10)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

@@ -10,7 +10,7 @@ class SectionTVCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 20)
+        label.font = .lp_Font(.regular, size: 20)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -18,7 +18,7 @@ class SectionTVCell: UITableViewCell {
     
     private lazy var countLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 15)
+        label.font = .lp_Font(.regular, size: 15)
         label.textColor = .lp_gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

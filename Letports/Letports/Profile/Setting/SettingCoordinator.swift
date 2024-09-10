@@ -34,7 +34,7 @@ class SettingCoodinator : Coordinator {
     
     func start() {
         let vc = SettingVC(viewModel: viewModel)
-//        vc.modalPresentationStyle = .fullScreen
+        //        vc.modalPresentationStyle = .fullScreen
         vc.hidesBottomBarWhenPushed = true
         viewModel.delegate = self
         navigationController.pushViewController(vc, animated: true)
@@ -46,7 +46,7 @@ extension SettingCoodinator: SettingCoordinatorDelegate  {
     func openLibraryDidTap() {
         if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsURL, options:[:], completionHandler: nil)
-            }
+        }
     }
     
     func presentBottomSheet(with url: URL) {

@@ -27,6 +27,10 @@ class GatheringVM {
     private var cancellables = Set<AnyCancellable>()
     private var db = Firestore.firestore()
     
+    var currentTeamColor: String? {
+        return UserManager.shared.selectedTeam?.logoHex
+    }
+    
     weak var delegate: GatheringCoordinatorDelegate?
     
     func presentTeamChangeController() {
@@ -70,17 +74,17 @@ class GatheringVM {
     }
     
     func loadTeam() {
-           isLoading = true
-           UserManager.shared.getTeam { result in
-               switch result {
-               case .success(let team):
-                   self.loadGatherings(forTeam: team.teamUID)
-               case .failure(let error):
-                   print("getTeam Error \(error)")
-                   self.isLoading = false
-               }
-           }
-       }
+        isLoading = true
+        UserManager.shared.getTeam { result in
+            switch result {
+            case .success(let team):
+                self.loadGatherings(forTeam: team.teamUID)
+            case .failure(let error):
+                print("getTeam Error \(error)")
+                self.isLoading = false
+            }
+        }
+    }
     
     func loadGatherings(forTeam teamName: String) {
         db.collection("Gatherings")

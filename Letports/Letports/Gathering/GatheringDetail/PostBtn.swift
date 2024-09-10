@@ -5,19 +5,20 @@ protocol PostBtnDelegate: AnyObject {
 }
 
 class PostBtn: UIView {
+    private var logoHex: String?
+    
     private let floatingButton: UIButton = {
         let btn = UIButton(type: .custom)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .lp_main
         btn.layer.cornerRadius = 30
         btn.clipsToBounds = true
         btn.setImage(UIImage(systemName: "pencil"), for: .normal)
         btn.tintColor = .white
         btn.imageView?.contentMode = .scaleAspectFit
-		var configuration = UIButton.Configuration.plain()
-		configuration.imagePadding = 8
-		configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-		btn.configuration = configuration
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePadding = 8
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        btn.configuration = configuration
         return btn
     }()
     
@@ -25,7 +26,6 @@ class PostBtn: UIView {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.spacing = 5
-        sv.backgroundColor = .lp_main
         sv.layer.cornerRadius = 10
         sv.alignment = .leading
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class PostBtn: UIView {
     
     private let postButton: UIButton = {
         let btn = UIButton(type: .custom)
-		let boldFont = UIFont.lp_Font(.regular, size: 16)
+        let boldFont = UIFont.lp_Font(.regular, size: 16)
         let attributedTitle = NSAttributedString(string: "게시글 작성", attributes: [.font: boldFont])
         btn.setAttributedTitle(attributedTitle, for: .normal)
         btn.setTitleColor(UIColor(named: "lp_white"), for: .normal)
@@ -141,13 +141,13 @@ class PostBtn: UIView {
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
             let largePencil = UIImage(systemName: "pencil", withConfiguration: largeConfig)
             floatingButton.setImage(largePencil, for: .normal)
-        
-            floatingButton.backgroundColor = .lp_main
+            
+            floatingButton.backgroundColor = UIColor(hex: logoHex ?? "")
         } else {
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold, scale: .large)
             let largePencil = UIImage(systemName: "xmark", withConfiguration: largeConfig)
             floatingButton.setImage(largePencil, for: .normal)
-        
+            
             floatingButton.backgroundColor = .lp_gray
         }
     }
@@ -201,5 +201,11 @@ class PostBtn: UIView {
             self.optionsStackView.alpha = 1
             self.optionsStackView.transform = .identity
         }) { _ in }
+    }
+    
+    func configure(logoHex: String?) {
+        self.logoHex = logoHex
+        floatingButton.backgroundColor = UIColor(hex: logoHex ?? "")
+        optionsStackView.backgroundColor = UIColor(hex: logoHex ?? "")
     }
 }

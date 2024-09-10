@@ -71,7 +71,7 @@ class ProfileEditVC: UIViewController {
         [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
-
+        
         NSLayoutConstraint.activate([
             navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             navigationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -154,9 +154,9 @@ extension ProfileEditVC: CustomNavigationDelegate {
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .finished:
-//                    self?.showAlert(title: "성공", message: "프로필이 성공적으로 업데이트되었습니다.") {
-                        self?.viewModel.updateProfile()
-//                    }
+                    //                    self?.showAlert(title: "성공", message: "프로필이 성공적으로 업데이트되었습니다.") {
+                    self?.viewModel.updateProfile()
+                    //                    }
                 case .failure(let error):
                     self?.showAlert(title: "오류", message: "\(error.localizedDescription)") {
                     }

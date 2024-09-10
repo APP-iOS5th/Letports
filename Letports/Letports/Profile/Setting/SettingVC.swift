@@ -183,6 +183,31 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let sectionTitle = viewModel.getSectionTitle(for: section) else {
+            return nil
+        }
+        
+        let label = UILabel()
+        label.text = sectionTitle
+        label.font = .lp_Font(.regular, size: 16)
+        label.textColor = .lp_gray.withAlphaComponent(1.3)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let headerView = UIView()
+        headerView.backgroundColor = .lp_background_white
+        headerView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
+            label.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
+            label.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
+        ])
+        return headerView
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel.getSectionTitle(for: section)
     }
