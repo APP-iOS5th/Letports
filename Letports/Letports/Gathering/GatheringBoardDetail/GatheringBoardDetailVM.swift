@@ -20,15 +20,21 @@ enum GatheringBoardDetailCellType {
     case comment(comment: Comment)
 }
 
+enum GatheringBoardError: Error {
+    case boardNotFound
+    case deleteBoardFailed
+}
+
 protocol GatheringBoardDetailCoordinatorDelegate: AnyObject {
     func boardDetailBackBtnTap()
-    func presentActionSheet(post: Post, isWriter: Bool)
+    func presentActionSheet(post: Post, gathering: Gathering, isWriter: Bool)
     func presentReportAlert()
+    func showError(message: String)
     func presentDeleteBoardAlert()
 }
 
 final class GatheringBoardDetailVM {
-    @Published private(set) var boardPost: Post
+    @Published private(set) var boardPost: Post?
     @Published private(set) var commentsWithUsers: [(comment: Comment, user: LetportsUser)] = []
     @Published private(set) var isLoading: Bool = false
     
@@ -37,13 +43,22 @@ final class GatheringBoardDetailVM {
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatheringBoardDetailCoordinatorDelegate?
     private(set) var gathering: Gathering
+    private(set) var postUid: String
     
     
-    init(boardPost: Post, allUsers: [LetportsUser], gathering: Gathering) {
-        self.boardPost = boardPost
+    init(postUid: String, allUsers: [LetportsUser], gathering: Gathering) {
+        self.postUid = postUid
         self.allUsers = allUsers
         self.gathering = gathering
-        self.getBoardData()
+    }
+    
+    private func handleError(_ error: GatheringBoardError) {
+        switch error {
+        case .boardNotFound:
+            delegate?.showError(message: "게시글 정보를 찾을 수 없습니다")
+        case .deleteBoardFailed:
+            delegate?.showError(message: "게시글 삭제에 실패했습니다")
+        }
     }
     
     private var cellType: [GatheringBoardDetailCellType] {
@@ -52,9 +67,11 @@ final class GatheringBoardDetailVM {
         cellTypes.append(.boardContents)
         cellTypes.append(.separator)
         
-        if !self.boardPost.imageUrls.isEmpty {
-            cellTypes.append(.images)
-            cellTypes.append(.separator)
+        if let board = self.boardPost {
+            if !board.imageUrls.isEmpty {
+                cellTypes.append(.images)
+                cellTypes.append(.separator)
+            }
         }
         
         cellTypes.append(.commentHeaderLabel)
@@ -79,12 +96,15 @@ final class GatheringBoardDetailVM {
     }
     
     func getUserInfoForCurrentPost() -> (nickname: String, imageUrl: String)? {
-        if let user = allUsers.first(where: { $0.uid == boardPost.userUID }) {
-            let result = (nickname: user.nickname, imageUrl: user.image)
-            return result
+        if let board = boardPost?.userUID {
+            if let user = allUsers.first(where: { $0.uid == board }) {
+                let result = (nickname: user.nickname, imageUrl: user.image)
+                return result
+            }
+            return nil
+        } else {
+            return nil
         }
-        
-        return nil
     }
     
     func getPostDate() -> String {
@@ -92,21 +112,20 @@ final class GatheringBoardDetailVM {
         createDate.dateFormat = "MM/dd HH:mm"
         createDate.locale = Locale(identifier: "ko_KR")
         
-        let date = boardPost.createDate.dateValue()
-        return createDate.string(from: date)
+        if let boardCreateDate = boardPost?.createDate {
+            let date = boardCreateDate.dateValue()
+            return createDate.string(from: date)
+        } else {
+            return "날짜 없음"
+        }
     }
     
-    func getBoardData() {
-        getPost()
-        getComment()
-    }
-    
-    func getComment() {
+    func getComment(postUid: String) {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(self.gathering.gatheringUid),
             .collection(.board),
-            .document(self.boardPost.postUID),
+            .document(postUid),
             .collection(.comment)
         ]
         
@@ -128,12 +147,12 @@ final class GatheringBoardDetailVM {
             .collection(.gatherings),
             .document(self.gathering.gatheringUid),
             .collection(.board),
-            .document(self.boardPost.postUID),
+            .document(self.postUid),
             .collection(.comment),
             .document(uuid)
         ]
         
-        let comment = Comment(postUID: self.boardPost.postUID,
+        let comment = Comment(postUID: self.postUid,
                               commentUID: uuid,
                               userUID: UserManager.shared.getUserUid(),
                               contents: comment,
@@ -174,28 +193,6 @@ final class GatheringBoardDetailVM {
             .eraseToAnyPublisher()
     }
     
-//    func getDatas(gatherings: [MyGatherings], user: LetportsUser) {
-//        let gatheringPublishers = gatherings.map { gathering in
-//            let collectionPath3: [FirestorePathComponent] = [
-//                .collection(.gatherings),
-//                .document(gathering.uid)
-//            ]
-//            return FM.getData(pathComponents: collectionPath3, type: Gathering.self)
-//        }
-//        
-//        Publishers.MergeMany(gatheringPublishers)
-//            .collect()
-//            .sink(receiveCompletion: { completion in
-//                if case .failure(let error) = completion {
-//                    print(error)
-//                }
-//            }, receiveValue: { [weak self] allGatherings in
-//                guard let self = self else { return }
-//                let flatGatherings = allGatherings.flatMap { $0 }
-//            })
-//            .store(in: &cancellables)
-//    }
-    
     private func getUserData(userUid: String) -> AnyPublisher<LetportsUser, FirestoreError> {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
@@ -214,7 +211,9 @@ final class GatheringBoardDetailVM {
     }
     
     func naviRightBtnDidTap() {
-        delegate?.presentActionSheet(post: self.boardPost, isWriter: checkBoardWriter())
+        if let boardPost = self.boardPost {
+            delegate?.presentActionSheet(post: boardPost, gathering: self.gathering, isWriter: checkBoardWriter())
+        }
     }
     
     func getPost() {
@@ -222,16 +221,24 @@ final class GatheringBoardDetailVM {
             .collection(.gatherings),
             .document(gathering.gatheringUid),
             .collection(.board),
-            .document(boardPost.postUID)
+            .document(postUid)
         ]
         
         FM.getData(pathComponents: collectionPath, type: Post.self)
-            .sink { _ in
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("fetchBoardData 완료")
+                case .failure(let error):
+                    print("fetchBoardData 오류:", error)
+                    self?.handleError(.boardNotFound)
+                }
             } receiveValue: { [weak self] post in
                 guard let post = post.first else {
                     return
                 }
                 self?.boardPost = post
+                self?.getComment(postUid: post.postUID)
             }
             .store(in: &cancellables)
     }
@@ -261,6 +268,12 @@ final class GatheringBoardDetailVM {
     }
     
     private func deleteBoardImages() -> AnyPublisher<Void, FirestoreError> {
+        guard let boardPost = self.boardPost else {
+            // boardPost가 nil인 경우 에러를 반환하거나 빈 작업을 수행
+            return Fail(error: FirestoreError.unknownError("Board post is nil" as! Error))
+                .eraseToAnyPublisher()
+        }
+        
         guard !boardPost.imageUrls.isEmpty else {
             return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher()
         }
@@ -274,6 +287,7 @@ final class GatheringBoardDetailVM {
             .map { _ in () }
             .eraseToAnyPublisher()
     }
+    
     
     private func deleteImageFromStorage(imageUrlString: String) -> AnyPublisher<Void, FirestoreError> {
         let storageReference = Storage.storage().reference(forURL: imageUrlString)
@@ -298,7 +312,7 @@ final class GatheringBoardDetailVM {
             .collection(.gatherings),
             .document(gathering.gatheringUid),
             .collection(.board),
-            .document(boardPost.postUID)
+            .document(self.postUid)
         ]
         
         return FM.deleteDocument(pathComponents: collectionPath)
@@ -319,9 +333,11 @@ final class GatheringBoardDetailVM {
     
     
     func checkBoardWriter() -> Bool {
-        let checkWriter = self.boardPost.userUID == UserManager.shared.getUserUid()
-        return checkWriter
+        if let userUid = self.boardPost?.userUID {
+            let checkWriter = userUid == UserManager.shared.getUserUid()
+            return checkWriter
+        }
+        else { return false }
     }
-    
 }
 

@@ -9,8 +9,8 @@ import Combine
 import Kingfisher
 
 protocol SettingDelegate: AnyObject {
+    func toggleDidTap()
     func buttonDidTap(cellType: SettingCellType)
-    func toggleDidtap()
 }
 
 class SettingVC: UIViewController {
@@ -44,14 +44,25 @@ class SettingVC: UIViewController {
         return tv
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        checkNotificationPermission()
+        bindViewModel()
     }
     
     func setupUI() {
         view.backgroundColor = .lp_background_white
-        [navigationView, tableView].forEach {
+        [navigationView, tableView, loadingIndicatorView].forEach {
             self.view.addSubview($0)
         }
         
@@ -64,9 +75,42 @@ class SettingVC: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
-
+    
+    private func checkNotificationPermission() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized, .provisional:
+                    self.viewModel.notificationToggleState = true
+                case .denied, .notDetermined:
+                    self.viewModel.notificationToggleState = false
+                default:
+                    self.viewModel.notificationToggleState = false
+                }
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            }
+        }
+    }
+    
+    private func bindViewModel() {
+        viewModel.$isLoading
+            .sink { [weak self] isUploading in
+                if isUploading {
+                    self?.loadingIndicatorView.startAnimating()
+                } else {
+                    self?.loadingIndicatorView.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
 }
 
 extension SettingVC: CustomNavigationDelegate {
@@ -76,38 +120,70 @@ extension SettingVC: CustomNavigationDelegate {
 }
 
 extension SettingVC: SettingDelegate {
-    func toggleDidtap() {
-        viewModel.notificationUpdate()
+    
+    func toggleDidTap() {
+        if viewModel.notificationToggleState {
+            openAppSettings()
+        } else {
+            requestNotificationPermission()
+        }
     }
     
+    
     func buttonDidTap(cellType: SettingCellType) {
-        if cellType == .logout {
+        switch cellType {
+        case .logout:
             self.showAlert(title: "알림", message: "정말로 로그아웃하시겠습니까?", confirmTitle: "로그아웃", cancelTitle: "취소") {
                 self.viewModel.logout()
             }
-        } else {
+        case .exit:
+            self.showAlert(title: "알림", message: "정말로 회원탈퇴 하시겠습니까? 모든 소모임, 게시글은 삭제되며 복구할수 없습니다.", confirmTitle: "탈퇴", cancelTitle: "취소") {
+                self.viewModel.exit()
+            }
+        default:
             viewModel.buttonAction(cellType: cellType)
+        }
+    }
+    
+    private func openAppSettings() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(settingsURL) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            DispatchQueue.main.async {
+                self.viewModel.notificationToggleState = granted
+            }
         }
     }
 }
 
 extension SettingVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getCellCount()
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.getSectionCount()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getRowCount(for: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath) else {
-            return UITableViewCell()
+        let cellType = viewModel.getCellType(for: indexPath)
+        if let cell: SettingSectionTVCell = tableView.loadCell(indexPath: indexPath){
+            cell.configure(cellType: cellType, notificationState: viewModel.notificationToggleState)
+            cell.delegate = self
+            return cell
+            
         }
+        return UITableViewCell()
+        
+    }
     
-        let cellType = viewModel.getCellTypes()[indexPath.row]
-        cell.configure(cellType: cellType)
-        cell.delegate = self
-        return cell
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewModel.getSectionTitle(for: section)
     }
 }

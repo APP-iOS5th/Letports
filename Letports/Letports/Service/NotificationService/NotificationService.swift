@@ -27,7 +27,7 @@ class NotificationService {
     
     func setFCMToken(_ fcmToken: String) {
         self.fcmToken = fcmToken
-        if let uid = self.uid {
+        if let _ = self.uid {
             updateFCMTokenInFirestore()
         }
     }
@@ -39,7 +39,7 @@ class NotificationService {
         }
         
         let db = Firestore.firestore()
-        db.collection("token").document(uid).setData(["Token": fcmToken], merge: true) { error in
+        db.collection("Token").document(uid).setData(["Token": fcmToken], merge: true) { error in
             if let error = error {
                 print("Error updating FCM token: \(error.localizedDescription)")
             } else {

@@ -9,12 +9,11 @@ import UIKit
 import Combine
 
 protocol SettingCoordinatorDelegate: AnyObject {
-    func toggleDidtap()
-    func appTermsofServiceDidTap()
     func openLibraryDidTap()
-    func appInfoDidTap()
+    func presentBottomSheet(with url: URL)
     func logoutDidTap()
     func backToProfile()
+    func backToAuthView()
 }
 
 class SettingCoodinator : Coordinator {
@@ -44,33 +43,44 @@ class SettingCoodinator : Coordinator {
 }
 
 extension SettingCoodinator: SettingCoordinatorDelegate  {
-    func toggleDidtap() {
-        print("테스트")
-    }
-    
-    func appTermsofServiceDidTap() {
-        print("앱 사용약관")
-    }
-    
     func openLibraryDidTap() {
         if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsURL, options:[:], completionHandler: nil)
             }
     }
     
-    func appInfoDidTap() {
-        print("앱 정보")
+    func presentBottomSheet(with url: URL) {
+        let bottomSheetVC = URLVC(url: url)
+        bottomSheetVC.modalPresentationStyle = .pageSheet
+        
+        let detentIdentifier = UISheetPresentationController.Detent.Identifier("customDetent")
+        let customDetent = UISheetPresentationController.Detent.custom(identifier: detentIdentifier) { _ in
+            let screenHeight = UIScreen.main.bounds.height
+            return screenHeight * 0.878912
+        }
+        
+        if let sheet = bottomSheetVC.sheetPresentationController {
+            sheet.detents = [customDetent]
+            sheet.preferredCornerRadius = 30
+            sheet.prefersGrabberVisible = true
+        }
+        
+        self.navigationController.present(bottomSheetVC, animated: true, completion: nil)
     }
     
     func logoutDidTap() {
         do {
             try AuthService.shared.signOut()
-            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-               let appCoordinator = sceneDelegate.appCoordinator {
-                appCoordinator.userDidLogout()
-            }
+            self.backToAuthView()
         } catch {
             print("로그아웃 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
+    
+    func backToAuthView() {
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let appCoordinator = sceneDelegate.appCoordinator {
+            appCoordinator.backToShowAuthView()
         }
     }
     
