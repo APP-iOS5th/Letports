@@ -53,7 +53,7 @@ class TeamSelectVC: UICollectionViewController {
         
         title = "팀 선택"
         navigationController?.navigationBar.prefersLargeTitles = true
-	
+        
 		if let navigationBar = navigationController?.navigationBar {
 			let attributes: [NSAttributedString.Key: Any] = [
                 .font: UIFont.lp_Font(.regular, size: 34)
@@ -63,19 +63,21 @@ class TeamSelectVC: UICollectionViewController {
 		collectionView.allowsMultipleSelection = true
         
         viewModel.loadData { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateSportsSnapshot()
-                self?.updateTeamsSnapshot()
-                
-                
-                if let firstSports = self?.viewModel.sportsCategories.first {
-                    self?.viewModel.selectSports(firstSports)
+                DispatchQueue.main.async {
+                    self?.updateSportsSnapshot()
                     self?.updateTeamsSnapshot()
                     
-                    let firstIndexPath = IndexPath(item: 0, section: Section.sports.rawValue)
-                    self?.collectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: [])
+                    if let firstSports = self?.viewModel.sportsCategories.first {
+                        self?.viewModel.selectSports(firstSports)
+                        self?.updateTeamsSnapshot()
+
+                        let firstIndexPath = IndexPath(item: 0, section: Section.sports.rawValue)
+                        self?.collectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: [])
+                        if let firstCell = self?.collectionView.cellForItem(at: firstIndexPath) as? SportsCategoryCell {
+                            firstCell.setSelected(true)
+                        }
+                    }
                 }
-            }
         }
         
         viewModel.$sportsCategories
