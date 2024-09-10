@@ -84,7 +84,7 @@ class GatherUserTVCell: UITableViewCell {
             
             nickNameLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            nickNameLabel.heightAnchor.constraint(equalToConstant: 18),
+            nickNameLabel.heightAnchor.constraint(equalToConstant: 25),
             
             simpleInfoLabel.leadingAnchor.constraint(equalTo: profileIV.trailingAnchor, constant: 10),
             simpleInfoLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
