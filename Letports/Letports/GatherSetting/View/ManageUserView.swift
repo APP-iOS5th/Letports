@@ -198,7 +198,28 @@ class ManageUserView: UIView {
         }
         
         titleLabel.text = gathering.gatherName
-        questionTextView.text = gathering.gatherQuestion
-        answerTextView.text = user.answer
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+
+        let questionAttributedString = NSAttributedString(
+            string: gathering.gatherQuestion,
+            attributes: [
+                .font: UIFont.lp_Font(.regular, size: 12),
+                .foregroundColor: UIColor.lp_black,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+        questionTextView.attributedText = questionAttributedString
+
+        let answerAttributedString = NSAttributedString(
+            string: user.answer ?? "",
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 14),
+                .foregroundColor: UIColor.lp_black,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+        answerTextView.attributedText = answerAttributedString
     }
 }

@@ -13,11 +13,18 @@ class CommentHeaderLabelTVCell: UITableViewCell {
 		let lb = UILabel()
 		lb.text = "댓글"
         lb.textColor = .lp_black
-		lb.font = UIFont.boldSystemFont(ofSize: 16)
+        lb.font = .lp_Font(.regular, size: 16)
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
 	
+    private let commentCountLabel: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .lp_black
+        lb.font = .lp_Font(.regular, size: 14)
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
@@ -30,12 +37,23 @@ class CommentHeaderLabelTVCell: UITableViewCell {
 	// MARK: - setupUI()
 	
 	private func setupUI() {
-		self.contentView.addSubview(commentHeaderLabel)
+        [commentHeaderLabel, commentCountLabel].forEach {
+            self.contentView.addSubview($0)
+        }
+
 		self.contentView.backgroundColor = .lp_background_white
 		NSLayoutConstraint.activate([
 			commentHeaderLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
 			commentHeaderLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-			commentHeaderLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
+			commentHeaderLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            
+            commentCountLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            commentCountLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            commentCountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: commentHeaderLabel.trailingAnchor, constant: 3),
 		])
 	}
+    
+    func configure(count: Int) {
+        commentCountLabel.text = "\(count)"
+    }
 }

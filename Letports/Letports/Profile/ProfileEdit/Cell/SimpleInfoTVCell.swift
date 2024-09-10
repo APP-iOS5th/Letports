@@ -25,7 +25,7 @@ class SimpleInfoTVCell: UITableViewCell {
         tf.textColor = .lp_black
         tf.backgroundColor = .lp_white
         tf.borderStyle = .roundedRect
-		tf.font = .lp_Font(.regular, size: 14)
+		tf.font = .lp_Font(.regular, size: 12)
         tf.delegate = self
         tf.addTarget(self, action: #selector(simpleInfoDidChange), for: .editingChanged)
         tf.translatesAutoresizingMaskIntoConstraints = false

@@ -23,7 +23,7 @@ class SettingSectionTVCell: UITableViewCell {
     private lazy var titleLabel: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.lp_black, for: .normal)
-        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 20)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 18)
         btn.addTarget(self, action: #selector(titlebtnDidTap), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn

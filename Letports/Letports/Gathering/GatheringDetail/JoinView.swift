@@ -238,7 +238,19 @@ class JoinView: UIView {
     
     func configure(with gathering: Gathering) {
         titleLabel.text = gathering.gatherName
-        questionTextView.text = gathering.gatherQuestion
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+
+        let attributedText = NSAttributedString(
+            string: gathering.gatherQuestion ?? "",
+            attributes: [
+                .font: UIFont.lp_Font(.regular, size: 12),
+                .foregroundColor: UIColor.lp_black,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+
+        questionTextView.attributedText = attributedText
         placeholderLabel.isHidden = !answerTextView.text.isEmpty
     }
     

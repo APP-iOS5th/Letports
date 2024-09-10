@@ -35,8 +35,8 @@ final class BoardTVCell: UITableViewCell {
 	
 	private let createDateLabel: UILabel = {
 		let lb = UILabel()
-		lb.font = .lp_Font(.light, size: 8)
-		lb.textColor = .lightGray
+        lb.font = .lp_Font(.regular, size: 8)
+        lb.textColor = .lp_gray
 		lb.translatesAutoresizingMaskIntoConstraints = false
 		return lb
 	}()
@@ -121,12 +121,16 @@ final class BoardTVCell: UITableViewCell {
 		switch data.boardType {
         case .free:
 			boardTypeLabel.text = "자유"
+            boardTypeLabel.backgroundColor = .lp_gray.withAlphaComponent(0.2)
+            boardTypeLabel.layer.borderWidth = 1.0
+            boardTypeLabel.layer.borderColor = UIColor.lp_black.withAlphaComponent(0.5).cgColor
+            boardTypeLabel.textColor = .lp_black
         case .noti:
 			boardTypeLabel.text = "공지"
-			boardTypeLabel.backgroundColor = UIColor(red: 1.0, green: 0.847, blue: 0.855, alpha: 1.0) // #FFD8DA
-			boardTypeLabel.layer.borderWidth = 1
+            boardTypeLabel.backgroundColor = .lp_tint.withAlphaComponent(0.2) // #FFD8DA
+            boardTypeLabel.layer.borderWidth = 1.0
 			boardTypeLabel.layer.borderColor = UIColor.lp_tint.cgColor
-			boardTypeLabel.textColor = .lp_tint
+            boardTypeLabel.textColor = .lp_tint.withAlphaComponent(1.5)
 		default:
 			boardTypeLabel.text = "전체"
 		}
