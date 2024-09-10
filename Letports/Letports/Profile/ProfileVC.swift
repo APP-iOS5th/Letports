@@ -54,6 +54,13 @@ class ProfileVC: UIViewController {
         return control
     }()
     
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -105,12 +112,51 @@ class ProfileVC: UIViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+        
+        viewModel.$isLoading
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.showLoadingIndicator()
+                } else {
+                    self?.hideLoadingIndicator()
+                    
+                }
+            }
+            .store(in: &cancellables)
     }
     
     @objc private func refreshData() {
         performRefresh()
     }
     
+    private func showLoadingIndicator() {
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first else { return }
+            
+            // loadingIndicatorView를 window에 추가
+            window.addSubview(self.loadingIndicatorView)
+            
+            // Auto Layout 제약 설정
+            NSLayoutConstraint.activate([
+                self.loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+                self.loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+                self.loadingIndicatorView.topAnchor.constraint(equalTo: window.topAnchor),
+                self.loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+            ])
+            
+            // 로딩 뷰 표시
+            self.loadingIndicatorView.isHidden = false
+            self.loadingIndicatorView.startAnimating()
+            window.layoutIfNeeded()
+        }
+    }
+    
+    private func hideLoadingIndicator() {
+        loadingIndicatorView.stopAnimating()
+        loadingIndicatorView.isHidden = true
+        loadingIndicatorView.removeFromSuperview()
+    }
     func presentActionSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         

@@ -11,7 +11,7 @@ class GatherSectionTVCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.bold, size: 20)
+		label.font = .lp_Font(.regular, size: 20)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

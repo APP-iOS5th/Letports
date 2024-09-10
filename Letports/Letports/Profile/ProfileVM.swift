@@ -39,8 +39,10 @@ class ProfileVM {
         self.profileType = profileType
         switch profileType {
         case .myProfile:
+            self.isLoading = false
             loadMyProfile()
         case .userProfile:
+            self.isLoading = true
             if let currentUserUid = currentUserUid {
                 loadUserProfile(userUID: currentUserUid)
             }
@@ -61,7 +63,6 @@ class ProfileVM {
     }
     
     func loadUser(user: String, completion: (() -> Void)? = nil) {
-        isLoading = true
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(user),
@@ -76,7 +77,6 @@ class ProfileVM {
                 }
             } receiveValue: { [weak self] fetchedUser in
                 guard let self = self else { return }
-                self.isLoading = false
                 if let user = fetchedUser.first {
                     self.user = user
                     if self.profileType == .myProfile {
@@ -102,8 +102,6 @@ class ProfileVM {
     }
     
     func fetchUserGatherings(userUID: String, isCurrentUser: Bool) {
-        isLoading = true
-        
         let collectionPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(userUID),
@@ -114,7 +112,6 @@ class ProfileVM {
             .sink { _ in
             } receiveValue: { [weak self] gatherings in
                 guard let self = self else { return }
-                isLoading = false
                 self.getDatas(gatherings: gatherings, userUID: userUID, isCurrentUser: isCurrentUser)
             }
             .store(in: &cancellables)
@@ -240,6 +237,7 @@ class ProfileVM {
                 } else {
                     self.userGatherings = sortedResults.map { ($0.0, $0.1) }
                 }
+                self.isLoading = false
             })
             .store(in: &cancellables)
     }

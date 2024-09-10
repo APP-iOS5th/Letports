@@ -26,7 +26,7 @@ class JoinView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-		label.font = UIFont.lp_Font(.bold, size: 20)
+        label.font = UIFont.lp_Font(.regular, size: 20)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
