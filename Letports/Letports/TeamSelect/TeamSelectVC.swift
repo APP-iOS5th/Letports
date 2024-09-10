@@ -56,7 +56,7 @@ class TeamSelectVC: UICollectionViewController {
 	
 		if let navigationBar = navigationController?.navigationBar {
 			let attributes: [NSAttributedString.Key: Any] = [
-				.font: UIFont.lp_Font(.bold, size: 34)
+                .font: UIFont.lp_Font(.regular, size: 34)
 			]
 			navigationBar.largeTitleTextAttributes = attributes
 		}
