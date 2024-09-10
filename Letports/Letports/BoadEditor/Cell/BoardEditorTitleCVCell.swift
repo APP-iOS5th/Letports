@@ -18,6 +18,7 @@ class BoardEditorTitleCVCell: UICollectionViewCell {
         tf.layer.cornerRadius = 10
         tf.delegate = self
         tf.textColor = .lp_black
+        tf.font = .lp_Font(.regular, size: 15)
         tf.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10, height: 0.0))
         tf.leftViewMode = .always
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)

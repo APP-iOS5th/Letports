@@ -17,6 +17,7 @@ class CommentInputView: UIView {
         let tf = UITextField()
         tf.placeholder = "댓글을 입력하세요"
         tf.borderStyle = .roundedRect
+        tf.font = .lp_Font(.regular, size: 13)
         tf.layer.cornerRadius = 10
         tf.backgroundColor = .lp_white
         tf.textColor = .lp_black
@@ -29,6 +30,7 @@ class CommentInputView: UIView {
         let btn = UIButton()
         btn.setTitle("등록", for: .normal)
         btn.setTitleColor(.lp_gray, for: .normal)
+        btn.titleLabel?.font = .lp_Font(.regular, size: 13)
         btn.layer.cornerRadius = 10
         btn.backgroundColor = .lp_white
         btn.isEnabled = false

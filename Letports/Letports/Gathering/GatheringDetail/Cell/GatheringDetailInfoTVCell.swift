@@ -23,6 +23,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		let tv = UITextView()
 		tv.backgroundColor = .lp_white
 		tv.layer.cornerRadius = 10
+        tv.font = .lp_Font(.regular, size: 12)
         tv.textColor = .lp_black
 		tv.isUserInteractionEnabled = false
 		tv.isScrollEnabled = false
@@ -35,6 +36,7 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 	private let expandBtn: UIButton = {
 		let btn = UIButton()
 		btn.setTitle("더보기", for: .normal)
+        btn.titleLabel?.font = UIFont.lp_Font(.regular, size: 15)
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		btn.setTitleColor(.lp_black, for: .normal)
 		return btn
@@ -72,11 +74,26 @@ final class GatheringDetailInfoTVCell: UITableViewCell {
 		expandBtn.addTarget(self, action: #selector(expandInfo), for: .touchUpInside)
 	}
 	
-	func configure(with gatherInfo: String?) {
-		gatheringInfoTextView.text = gatherInfo
-		layoutIfNeeded()
-		updateExpandButtonVisibility()
-	}
+    func configure(with gatherInfo: String?) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+
+        let attributedText = NSAttributedString(
+            string: gatherInfo ?? "",
+            attributes: [
+                .font: UIFont.lp_Font(.regular, size: 12),
+                .foregroundColor: UIColor.lp_black,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+
+        // 줄 간 간격이 적용된 텍스트 설정
+        gatheringInfoTextView.attributedText = attributedText
+
+        // 기존 레이아웃 처리
+        layoutIfNeeded()
+        updateExpandButtonVisibility()
+    }
 	
 	private func updateExpandButtonVisibility() {
 		let size = gatheringInfoTextView.sizeThatFits(CGSize(width: gatheringInfoTextView.frame.width,

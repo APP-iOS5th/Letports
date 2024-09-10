@@ -187,9 +187,6 @@
 		4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVC.swift; sourceTree = "<group>"; };
 		4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVM.swift; sourceTree = "<group>"; };
 		4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorCoordinator.swift; sourceTree = "<group>"; };
-		419B949A2C900F5400068F6D /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
-		419B949B2C900F5400068F6D /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsTests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app/PlugIns/LetportsTests.xctest"; sourceTree = "<absolute>"; };
-		419B949C2C900F5400068F6D /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LetportsUITests.xctest; path = "/Users/chungwussup/Desktop/Its Mine/Project/98.LetPorts/01. Project/FinalProject-Letports/Letports/build/Debug-iphoneos/LetportsUITests-Runner.app/PlugIns/LetportsUITests.xctest"; sourceTree = "<absolute>"; };
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
@@ -247,9 +244,9 @@
 		D8201FC52C606935004DF06C /* LetportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsTests.swift; sourceTree = "<group>"; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		D828D07B2C90124C00A9100E /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Letports.app; path = "/Users/seonggeunan/Desktop/FinalProject-Letports/Letports/build/Debug-iphoneos/Letports.app"; sourceTree = "<absolute>"; };
 		D828D07E2C9013F700A9100E /* LetportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D828D07F2C9013F700A9100E /* LetportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LetportsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D828D0842C90174300A9100E /* Letports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Letports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherDeleteTVCell.swift; sourceTree = "<group>"; };
 		D8299F282C776219003D29AC /* GatherSectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherSectionTVCell.swift; sourceTree = "<group>"; };
 		D8299F292C776219003D29AC /* GatherUserTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatherUserTVCell.swift; sourceTree = "<group>"; };
@@ -558,6 +555,7 @@
 				D8201FCE2C606935004DF06C /* LetportsUITests */,
 				D828D07E2C9013F700A9100E /* LetportsTests.xctest */,
 				D828D07F2C9013F700A9100E /* LetportsUITests.xctest */,
+				D828D0842C90174300A9100E /* Letports.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -774,7 +772,7 @@
 				D85121AA2C8D742500E37978 /* FirebaseMessaging */,
 			);
 			productName = Letports;
-			productReference = D828D07B2C90124C00A9100E /* Letports.app */;
+			productReference = D828D0842C90174300A9100E /* Letports.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8201FC02C606935004DF06C /* LetportsTests */ = {
@@ -1203,9 +1201,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
@@ -1225,7 +1223,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Letports;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1243,9 +1241,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1264,7 +1262,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Letports;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

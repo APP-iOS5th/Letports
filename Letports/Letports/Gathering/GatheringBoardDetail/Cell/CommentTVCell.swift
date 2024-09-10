@@ -23,7 +23,8 @@ class CommentTVCell: UITableViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 10
-        iv.layer.borderWidth = 0.5
+        iv.layer.borderWidth = 0.3
+        iv.layer.borderColor = UIColor.lightGray.cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -31,14 +32,14 @@ class CommentTVCell: UITableViewCell {
     private let createDateLabel: UILabel = {
         let lb = UILabel()
 		lb.font = .lp_Font(.regular, size: 8)
-        lb.textColor = .lightGray
+        lb.textColor = .lp_gray
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     
     private let nickNameLabel: UILabel = {
         let lb = UILabel()
-		lb.font = .lp_Font(.regular, size: 14)
+		lb.font = .lp_Font(.regular, size: 15)
         lb.textColor = .lp_black
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -46,7 +47,8 @@ class CommentTVCell: UITableViewCell {
     
     private let commentLabel: UILabel = {
         let lb = UILabel()
-        lb.font = .systemFont(ofSize: 12)
+        lb.font = .lp_Font(.regular, size: 11)
+        lb.textColor = .lp_gray
         lb.textAlignment = .left
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
@@ -102,12 +104,12 @@ class CommentTVCell: UITableViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            userImageView.widthAnchor.constraint(equalToConstant: 30),
-            userImageView.heightAnchor.constraint(equalToConstant: 30),
+            userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            userImageView.widthAnchor.constraint(equalToConstant: 40),
+            userImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             nickNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             nickNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             nickNameLabel.heightAnchor.constraint(equalToConstant: 20),
@@ -118,7 +120,7 @@ class CommentTVCell: UITableViewCell {
             commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
 			commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 25)
         ])
     }

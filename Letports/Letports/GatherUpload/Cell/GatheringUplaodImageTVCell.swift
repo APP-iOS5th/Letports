@@ -32,6 +32,7 @@ class GatheringUplaodImageTVCell: UITableViewCell {
         button.addTarget(self, action: #selector(didTapUploadImage), for: .touchUpInside)
         button.tintColor = .lp_black
         button.setTitleColor(UIColor.lp_black, for: .normal)
+        button.titleLabel?.font = UIFont.lp_Font(.regular, size: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

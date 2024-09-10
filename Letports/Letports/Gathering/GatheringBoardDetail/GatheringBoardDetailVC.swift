@@ -52,6 +52,11 @@ final class GatheringBoardDetailVC: UIViewController {
         return view
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return control
+    }()
     
     private var viewModel: GatheringBoardDetailVM
     private var cancellables = Set<AnyCancellable>()
@@ -130,6 +135,8 @@ final class GatheringBoardDetailVC: UIViewController {
             self.view.addSubview($0)
         }
         
+        tableView.refreshControl = refreshControl
+        
         NSLayoutConstraint.activate([
             navigationView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             navigationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -194,6 +201,11 @@ final class GatheringBoardDetailVC: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
     }
     
+    private func performRefresh() {
+        viewModel.getPost()
+        self.refreshControl.endRefreshing()
+    }
+    
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
         let location = gesture.location(in: self.view)
         let tappedView = self.view.hitTest(location, with: nil)
@@ -201,6 +213,10 @@ final class GatheringBoardDetailVC: UIViewController {
         if !(tappedView?.isDescendant(of: commentInputView) ?? false) {
             dismissKeyboard()
         }
+    }
+    
+    @objc private func refreshData() {
+        performRefresh()
     }
     
     @objc func dismissKeyboard() {
@@ -249,6 +265,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             }
         case .commentHeaderLabel:
             if let cell: CommentHeaderLabelTVCell = tableView.loadCell(indexPath: indexPath) {
+                cell.configure(count: viewModel.commentsWithUsers.count)
                 return cell
             }
         case .commentEmpty:
