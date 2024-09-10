@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import FirebaseFirestore
+import FirebaseStorage
 
 // 게시판 버튼
 protocol ButtonStateDelegate: AnyObject {
@@ -78,7 +79,7 @@ class GatheringDetailVM {
     
     func pushGatherSettingView() {
         guard let gathering = gathering else { return }
-        self.delegate?.pushGatherSettingView(gathering: gathering)
+        self.delegate?.pushGatherSettingView(gatheringUid: gathering.gatheringUid)
     }
     
     func loadData() {
@@ -315,42 +316,32 @@ class GatheringDetailVM {
         .eraseToAnyPublisher()
     }
     
-    // 모임탈퇴
+    func confirmRemoveGatheringFromUser() {
+        removeGatheringFromUser()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    self.loadData()
+                    print("모임 탈퇴 완료 및 알림 발송 완료")
+                case .failure(let error):
+                    print("모임 탈퇴 중 오류 발생: \(error.localizedDescription)")
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
+    }
+
     func removeGatheringFromUser() -> AnyPublisher<Void, FirestoreError> {
-        // Gathering에서 멤버 제거
-        let collectionPath: [FirestorePathComponent] = [
+        guard let gathering = gathering else {
+            return Fail(error: .documentNotFound).eraseToAnyPublisher()
+        }
+
+        let gatheringMemberPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(currentGatheringUid),
             .collection(.gatheringMembers),
             .document(currentUser.uid)
         ]
         
-        // 현재 인원 수 감소
-        let gatheringPath: [FirestorePathComponent] = [
-            .collection(.gatherings),
-            .document(currentGatheringUid)
-        ]
-        
-        if let gathering = gathering {
-            let newNowMember = max(gathering.gatherNowMember - 1, 0) // 음수가 되지 않도록 함
-            
-            let updatedFields: [String: Any] = [
-                "GatherNowMember": newNowMember
-            ]
-            
-            FM.updateData(pathComponents: gatheringPath, fields: updatedFields)
-                .sink(receiveCompletion: { completion in
-                    switch completion {
-                    case .finished:
-                        print("현재 인원 수 업데이트 완료")
-                    case .failure(let error):
-                        print("현재 인원 수 업데이트 실패: \(error)")
-                    }
-                }, receiveValue: { _ in })
-                .store(in: &cancellables)
-        }
-        
-        // 유저의 MyGatherings에서 제거
         let userMyGatheringPath: [FirestorePathComponent] = [
             .collection(.user),
             .document(currentUser.uid),
@@ -358,53 +349,131 @@ class GatheringDetailVM {
             .document(currentGatheringUid)
         ]
         
-        // Board에서 사용자가 작성한 게시글 제거
-        let myBoardPath: [FirestorePathComponent] = [
+        let boardPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(currentGatheringUid),
             .collection(.board)
         ]
         
-        // 사용자가 작성한 게시글 쿼리 및 삭제
-        let deleteUserPosts = FM.getData(pathComponents: myBoardPath, type: Post.self)
-            .flatMap { (posts: [Post]) -> AnyPublisher<Void, FirestoreError> in
+        let updatePath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(currentGatheringUid),
+        ]
+        
+        let newNowMember = max(gathering.gatherNowMember - 1, 0)
+        let updateGatheringMemberField: [String: Any] = ["GatherNowMember": newNowMember]
+        
+        // 게시글 및 이미지 삭제 후 진행
+        return deleteUserPostsAndImages(for: boardPath)
+            .flatMap {
+                FM.deleteDocument(pathComponents: gatheringMemberPath)
+            }
+            .flatMap {
+                FM.deleteDocument(pathComponents: userMyGatheringPath)
+            }
+            .flatMap {
+                FM.updateData(pathComponents:updatePath, fields: updateGatheringMemberField)
+            }
+            .flatMap {
+                NotificationService.shared.sendPushNotificationByUID(
+                    uid: gathering.gatheringMaster,
+                    title: "모임 탈퇴",
+                    body: "\(self.currentUser.nickname)님이 \(gathering.gatherName)모임에서 탈퇴하셨습니다."
+                )
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private func deleteUserPostsAndImages(for boardPath: [FirestorePathComponent]) -> AnyPublisher<Void, FirestoreError> {
+        return FM.getData(pathComponents: boardPath, type: Post.self)
+            .flatMap { posts -> AnyPublisher<Void, FirestoreError> in
                 let userPosts = posts.filter { $0.userUID == self.currentUser.uid }
-                let deletions = userPosts.map { post in
-                    FM.deleteDocument(pathComponents: myBoardPath + [.document(post.postUID)])
-                }
-                return Publishers.MergeMany(deletions)
-                    .collect()
-                    .map { _ in () }
+                
+                // 게시글 이미지 삭제
+                let deleteImagesPublisher = self.deleteBoardImages(for: userPosts)
+                
+                // 게시글 삭제
+                let deletePostsPublisher = self.deleteBoardPosts(for: userPosts)
+                
+                // 두 작업을 순차적으로 실행
+                return deleteImagesPublisher
+                    .flatMap { _ in
+                        deletePostsPublisher
+                    }
                     .eraseToAnyPublisher()
             }
-            .mapError { $0 as FirestoreError }
             .eraseToAnyPublisher()
-        
-        // 모든 업데이트를 동시에 실행
-        return Publishers.Zip3(
-            FM.deleteDocument(pathComponents: collectionPath),
-            FM.deleteDocument(pathComponents: userMyGatheringPath),
-            deleteUserPosts
-        )
-        .map { _, _, _ in () }
-        .eraseToAnyPublisher()
     }
-    
-    // 모임 나가기 확인
-    func confirmLeaveGathering() {
-        guard gathering != nil else {
+
+    // 게시글의 이미지 삭제
+    private func deleteBoardImages(for posts: [Post]) -> AnyPublisher<Void, FirestoreError> {
+        let deleteImagePublishers = posts.flatMap { post in
+            post.imageUrls.compactMap { imageUrl in
+                let storageRef = Storage.storage().reference(forURL: imageUrl)
+                return Future<Void, FirestoreError> { promise in
+                    storageRef.delete { error in
+                        if let error = error {
+                            promise(.failure(.unknownError(error)))
+                        } else {
+                            promise(.success(()))
+                        }
+                    }
+                }.eraseToAnyPublisher()
+            }
+        }
+        return Publishers.MergeMany(deleteImagePublishers)
+            .collect()
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
+
+    // 게시글 삭제
+    private func deleteBoardPosts(for posts: [Post]) -> AnyPublisher<Void, FirestoreError> {
+        let deletePostPublishers = posts.map { post in
+            let postPath: [FirestorePathComponent] = [
+                .collection(.gatherings),
+                .document(currentGatheringUid),
+                .collection(.board),
+                .document(post.postUID)
+            ]
+            return FM.deleteDocument(pathComponents: postPath)
+        }
+        return Publishers.MergeMany(deletePostPublishers)
+            .collect()
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
+    func confirmCancelWaiting() {
+        guard let gathering = gathering else {
             handleError(.gatheringNotFound)
             return
         }
-        removeGatheringFromUser()
+
+        removeWaitingRegist()
+            .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self else {
+                    return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "self가 해제되었습니다."])))
+                        .eraseToAnyPublisher()
+                }
+
+                let gatheringMaster = gathering.gatheringMaster
+                let gatherName = gathering.gatherName
+                let nickname = UserManager.shared.currentUser?.nickname ?? "알 수 없는 사용자"
+
+                return NotificationService.shared.sendPushNotificationByUID(
+                    uid: gatheringMaster,
+                    title: "가입신청 취소",
+                    body: "\(nickname)님이 \(gatherName)모임에서 가입 신청을 취소하셨습니다."
+                )
+            }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
-                    print("모임 탈퇴 완료")
-                    self.loadData() // 데이터 새로고침
+                    print("가입 대기 취소 완료 및 알림 발송 완료")
+                    self.loadData()
                 case .failure(_):
-                    self.handleError(.leaveFailed)
+                    self.handleError(.cancelWaitingFailed)
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)
@@ -436,27 +505,8 @@ class GatheringDetailVM {
         .map { _, _ in () }
         .eraseToAnyPublisher()
     }
-    
-    // 가입대기 취소 확인
-    func confirmCancelWaiting() {
-        guard gathering != nil else {
-            handleError(.gatheringNotFound)
-            return
-        }
-        removeWaitingRegist()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("가입 대기 취소 완료")
-                    self.loadData()
-                case .failure(_):
-                    self.handleError(.cancelWaitingFailed)
-                }
-            }, receiveValue: { _ in })
-            .store(in: &cancellables)
-    }
-    
+
+
     private var cellType: [GatheringDetailCellType] {
         var cellTypes: [GatheringDetailCellType] = []
         cellTypes.append(.gatheringImage)

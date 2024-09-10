@@ -53,7 +53,7 @@ class JoinView: UIView {
     
     private lazy var answerTextView: UITextView = {
         let textView = UITextView()
-        textView.font = .systemFont(ofSize: 14)
+        textView.font = .lp_Font(.regular, size: 14)
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 20
         textView.backgroundColor = .lp_white
@@ -260,14 +260,32 @@ class JoinView: UIView {
 extension JoinView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        applyAttributesToTextView(textView)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        applyAttributesToTextView(textView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    
+    private func applyAttributesToTextView(_ textView: UITextView) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.lp_Font(.regular, size: 14),
+            .foregroundColor: UIColor.lp_black,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        textView.typingAttributes = attributes
+        
+        let attributedString = NSAttributedString(string: textView.text ?? "", attributes: attributes)
+        textView.attributedText = attributedString
     }
 }
 

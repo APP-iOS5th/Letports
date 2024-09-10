@@ -331,7 +331,6 @@ final class GatheringBoardDetailVM {
             .eraseToAnyPublisher()
     }
     
-    
     func checkBoardWriter() -> Bool {
         if let userUid = self.boardPost?.userUID {
             let checkWriter = userUid == UserManager.shared.getUserUid()

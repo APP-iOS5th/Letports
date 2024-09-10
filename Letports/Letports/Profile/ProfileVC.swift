@@ -134,10 +134,8 @@ class ProfileVC: UIViewController {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first else { return }
             
-            // loadingIndicatorView를 window에 추가
             window.addSubview(self.loadingIndicatorView)
             
-            // Auto Layout 제약 설정
             NSLayoutConstraint.activate([
                 self.loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
                 self.loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
@@ -145,7 +143,6 @@ class ProfileVC: UIViewController {
                 self.loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
             ])
             
-            // 로딩 뷰 표시
             self.loadingIndicatorView.isHidden = false
             self.loadingIndicatorView.startAnimating()
             window.layoutIfNeeded()
@@ -157,6 +154,7 @@ class ProfileVC: UIViewController {
         loadingIndicatorView.isHidden = true
         loadingIndicatorView.removeFromSuperview()
     }
+    
     func presentActionSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         

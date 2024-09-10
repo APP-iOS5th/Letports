@@ -45,7 +45,7 @@ class ManageUserView: UIView {
     private lazy var questionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-        textView.font = .lp_Font(.regular, size: 12)
+        textView.font = .lp_Font(.regular, size: 14)
         textView.backgroundColor = .lp_background_white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -57,6 +57,7 @@ class ManageUserView: UIView {
         textView.clipsToBounds = true
         textView.isEditable = false
         textView.layer.cornerRadius = 20
+        textView.font = .lp_Font(.regular, size: 12)
         textView.backgroundColor = .lp_white
         textView.textColor = .lp_black
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -215,7 +216,7 @@ class ManageUserView: UIView {
         let answerAttributedString = NSAttributedString(
             string: user.answer ?? "",
             attributes: [
-                .font: UIFont.systemFont(ofSize: 14),
+                .font: UIFont.lp_Font(.regular, size: 14),
                 .foregroundColor: UIColor.lp_black,
                 .paragraphStyle: paragraphStyle
             ]

@@ -26,9 +26,9 @@ class GatherSettingCoordinator: Coordinator {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(navigationController: UINavigationController, gathering: Gathering) {
+    init(navigationController: UINavigationController, gatheringUid: String) {
         self.navigationController = navigationController
-        self.viewModel = GatherSettingVM(gathering: gathering)
+        self.viewModel = GatherSettingVM(gatheringUid: gatheringUid)
     }
     
     func start() {
