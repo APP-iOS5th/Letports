@@ -95,7 +95,7 @@ class GatherSettingVM {
             .document(gathering?.gatheringUid ?? ""),
         ]
         
-        let newNowMember = max((gathering?.gatherNowMember ?? 0) + 1, 0)
+        let newNowMember = (gathering?.gatherNowMember ?? 0) + 1
         let updatedFields: [String: Any] = [
             "GatherNowMember": newNowMember
         ]
@@ -308,7 +308,7 @@ class GatherSettingVM {
             .document(gathering?.gatheringUid ?? ""),
         ]
         
-        let newNowMember = max((gathering?.gatherNowMember ?? 0) - 1, 0)
+        let newNowMember = (gathering?.gatherNowMember ?? 0) - 1
         
         let updatedFields: [String: Any] = [
             "GatherNowMember": newNowMember
