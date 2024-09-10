@@ -163,6 +163,8 @@ class GatheringDetailVM {
                     self?.isLoading = false
                 case .failure(let error):
                     print("fetchAllData 오류:", error)
+					self?.isLoading = false
+					self?.handleError(.gatheringNotFound)
                 }
             } receiveValue: { [weak self] gathering, posts, members in
                 self?.gathering = gathering.first

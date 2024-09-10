@@ -17,17 +17,11 @@ class GatheringBoardDetailCoordinator: Coordinator {
         }
     }
     var navigationController: UINavigationController
-    let boardData: Post
-    let allUsers: [LetportsUser]
-    let gathering: Gathering
     var viewModel: GatheringBoardDetailVM
     weak var parentCoordinator: Coordinator?
     
     init(navigationController: UINavigationController, viewModel: GatheringBoardDetailVM) {
         self.navigationController = navigationController
-        self.boardData = viewModel.boardPost
-        self.allUsers = viewModel.allUsers
-        self.gathering = viewModel.gathering
         self.viewModel = viewModel
     }
     
@@ -37,6 +31,15 @@ class GatheringBoardDetailCoordinator: Coordinator {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+	
+	func showError(message: String) {
+		let alertController = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+			self?.navigationController.popViewController(animated: true)
+		}
+		alertController.addAction(okAction)
+		navigationController.present(alertController, animated: true, completion: nil)
+	}
 }
 
 extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelegate {
@@ -45,7 +48,7 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         self.parentCoordinator?.childDidFinish(self)
     }
     
-    func presentActionSheet(post: Post, isWriter: Bool) {
+	func presentActionSheet(post: Post, gathering: Gathering, isWriter: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let destructiveTitle = isWriter ? "게시글 삭제" : "게시글 신고"
@@ -59,7 +62,8 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         }
         
         let editAction = UIAlertAction(title: "게시글 수정", style: .default) { [weak self] _ in
-            if let gathering = self?.gathering, let navigation =  self?.navigationController {
+			let gathering = gathering
+			if let navigation =  self?.navigationController {
                 let viewModel = BoardEditorVM(type: post.boardType, gathering: gathering, post: post)
                 let coordinator = BoardEditorCoordinator(navigationController: navigation, viewModel: viewModel)
                 self?.childCoordinators.append(coordinator)

@@ -64,8 +64,8 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 		coordinator.start()
 	}
 	
-    func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser]) {
-        let viewModel = GatheringBoardDetailVM(boardPost: boardPost, allUsers: allUsers, gathering: gathering)
+	func pushBoardDetail(gathering: Gathering, boardPost: Post, allUsers: [LetportsUser]) {
+		let viewModel = GatheringBoardDetailVM(postUid: boardPost.postUID, allUsers: allUsers, gathering: gathering)
         
 		let coordinator = GatheringBoardDetailCoordinator(navigationController: navigationController,
                                                           viewModel: viewModel)
@@ -129,7 +129,10 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
 	
 	func showError(message: String) {
 		let alertController = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
-		let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+		let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+			self?.navigationController.popToRootViewController(animated: true)
+			self?.reloadParentView()
+		}
 		alertController.addAction(okAction)
 		navigationController.present(alertController, animated: true, completion: nil)
 	}
@@ -166,5 +169,16 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         self.navigationController.present(alert, animated: true, completion: nil)
     }
 	
+	private func reloadParentView() {
+		for viewController in navigationController.viewControllers {
+			if let homeVC = viewController as? HomeVC {
+				homeVC.reloadTeamData()
+			} else if let gatheringVC = viewController as? GatheringVC {
+				gatheringVC.loadGathering()
+			} else if let profileVC = viewController as? ProfileVC {
+				profileVC.reloadProfileData()
+			}
+		}
+	}
 }
 
