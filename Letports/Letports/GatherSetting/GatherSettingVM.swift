@@ -140,7 +140,7 @@ class GatherSettingVM {
         ]
         
         return FM.getData(pathComponents: gatheringMembersCollectionPath, type: GatheringMember.self)
-            .flatMap { [weak self] gatheringMembers -> AnyPublisher<Void, FirestoreError> in
+            .flatMap { gatheringMembers -> AnyPublisher<Void, FirestoreError> in
                 let deletePublishers = gatheringMembers.map { member -> AnyPublisher<Void, FirestoreError> in
                     
                     let userMyGatheringPath: [FirestorePathComponent] = [

@@ -87,7 +87,7 @@ class AppCoordinator: Coordinator {
         tabBarCoordinator.start()
     }
     
-    func userDidLogout() {
+    func backToShowAuthView() {
         DispatchQueue.main.async { [weak self] in
             self?.showAuthView()
         }

@@ -27,7 +27,7 @@ class NotificationService {
     
     func setFCMToken(_ fcmToken: String) {
         self.fcmToken = fcmToken
-        if let uid = self.uid {
+        if let _ = self.uid {
             updateFCMTokenInFirestore()
         }
     }

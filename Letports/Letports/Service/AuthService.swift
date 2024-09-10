@@ -103,7 +103,7 @@ class AuthService: AuthServiceProtocol {
                 return
             }
             
-            self.processUserData(for: user) { result in
+            self.processUserData(for: user, credential: credential) { result in
                 switch result {
                 case .success(let processedUser):
                     completion(.success(processedUser))
@@ -114,7 +114,7 @@ class AuthService: AuthServiceProtocol {
         }
     }
     
-    private func processUserData(for user: User, completion: @escaping (Result<User, Error>) -> Void) {
+    private func processUserData(for user: User, credential: AuthCredential, completion: @escaping (Result<User, Error>) -> Void) {
         let userID = user.uid
         
         FM.getData(collection: "Users", document: userID, type: LetportsUser.self)
