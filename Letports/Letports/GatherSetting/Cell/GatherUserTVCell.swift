@@ -28,7 +28,7 @@ class GatherUserTVCell: UITableViewCell {
     
     private lazy var nickNameLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.bold, size: 18)
+        label.font = .lp_Font(.regular, size: 18)
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
