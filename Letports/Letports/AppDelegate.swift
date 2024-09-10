@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Push notification received with userInfo: \(userInfo)")
         
         // 알림을 어떤 형태로 표시할지 결정
-        completionHandler([.alert, .badge, .sound])
+        completionHandler([.banner, .badge, .sound])
     }
     
     // 푸시 알림 클릭 시 처리
