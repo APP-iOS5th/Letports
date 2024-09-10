@@ -195,25 +195,13 @@ class GatherSettingVC: UIViewController {
 
 extension GatherSettingVC: GatherSettingDelegate {
     func deleteGathering() {
-        self.showAlert(title: "알림", message: "정말로 이 소모임을 삭제하시겠습니까? \n 게시글, 사진을 포함한 모든 데이터는 영구적으로 삭제되며 복구할 수 없습니다.", confirmTitle: "삭제", cancelTitle: "취소") {
-            self.viewModel.deleteGatheringButtonTapped()
-                .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
-                    guard let self = self else {
-                        return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "유저 UID 배열을 가져올 수 없습니다."])))
-                            .eraseToAnyPublisher()
-                    }
-                    
-                    let notificationPublishers = self.viewModel.allUserUIDs.map { userUid in
-                        NotificationService.shared.sendPushNotificationByUID(
-                            uid: userUid,
-                            title: "소모임 삭제 알림",
-                            body: "\(self.viewModel.gathering?.gatherName ?? "소모임")소모임이 삭제되었습니다."
-                        )
-                    }
-                    
-                    return Publishers.MergeMany(notificationPublishers)
-                        .collect()
-                        .map { _ in () }
+        self.showAlert(title: "알림",message: "정말로 이 소모임을 삭제하시겠습니까? \n 게시글, 사진을 포함한 모든 데이터는 영구적으로 삭제되며 복구할 수 없습니다.",
+            confirmTitle: "삭제", cancelTitle: "취소") { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.deleteGatheringBtnDidTap()
+                .flatMap { _ -> AnyPublisher<Void, FirestoreError> in
+                    return Just(())
+                        .setFailureType(to: FirestoreError.self)
                         .eraseToAnyPublisher()
                 }
                 .sink(receiveCompletion: { [weak self] completion in
@@ -222,9 +210,10 @@ extension GatherSettingVC: GatherSettingDelegate {
                         switch completion {
                         case .finished:
                             self.viewModel.loadData()
-                            self.showAlert(title: "알림", message: "소모임 삭제가 완료되었습니다.", confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "알림",message: "소모임 삭제가 완료되었습니다.",confirmTitle: "확인",onConfirm: {})
                         case .failure(let error):
-                            self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error), confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "오류",message: self.viewModel.errorToString(error: error),confirmTitle: "확인",onConfirm: {}
+                            )
                         }
                     }
                 }, receiveValue: { _ in })

@@ -112,7 +112,7 @@ class GatherSettingVM {
         
     }
     
-    func deleteGatheringButtonTapped()-> AnyPublisher<Void, FirestoreError>{
+    func deleteGatheringBtnDidTap() -> AnyPublisher<Void, FirestoreError> {
         isLoading = true
         return deleteAllGatheringMembers()
             .flatMap { [weak self] in
@@ -124,9 +124,17 @@ class GatherSettingVM {
             .flatMap { [weak self] in
                 self?.deleteGatheringDocument() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
-            .handleEvents(receiveCompletion: { [weak self] _ in
+            .flatMap { [weak self] in
+                self?.notifyAllMembersExceptMaster() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+            }
+            .handleEvents(receiveCompletion: { [weak self] completion in
                 self?.isLoading = false
-                self?.delegate?.gatherDeleteFinish()
+                switch completion {
+                case .finished:
+                    self?.delegate?.gatherDeleteFinish()
+                case .failure(let error):
+                    print("삭제 작업 실패: \(error.localizedDescription)")
+                }
             })
             .eraseToAnyPublisher()
     }
@@ -326,6 +334,29 @@ class GatherSettingVM {
         .eraseToAnyPublisher()
     }
     
+    private func notifyAllMembersExceptMaster() -> AnyPublisher<Void, FirestoreError> {
+        guard let gatheringUid = gathering?.gatheringUid, let masterUid = gathering?.gatheringMaster else {
+            return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+        }
+        
+        let allMembersUIDs = joinedMembers.map { $0.userUID } + pendingMembers.map { $0.userUID }
+        let memberUIDsToNotify = allMembersUIDs.filter { $0 != masterUid }
+        
+        let notificationPublishers = memberUIDsToNotify.map { uid in
+            return NotificationService.shared.sendPushNotificationByUID(
+                uid: uid,
+                title: "소모임 삭제 알림",
+                body: "\(self.gathering?.gatherName ?? "")모임이 삭제되었습니다. "
+            )
+            .mapError { _ in FirestoreError.notificationFailed }
+            .eraseToAnyPublisher()
+        }
+        
+        return Publishers.MergeMany(notificationPublishers)
+            .collect()
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
     
     func gatherSettingBackBtnTap() {
         delegate?.gatherSettingBackBtnTap()
@@ -444,6 +475,18 @@ class GatherSettingVM {
                 }
                 .eraseToAnyPublisher()
         }
+        
+        return Publishers.MergeMany(userFetchPublishers)
+            .collect()
+            .map { users in
+                return users.flatMap { $0 }
+            }
+            .mapError { error in
+                print("Error fetching users:", error.localizedDescription)
+                return FirestoreError.dataDecodingFailed
+            }
+            .eraseToAnyPublisher()
+    
         
         return Publishers.MergeMany(userFetchPublishers)
             .collect()

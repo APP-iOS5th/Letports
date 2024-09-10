@@ -42,9 +42,11 @@ class GatherSettingCoordinator: Coordinator {
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
     func gatherDeleteFinish() {
-        self.navigationController.popToRootViewController(animated: true)
-        self.parentCoordinator?.childDidFinish(self)
-        self.reloadParentView()
+        DispatchQueue.main.async {
+            self.navigationController.popToRootViewController(animated: true)
+            self.parentCoordinator?.childDidFinish(self)
+            self.reloadParentView()
+        }
     }
     
     func gatherSettingBackBtnTap() {

@@ -33,6 +33,7 @@ enum FirestoreError: LocalizedError, Equatable {
     case dataDecodingFailed
     case updateFailed
     case deleteFailed
+    case notificationFailed
     case unknownError(Error)
     
     var errorDescription: String? {
@@ -42,30 +43,33 @@ enum FirestoreError: LocalizedError, Equatable {
         case .dataEncodingFailed:
             return "Firestore의 데이터를 인코딩하지 못했어요."
         case .dataDecodingFailed:
-            return "Firestored에서 데이터를 디코딩하지 못했어요."
+            return "Firestore에서 데이터를 디코딩하지 못했어요."
         case .updateFailed:
             return "Firestore에서 Document를 업데이트하지 못했어요."
         case .deleteFailed:
             return "Firestore에서 Document를 삭제하지 못했어요."
+        case .notificationFailed:
+            return "알림 발송에 실패했어요."
         case .unknownError(let error):
             return "An unknown error occurred: \(error.localizedDescription)"
         }
     }
     
     static func == (lhs: FirestoreError, rhs: FirestoreError) -> Bool {
-           switch (lhs, rhs) {
-           case (.documentNotFound, .documentNotFound),
-                (.dataEncodingFailed, .dataEncodingFailed),
-                (.dataDecodingFailed, .dataDecodingFailed),
-                (.updateFailed, .updateFailed),
-                (.deleteFailed, .deleteFailed):
-               return true
-           case (.unknownError(let lhsError), .unknownError(let rhsError)):
-               return lhsError.localizedDescription == rhsError.localizedDescription
-           default:
-               return false
-           }
-       }
+        switch (lhs, rhs) {
+        case (.documentNotFound, .documentNotFound),
+             (.dataEncodingFailed, .dataEncodingFailed),
+             (.dataDecodingFailed, .dataDecodingFailed),
+             (.updateFailed, .updateFailed),
+             (.deleteFailed, .deleteFailed),
+             (.notificationFailed, .notificationFailed):
+            return true
+        case (.unknownError(let lhsError), .unknownError(let rhsError)):
+            return lhsError.localizedDescription == rhsError.localizedDescription
+        default:
+            return false
+        }
+    }
 }
 
 class FirestoreManager {
