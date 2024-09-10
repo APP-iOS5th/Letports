@@ -73,12 +73,12 @@ final class GatheringBoardDetailVC: UIViewController {
         setupTapGesture()
     }
     
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		viewModel.getPost()
-		if let boardType = viewModel.boardPost?.boardType {
-			updateUI(with: boardType)
-		}
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getPost()
+        if let boardType = viewModel.boardPost?.boardType {
+            updateUI(with: boardType)
+        }
     }
     
     private func bindViewModel() {
@@ -232,9 +232,9 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             }
         case .boardContents:
             if let cell: GatheringBoardDetailContentTVCell  = tableView.loadCell(indexPath: indexPath) {
-				if let post = viewModel.boardPost {
-					cell.configure(with: post)
-				}
+                if let post = viewModel.boardPost {
+                    cell.configure(with: post)
+                }
                 return cell
             }
         case .separator:
@@ -256,7 +256,7 @@ extension GatheringBoardDetailVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.textLabel?.text = "댓글이 없어요.."
             cell.textLabel?.textAlignment = .center
-			cell.textLabel?.font = UIFont.lp_Font(.regular, size: 16)
+            cell.textLabel?.font = UIFont.lp_Font(.regular, size: 16)
             cell.textLabel?.textColor = .gray
             cell.backgroundColor = .lp_background_white
             return cell

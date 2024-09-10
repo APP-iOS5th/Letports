@@ -31,15 +31,15 @@ class GatheringBoardDetailCoordinator: Coordinator {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-	
-	func showError(message: String) {
-		let alertController = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
-		let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-			self?.navigationController.popViewController(animated: true)
-		}
-		alertController.addAction(okAction)
-		navigationController.present(alertController, animated: true, completion: nil)
-	}
+    
+    func showError(message: String) {
+        let alertController = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.navigationController.popViewController(animated: true)
+        }
+        alertController.addAction(okAction)
+        navigationController.present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelegate {
@@ -48,7 +48,7 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         self.parentCoordinator?.childDidFinish(self)
     }
     
-	func presentActionSheet(post: Post, gathering: Gathering, isWriter: Bool) {
+    func presentActionSheet(post: Post, gathering: Gathering, isWriter: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let destructiveTitle = isWriter ? "게시글 삭제" : "게시글 신고"
@@ -62,8 +62,8 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
         }
         
         let editAction = UIAlertAction(title: "게시글 수정", style: .default) { [weak self] _ in
-			let gathering = gathering
-			if let navigation =  self?.navigationController {
+            let gathering = gathering
+            if let navigation =  self?.navigationController {
                 let viewModel = BoardEditorVM(type: post.boardType, gathering: gathering, post: post)
                 let coordinator = BoardEditorCoordinator(navigationController: navigation, viewModel: viewModel)
                 self?.childCoordinators.append(coordinator)
@@ -85,29 +85,29 @@ extension GatheringBoardDetailCoordinator: GatheringBoardDetailCoordinatorDelega
     
     func presentReportAlert() {
         let alert = UIAlertController(title: "게시글 신고", message: "해당 게시글을 신고하시겠습니까?", preferredStyle: .alert)
-
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let reportAction = UIAlertAction(title: "신고", style: .destructive) { _ in
             print("게시글을 신고했습니다.")
         }
-
+        
         alert.addAction(cancelAction)
         alert.addAction(reportAction)
-
+        
         self.navigationController.present(alert, animated: true, completion: nil)
     }
     
     func presentDeleteBoardAlert() {
         let alert = UIAlertController(title: "게시글 삭제", message: "해당 게시글을 삭제하시겠습니까?", preferredStyle: .alert)
-
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let reportAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.viewModel.deletePost()
         }
-
+        
         alert.addAction(cancelAction)
         alert.addAction(reportAction)
-
+        
         self.navigationController.present(alert, animated: true, completion: nil)
     }
 }
