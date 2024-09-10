@@ -104,20 +104,20 @@ class CommentTVCell: UITableViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            userImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
             userImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             userImageView.widthAnchor.constraint(equalToConstant: 40),
             userImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            nickNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
             nickNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             nickNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            nickNameLabel.heightAnchor.constraint(equalToConstant: 20),
+            nickNameLabel.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: 24),
             
             createDateLabel.centerYAnchor.constraint(equalTo: nickNameLabel.centerYAnchor),
             createDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             
-            commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
+            commentLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 7),
             commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             commentLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),

@@ -128,7 +128,6 @@ class ProfileEditVM {
 
         let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=6eef516c-7019-44ed-b87a-66345503ef49"
         
-        let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=6eef516c-7019-44ed-b87a-66345503ef49"
         
         let filePath: StorageFilePath = {
             guard let existingImageUrl = user?.image, !existingImageUrl.isEmpty, existingImageUrl != defaultImageURL else {
