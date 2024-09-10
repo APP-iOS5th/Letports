@@ -37,7 +37,6 @@
 		41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
 		41C649F52C869F8A00640990 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 41C649F42C869F8A00640990 /* FirebaseCrashlytics */; };
 		41C857C62C81B8820042B305 /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C857C52C81B8820042B305 /* Extension+Date.swift */; };
-		41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		41FB9B6B2C6ADAB700CF1A92 /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
 		B824713B2C647F9F0067BD09 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
 		B824713D2C647FAF0067BD09 /* GatheringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713C2C647FAF0067BD09 /* GatheringVC.swift */; };
@@ -62,6 +61,7 @@
 		BF3882582C6B827B00C59A4F /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
 		BF38825C2C6B886800C59A4F /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
 		BF38825E2C6B887E00C59A4F /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
+		BF40D2222C8FD0AC00317E19 /* GatheringUploadVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */; };
 		BF7BBE292C6B7FFC0094C29C /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
 		BF7BBE2E2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
 		BF8874042C7A538000E86CA0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BF8874032C7A538000E86CA0 /* FirebaseAnalytics */; };
@@ -597,7 +597,6 @@
 			isa = PBXGroup;
 			children = (
 				D8201FC52C606935004DF06C /* LetportsTests.swift */,
-				41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */,
 			);
 			path = LetportsTests;
 			sourceTree = "<group>";
@@ -605,6 +604,7 @@
 		D8201FCE2C606935004DF06C /* LetportsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				41CA6E122C6B2358007DB8F2 /* GatheringUploadVMTests.swift */,
 				D8201FCF2C606935004DF06C /* LetportsUITests.swift */,
 				D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */,
 			);
@@ -1054,7 +1054,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8201FC62C606935004DF06C /* LetportsTests.swift in Sources */,
-				41CA6E132C6B2358007DB8F2 /* GatheringUploadVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,6 +1062,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8201FD22C606935004DF06C /* LetportsUITestsLaunchTests.swift in Sources */,
+				BF40D2222C8FD0AC00317E19 /* GatheringUploadVMTests.swift in Sources */,
 				D8201FD02C606935004DF06C /* LetportsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

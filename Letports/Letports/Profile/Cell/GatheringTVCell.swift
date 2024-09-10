@@ -67,7 +67,7 @@ class GatheringTVCell: UITableViewCell {
     
     private lazy var gatheringName: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 15)
+		label.font = .lp_Font(.regular, size: 13)
         label.textAlignment = .left
         label.textColor = UIColor(named: "lp_black")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ class GatheringTVCell: UITableViewCell {
 		label.font = .lp_Font(.regular, size: 12)
         label.textColor = UIColor(named: "lp_gray")
         label.textAlignment = .left
-        label.numberOfLines = 3
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -98,7 +98,7 @@ class GatheringTVCell: UITableViewCell {
         let label = UILabel()
 		label.font = .lp_Font(.regular, size: 10)
         label.textAlignment = .left
-        label.textColor = UIColor(named: "lp_black")
+		label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -106,15 +106,15 @@ class GatheringTVCell: UITableViewCell {
     private lazy var personIV: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "person.2.fill")
-        iv.tintColor = UIColor(named: "lp_black")
+        iv.tintColor = .darkGray
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
     private lazy var memberCount: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 10)
-        label.textColor = UIColor(named: "lp_black")
+		label.font = .lp_Font(.regular, size: 8)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -122,15 +122,15 @@ class GatheringTVCell: UITableViewCell {
     private lazy var calendarIV: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "calendar.circle.fill")
-        iv.tintColor = UIColor(named: "lp_black")
+        iv.tintColor = .darkGray
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
     private lazy var createGatheringDate: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 10)
-        label.textColor = UIColor(named: "lp_black")
+		label.font = .lp_Font(.regular, size: 8)
+		label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -192,13 +192,14 @@ class GatheringTVCell: UITableViewCell {
             sportsTeamLabel.heightAnchor.constraint(equalToConstant: 20),
             sportsTeamLabel.leadingAnchor.constraint(equalTo: sportsLabel.trailingAnchor, constant: 5),
             
-            gatheringName.leadingAnchor.constraint(equalTo: sportsTeamLabel.trailingAnchor, constant: 5),
-            gatheringName.heightAnchor.constraint(equalToConstant: 20),
-            gatheringName.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+			gatheringName.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
+			gatheringName.topAnchor.constraint(equalTo: sportsLabel.bottomAnchor, constant: 2),
+			gatheringName.heightAnchor.constraint(equalToConstant: 20),
             
-            gatheringInfo.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
-            gatheringInfo.topAnchor.constraint(equalTo: gatheringName.bottomAnchor, constant: 4),
-            gatheringInfo.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+			gatheringInfo.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
+			gatheringInfo.topAnchor.constraint(equalTo: gatheringName.bottomAnchor, constant: 2),
+			gatheringInfo.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+			gatheringInfo.heightAnchor.constraint(equalToConstant: 15),
             
             gatheringMasterIV.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 10),
             gatheringMasterIV.widthAnchor.constraint(equalToConstant: 15),
@@ -254,7 +255,7 @@ class GatheringTVCell: UITableViewCell {
         sportsTeamLabel.backgroundColor = UIColor(hex: sports.logoHex).withAlphaComponent(0.1)
         sportsTeamLabel.textColor = UIColor(hex: sports.logoHex)
         isGatheringMasterIV.isHidden = true
-        gatheringName.text = truncateText(gathering.gatherName, limit: 16)
+		gatheringName.text = gathering.gatherName
         gatheringInfo.text = gathering.gatherInfo
         gatheringMasterName.text = truncateText(master.nickname, limit: 10)
         memberCount.text = "\(gathering.gatherNowMember)/\(gathering.gatherMaxMember)"
