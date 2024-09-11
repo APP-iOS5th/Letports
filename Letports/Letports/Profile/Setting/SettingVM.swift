@@ -320,27 +320,20 @@ class SettingVM {
     
     func deleteUserDocument() -> AnyPublisher<Void, FirestoreError> {
         let userUID = UserManager.shared.getUserUid()
-        let userPath: [FirestorePathComponent] = [.collection(.user),
-                                                  .document(userUID)
-        ]
-        let myGatheringPath: [FirestorePathComponent] = [.collection(.user),
-                                                         .document(userUID),
-                                                         .collection(.myGathering)
-        ]
-        let tokenPath: [FirestorePathComponent] = [.collection(.token),
-                                                   .document(userUID)
-        ]
+        let userPath: [FirestorePathComponent] = [.collection(.user), .document(userUID)]
+        let myGatheringPath: [FirestorePathComponent] = [.collection(.user), .document(userUID), .collection(.myGathering)]
+        let tokenPath: [FirestorePathComponent] = [.collection(.token), .document(userUID)]
         
-        // User 컬렉션에서 유저 이미지 주소를 가져옴
         return FM.getData(pathComponents: userPath, type: LetportsUser.self)
             .flatMap { user -> AnyPublisher<Void, FirestoreError> in
-                let imageUrl = user.first?.image ?? ""
-                let defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage3x.png?alt=media&token=d50b63ef-70b1-42ac-8d3d-4aeb6df9e94a"
                 
-                // 기본 이미지가 아니면 Storage에서 해당 이미지 삭제
+                let googleProfileImageUrl = Auth.auth().currentUser?.photoURL?.absoluteString ?? ""
+                let defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage3x.png?alt=media&token=d50b63ef-70b1-42ac-8d3d-4aeb6df9e94a"
+                let userImageUrl = user.first?.image ?? ""
+
                 let deleteUserImage: AnyPublisher<Void, FirestoreError> = {
-                    if imageUrl != defaultImageUrl {
-                        return self.deleteImageFromStorage(imageUrlString: imageUrl)
+                    if userImageUrl != defaultImageUrl && userImageUrl != googleProfileImageUrl {
+                        return self.deleteImageFromStorage(imageUrlString: userImageUrl)
                     } else {
                         return Just(())
                             .setFailureType(to: FirestoreError.self)
