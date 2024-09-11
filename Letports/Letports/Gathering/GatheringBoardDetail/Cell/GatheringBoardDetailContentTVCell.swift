@@ -22,7 +22,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
         tv.backgroundColor = .lp_white
         tv.layer.cornerRadius = 10
         tv.isUserInteractionEnabled = false
-        tv.font = .lp_Font(.regular, size: 16)
+        tv.font = .lp_Font(.regular, size: 14)
         tv.textColor = .lp_black
         tv.isScrollEnabled = false
         tv.textContainerInset = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
@@ -66,7 +66,7 @@ final class GatheringBoardDetailContentTVCell: UITableViewCell {
         let attributedText = NSAttributedString(
             string: post.contents,
             attributes: [
-                .font: UIFont.systemFont(ofSize: 16),
+                .font: UIFont.lp_Font(.regular, size: 14),
                 .foregroundColor: UIColor.lp_black,
                 .paragraphStyle: paragraphStyle
             ]

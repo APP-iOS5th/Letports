@@ -33,7 +33,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
         lb.textAlignment = .center
         lb.textColor = .lp_black
         lb.font = .lp_Font(.regular, size: 10)
-        lb.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        lb.heightAnchor.constraint(equalToConstant: 15).isActive = true
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -42,7 +42,7 @@ final class GatheringDetailProfileCVCell: UICollectionViewCell {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.alignment = .center
-        sv.spacing = 5
+        sv.spacing = 3
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
