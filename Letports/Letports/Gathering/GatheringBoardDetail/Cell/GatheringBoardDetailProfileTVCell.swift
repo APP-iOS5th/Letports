@@ -79,8 +79,8 @@ final class GatheringBoardDetailProfileTVCell: UITableViewCell {
             profileImageView.heightAnchor.constraint(equalToConstant: 60),
             
             nameDateSV.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
-            nameDateSV.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            nameDateSV.heightAnchor.constraint(equalToConstant: 40),
+            nameDateSV.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            nameDateSV.heightAnchor.constraint(equalToConstant: 45),
             nameDateSV.trailingAnchor.constraint(lessThanOrEqualTo: self.contentView.trailingAnchor, constant: -16),
             
             self.contentView.heightAnchor.constraint(greaterThanOrEqualTo: profileImageView.heightAnchor, constant: 16)

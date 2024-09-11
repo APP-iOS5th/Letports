@@ -40,7 +40,7 @@ class GatheringUplaodTitleTVCell: UITableViewCell {
     
     private let textCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/100"
+        label.text = "0/20"
         label.textColor = .lp_gray
 		label.font = .lp_Font(.regular, size: 10)
         label.translatesAutoresizingMaskIntoConstraints = false

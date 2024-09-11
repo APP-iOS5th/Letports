@@ -213,8 +213,10 @@ class HomeViewModel {
                 }
                 
                 let gatherings = documents.compactMap { document in
-                    try? document.data(as: Gathering.self)
-                }
+                               try? document.data(as: Gathering.self)
+                           }.filter { gathering in
+                               return gathering.gatherNowMember != gathering.gatherMaxMember
+                           }
                 
                 let sortedGatherings = gatherings.sorted { gathering1, gathering2 in
                     return gathering1.gatheringCreateDate.dateValue() < gathering2.gatheringCreateDate.dateValue()
