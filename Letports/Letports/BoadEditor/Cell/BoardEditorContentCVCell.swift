@@ -98,6 +98,19 @@ class BoardEditorContentCVCell: UICollectionViewCell {
 
 extension BoardEditorContentCVCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        
+        let attributedText = NSAttributedString(
+            string: textView.text,
+            attributes: [
+                .font: UIFont.lp_Font(.regular, size: 15),
+                .foregroundColor: UIColor.lp_black,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+        
+        textView.attributedText = attributedText
         textCountLabel.text = "\(textView.text.count)/1000"
         delegate?.writeContent(content: textView.text)
     }
