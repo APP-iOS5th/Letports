@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NotificationService</key>
-	<string>$(NOTIFICATION_SERVICE_URL)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -19,6 +15,10 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_CLIENT_ID}</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NotificationService</key>
+	<string>$(NOTIFICATION_SERVICE_URL)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GmarketSansLight.otf</string>
