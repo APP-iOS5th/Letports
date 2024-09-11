@@ -126,7 +126,7 @@ class ProfileEditVM {
             return Just(nil).eraseToAnyPublisher()
         }
 
-        let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage3x.png?alt=media&token=f9590a53-37db-46cf-acb9-be6055082eec"
+        let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage3x.png?alt=media&token=d50b63ef-70b1-42ac-8d3d-4aeb6df9e94a"
         
         let filePath: StorageFilePath = {
             guard let existingImageUrl = user?.image, !existingImageUrl.isEmpty, existingImageUrl != defaultImageURL else {

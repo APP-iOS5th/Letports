@@ -334,15 +334,26 @@ class SettingVM {
         // User 컬렉션에서 유저 이미지 주소를 가져옴
         return FM.getData(pathComponents: userPath, type: LetportsUser.self)
             .flatMap { user -> AnyPublisher<Void, FirestoreError> in
-                // Storage에서 해당 이미지 삭제
-                let deleteUserImage = self.deleteImageFromStorage(imageUrlString: user.first?.image ?? "")
+                let imageUrl = user.first?.image ?? ""
+                let defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage3x.png?alt=media&token=d50b63ef-70b1-42ac-8d3d-4aeb6df9e94a"
                 
-                //Token 문서 삭제
+                // 기본 이미지가 아니면 Storage에서 해당 이미지 삭제
+                let deleteUserImage: AnyPublisher<Void, FirestoreError> = {
+                    if imageUrl != defaultImageUrl {
+                        return self.deleteImageFromStorage(imageUrlString: imageUrl)
+                    } else {
+                        return Just(())
+                            .setFailureType(to: FirestoreError.self)
+                            .eraseToAnyPublisher()
+                    }
+                }()
+                
+                // Token 문서 삭제
                 return deleteUserImage
                     .flatMap { _ in
                         FM.deleteDocument(pathComponents: tokenPath)
                     }
-                    //MyGathering 컬렉션에서 소모임 문서 삭제
+                    // MyGathering 컬렉션에서 소모임 문서 삭제
                     .flatMap { _ in
                         FM.getData(pathComponents: myGatheringPath, type: MyGatherings.self)
                     }
@@ -361,7 +372,7 @@ class SettingVM {
                             .eraseToAnyPublisher()
                     }
                     // 마지막으로 User 문서 삭제
-                    .flatMap {_ in
+                    .flatMap { _ in
                         FM.deleteDocument(pathComponents: userPath)
                     }
                     .eraseToAnyPublisher()
@@ -400,13 +411,6 @@ class SettingVM {
     }
     
     private func deleteImageFromStorage(imageUrlString: String) -> AnyPublisher<Void, FirestoreError> {
-        let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=6eef516c-7019-44ed-b87a-66345503ef49"
-        
-        guard imageUrlString != defaultImageURL else {
-            print("Skipping deletion for default image.")
-            return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher()
-        }
-        
         let storageReference = Storage.storage().reference(forURL: imageUrlString)
         
         return Future<Void, FirestoreError> { promise in
