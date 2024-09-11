@@ -400,15 +400,22 @@ class SettingVM {
     }
     
     private func deleteImageFromStorage(imageUrlString: String) -> AnyPublisher<Void, FirestoreError> {
+        let defaultImageURL = "https://firebasestorage.googleapis.com/v0/b/letports-81f7f.appspot.com/o/Base_User_Image%2Fimage%403x.png?alt=media&token=6eef516c-7019-44ed-b87a-66345503ef49"
+        
+        guard imageUrlString != defaultImageURL else {
+            print("Skipping deletion for default image.")
+            return Just(()).setFailureType(to: FirestoreError.self).eraseToAnyPublisher()
+        }
+        
         let storageReference = Storage.storage().reference(forURL: imageUrlString)
         
         return Future<Void, FirestoreError> { promise in
             storageReference.delete { error in
                 if let error = error {
-                    print("Error deleting board image: \(error.localizedDescription)")
+                    print("Error deleting image: \(error.localizedDescription)")
                     promise(.failure(.unknownError(error)))
                 } else {
-                    print("Successfully deleted board image.")
+                    print("Successfully deleted image.")
                     promise(.success(()))
                 }
             }
