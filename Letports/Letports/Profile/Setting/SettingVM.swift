@@ -101,9 +101,9 @@ class SettingVM {
     func buttonAction(cellType: SettingCellType) {
         switch cellType {
         case .appTermsofService:
-            delegate?.presentBottomSheet(with: URL(string:"https://candied-flood-c4c.notion.site/986a0cfb61584890a4bd512a87ac268a?pvs=4")!)
+            delegate?.presentBottomSheet(with: URL(string:"https://letports.notion.site/986a0cfb61584890a4bd512a87ac268a?pvs=4")!)
         case .personnalInfo:
-            delegate?.presentBottomSheet(with: URL(string:"https://candied-flood-c4c.notion.site/a55bf0b1971d43658ac4a2d626524f10?pvs=4")!)
+            delegate?.presentBottomSheet(with: URL(string:"https://letports.notion.site/a55bf0b1971d43658ac4a2d626524f10?pvs=4")!)
         case .openLibrary:
             delegate?.openLibraryDidTap()
         default:
