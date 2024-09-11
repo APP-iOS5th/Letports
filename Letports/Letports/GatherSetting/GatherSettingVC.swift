@@ -195,25 +195,13 @@ class GatherSettingVC: UIViewController {
 
 extension GatherSettingVC: GatherSettingDelegate {
     func deleteGathering() {
-        self.showAlert(title: "알림", message: "정말로 소모임을 삭제하시겠습니까? \n 게시글,사진을 포함한 모든데이터는 삭제되며 복구할 수 없습니다.", confirmTitle: "삭제", cancelTitle: "취소") {
-            self.viewModel.deleteGatheringButtonTapped()
-                .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
-                    guard let self = self else {
-                        return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "유저 UID 배열을 가져올 수 없습니다."])))
-                            .eraseToAnyPublisher()
-                    }
-                    
-                    let notificationPublishers = self.viewModel.allUserUIDs.map { userUid in
-                        NotificationService.shared.sendPushNotificationByUID(
-                            uid: userUid,
-                            title: "소모임 삭제 알림",
-                            body: "\(self.viewModel.gathering?.gatherName ?? "소모임") 소모임이 삭제되었습니다."
-                        )
-                    }
-                    
-                    return Publishers.MergeMany(notificationPublishers)
-                        .collect()
-                        .map { _ in () }
+        self.showAlert(title: "알림",message: "정말로 이 소모임을 삭제하시겠습니까? \n 게시글, 사진을 포함한 모든 데이터는 영구적으로 삭제되며 복구할 수 없습니다.",
+            confirmTitle: "삭제", cancelTitle: "취소") { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.deleteGatheringBtnDidTap()
+                .flatMap { _ -> AnyPublisher<Void, FirestoreError> in
+                    return Just(())
+                        .setFailureType(to: FirestoreError.self)
                         .eraseToAnyPublisher()
                 }
                 .sink(receiveCompletion: { [weak self] completion in
@@ -222,9 +210,10 @@ extension GatherSettingVC: GatherSettingDelegate {
                         switch completion {
                         case .finished:
                             self.viewModel.loadData()
-                            self.showAlert(title: "알림", message: "소모임 삭제가 완료되었습니다.", confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "알림",message: "소모임 삭제가 완료되었습니다.",confirmTitle: "확인",onConfirm: {})
                         case .failure(let error):
-                            self.showAlert(title: "오류", message: self.viewModel.errorToString(error: error), confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "오류",message: self.viewModel.errorToString(error: error),confirmTitle: "확인",onConfirm: {}
+                            )
                         }
                     }
                 }, receiveValue: { _ in })
@@ -240,7 +229,7 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
     }
     
     func expelGathering(_ manageUserView: ManageUserView, userUid: String, nickName: String) {
-        self.showAlert(title: "알림", message: "\(nickName) 유저를 정말로 추방하시겠습니까?", confirmTitle: "추방", cancelTitle: "취소") {
+        self.showAlert(title: "알림", message: "정말로 \(nickName)유저를  추방하시겠습니까?", confirmTitle: "추방", cancelTitle: "취소") {
             self.viewModel.expelUser(userUid: userUid)
                 .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
                     guard let self = self,let gatherName = self.viewModel.gathering?.gatherName else {
@@ -249,14 +238,14 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                     }
                     return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
                                                                                 title: "추방 알림",
-                                                                                body: "\(gatherName) 소모임에서 추방되었습니다.")
+                                                                                body: "\(gatherName)소모임에서 추방되었습니다.")
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     guard let self = self else { return }
                     DispatchQueue.main.async {
                         switch completion {
                         case .finished:
-                            self.showAlert(title: "알림", message: "\(nickName) 유저의 추방이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                            self.showAlert(title: "알림", message: "\(nickName)유저의 추방이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                             self.removeManageUserView()
                             self.viewModel.loadData()
                         case .failure(let error):
@@ -277,14 +266,14 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                 }
                 return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
                                                                             title: "가입 거절 알림",
-                                                                            body: "\(gatherName) 소모임의 가입이 거절되었습니다.")
+                                                                            body: "\(gatherName)소모임의 가입이 거절되었습니다.")
             }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch completion {
                     case .finished:
-                        self.showAlert(title: "알림", message: "\(nickName) 유저의 가입 거절이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                        self.showAlert(title: "알림", message: "\(nickName)유저의 가입 거절이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                         self.removeManageUserView()
                         self.viewModel.loadData()
                     case .failure(let error):
@@ -306,14 +295,14 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                 }
                 return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
                                                                             title: "가입 승인 알림",
-                                                                            body: "\(gatherName) 소모임에 가입되었습니다.")
+                                                                            body: "\(gatherName)소모임에 가입되었습니다.")
             }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch completion {
                     case .finished:
-                        self.showAlert(title: "알림", message: "\(nickName) 유저의 가입 승인이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
+                        self.showAlert(title: "알림", message: "\(nickName)유저의 가입 승인이 완료되었습니다", confirmTitle: "확인", onConfirm: {})
                         self.removeManageUserView()
                         self.viewModel.loadData()
                     case .failure(let error):

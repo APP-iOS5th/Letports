@@ -26,9 +26,9 @@ class GatherSettingCoordinator: Coordinator {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(navigationController: UINavigationController, gathering: Gathering) {
+    init(navigationController: UINavigationController, gatheringUid: String) {
         self.navigationController = navigationController
-        self.viewModel = GatherSettingVM(gathering: gathering)
+        self.viewModel = GatherSettingVM(gatheringUid: gatheringUid)
     }
     
     func start() {
@@ -42,9 +42,11 @@ class GatherSettingCoordinator: Coordinator {
 
 extension GatherSettingCoordinator: GatherSettingCoordinatorDelegate {
     func gatherDeleteFinish() {
-        self.navigationController.popToRootViewController(animated: true)
-        self.parentCoordinator?.childDidFinish(self)
-        self.reloadParentView()
+        DispatchQueue.main.async {
+            self.navigationController.popToRootViewController(animated: true)
+            self.parentCoordinator?.childDidFinish(self)
+            self.reloadParentView()
+        }
     }
     
     func gatherSettingBackBtnTap() {

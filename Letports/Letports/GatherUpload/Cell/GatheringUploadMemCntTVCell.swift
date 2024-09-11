@@ -46,7 +46,7 @@ class GatheringUploadMemCntTVCell: UITableViewCell {
     
     private let countLabel: UILabel = {
         let label = UILabel()
-		label.font = .lp_Font(.regular, size: 18)
+		label.font = .lp_Font(.regular, size: 15)
         label.textColor = .lp_black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

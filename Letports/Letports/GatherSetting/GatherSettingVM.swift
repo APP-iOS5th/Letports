@@ -15,6 +15,7 @@ enum GatheringSettingCellType {
 }
 
 class GatherSettingVM {
+    
     @Published var gathering: Gathering?
     @Published var joinedMembers: [GatheringMember] = []
     @Published var joinedMembersData: [LetportsUser] = []
@@ -22,6 +23,8 @@ class GatherSettingVM {
     @Published var pendingMembersData: [LetportsUser] = []
     @Published var allUserUIDs: [String] = []
     @Published var isLoading: Bool = false
+    
+    private(set) var gatheringUid: String?
     
     private var cancellables = Set<AnyCancellable>()
     weak var delegate: GatherSettingCoordinatorDelegate?
@@ -47,9 +50,9 @@ class GatherSettingVM {
         return cellTypes
     }
     
-    init(gathering: Gathering) {
-        self.gathering = gathering
-        fetchGatheringMembers(gathering: gathering)
+    init(gatheringUid: String) {
+        self.gatheringUid = gatheringUid
+        self.loadData()
     }
     
     func denyUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
@@ -95,7 +98,7 @@ class GatherSettingVM {
             .document(gathering?.gatheringUid ?? ""),
         ]
         
-        let newNowMember = max((gathering?.gatherNowMember ?? 0) + 1, 0)
+        let newNowMember = (gathering?.gatherNowMember ?? 0) + 1
         let updatedFields: [String: Any] = [
             "GatherNowMember": newNowMember
         ]
@@ -109,7 +112,7 @@ class GatherSettingVM {
         
     }
     
-    func deleteGatheringButtonTapped()-> AnyPublisher<Void, FirestoreError>{
+    func deleteGatheringBtnDidTap() -> AnyPublisher<Void, FirestoreError> {
         isLoading = true
         return deleteAllGatheringMembers()
             .flatMap { [weak self] in
@@ -121,9 +124,17 @@ class GatherSettingVM {
             .flatMap { [weak self] in
                 self?.deleteGatheringDocument() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
-            .handleEvents(receiveCompletion: { [weak self] _ in
+            .flatMap { [weak self] in
+                self?.notifyAllMembersExceptMaster() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+            }
+            .handleEvents(receiveCompletion: { [weak self] completion in
                 self?.isLoading = false
-                self?.delegate?.gatherDeleteFinish()
+                switch completion {
+                case .finished:
+                    self?.delegate?.gatherDeleteFinish()
+                case .failure(let error):
+                    print("삭제 작업 실패: \(error.localizedDescription)")
+                }
             })
             .eraseToAnyPublisher()
     }
@@ -308,7 +319,7 @@ class GatherSettingVM {
             .document(gathering?.gatheringUid ?? ""),
         ]
         
-        let newNowMember = max((gathering?.gatherNowMember ?? 0) - 1, 0)
+        let newNowMember = (gathering?.gatherNowMember ?? 0) - 1
         
         let updatedFields: [String: Any] = [
             "GatherNowMember": newNowMember
@@ -323,6 +334,29 @@ class GatherSettingVM {
         .eraseToAnyPublisher()
     }
     
+    private func notifyAllMembersExceptMaster() -> AnyPublisher<Void, FirestoreError> {
+        guard let gatheringUid = gathering?.gatheringUid, let masterUid = gathering?.gatheringMaster else {
+            return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
+        }
+        
+        let allMembersUIDs = joinedMembers.map { $0.userUID } + pendingMembers.map { $0.userUID }
+        let memberUIDsToNotify = allMembersUIDs.filter { $0 != masterUid }
+        
+        let notificationPublishers = memberUIDsToNotify.map { uid in
+            return NotificationService.shared.sendPushNotificationByUID(
+                uid: uid,
+                title: "소모임 삭제 알림",
+                body: "\(self.gathering?.gatherName ?? "")모임이 삭제되었습니다. "
+            )
+            .mapError { _ in FirestoreError.notificationFailed }
+            .eraseToAnyPublisher()
+        }
+        
+        return Publishers.MergeMany(notificationPublishers)
+            .collect()
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
     
     func gatherSettingBackBtnTap() {
         delegate?.gatherSettingBackBtnTap()
@@ -337,53 +371,98 @@ class GatherSettingVM {
     }
     
     func loadData() {
-        if let gathering = gathering {
-            fetchGatheringMembers(gathering: gathering)
+        guard let gatheringUid = gatheringUid else {
+            print("Gathering UID is missing")
+            return
         }
+        
+        fetchGathering(by: gatheringUid)
+            .flatMap { [weak self] gathering -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self else {
+                    return Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
+                }
+                self.gathering = gathering
+                return self.fetchGatheringMembers(gathering: gathering)
+            }
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Data loading completed")
+                case .failure(let error):
+                    print("Data loading error:", error.localizedDescription)
+                }
+            } receiveValue: { _ in
+                print("Members and users loaded successfully")
+            }
+            .store(in: &cancellables)
     }
-    
-    private func fetchGatheringMembers(gathering: Gathering) {
+
+    private func fetchGathering(by gatheringUid: String) -> AnyPublisher<Gathering, FirestoreError> {
+        let gatheringPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gatheringUid)
+        ]
+        
+        return FM.getData(pathComponents: gatheringPath, type: Gathering.self)
+            .tryMap { gatherings in
+                guard let gathering = gatherings.first else {
+                    throw FirestoreError.documentNotFound
+                }
+                return gathering
+            }
+            .mapError { error in
+                print("Error fetching gathering:", error.localizedDescription)
+                return FirestoreError.dataDecodingFailed
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private func fetchGatheringMembers(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gathering.gatheringUid),
             .collection(.gatheringMembers)
         ]
         
-        FM.getData(pathComponents: collectionPath, type: GatheringMember.self)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("fetchGatheringMembers->finished")
-                case .failure(let error):
-                    print("fetchGatheringMembers-> Error:", error.localizedDescription)
+        return FM.getData(pathComponents: collectionPath, type: GatheringMember.self)
+            .flatMap { [weak self] members -> AnyPublisher<Void, FirestoreError> in
+                guard let self = self else {
+                    return Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
                 }
-            } receiveValue: { [weak self] fetchedGatheringMembers in
+                
+                let filteredMembers = members.filter { $0.userUID != gathering.gatheringMaster }
+                self.joinedMembers = filteredMembers.filter { $0.joinStatus == "joined" }
+                self.pendingMembers = filteredMembers.filter { $0.joinStatus == "pending" }
+                
+                self.allUserUIDs = (self.joinedMembers.map { $0.userUID } + self.pendingMembers.map { $0.userUID })
+                
+                return self.fetchAllUsersData()
+            }
+            .map { _ in () }
+            .mapError { error in
+                print("Error fetching gathering members:", error.localizedDescription)
+                return FirestoreError.dataDecodingFailed
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private func fetchAllUsersData() -> AnyPublisher<Void, FirestoreError> {
+        let allMembers = self.joinedMembers + self.pendingMembers
+        return fetchUsersData(for: allMembers)
+            .map { [weak self] users in
                 guard let self = self else { return }
                 
-                let joinedMembers = fetchedGatheringMembers.filter {
-                    $0.userUID != gathering.gatheringMaster && $0.joinStatus == "joined"
-                }
-                let pendingMembers = fetchedGatheringMembers.filter {
-                    $0.userUID != gathering.gatheringMaster && $0.joinStatus == "pending"
-                }
-                self.allUserUIDs = (self.joinedMembers.map { $0.userUID } + self.pendingMembers.map { $0.userUID })
-                    .filter { $0 != gathering.gatheringMaster }
+                let joinedUserUIDs = self.joinedMembers.map { $0.userUID }
+                let pendingUserUIDs = self.pendingMembers.map { $0.userUID }
                 
-                self.joinedMembers = joinedMembers
-                self.pendingMembers = pendingMembers
-                
-                self.fetchUsersData(for: joinedMembers) { users in
-                    self.joinedMembersData = self.sortUsers(users, by: joinedMembers.map { $0.userUID })
-                }
-                
-                self.fetchUsersData(for: pendingMembers) { users in
-                    self.pendingMembersData = self.sortUsers(users, by: pendingMembers.map { $0.userUID })
-                }
+                self.joinedMembersData = self.sortUsers(users:users, by: joinedUserUIDs)
+                self.pendingMembersData = self.sortUsers(users: users, by: pendingUserUIDs)
+
             }
-            .store(in: &cancellables)
+            .eraseToAnyPublisher()
     }
-    
-    private func fetchUsersData(for members: [GatheringMember], completion: @escaping ([LetportsUser]) -> Void) {
+
+    private func fetchUsersData(for members: [GatheringMember]) -> AnyPublisher<[LetportsUser], FirestoreError> {
         let userFetchPublishers = members.map { member in
             let userPath: [FirestorePathComponent] = [
                 .collection(.user),
@@ -391,33 +470,44 @@ class GatherSettingVM {
             ]
             return FM.getData(pathComponents: userPath, type: LetportsUser.self)
                 .catch { error -> Empty<[LetportsUser], Never> in
-                    print("Error fetching user data for user \(member.userUID): \(error.localizedDescription)")
+                    print("Error fetching user \(member.userUID):", error.localizedDescription)
                     return Empty<[LetportsUser], Never>()
                 }
                 .eraseToAnyPublisher()
         }
         
-        Publishers.MergeMany(userFetchPublishers)
+        return Publishers.MergeMany(userFetchPublishers)
             .collect()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                if case .failure(let error) = completion {
-                    print("Error fetching user data:", error.localizedDescription)
-                }
-            }, receiveValue: { users in
-                completion(users.flatMap { $0 })
-            })
-            .store(in: &cancellables)
+            .map { users in
+                return users.flatMap { $0 }
+            }
+            .mapError { error in
+                print("Error fetching users:", error.localizedDescription)
+                return FirestoreError.dataDecodingFailed
+            }
+            .eraseToAnyPublisher()
+    
+        
+        return Publishers.MergeMany(userFetchPublishers)
+            .collect()
+            .map { users in
+                return users.flatMap { $0 }
+            }
+            .mapError { error in
+                print("Error fetching users:", error.localizedDescription)
+                return FirestoreError.dataDecodingFailed
+            }
+            .eraseToAnyPublisher()
     }
     
-    private func sortUsers(_ users: [LetportsUser], by uidOrder: [String]) -> [LetportsUser] {
-        return users.sorted { user1, user2 in
-            guard let index1 = uidOrder.firstIndex(of: user1.uid),
-                  let index2 = uidOrder.firstIndex(of: user2.uid) else {
-                return false
-            }
-            return index1 < index2
-        }
-    }
+    private func sortUsers(users: [LetportsUser], by uidOrder: [String]) -> [LetportsUser] {
+           return users.sorted { user1, user2 in
+               guard let index1 = uidOrder.firstIndex(of: user1.uid),
+                     let index2 = uidOrder.firstIndex(of: user2.uid) else {
+                   return false
+               }
+               return index1 < index2
+           }
+       }
 }
 

@@ -137,7 +137,7 @@ extension SettingVC: SettingDelegate {
                 self.viewModel.logout()
             }
         case .exit:
-            self.showAlert(title: "알림", message: "정말로 회원탈퇴 하시겠습니까? 모든 소모임, 게시글은 삭제되며 복구할수 없습니다.", confirmTitle: "탈퇴", cancelTitle: "취소") {
+            self.showAlert(title: "알림", message: "정말로 회원 탈퇴를 하시겠습니까? \n 모든 소모임과 게시글이 삭제되며, 삭제된 데이터는 복구할 수 없습니다.", confirmTitle: "탈퇴", cancelTitle: "취소") {
                 self.viewModel.exit()
             }
         default:

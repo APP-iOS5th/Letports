@@ -23,7 +23,7 @@ class BoardEditorContentCVCell: UICollectionViewCell {
         tv.font = .systemFont(ofSize: 16, weight: .regular)
         tv.backgroundColor = .lp_white
         tv.textColor = .lp_black
-        tv.font = .lp_Font(.regular, size: 10)
+        tv.font = .lp_Font(.regular, size: 15)
         tv.delegate = self
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
@@ -86,7 +86,7 @@ class BoardEditorContentCVCell: UICollectionViewCell {
         let attributedText = NSAttributedString(
             string: content,
             attributes: [
-                .font: UIFont.systemFont(ofSize: 16, weight: .regular),
+                .font: UIFont.lp_Font(.regular, size: 15),
                 .foregroundColor: UIColor.lp_black,
                 .paragraphStyle: paragraphStyle
             ]

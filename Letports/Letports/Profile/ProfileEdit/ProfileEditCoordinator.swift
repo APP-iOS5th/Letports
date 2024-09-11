@@ -78,9 +78,11 @@ class ProfileEditCoordinator: NSObject, Coordinator {
 
 extension ProfileEditCoordinator: ProfileEditCoordinatorDelegate {
     func updateProfileBackToProfileView() {
-        self.navigationController.popViewController(animated: true)
-        delegate?.didUpdateProfile()
-        self.parentCoordinator?.childDidFinish(self)
+        DispatchQueue.main.async {
+            self.navigationController.popViewController(animated: true)
+            self.delegate?.didUpdateProfile()
+            self.parentCoordinator?.childDidFinish(self)
+        }
     }
     
     func backToProfile() {

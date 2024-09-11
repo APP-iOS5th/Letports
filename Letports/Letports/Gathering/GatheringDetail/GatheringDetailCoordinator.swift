@@ -17,7 +17,7 @@ protocol GatheringDetailCoordinatorDelegate: AnyObject {
     func dismissAndUpdateUI()
     func showError(message: String)
     func gatheringDetailBackBtnTap()
-    func pushGatherSettingView(gathering: Gathering)
+    func pushGatherSettingView(gatheringUid: String)
     func pushPostUploadViewController(type: PostType, gathering: Gathering)
     func pushGatheringEditView(gathering: Gathering)
     func presentReportConfirmView()
@@ -48,6 +48,7 @@ class GatheringDetailCoordinator: Coordinator {
 }
 
 extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
+    
     func pushPostUploadViewController(type: PostType, gathering: Gathering) {
         let viewModel = BoardEditorVM(type: type, gathering: gathering)
         let coordinaotr = BoardEditorCoordinator(navigationController: navigationController, viewModel: viewModel)
@@ -56,9 +57,9 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         coordinaotr.start()
     }
     
-    func pushGatherSettingView(gathering: Gathering) {
+    func pushGatherSettingView(gatheringUid: String) {
         let coordinator = GatherSettingCoordinator(navigationController: navigationController,
-                                                   gathering: gathering)
+                                                   gatheringUid: gatheringUid)
         childCoordinators.append(coordinator)
         coordinator.parentCoordinator = self
         coordinator.start()
@@ -114,7 +115,7 @@ extension GatheringDetailCoordinator: GatheringDetailCoordinatorDelegate {
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let leaveAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self] _ in
-            self?.viewModel.confirmLeaveGathering()
+            self?.viewModel.confirmRemoveGatheringFromUser()
         }
         
         alertController.addAction(cancelAction)
