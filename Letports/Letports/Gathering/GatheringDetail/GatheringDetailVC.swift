@@ -327,15 +327,19 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             let manageUserView = JoinView()
             manageUserView.delegate = self
             manageUserView.configure(with: gathering)
-            self.view.addSubview(manageUserView)
-            NSLayoutConstraint.activate([
-                manageUserView.topAnchor.constraint(equalTo: view.topAnchor),
-                manageUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                manageUserView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                manageUserView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-            DispatchQueue.main.async {
-                self.joinView = manageUserView
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+                window.addSubview(manageUserView)
+                window.bringSubviewToFront(manageUserView)
+                NSLayoutConstraint.activate([
+                    manageUserView.topAnchor.constraint(equalTo: window.topAnchor),
+                    manageUserView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+                    manageUserView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+                    manageUserView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+                ])
+                DispatchQueue.main.async {
+                    self.joinView = manageUserView
+                }
             }
         }
     }
@@ -349,6 +353,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
                 }) { _ in
                     joinView.removeFromSuperview()
                     self.joinView = nil
+                    self.joinView?.delegate = nil
                 }
             }
         }
