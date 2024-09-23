@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(REVERSED_GOOGLE_CLIENT_ID)</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>${GOOGLE_CLIENT_ID}</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NotificationService</key>
+	<string>$(NOTIFICATION_SERVICE_URL)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GmarketSansLight.otf</string>
+		<string>GmarketSansMedium.otf</string>
+		<string>GmarketSansBold.otf</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>YOUTUBE_API_KEY</key>
+	<string>${YOUTUBE_API_KEY}</string>
+</dict>
+</plist>

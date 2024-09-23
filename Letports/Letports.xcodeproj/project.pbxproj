@@ -32,6 +32,137 @@
 		413BE65F2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
 		413BE6612C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
 		4143E45B2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */; };
+		419150E62CA1A4F300E74A1A /* BoardBtnCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D42C72170B00BEAE4C /* BoardBtnCVCell.swift */; };
+		419150E72CA1A4F300E74A1A /* TeamSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8522C7864DC007B4962 /* TeamSelectVC.swift */; };
+		419150E82CA1A4F300E74A1A /* BoardEditorHeaderCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4C2C708F0500FE3604 /* BoardEditorHeaderCVCell.swift */; };
+		419150E92CA1A4F300E74A1A /* RecommendGatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FE2C7D6CFE0046E5F9 /* RecommendGatheringTVCell.swift */; };
+		419150EA2CA1A4F300E74A1A /* GatheringUploadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */; };
+		419150EB2CA1A4F300E74A1A /* SportsCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8852C79CCD0007B4962 /* SportsCategoryCell.swift */; };
+		419150EC2CA1A4F300E74A1A /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
+		419150ED2CA1A4F300E74A1A /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */; };
+		419150EE2CA1A4F300E74A1A /* GatheringMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F742C777D7B003D29AC /* GatheringMember.swift */; };
+		419150EF2CA1A4F300E74A1A /* Gathering.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F722C777D4B003D29AC /* Gathering.swift */; };
+		419150F02CA1A4F300E74A1A /* SimpleInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C97B2C789B97008C4695 /* SimpleInfoTVCell.swift */; };
+		419150F12CA1A4F300E74A1A /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F692C776555003D29AC /* ProfileVC.swift */; };
+		419150F22CA1A4F300E74A1A /* GatheringUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6422C65EA4E0070D6F9 /* GatheringUploadVC.swift */; };
+		419150F32CA1A4F300E74A1A /* LetportsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBCC52C77B5C900FE2E18 /* LetportsUser.swift */; };
+		419150F42CA1A4F300E74A1A /* BoardEditorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */; };
+		419150F52CA1A4F300E74A1A /* GatheringBoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */; };
+		419150F62CA1A4F300E74A1A /* BoardEditorPhotoCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A522C70929800FE3604 /* BoardEditorPhotoCVCell.swift */; };
+		419150F72CA1A4F300E74A1A /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA052F2C73000C009FF289 /* Common.swift */; };
+		419150F82CA1A4F300E74A1A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F782C777DCD003D29AC /* Post.swift */; };
+		419150F92CA1A4F300E74A1A /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */; };
+		419150FA2CA1A4F300E74A1A /* GatheringUploadMemCntTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6602C6633070070D6F9 /* GatheringUploadMemCntTVCell.swift */; };
+		419150FB2CA1A4F300E74A1A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD83B2C75AC2B007B4962 /* AppCoordinator.swift */; };
+		419150FC2CA1A4F300E74A1A /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F622C776425003D29AC /* ProfileCoordinator.swift */; };
+		419150FD2CA1A4F300E74A1A /* FirebasStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACA32C87E5EE009644BA /* FirebasStorageManager.swift */; };
+		419150FE2CA1A4F300E74A1A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACA62C87E5EE009644BA /* AuthService.swift */; };
+		419150FF2CA1A4F300E74A1A /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACA42C87E5EE009644BA /* FirestoreManager.swift */; };
+		419151002CA1A4F300E74A1A /* RecommendGatheringListsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77526032C7DC5B00046E5F9 /* RecommendGatheringListsCVCell.swift */; };
+		419151012CA1A4F300E74A1A /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
+		419151022CA1A4F300E74A1A /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D4E512C6337AE00B07D84 /* UserManager.swift */; };
+		419151032CA1A4F300E74A1A /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE64C2C65F1990070D6F9 /* Extension+UIImage.swift */; };
+		419151042CA1A4F300E74A1A /* TitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525F82C7D6CD00046E5F9 /* TitleTVCell.swift */; };
+		419151052CA1A4F300E74A1A /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C857C52C81B8820042B305 /* Extension+Date.swift */; };
+		419151062CA1A4F300E74A1A /* BoardEditorContentCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A502C70925700FE3604 /* BoardEditorContentCVCell.swift */; };
+		419151072CA1A4F300E74A1A /* JoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF08A9602C78465200682AB8 /* JoinView.swift */; };
+		419151082CA1A4F300E74A1A /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */; };
+		419151092CA1A4F300E74A1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
+		4191510A2CA1A4F300E74A1A /* EmptyStateTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C405A2C80956600E105F9 /* EmptyStateTVCell.swift */; };
+		4191510B2CA1A4F300E74A1A /* GatheringDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */; };
+		4191510C2CA1A4F300E74A1A /* GatheringDetailInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE2D2C6B812E0094C29C /* GatheringDetailInfoTVCell.swift */; };
+		4191510D2CA1A4F300E74A1A /* GatheringVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F703EC312C788272003C994C /* GatheringVM.swift */; };
+		4191510E2CA1A4F300E74A1A /* GatheringDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90E8B32C6C49E1008FA61E /* GatheringDetailProfileTVCell.swift */; };
+		4191510F2CA1A4F300E74A1A /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8738AB52C85967500686BA0 /* SplashVC.swift */; };
+		419151102CA1A4F300E74A1A /* HomeProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FA2C7D6CE10046E5F9 /* HomeProfileTVCell.swift */; };
+		419151112CA1A4F300E74A1A /* CommentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDB2C742F9A0084CA10 /* CommentTVCell.swift */; };
+		419151122CA1A4F300E74A1A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
+		419151132CA1A4F300E74A1A /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC842C87559A009644BA /* SettingCoordinator.swift */; };
+		419151142CA1A4F300E74A1A /* JoinBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DA2C725CBF00BEAE4C /* JoinBtn.swift */; };
+		419151152CA1A4F300E74A1A /* CurrentMemTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */; };
+		419151162CA1A4F300E74A1A /* GatheringUplaodTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65A2C660E320070D6F9 /* GatheringUplaodTitleTVCell.swift */; };
+		419151172CA1A4F300E74A1A /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F442C77622C003D29AC /* ProfileVM.swift */; };
+		419151182CA1A4F300E74A1A /* ProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3D2C77622C003D29AC /* ProfileTVCell.swift */; };
+		419151192CA1A4F300E74A1A /* SectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F3E2C77622C003D29AC /* SectionTVCell.swift */; };
+		4191511A2CA1A4F300E74A1A /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F452C77622C003D29AC /* SettingVC.swift */; };
+		4191511B2CA1A4F300E74A1A /* GatheringCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471442C6499590067BD09 /* GatheringCoordinator.swift */; };
+		4191511C2CA1A4F300E74A1A /* GatheringDetailBoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D62C7243F500BEAE4C /* GatheringDetailBoardTVCell.swift */; };
+		4191511D2CA1A4F300E74A1A /* GatheringUplaodImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6582C6607FB0070D6F9 /* GatheringUplaodImageTVCell.swift */; };
+		4191511E2CA1A4F300E74A1A /* YoutubeThumbnailTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77525FC2C7D6CF10046E5F9 /* YoutubeThumbnailTVCell.swift */; };
+		4191511F2CA1A4F300E74A1A /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C12C746AE90039D33B /* AuthVM.swift */; };
+		419151202CA1A4F300E74A1A /* BoardEditorTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C4A4E2C7091E900FE3604 /* BoardEditorTitleCVCell.swift */; };
+		419151212CA1A4F300E74A1A /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0C32C746B3D0039D33B /* AuthCoordinator.swift */; };
+		419151222CA1A4F300E74A1A /* GatheringUploadInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65E2C6632880070D6F9 /* GatheringUploadInfoTVCell.swift */; };
+		419151232CA1A4F300E74A1A /* Extension+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FB9B6A2C6ADAB700CF1A92 /* Extension+UITableView.swift */; };
+		419151242CA1A4F300E74A1A /* SeperatorLineTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6562C6605B00070D6F9 /* SeperatorLineTVCell.swift */; };
+		419151252CA1A4F300E74A1A /* GatheringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713C2C647FAF0067BD09 /* GatheringVC.swift */; };
+		419151262CA1A4F300E74A1A /* TeamSelectVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8832C79C539007B4962 /* TeamSelectVM.swift */; };
+		419151272CA1A4F300E74A1A /* SettingSectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC922C876122009644BA /* SettingSectionTVCell.swift */; };
+		419151282CA1A4F300E74A1A /* GatheringUploadMainTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6542C65FAC60070D6F9 /* GatheringUploadMainTVCell.swift */; };
+		419151292CA1A4F300E74A1A /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111E5822C6C670500DA2A3D /* Extension+UICollectionView.swift */; };
+		4191512A2CA1A4F300E74A1A /* GatheringBoardDetailContentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F12C7341720053A86B /* GatheringBoardDetailContentTVCell.swift */; };
+		4191512B2CA1A4F300E74A1A /* SportsTeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85FD8872C79CCF3007B4962 /* SportsTeamCell.swift */; };
+		4191512C2CA1A4F300E74A1A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B824713A2C647F9F0067BD09 /* HomeVC.swift */; };
+		4191512D2CA1A4F300E74A1A /* GatheringBoardDetailImagesCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */; };
+		4191512E2CA1A4F300E74A1A /* BoardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */; };
+		4191512F2CA1A4F300E74A1A /* SettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BAC822C875591009644BA /* SettingVM.swift */; };
+		419151302CA1A4F300E74A1A /* TeamSelectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9FAF2C816E7300123410 /* TeamSelectCoordinator.swift */; };
+		419151312CA1A4F300E74A1A /* GatheringUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */; };
+		419151322CA1A4F300E74A1A /* GatheringUploadQuestionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413BE65C2C662FF20070D6F9 /* GatheringUploadQuestionTVCell.swift */; };
+		419151332CA1A4F300E74A1A /* GatheringBoardDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EC2C7333FC0053A86B /* GatheringBoardDetailVM.swift */; };
+		419151342CA1A4F300E74A1A /* Extenstion+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBF9A272C898561006DACAD /* Extenstion+UIFont.swift */; };
+		419151352CA1A4F300E74A1A /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C407C2C83973800E105F9 /* Extension+String.swift */; };
+		419151362CA1A4F300E74A1A /* GatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AF2C8DC1E700E37978 /* GatheringTVCell.swift */; };
+		419151372CA1A4F300E74A1A /* CommentHeaderLabelTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */; };
+		419151382CA1A4F300E74A1A /* GatheringDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825B2C6B886800C59A4F /* GatheringDetailVC.swift */; };
+		419151392CA1A4F300E74A1A /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC55FDF2C7440130084CA10 /* CommentInputView.swift */; };
+		4191513A2CA1A4F300E74A1A /* GatheringBoardDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */; };
+		4191513B2CA1A4F300E74A1A /* GatheringTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BBE282C6B7FFC0094C29C /* GatheringTitleTVCell.swift */; };
+		4191513C2CA1A4F300E74A1A /* GatheringBoardDetailProfileTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3EF2C7336B90053A86B /* GatheringBoardDetailProfileTVCell.swift */; };
+		4191513D2CA1A4F300E74A1A /* BoardEditorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */; };
+		4191513E2CA1A4F300E74A1A /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D4D0B72C7468CE0039D33B /* AuthVC.swift */; };
+		4191513F2CA1A4F300E74A1A /* ProfileEditCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F552C776313003D29AC /* ProfileEditCoordinator.swift */; };
+		419151402CA1A4F300E74A1A /* ProfileEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F562C776313003D29AC /* ProfileEditVC.swift */; };
+		419151412CA1A4F300E74A1A /* ProfileEditVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F582C776313003D29AC /* ProfileEditVM.swift */; };
+		419151422CA1A4F300E74A1A /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
+		419151432CA1A4F300E74A1A /* GatherSectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F282C776219003D29AC /* GatherSectionTVCell.swift */; };
+		419151442CA1A4F300E74A1A /* GatherSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2F2C776219003D29AC /* GatherSettingCoordinator.swift */; };
+		419151452CA1A4F300E74A1A /* GatherSettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F312C776219003D29AC /* GatherSettingVM.swift */; };
+		419151462CA1A4F300E74A1A /* GatherSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F302C776219003D29AC /* GatherSettingVC.swift */; };
+		419151472CA1A4F300E74A1A /* GatherUserTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F292C776219003D29AC /* GatherUserTVCell.swift */; };
+		419151482CA1A4F300E74A1A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AD2C8D74F600E37978 /* NotificationService.swift */; };
+		419151492CA1A4F300E74A1A /* GatherDeleteTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F272C776219003D29AC /* GatherDeleteTVCell.swift */; };
+		4191514A2CA1A4F300E74A1A /* ManageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F2C2C776219003D29AC /* ManageUserView.swift */; };
+		4191514B2CA1A4F300E74A1A /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBCC12C77B17400FE2E18 /* Extension+Color.swift */; };
+		4191514C2CA1A4F300E74A1A /* SportsTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F702C777D27003D29AC /* SportsTeam.swift */; };
+		4191514D2CA1A4F300E74A1A /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8299F762C777DA2003D29AC /* Comment.swift */; };
+		4191514E2CA1A4F300E74A1A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82471422C64994E0067BD09 /* HomeCoordinator.swift */; };
+		4191514F2CA1A4F300E74A1A /* URLVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA662C746A94009D0728 /* URLVC.swift */; };
+		419151502CA1A4F300E74A1A /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C1AA642C746A7C009D0728 /* HomeVM.swift */; };
+		419151512CA1A4F300E74A1A /* GatheringImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283DC2C72659300BEAE4C /* GatheringImageTVCell.swift */; };
+		419151522CA1A4F300E74A1A /* GatheringDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38825D2C6B887E00C59A4F /* GatheringDetailVM.swift */; };
+		419151532CA1A4F300E74A1A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBC9B2C778C9B00FE2E18 /* Coordinator.swift */; };
+		419151542CA1A4F300E74A1A /* BoardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3882572C6B827B00C59A4F /* BoardTVCell.swift */; };
+		419151552CA1A4F300E74A1A /* GatheringDetailProfileCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA71202C6C94C500FC402C /* GatheringDetailProfileCVCell.swift */; };
+		419151562CA1A4F300E74A1A /* PostBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3E52C7316D40053A86B /* PostBtn.swift */; };
+		419151572CA1A4F300E74A1A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410BBC9C2C778C9B00FE2E18 /* TabBarCoordinator.swift */; };
+		419151582CA1A4F300E74A1A /* BoardBtnTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1283D22C72155000BEAE4C /* BoardBtnTVCell.swift */; };
+		419151592CA1A4F300E74A1A /* GatheringBoardDetailImagesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */; };
+		4191515B2CA1A4F300E74A1A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 419150D62CA1A4F300E74A1A /* Kingfisher */; };
+		4191515C2CA1A4F300E74A1A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 419150DE2CA1A4F300E74A1A /* FirebaseAuth */; };
+		4191515D2CA1A4F300E74A1A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 419150E42CA1A4F300E74A1A /* FirebaseMessaging */; };
+		4191515E2CA1A4F300E74A1A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 419150DA2CA1A4F300E74A1A /* GoogleSignIn */; };
+		4191515F2CA1A4F300E74A1A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 419150DC2CA1A4F300E74A1A /* FirebaseAnalytics */; };
+		419151602CA1A4F300E74A1A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 419150E02CA1A4F300E74A1A /* FirebaseStorage */; };
+		419151612CA1A4F300E74A1A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 419150E12CA1A4F300E74A1A /* FirebaseCrashlytics */; };
+		419151622CA1A4F300E74A1A /* KoTextCountLimit in Frameworks */ = {isa = PBXBuildFile; productRef = 419150D82CA1A4F300E74A1A /* KoTextCountLimit */; };
+		419151632CA1A4F300E74A1A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 419150DF2CA1A4F300E74A1A /* FirebaseFirestore */; };
+		419151642CA1A4F300E74A1A /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 419150E22CA1A4F300E74A1A /* KakaoSDK */; };
+		419151662CA1A4F300E74A1A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
+		419151672CA1A4F300E74A1A /* GmarketSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2B2C898B75006DACAD /* GmarketSansBold.otf */; };
+		419151682CA1A4F300E74A1A /* GmarketSansLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2C2C898B75006DACAD /* GmarketSansLight.otf */; };
+		419151692CA1A4F300E74A1A /* GmarketSansMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFBF9A2D2C898B75006DACAD /* GmarketSansMedium.otf */; };
+		4191516A2CA1A4F300E74A1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8201FB72C606935004DF06C /* Assets.xcassets */; };
 		41AA05302C73000C009FF289 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA052F2C73000C009FF289 /* Common.swift */; };
 		41AA05342C731C86009FF289 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */; };
 		41C649F52C869F8A00640990 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 41C649F42C869F8A00640990 /* FirebaseCrashlytics */; };
@@ -125,7 +256,6 @@
 		D82BACAE2C87E61B009644BA /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */; };
 		D82BACB32C87F102009644BA /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */; };
 		D835EDEB2C8ADD6E00D24AC8 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */; };
-		D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */; };
 		D84749202C884135009474B3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
 		D85121AB2C8D742500E37978 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D85121AA2C8D742500E37978 /* FirebaseMessaging */; };
 		D85121AE2C8D74FE00E37978 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AD2C8D74F600E37978 /* NotificationService.swift */; };
@@ -187,6 +317,9 @@
 		4143E4542C6B47B5001AB3E0 /* BoardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVC.swift; sourceTree = "<group>"; };
 		4143E4582C6B47DF001AB3E0 /* BoardEditorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorVM.swift; sourceTree = "<group>"; };
 		4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardEditorCoordinator.swift; sourceTree = "<group>"; };
+		419151702CA1A4F300E74A1A /* Letports-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Letports-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		419151772CA1A75F00E74A1A /* Letports-Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Letports-Dev-Info.plist"; sourceTree = "<group>"; };
+		419151832CA1C28D00E74A1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41AA052F2C73000C009FF289 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		41AA05332C731C86009FF289 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		41C857C52C81B8820042B305 /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
@@ -240,7 +373,7 @@
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D8201FBC2C606935004DF06C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D8201FBC2C606935004DF06C /* Info-Prod.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-Prod.plist"; sourceTree = "<group>"; };
 		D8201FC52C606935004DF06C /* LetportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsTests.swift; sourceTree = "<group>"; };
 		D8201FCF2C606935004DF06C /* LetportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITests.swift; sourceTree = "<group>"; };
 		D8201FD12C606935004DF06C /* LetportsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetportsUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -298,6 +431,23 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4191515A2CA1A4F300E74A1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4191515B2CA1A4F300E74A1A /* Kingfisher in Frameworks */,
+				4191515C2CA1A4F300E74A1A /* FirebaseAuth in Frameworks */,
+				4191515D2CA1A4F300E74A1A /* FirebaseMessaging in Frameworks */,
+				4191515E2CA1A4F300E74A1A /* GoogleSignIn in Frameworks */,
+				4191515F2CA1A4F300E74A1A /* FirebaseAnalytics in Frameworks */,
+				419151602CA1A4F300E74A1A /* FirebaseStorage in Frameworks */,
+				419151612CA1A4F300E74A1A /* FirebaseCrashlytics in Frameworks */,
+				419151622CA1A4F300E74A1A /* KoTextCountLimit in Frameworks */,
+				419151632CA1A4F300E74A1A /* FirebaseFirestore in Frameworks */,
+				419151642CA1A4F300E74A1A /* KakaoSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8201FAB2C606934004DF06C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -405,6 +555,24 @@
 				4143E45A2C6B47E9001AB3E0 /* BoardEditorCoordinator.swift */,
 			);
 			path = BoadEditor;
+			sourceTree = "<group>";
+		};
+		419151732CA1A60100E74A1A /* Letports-Dev */ = {
+			isa = PBXGroup;
+			children = (
+				419151832CA1C28D00E74A1A /* GoogleService-Info.plist */,
+				419151772CA1A75F00E74A1A /* Letports-Dev-Info.plist */,
+			);
+			path = "Letports-Dev";
+			sourceTree = "<group>";
+		};
+		419151742CA1A60A00E74A1A /* Letports-Store */ = {
+			isa = PBXGroup;
+			children = (
+				D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */,
+				D8201FBC2C606935004DF06C /* Info-Prod.plist */,
+			);
+			path = "Letports-Store";
 			sourceTree = "<group>";
 		};
 		41AA052E2C730001009FF289 /* Common */ = {
@@ -556,12 +724,15 @@
 				D828D07E2C9013F700A9100E /* LetportsTests.xctest */,
 				D828D07F2C9013F700A9100E /* LetportsUITests.xctest */,
 				D828D0842C90174300A9100E /* Letports.app */,
+				419151702CA1A4F300E74A1A /* Letports-Dev.app */,
 			);
 			sourceTree = "<group>";
 		};
 		D8201FB02C606934004DF06C /* Letports */ = {
 			isa = PBXGroup;
 			children = (
+				419151742CA1A60A00E74A1A /* Letports-Store */,
+				419151732CA1A60100E74A1A /* Letports-Dev */,
 				D8201FB12C606934004DF06C /* AppDelegate.swift */,
 				D8201FB32C606934004DF06C /* SceneDelegate.swift */,
 				411D4E512C6337AE00B07D84 /* UserManager.swift */,
@@ -581,8 +752,6 @@
 				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8361B712C8729B000140A79 /* Letports.entitlements */,
-				D8201FBC2C606935004DF06C /* Info.plist */,
-				D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
 				BFBF9A2E2C898B75006DACAD /* Font */,
 				D847491F2C884135009474B3 /* Settings.bundle */,
@@ -745,12 +914,44 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		419150D52CA1A4F300E74A1A /* Letports-Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4191516D2CA1A4F300E74A1A /* Build configuration list for PBXNativeTarget "Letports-Dev" */;
+			buildPhases = (
+				419150E52CA1A4F300E74A1A /* Sources */,
+				4191515A2CA1A4F300E74A1A /* Frameworks */,
+				419151852CA1C88D00E74A1A /* Firebase Plist */,
+				419151652CA1A4F300E74A1A /* Resources */,
+				419151842CA1C7E000E74A1A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Letports-Dev";
+			packageProductDependencies = (
+				419150D62CA1A4F300E74A1A /* Kingfisher */,
+				419150D82CA1A4F300E74A1A /* KoTextCountLimit */,
+				419150DA2CA1A4F300E74A1A /* GoogleSignIn */,
+				419150DC2CA1A4F300E74A1A /* FirebaseAnalytics */,
+				419150DE2CA1A4F300E74A1A /* FirebaseAuth */,
+				419150DF2CA1A4F300E74A1A /* FirebaseFirestore */,
+				419150E02CA1A4F300E74A1A /* FirebaseStorage */,
+				419150E12CA1A4F300E74A1A /* FirebaseCrashlytics */,
+				419150E22CA1A4F300E74A1A /* KakaoSDK */,
+				419150E42CA1A4F300E74A1A /* FirebaseMessaging */,
+			);
+			productName = Letports;
+			productReference = 419151702CA1A4F300E74A1A /* Letports-Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D8201FAD2C606934004DF06C /* Letports */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8201FD52C606935004DF06C /* Build configuration list for PBXNativeTarget "Letports" */;
 			buildPhases = (
 				D8201FAA2C606934004DF06C /* Sources */,
 				D8201FAB2C606934004DF06C /* Frameworks */,
+				4191517F2CA1B5ED00E74A1A /* Firebase Plist */,
 				D8201FAC2C606934004DF06C /* Resources */,
 				41C649F62C86A04A00640990 /* ShellScript */,
 			);
@@ -855,6 +1056,7 @@
 			projectRoot = "";
 			targets = (
 				D8201FAD2C606934004DF06C /* Letports */,
+				419150D52CA1A4F300E74A1A /* Letports-Dev */,
 				D8201FC02C606935004DF06C /* LetportsTests */,
 				D8201FCA2C606935004DF06C /* LetportsUITests */,
 			);
@@ -862,6 +1064,18 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		419151652CA1A4F300E74A1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419151662CA1A4F300E74A1A /* Settings.bundle in Resources */,
+				419151672CA1A4F300E74A1A /* GmarketSansBold.otf in Resources */,
+				419151682CA1A4F300E74A1A /* GmarketSansLight.otf in Resources */,
+				419151692CA1A4F300E74A1A /* GmarketSansMedium.otf in Resources */,
+				4191516A2CA1A4F300E74A1A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8201FAC2C606934004DF06C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -871,7 +1085,6 @@
 				BFBF9A302C898B75006DACAD /* GmarketSansLight.otf in Resources */,
 				BFBF9A312C898B75006DACAD /* GmarketSansMedium.otf in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,6 +1105,64 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4191517F2CA1B5ED00E74A1A /* Firebase Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "\U0010Firebase Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Letports-Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Letports-Store/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\n    echo \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\n    echo \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_PROD}\"\n    cp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_DEV}\"\n    cp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
+		};
+		419151842CA1C7E000E74A1A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Letports-Dev/Letports-Dev-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Letports-Dev/GoogleService-Info.plist",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+		419151852CA1C88D00E74A1A /* Firebase Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Firebase Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Letports-Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Letports-Store/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\n    echo \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\n    echo \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_PROD}\"\n    cp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_DEV}\"\n    cp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
+		};
 		41C649F62C86A04A00640990 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -902,9 +1173,9 @@
 			inputPaths = (
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Letports-Store/Info-Prod.plist",
 				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Letports-Store/GoogleService-Info.plist",
 			);
 			outputFileListPaths = (
 			);
@@ -917,6 +1188,129 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		419150E52CA1A4F300E74A1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419150E62CA1A4F300E74A1A /* BoardBtnCVCell.swift in Sources */,
+				419150E72CA1A4F300E74A1A /* TeamSelectVC.swift in Sources */,
+				419150E82CA1A4F300E74A1A /* BoardEditorHeaderCVCell.swift in Sources */,
+				419150E92CA1A4F300E74A1A /* RecommendGatheringTVCell.swift in Sources */,
+				419150EA2CA1A4F300E74A1A /* GatheringUploadVM.swift in Sources */,
+				419150EB2CA1A4F300E74A1A /* SportsCategoryCell.swift in Sources */,
+				419150EC2CA1A4F300E74A1A /* LoadingIndicatorView.swift in Sources */,
+				419150ED2CA1A4F300E74A1A /* Extension+UIViewController.swift in Sources */,
+				419150EE2CA1A4F300E74A1A /* GatheringMember.swift in Sources */,
+				419150EF2CA1A4F300E74A1A /* Gathering.swift in Sources */,
+				419150F02CA1A4F300E74A1A /* SimpleInfoTVCell.swift in Sources */,
+				419150F12CA1A4F300E74A1A /* ProfileVC.swift in Sources */,
+				419150F22CA1A4F300E74A1A /* GatheringUploadVC.swift in Sources */,
+				419150F32CA1A4F300E74A1A /* LetportsUser.swift in Sources */,
+				419150F42CA1A4F300E74A1A /* BoardEditorVM.swift in Sources */,
+				419150F52CA1A4F300E74A1A /* GatheringBoardDetailCoordinator.swift in Sources */,
+				419150F62CA1A4F300E74A1A /* BoardEditorPhotoCVCell.swift in Sources */,
+				419150F72CA1A4F300E74A1A /* Common.swift in Sources */,
+				419150F82CA1A4F300E74A1A /* Post.swift in Sources */,
+				419150F92CA1A4F300E74A1A /* RecommendGatheringEmptyCVCell.swift in Sources */,
+				419150FA2CA1A4F300E74A1A /* GatheringUploadMemCntTVCell.swift in Sources */,
+				419150FB2CA1A4F300E74A1A /* AppCoordinator.swift in Sources */,
+				419150FC2CA1A4F300E74A1A /* ProfileCoordinator.swift in Sources */,
+				419150FD2CA1A4F300E74A1A /* FirebasStorageManager.swift in Sources */,
+				419150FE2CA1A4F300E74A1A /* AuthService.swift in Sources */,
+				419150FF2CA1A4F300E74A1A /* FirestoreManager.swift in Sources */,
+				419151002CA1A4F300E74A1A /* RecommendGatheringListsCVCell.swift in Sources */,
+				419151012CA1A4F300E74A1A /* ProfileImageTVCell.swift in Sources */,
+				419151022CA1A4F300E74A1A /* UserManager.swift in Sources */,
+				419151032CA1A4F300E74A1A /* Extension+UIImage.swift in Sources */,
+				419151042CA1A4F300E74A1A /* TitleTVCell.swift in Sources */,
+				419151052CA1A4F300E74A1A /* Extension+Date.swift in Sources */,
+				419151062CA1A4F300E74A1A /* BoardEditorContentCVCell.swift in Sources */,
+				419151072CA1A4F300E74A1A /* JoinView.swift in Sources */,
+				419151082CA1A4F300E74A1A /* CustomNavigationView.swift in Sources */,
+				419151092CA1A4F300E74A1A /* AppDelegate.swift in Sources */,
+				4191510A2CA1A4F300E74A1A /* EmptyStateTVCell.swift in Sources */,
+				4191510B2CA1A4F300E74A1A /* GatheringDetailCoordinator.swift in Sources */,
+				4191510C2CA1A4F300E74A1A /* GatheringDetailInfoTVCell.swift in Sources */,
+				4191510D2CA1A4F300E74A1A /* GatheringVM.swift in Sources */,
+				4191510E2CA1A4F300E74A1A /* GatheringDetailProfileTVCell.swift in Sources */,
+				4191510F2CA1A4F300E74A1A /* SplashVC.swift in Sources */,
+				419151102CA1A4F300E74A1A /* HomeProfileTVCell.swift in Sources */,
+				419151112CA1A4F300E74A1A /* CommentTVCell.swift in Sources */,
+				419151122CA1A4F300E74A1A /* SceneDelegate.swift in Sources */,
+				419151132CA1A4F300E74A1A /* SettingCoordinator.swift in Sources */,
+				419151142CA1A4F300E74A1A /* JoinBtn.swift in Sources */,
+				419151152CA1A4F300E74A1A /* CurrentMemTVCell.swift in Sources */,
+				419151162CA1A4F300E74A1A /* GatheringUplaodTitleTVCell.swift in Sources */,
+				419151172CA1A4F300E74A1A /* ProfileVM.swift in Sources */,
+				419151182CA1A4F300E74A1A /* ProfileTVCell.swift in Sources */,
+				419151192CA1A4F300E74A1A /* SectionTVCell.swift in Sources */,
+				4191511A2CA1A4F300E74A1A /* SettingVC.swift in Sources */,
+				4191511B2CA1A4F300E74A1A /* GatheringCoordinator.swift in Sources */,
+				4191511C2CA1A4F300E74A1A /* GatheringDetailBoardTVCell.swift in Sources */,
+				4191511D2CA1A4F300E74A1A /* GatheringUplaodImageTVCell.swift in Sources */,
+				4191511E2CA1A4F300E74A1A /* YoutubeThumbnailTVCell.swift in Sources */,
+				4191511F2CA1A4F300E74A1A /* AuthVM.swift in Sources */,
+				419151202CA1A4F300E74A1A /* BoardEditorTitleCVCell.swift in Sources */,
+				419151212CA1A4F300E74A1A /* AuthCoordinator.swift in Sources */,
+				419151222CA1A4F300E74A1A /* GatheringUploadInfoTVCell.swift in Sources */,
+				419151232CA1A4F300E74A1A /* Extension+UITableView.swift in Sources */,
+				419151242CA1A4F300E74A1A /* SeperatorLineTVCell.swift in Sources */,
+				419151252CA1A4F300E74A1A /* GatheringVC.swift in Sources */,
+				419151262CA1A4F300E74A1A /* TeamSelectVM.swift in Sources */,
+				419151272CA1A4F300E74A1A /* SettingSectionTVCell.swift in Sources */,
+				419151282CA1A4F300E74A1A /* GatheringUploadMainTVCell.swift in Sources */,
+				419151292CA1A4F300E74A1A /* Extension+UICollectionView.swift in Sources */,
+				4191512A2CA1A4F300E74A1A /* GatheringBoardDetailContentTVCell.swift in Sources */,
+				4191512B2CA1A4F300E74A1A /* SportsTeamCell.swift in Sources */,
+				4191512C2CA1A4F300E74A1A /* HomeVC.swift in Sources */,
+				4191512D2CA1A4F300E74A1A /* GatheringBoardDetailImagesCVCell.swift in Sources */,
+				4191512E2CA1A4F300E74A1A /* BoardEditorVC.swift in Sources */,
+				4191512F2CA1A4F300E74A1A /* SettingVM.swift in Sources */,
+				419151302CA1A4F300E74A1A /* TeamSelectCoordinator.swift in Sources */,
+				419151312CA1A4F300E74A1A /* GatheringUploadCoordinator.swift in Sources */,
+				419151322CA1A4F300E74A1A /* GatheringUploadQuestionTVCell.swift in Sources */,
+				419151332CA1A4F300E74A1A /* GatheringBoardDetailVM.swift in Sources */,
+				419151342CA1A4F300E74A1A /* Extenstion+UIFont.swift in Sources */,
+				419151352CA1A4F300E74A1A /* Extension+String.swift in Sources */,
+				419151362CA1A4F300E74A1A /* GatheringTVCell.swift in Sources */,
+				419151372CA1A4F300E74A1A /* CommentHeaderLabelTVCell.swift in Sources */,
+				419151382CA1A4F300E74A1A /* GatheringDetailVC.swift in Sources */,
+				419151392CA1A4F300E74A1A /* CommentInputView.swift in Sources */,
+				4191513A2CA1A4F300E74A1A /* GatheringBoardDetailVC.swift in Sources */,
+				4191513B2CA1A4F300E74A1A /* GatheringTitleTVCell.swift in Sources */,
+				4191513C2CA1A4F300E74A1A /* GatheringBoardDetailProfileTVCell.swift in Sources */,
+				4191513D2CA1A4F300E74A1A /* BoardEditorCoordinator.swift in Sources */,
+				4191513E2CA1A4F300E74A1A /* AuthVC.swift in Sources */,
+				4191513F2CA1A4F300E74A1A /* ProfileEditCoordinator.swift in Sources */,
+				419151402CA1A4F300E74A1A /* ProfileEditVC.swift in Sources */,
+				419151412CA1A4F300E74A1A /* ProfileEditVM.swift in Sources */,
+				419151422CA1A4F300E74A1A /* NickNameTVCell.swift in Sources */,
+				419151432CA1A4F300E74A1A /* GatherSectionTVCell.swift in Sources */,
+				419151442CA1A4F300E74A1A /* GatherSettingCoordinator.swift in Sources */,
+				419151452CA1A4F300E74A1A /* GatherSettingVM.swift in Sources */,
+				419151462CA1A4F300E74A1A /* GatherSettingVC.swift in Sources */,
+				419151472CA1A4F300E74A1A /* GatherUserTVCell.swift in Sources */,
+				419151482CA1A4F300E74A1A /* NotificationService.swift in Sources */,
+				419151492CA1A4F300E74A1A /* GatherDeleteTVCell.swift in Sources */,
+				4191514A2CA1A4F300E74A1A /* ManageUserView.swift in Sources */,
+				4191514B2CA1A4F300E74A1A /* Extension+Color.swift in Sources */,
+				4191514C2CA1A4F300E74A1A /* SportsTeam.swift in Sources */,
+				4191514D2CA1A4F300E74A1A /* Comment.swift in Sources */,
+				4191514E2CA1A4F300E74A1A /* HomeCoordinator.swift in Sources */,
+				4191514F2CA1A4F300E74A1A /* URLVC.swift in Sources */,
+				419151502CA1A4F300E74A1A /* HomeVM.swift in Sources */,
+				419151512CA1A4F300E74A1A /* GatheringImageTVCell.swift in Sources */,
+				419151522CA1A4F300E74A1A /* GatheringDetailVM.swift in Sources */,
+				419151532CA1A4F300E74A1A /* Coordinator.swift in Sources */,
+				419151542CA1A4F300E74A1A /* BoardTVCell.swift in Sources */,
+				419151552CA1A4F300E74A1A /* GatheringDetailProfileCVCell.swift in Sources */,
+				419151562CA1A4F300E74A1A /* PostBtn.swift in Sources */,
+				419151572CA1A4F300E74A1A /* TabBarCoordinator.swift in Sources */,
+				419151582CA1A4F300E74A1A /* BoardBtnTVCell.swift in Sources */,
+				419151592CA1A4F300E74A1A /* GatheringBoardDetailImagesTVCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8201FAA2C606934004DF06C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1074,6 +1468,89 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4191516E2CA1A4F300E74A1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Letports/Letports-Dev/Letports-Dev-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.00.00;
+				OTHER_SWIFT_FLAGS = "-DDEV";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mosi.Letports-Dev";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		4191516F2CA1A4F300E74A1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Letports/Letports-Dev/Letports-Dev-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.00.00;
+				OTHER_SWIFT_FLAGS = "-DDEV";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mosi.Letports-Dev";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
@@ -1112,7 +1589,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1176,7 +1653,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1197,6 +1674,7 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1208,7 +1686,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Letports/Info.plist;
+				INFOPLIST_FILE = "Letports/Letports-Store/Info-Prod.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1221,6 +1699,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.00.00;
+				OTHER_SWIFT_FLAGS = "-DPROD";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1248,7 +1727,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Letports/Info.plist;
+				INFOPLIST_FILE = "Letports/Letports-Store/Info-Prod.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1261,6 +1740,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.00.00;
+				OTHER_SWIFT_FLAGS = "-DPROD";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1354,6 +1834,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4191516D2CA1A4F300E74A1A /* Build configuration list for PBXNativeTarget "Letports-Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4191516E2CA1A4F300E74A1A /* Debug */,
+				4191516F2CA1A4F300E74A1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D8201FA92C606934004DF06C /* Build configuration list for PBXProject "Letports" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1417,6 +1906,46 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		419150D72CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
+		419150D92CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "KoTextCountLimit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iOS-Ruel/KoTextCountLimit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		419150DB2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.1.0;
+			};
+		};
+		419150E32CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.22.6;
+			};
+		};
 		BF8874022C7A538000E86CA0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1450,6 +1979,56 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 410BBCAA2C778E1500FE2E18 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		419150D62CA1A4F300E74A1A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150D72CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		419150D82CA1A4F300E74A1A /* KoTextCountLimit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150D92CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "KoTextCountLimit" */;
+			productName = KoTextCountLimit;
+		};
+		419150DA2CA1A4F300E74A1A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DB2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		419150DC2CA1A4F300E74A1A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		419150DE2CA1A4F300E74A1A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		419150DF2CA1A4F300E74A1A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		419150E02CA1A4F300E74A1A /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		419150E12CA1A4F300E74A1A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		419150E22CA1A4F300E74A1A /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150E32CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		419150E42CA1A4F300E74A1A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419150DD2CA1A4F300E74A1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		41C649F42C869F8A00640990 /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
