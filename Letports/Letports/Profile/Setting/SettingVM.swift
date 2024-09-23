@@ -20,7 +20,6 @@ struct AuthDeleteError: Codable {
     }
 }
 
-
 enum SettingCellType {
     case notification
     case appTermsofService

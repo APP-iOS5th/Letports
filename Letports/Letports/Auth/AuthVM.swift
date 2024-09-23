@@ -47,7 +47,6 @@ class AuthVM {
             print("Cannot register FCM token, missing data.")
             return
         }
-        // FCM 토큰을 현재 사용자에 맞게 업데이트
         NotificationService.shared.setUIDAndRegisterToken(uid: user.uid, fcmToken: fcmToken)
     }
     

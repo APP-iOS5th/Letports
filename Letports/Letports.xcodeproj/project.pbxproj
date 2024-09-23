@@ -125,11 +125,11 @@
 		D82BACAE2C87E61B009644BA /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */; };
 		D82BACB32C87F102009644BA /* RecommendGatheringEmptyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */; };
 		D835EDEB2C8ADD6E00D24AC8 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D835EDEA2C8ADD6E00D24AC8 /* KakaoSDK */; };
-		D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */; };
 		D84749202C884135009474B3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D847491F2C884135009474B3 /* Settings.bundle */; };
 		D85121AB2C8D742500E37978 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D85121AA2C8D742500E37978 /* FirebaseMessaging */; };
 		D85121AE2C8D74FE00E37978 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AD2C8D74F600E37978 /* NotificationService.swift */; };
 		D85121B02C8DC1E900E37978 /* GatheringTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85121AF2C8DC1E700E37978 /* GatheringTVCell.swift */; };
+		D857D3A62CA1493E00AD306A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D857D3A52CA1493E00AD306A /* GoogleService-Info.plist */; };
 		D85FE7A42C8B80AA0059154C /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */; };
 		D877C9762C789B50008C4695 /* ProfileImageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */; };
 		D877C97A2C789B8C008C4695 /* NickNameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D877C9792C789B8C008C4695 /* NickNameTVCell.swift */; };
@@ -277,10 +277,10 @@
 		D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringEmptyCVCell.swift; sourceTree = "<group>"; };
 		D8361B712C8729B000140A79 /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
-		D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D847491F2C884135009474B3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D85121AD2C8D74F600E37978 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D85121AF2C8DC1E700E37978 /* GatheringTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTVCell.swift; sourceTree = "<group>"; };
+		D857D3A52CA1493E00AD306A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D85FE7A32C8B80A00059154C /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		D877C9752C789B50008C4695 /* ProfileImageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTVCell.swift; sourceTree = "<group>"; };
 		D877C9792C789B8C008C4695 /* NickNameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameTVCell.swift; sourceTree = "<group>"; };
@@ -432,11 +432,12 @@
 		B82471382C647F600067BD09 /* Gathering */ = {
 			isa = PBXGroup;
 			children = (
+				413BE63F2C65EA050070D6F9 /* GatherUpload */,
+				4143E4532C6B478D001AB3E0 /* BoadEditor */,
+				D8381A3B2C9919DF00A92E03 /* Gathering */,
 				BFFFD3E92C7331140053A86B /* GatheringBoardDetail */,
 				BFE5B5722C6B7ECB00C0103F /* GatheringDetail */,
-				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
-				F703EC312C788272003C994C /* GatheringVM.swift */,
-				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
+				D8299F322C776219003D29AC /* GatherSetting */,
 			);
 			path = Gathering;
 			sourceTree = "<group>";
@@ -570,19 +571,16 @@
 				41AA052E2C730001009FF289 /* Common */,
 				B85FD8512C7864C4007B4962 /* TeamSelect */,
 				D82BACA72C87E5EE009644BA /* Service */,
-				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
 				B824714A2C6C34360067BD09 /* Auth */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
-				D8299F322C776219003D29AC /* GatherSetting */,
 				D8299F462C77622C003D29AC /* Profile */,
 				413BE64D2C65F1990070D6F9 /* Extension */,
-				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
 				D8361B712C8729B000140A79 /* Letports.entitlements */,
+				D857D3A52CA1493E00AD306A /* GoogleService-Info.plist */,
 				D8201FBC2C606935004DF06C /* Info.plist */,
-				D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */,
 				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
 				BFBF9A2E2C898B75006DACAD /* Font */,
 				D847491F2C884135009474B3 /* Settings.bundle */,
@@ -652,12 +650,10 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D8381A3A2C9919C900A92E03 /* Profile */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				D8299F592C776313003D29AC /* ProfileEdit */,
 				D8299F3F2C77622C003D29AC /* Cell */,
-				D8299F442C77622C003D29AC /* ProfileVM.swift */,
-				D8299F692C776555003D29AC /* ProfileVC.swift */,
-				D8299F622C776425003D29AC /* ProfileCoordinator.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -709,6 +705,26 @@
 				D82BACA62C87E5EE009644BA /* AuthService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		D8381A3A2C9919C900A92E03 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D8299F692C776555003D29AC /* ProfileVC.swift */,
+				D8299F442C77622C003D29AC /* ProfileVM.swift */,
+				D8299F622C776425003D29AC /* ProfileCoordinator.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D8381A3B2C9919DF00A92E03 /* Gathering */ = {
+			isa = PBXGroup;
+			children = (
+				F703EC312C788272003C994C /* GatheringVM.swift */,
+				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
+				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
+			);
+			path = Gathering;
 			sourceTree = "<group>";
 		};
 		D85121AC2C8D74ED00E37978 /* NotificationService */ = {
@@ -836,11 +852,10 @@
 			};
 			buildConfigurationList = D8201FA92C606934004DF06C /* Build configuration list for PBXProject "Letports" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
-				Base,
+				ko,
 			);
 			mainGroup = D8201FA52C606934004DF06C;
 			packageReferences = (
@@ -871,7 +886,7 @@
 				BFBF9A302C898B75006DACAD /* GmarketSansLight.otf in Resources */,
 				BFBF9A312C898B75006DACAD /* GmarketSansMedium.otf in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
-				D8361B7E2C872E5400140A79 /* GoogleService-Info.plist in Resources */,
+				D857D3A62CA1493E00AD306A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,20 +1212,21 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Letports/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Letports에서 사진을 공유하거나 설정하기 위해 사진 라이브러리 접근이 필요합니다. 사용자의 사진은 공유 및 설정 목적으로 사용됩니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1224,7 +1240,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-develop";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1242,15 +1258,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9VD7JAKR25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Letports/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Letports에서 사진을 공유하거나 설정하기 위해 사진 라이브러리 접근이 필요합니다. 사용자의 사진은 공유 및 설정 목적으로 사용됩니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1264,7 +1280,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-develop";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

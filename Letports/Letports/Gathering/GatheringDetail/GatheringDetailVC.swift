@@ -384,7 +384,7 @@ extension GatheringDetailVC: JoinViewDelegate {
                 }
                 return NotificationService.shared.sendPushNotificationByUID(uid: gatheringMaster,
                                                                             title: "알림",
-                                                                            body: "\(nickname)님이 \(gatherName) 모임에 가입을 신청했습니다.")
+                                                                            body: "\(nickname)님이 \(gatherName)에 가입을 신청했습니다.")
             }
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {

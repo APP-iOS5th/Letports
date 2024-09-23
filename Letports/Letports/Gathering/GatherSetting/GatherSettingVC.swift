@@ -238,7 +238,7 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                     }
                     return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
                                                                                 title: "추방 알림",
-                                                                                body: "\(gatherName)소모임에서 추방되었습니다.")
+                                                                                body: "\(gatherName)에서 추방되었습니다.")
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     guard let self = self else { return }
@@ -265,8 +265,8 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                         .eraseToAnyPublisher()
                 }
                 return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
-                                                                            title: "가입 거절 알림",
-                                                                            body: "\(gatherName)소모임의 가입이 거절되었습니다.")
+                                                                            title: "거절 알림",
+                                                                            body: "\(gatherName)의 가입이 거절되었습니다.")
             }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
@@ -294,8 +294,8 @@ extension GatherSettingVC: ManageViewJoinDelegate, ManageViewPendingDelegate {
                         .eraseToAnyPublisher()
                 }
                 return NotificationService.shared.sendPushNotificationByUID(uid: userUid,
-                                                                            title: "가입 승인 알림",
-                                                                            body: "\(gatherName)소모임에 가입되었습니다.")
+                                                                            title: "승인 알림",
+                                                                            body: "\(gatherName)에 가입되었습니다.")
             }
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }

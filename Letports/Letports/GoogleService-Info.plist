@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s.apps.googleusercontent.com</string>
+	<string>796355016318-o6fjlli82cim0k4far79eis13m7r52d7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.350792606197-ldvgk70hggbrhgm6ch664tm4lq8hig6s</string>
+	<string>com.googleusercontent.apps.796355016318-o6fjlli82cim0k4far79eis13m7r52d7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAVEW-T9Llpo0VjlrgNPKYzCkDUIiquyQM</string>
+	<string>AIzaSyCIru8SMLypArYCoBs3qGW6CWfByuUth88</string>
 	<key>GCM_SENDER_ID</key>
-	<string>350792606197</string>
+	<string>796355016318</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.mosi.Letports</string>
 	<key>PROJECT_ID</key>
-	<string>letports-81f7f</string>
+	<string>letports-develop</string>
 	<key>STORAGE_BUCKET</key>
-	<string>letports-81f7f.appspot.com</string>
+	<string>letports-develop.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:350792606197:ios:94d6e4d965db49928a80bc</string>
+	<string>1:796355016318:ios:cfdca06fc77f45c3d44a2f</string>
 </dict>
 </plist>
