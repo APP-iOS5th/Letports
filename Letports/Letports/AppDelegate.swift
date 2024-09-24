@@ -18,20 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         FirebaseApp.configure()
-//        #if DEV
-//        let filePath = Bundle.main.path(forResource: "GoogleService-DEV-Info", ofType: "plist")
-//        print("Dev check")
-//        #else
-//        let filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")
-//        print("Else prod check")
-//        #endif
-//        
-//        if let filePath = filePath, let options = FirebaseOptions(contentsOfFile: filePath) {
-//            FirebaseApp.configure(options: options)
-//        } else {
-//            fatalError("Couldn't load Firebase config file.")
-//        }
         
         if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
