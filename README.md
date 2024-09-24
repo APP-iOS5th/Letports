@@ -1,15 +1,5 @@
 
 #  프로스포츠 소모임 커뮤니티앱 Letports
-<br>
-
-<div align="center">
-  <img src="[https://github.com/user-attachments/assets/a5b1b7d0-8361-475b-aca0-80d72e4d68ca](https://github.com/user-attachments/assets/4bc704e3-566e-45f6-86db-0e2ef6db2fa4)" alt="snappop_icon" width="300px"/>
-  <h3>Letports</h3>
-</div>
-
-<br>
-
-<br>
 
 ## 프로젝트 소개
 
