@@ -25,7 +25,7 @@ class ProfileVC: UIViewController {
         let view: CustomNavigationView
         switch viewModel.profileType {
         case .myProfile:
-            view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .gear))
+            view = CustomNavigationView(isLargeNavi: .large, screenType: .largeProfile(btnName: .alert, btnName2: .gear))
         case .userProfile:
             view = CustomNavigationView(isLargeNavi: .small, screenType: .smallProfile(btnName: .ellipsis))
         }
@@ -365,10 +365,14 @@ extension ProfileVC: ProfileDelegate {
 }
 
 extension ProfileVC: CustomNavigationDelegate {
-    func smallRightBtnDidTap() {
+    func smallSecondRightBtnDidTap() {
+        self.viewModel.settingBtnDidTap()
+    }
+    
+    func smallFirstRightBtnDidTap() {
         switch viewModel.profileType {
         case .myProfile:
-            self.viewModel.settingBtnDidTap()
+            print("테스트")
         case .userProfile:
             presentActionSheet()
         }
