@@ -9,12 +9,19 @@ import UIKit
 
 
 class ManageUserView: UIView {
-    
     weak var joindelegate: ManageViewJoinDelegate?
     weak var pendingdelegate: ManageViewPendingDelegate?
     
     private var user: GatheringMember?
     private var userData: LetportsUser?
+    
+    private lazy var loadingIndicatorView: LoadingIndicatorView = {
+        let view = LoadingIndicatorView()
+        view.isHidden = true
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -98,18 +105,20 @@ class ManageUserView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupTapGesture()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
+        setupTapGesture()
     }
     
     private func setupUI() {
         self.addSubview(containerView)
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.translatesAutoresizingMaskIntoConstraints = false
-        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelBtn, expelBtn, exitBtn].forEach {
+        [titleLabel, plzAnswerLabel, questionTextView, answerTextView, cancelBtn, expelBtn, exitBtn,loadingIndicatorView].forEach {
             containerView.addSubview($0)
         }
         
@@ -149,7 +158,35 @@ class ManageUserView: UIView {
             
             exitBtn.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 5),
             exitBtn.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            
+            loadingIndicatorView.topAnchor.constraint(equalTo: self.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+    }
+    
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        tapGesture.cancelsTouchesInView = false
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func handleTap(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self)
+        if !containerView.frame.contains(location) {
+            joindelegate?.cancelAction(self)
+            pendingdelegate?.cancelAction(self)
+        }
+    }
+    
+    func showLoadingIndicator(_ show: Bool) {
+        loadingIndicatorView.isHidden = !show
+        if show {
+            loadingIndicatorView.startAnimating()
+        } else {
+            loadingIndicatorView.stopAnimating()
+        }
     }
     
     @objc private func exitBtnDidTap() {

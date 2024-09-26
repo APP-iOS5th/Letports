@@ -50,12 +50,27 @@ class GatherSettingVM {
         return cellTypes
     }
     
+    private var pendingTasks = 0
+    
+    func trackTaskStart() {
+        pendingTasks += 1
+        isLoading = true
+    }
+    
+    func trackTaskEnd() {
+        pendingTasks -= 1
+        if pendingTasks == 0 {
+            isLoading = false
+        }
+    }
+    
     init(gatheringUid: String) {
         self.gatheringUid = gatheringUid
         self.loadData()
     }
     
     func denyUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
+        trackTaskStart()
         let gatheringCollectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gathering?.gatheringUid ?? ""),
@@ -73,12 +88,15 @@ class GatherSettingVM {
             FM.deleteDocument(pathComponents: gatheringCollectionPath),
             FM.deleteDocument(pathComponents: userMyGatheringPath)
         )
+        .handleEvents(receiveCompletion: { [weak self] _ in
+            self?.trackTaskEnd()
+        })
         .map { _, _ in () }
         .eraseToAnyPublisher()
     }
     
     func approveUser(userUid: String) -> AnyPublisher<Void, FirestoreError>{
-        
+        trackTaskStart()
         let gatheringMemberCollectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
             .document(gathering?.gatheringUid ?? ""),
@@ -107,13 +125,55 @@ class GatherSettingVM {
             FM.updateData(pathComponents: gatheringMemberCollectionPath, fields: fieldsToUpdate),
             FM.updateData(pathComponents: gatheringCollectionPath, fields:  updatedFields)
         )
+        .handleEvents(receiveCompletion: { [weak self] _ in
+            self?.trackTaskEnd()
+        })
         .map { _, _ in () }
         .eraseToAnyPublisher()
         
     }
     
+    func expelUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
+        trackTaskStart()
+        let gatheringMemberCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+            .collection(.gatheringMembers),
+            .document(userUid)
+        ]
+        
+        let userMyGatheringPath: [FirestorePathComponent] = [
+            .collection(.user),
+            .document(userUid),
+            .collection(.myGathering),
+            .document(gathering?.gatheringUid ?? "")
+        ]
+        
+        let gatheringCollectionPath: [FirestorePathComponent] = [
+            .collection(.gatherings),
+            .document(gathering?.gatheringUid ?? ""),
+        ]
+        
+        let newNowMember = (gathering?.gatherNowMember ?? 0) - 1
+        
+        let updatedFields: [String: Any] = [
+            "GatherNowMember": newNowMember
+        ]
+        
+        return Publishers.Zip3(
+            FM.deleteDocument(pathComponents: gatheringMemberCollectionPath),
+            FM.deleteDocument(pathComponents: userMyGatheringPath),
+            FM.updateData(pathComponents: gatheringCollectionPath, fields:  updatedFields)
+        )
+        .handleEvents(receiveCompletion: { [weak self] _ in
+            self?.trackTaskEnd()
+        })
+        .map { _, _, _ in () }
+        .eraseToAnyPublisher()
+    }
+    
     func deleteGatheringBtnDidTap() -> AnyPublisher<Void, FirestoreError> {
-        isLoading = true
+        trackTaskStart()
         return deleteAllGatheringMembers()
             .flatMap { [weak self] in
                 self?.deleteGatheringImage() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
@@ -128,7 +188,7 @@ class GatherSettingVM {
                 self?.notifyAllMembersExceptMaster() ?? Fail(error: FirestoreError.unknownError(NSError())).eraseToAnyPublisher()
             }
             .handleEvents(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
+                self?.trackTaskEnd()
                 switch completion {
                 case .finished:
                     self?.delegate?.gatherDeleteFinish()
@@ -299,41 +359,6 @@ class GatherSettingVM {
         return error.localizedDescription
     }
     
-    func expelUser(userUid: String) -> AnyPublisher<Void, FirestoreError> {
-        let gatheringMemberCollectionPath: [FirestorePathComponent] = [
-            .collection(.gatherings),
-            .document(gathering?.gatheringUid ?? ""),
-            .collection(.gatheringMembers),
-            .document(userUid)
-        ]
-        
-        let userMyGatheringPath: [FirestorePathComponent] = [
-            .collection(.user),
-            .document(userUid),
-            .collection(.myGathering),
-            .document(gathering?.gatheringUid ?? "")
-        ]
-        
-        let gatheringCollectionPath: [FirestorePathComponent] = [
-            .collection(.gatherings),
-            .document(gathering?.gatheringUid ?? ""),
-        ]
-        
-        let newNowMember = (gathering?.gatherNowMember ?? 0) - 1
-        
-        let updatedFields: [String: Any] = [
-            "GatherNowMember": newNowMember
-        ]
-        
-        return Publishers.Zip3(
-            FM.deleteDocument(pathComponents: gatheringMemberCollectionPath),
-            FM.deleteDocument(pathComponents: userMyGatheringPath),
-            FM.updateData(pathComponents: gatheringCollectionPath, fields:  updatedFields)
-        )
-        .map { _, _, _ in () }
-        .eraseToAnyPublisher()
-    }
-    
     private func notifyAllMembersExceptMaster() -> AnyPublisher<Void, FirestoreError> {
         guard let gatheringUid = gathering?.gatheringUid, let masterUid = gathering?.gatheringMaster else {
             return Fail(error: FirestoreError.documentNotFound).eraseToAnyPublisher()
@@ -396,7 +421,7 @@ class GatherSettingVM {
             }
             .store(in: &cancellables)
     }
-
+    
     private func fetchGathering(by gatheringUid: String) -> AnyPublisher<Gathering, FirestoreError> {
         let gatheringPath: [FirestorePathComponent] = [
             .collection(.gatherings),
@@ -416,7 +441,7 @@ class GatherSettingVM {
             }
             .eraseToAnyPublisher()
     }
-
+    
     private func fetchGatheringMembers(gathering: Gathering) -> AnyPublisher<Void, FirestoreError> {
         let collectionPath: [FirestorePathComponent] = [
             .collection(.gatherings),
@@ -445,7 +470,7 @@ class GatherSettingVM {
             }
             .eraseToAnyPublisher()
     }
-
+    
     private func fetchAllUsersData() -> AnyPublisher<Void, FirestoreError> {
         let allMembers = self.joinedMembers + self.pendingMembers
         return fetchUsersData(for: allMembers)
@@ -457,11 +482,11 @@ class GatherSettingVM {
                 
                 self.joinedMembersData = self.sortUsers(users:users, by: joinedUserUIDs)
                 self.pendingMembersData = self.sortUsers(users: users, by: pendingUserUIDs)
-
+                
             }
             .eraseToAnyPublisher()
     }
-
+    
     private func fetchUsersData(for members: [GatheringMember]) -> AnyPublisher<[LetportsUser], FirestoreError> {
         let userFetchPublishers = members.map { member in
             let userPath: [FirestorePathComponent] = [
@@ -486,7 +511,7 @@ class GatherSettingVM {
                 return FirestoreError.dataDecodingFailed
             }
             .eraseToAnyPublisher()
-    
+        
         
         return Publishers.MergeMany(userFetchPublishers)
             .collect()
@@ -501,13 +526,13 @@ class GatherSettingVM {
     }
     
     private func sortUsers(users: [LetportsUser], by uidOrder: [String]) -> [LetportsUser] {
-           return users.sorted { user1, user2 in
-               guard let index1 = uidOrder.firstIndex(of: user1.uid),
-                     let index2 = uidOrder.firstIndex(of: user2.uid) else {
-                   return false
-               }
-               return index1 < index2
-           }
-       }
+        return users.sorted { user1, user2 in
+            guard let index1 = uidOrder.firstIndex(of: user1.uid),
+                  let index2 = uidOrder.firstIndex(of: user2.uid) else {
+                return false
+            }
+            return index1 < index2
+        }
+    }
 }
 

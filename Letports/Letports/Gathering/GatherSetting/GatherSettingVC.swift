@@ -121,13 +121,21 @@ class GatherSettingVC: UIViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+        
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                if isLoading {
-                    self?.loadingIndicatorView.startAnimating()
+                guard let self = self else { return }
+                if let manageUserView = self.manageUserView, manageUserView.superview != nil {
+                    manageUserView.showLoadingIndicator(isLoading)
                 } else {
-                    self?.loadingIndicatorView.stopAnimating()
+                    if isLoading {
+                        self.loadingIndicatorView.isHidden = false
+                        self.loadingIndicatorView.startAnimating()
+                    } else {
+                        self.loadingIndicatorView.stopAnimating()
+                        self.loadingIndicatorView.isHidden = true
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -196,7 +204,7 @@ class GatherSettingVC: UIViewController {
 extension GatherSettingVC: GatherSettingDelegate {
     func deleteGathering() {
         self.showAlert(title: "알림",message: "정말로 이 소모임을 삭제하시겠습니까? \n 게시글, 사진을 포함한 모든 데이터는 영구적으로 삭제되며 복구할 수 없습니다.",
-            confirmTitle: "삭제", cancelTitle: "취소") { [weak self] in
+                       confirmTitle: "삭제", cancelTitle: "취소") { [weak self] in
             guard let self = self else { return }
             self.viewModel.deleteGatheringBtnDidTap()
                 .flatMap { _ -> AnyPublisher<Void, FirestoreError> in
