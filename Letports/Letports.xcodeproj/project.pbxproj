@@ -375,6 +375,7 @@
 		BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderLabelTVCell.swift; sourceTree = "<group>"; };
 		D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SERVICEKEY-PROD.xcconfig"; sourceTree = "<group>"; };
 		D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SERVICEKEY-DEV.xcconfig"; sourceTree = "<group>"; };
+		D807C7A02CA5194800D72437 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -415,7 +416,6 @@
 		D82BACAC2C87E61B009644BA /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		D82BACB22C87F102009644BA /* RecommendGatheringEmptyCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendGatheringEmptyCVCell.swift; sourceTree = "<group>"; };
 		D8361B712C8729B000140A79 /* Letports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Letports.entitlements; sourceTree = "<group>"; };
-		D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D847491F2C884135009474B3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D85121AD2C8D74F600E37978 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D85121AF2C8DC1E700E37978 /* GatheringTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringTVCell.swift; sourceTree = "<group>"; };
@@ -574,7 +574,7 @@
 		419151742CA1A60A00E74A1A /* Letports-Store */ = {
 			isa = PBXGroup;
 			children = (
-				D8361B7D2C872E5400140A79 /* GoogleService-Info.plist */,
+				D807C7A02CA5194800D72437 /* GoogleService-Info.plist */,
 				D8201FBC2C606935004DF06C /* Info-Prod.plist */,
 			);
 			path = "Letports-Store";
@@ -1712,7 +1712,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Letports/Letports-Store/Info-Prod.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Letports에서 사진을 공유하거나 설정하기 위해 사진 라이브러리 접근이 필요합니다. 사용자의 사진은 공유 및 설정 목적으로 사용됩니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1753,7 +1753,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Letports/Letports-Store/Info-Prod.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앱이 사진 라이브러리에 접근하여 사진을 선택할 수 있습니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Letports에서 사진을 공유하거나 설정하기 위해 사진 라이브러리 접근이 필요합니다. 사용자의 사진은 공유 및 설정 목적으로 사용됩니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

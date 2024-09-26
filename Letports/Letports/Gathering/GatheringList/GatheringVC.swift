@@ -51,6 +51,7 @@ class GatheringVC: UIViewController {
         let largePencil = UIImage(systemName: "pencil", withConfiguration: largeConfig)
         button.setImage(largePencil, for: .normal)
         button.tintColor = .lp_white
+        button.backgroundColor = .lp_main
         button.layer.cornerRadius = 30
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
@@ -108,13 +109,6 @@ class GatheringVC: UIViewController {
         UserManager.shared.$selectedTeam
             .sink { [weak self] team in
                 self?.viewModel.loadTeam()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$currentTeamColor
-            .sink { [weak self] colorHex in
-                guard let colorHex = colorHex else { return }
-                self?.floatingButton.backgroundColor = UIColor(hex: colorHex)
             }
             .store(in: &cancellables)
     }
