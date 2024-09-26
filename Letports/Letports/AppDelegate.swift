@@ -21,10 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         
-        if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String {
-            KakaoSDK.initSDK(appKey: kakaoAppKey)
-        }
-        
+//        if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String {
+//            KakaoSDK.initSDK(appKey: kakaoAppKey)
+//        }
+//        
         UITabBar.appearance().unselectedItemTintColor = .lp_gray
         
         UNUserNotificationCenter.current().delegate = self

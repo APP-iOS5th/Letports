@@ -220,6 +220,10 @@
 		BFFFD3F42C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */; };
 		BFFFD3F62C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */; };
 		BFFFD3F82C73BB820053A86B /* CommentHeaderLabelTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */; };
+		D807C7992CA5100600D72437 /* SERVICEKEY-PROD.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */; };
+		D807C79A2CA5100600D72437 /* SERVICEKEY-PROD.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */; };
+		D807C79C2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */; };
+		D807C79D2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */; };
 		D8201FB22C606934004DF06C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB12C606934004DF06C /* AppDelegate.swift */; };
 		D8201FB42C606934004DF06C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8201FB32C606934004DF06C /* SceneDelegate.swift */; };
 		D8201FB82C606935004DF06C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8201FB72C606935004DF06C /* Assets.xcassets */; };
@@ -360,7 +364,6 @@
 		BFC55FDF2C7440130084CA10 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BFD9AEF12C76D9FB000C3A20 /* GatheringDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringDetailCoordinator.swift; sourceTree = "<group>"; };
 		BFD9AF062C772E80000C3A20 /* GatheringBoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailCoordinator.swift; sourceTree = "<group>"; };
-		BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SERVICEKEY.xcconfig; sourceTree = "<group>"; };
 		BFFFD3E52C7316D40053A86B /* PostBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBtn.swift; sourceTree = "<group>"; };
 		BFFFD3E72C7328130053A86B /* CurrentMemTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMemTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3EA2C73314A0053A86B /* GatheringBoardDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailVC.swift; sourceTree = "<group>"; };
@@ -370,6 +373,8 @@
 		BFFFD3F32C73A2690053A86B /* GatheringBoardDetailImagesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesCVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F52C73A5F60053A86B /* GatheringBoardDetailImagesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatheringBoardDetailImagesTVCell.swift; sourceTree = "<group>"; };
 		BFFFD3F72C73BB820053A86B /* CommentHeaderLabelTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderLabelTVCell.swift; sourceTree = "<group>"; };
+		D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SERVICEKEY-PROD.xcconfig"; sourceTree = "<group>"; };
+		D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SERVICEKEY-DEV.xcconfig"; sourceTree = "<group>"; };
 		D8201FB12C606934004DF06C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8201FB32C606934004DF06C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D8201FB72C606935004DF06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -506,7 +511,7 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		413BE63F2C65EA050070D6F9 /* GatherUpload */ = {
+		413BE63F2C65EA050070D6F9 /* GatheringUpload */ = {
 			isa = PBXGroup;
 			children = (
 				413BE6532C65F8640070D6F9 /* Cell */,
@@ -514,7 +519,7 @@
 				413BE6442C65EA540070D6F9 /* GatheringUploadVM.swift */,
 				413BE6462C65EA670070D6F9 /* GatheringUploadCoordinator.swift */,
 			);
-			path = GatherUpload;
+			path = GatheringUpload;
 			sourceTree = "<group>";
 		};
 		413BE64D2C65F1990070D6F9 /* Extension */ = {
@@ -600,11 +605,12 @@
 		B82471382C647F600067BD09 /* Gathering */ = {
 			isa = PBXGroup;
 			children = (
+				4143E4532C6B478D001AB3E0 /* BoadEditor */,
+				413BE63F2C65EA050070D6F9 /* GatheringUpload */,
+				D8299F322C776219003D29AC /* GatherSetting */,
+				D807C79E2CA5162500D72437 /* GatheringList */,
 				BFFFD3E92C7331140053A86B /* GatheringBoardDetail */,
 				BFE5B5722C6B7ECB00C0103F /* GatheringDetail */,
-				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
-				F703EC312C788272003C994C /* GatheringVM.swift */,
-				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
 			);
 			path = Gathering;
 			sourceTree = "<group>";
@@ -715,6 +721,27 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		D807C79E2CA5162500D72437 /* GatheringList */ = {
+			isa = PBXGroup;
+			children = (
+				B824713C2C647FAF0067BD09 /* GatheringVC.swift */,
+				F703EC312C788272003C994C /* GatheringVM.swift */,
+				B82471442C6499590067BD09 /* GatheringCoordinator.swift */,
+			);
+			path = GatheringList;
+			sourceTree = "<group>";
+		};
+		D807C79F2CA5164900D72437 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D8299F3F2C77622C003D29AC /* Cell */,
+				D8299F442C77622C003D29AC /* ProfileVM.swift */,
+				D8299F692C776555003D29AC /* ProfileVC.swift */,
+				D8299F622C776425003D29AC /* ProfileCoordinator.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		D8201FA52C606934004DF06C = {
 			isa = PBXGroup;
 			children = (
@@ -741,18 +768,16 @@
 				41AA052E2C730001009FF289 /* Common */,
 				B85FD8512C7864C4007B4962 /* TeamSelect */,
 				D82BACA72C87E5EE009644BA /* Service */,
-				4143E4532C6B478D001AB3E0 /* BoadEditor */,
 				B8D4D0BC2C7469DA0039D33B /* Coordinator */,
 				B824714A2C6C34360067BD09 /* Auth */,
 				B82471372C647F560067BD09 /* Home */,
 				B82471382C647F600067BD09 /* Gathering */,
-				D8299F322C776219003D29AC /* GatherSetting */,
 				D8299F462C77622C003D29AC /* Profile */,
 				413BE64D2C65F1990070D6F9 /* Extension */,
-				413BE63F2C65EA050070D6F9 /* GatherUpload */,
 				D8201FB72C606935004DF06C /* Assets.xcassets */,
+				D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */,
+				D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */,
 				D8361B712C8729B000140A79 /* Letports.entitlements */,
-				BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */,
 				BFBF9A2E2C898B75006DACAD /* Font */,
 				D847491F2C884135009474B3 /* Settings.bundle */,
 			);
@@ -821,12 +846,9 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D807C79F2CA5164900D72437 /* Profile */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				D8299F592C776313003D29AC /* ProfileEdit */,
-				D8299F3F2C77622C003D29AC /* Cell */,
-				D8299F442C77622C003D29AC /* ProfileVM.swift */,
-				D8299F692C776555003D29AC /* ProfileVC.swift */,
-				D8299F622C776425003D29AC /* ProfileCoordinator.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1070,7 +1092,9 @@
 			files = (
 				419151662CA1A4F300E74A1A /* Settings.bundle in Resources */,
 				419151672CA1A4F300E74A1A /* GmarketSansBold.otf in Resources */,
+				D807C79C2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig in Resources */,
 				419151682CA1A4F300E74A1A /* GmarketSansLight.otf in Resources */,
+				D807C7992CA5100600D72437 /* SERVICEKEY-PROD.xcconfig in Resources */,
 				419151692CA1A4F300E74A1A /* GmarketSansMedium.otf in Resources */,
 				4191516A2CA1A4F300E74A1A /* Assets.xcassets in Resources */,
 			);
@@ -1082,7 +1106,9 @@
 			files = (
 				D84749202C884135009474B3 /* Settings.bundle in Resources */,
 				BFBF9A2F2C898B75006DACAD /* GmarketSansBold.otf in Resources */,
+				D807C79D2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig in Resources */,
 				BFBF9A302C898B75006DACAD /* GmarketSansLight.otf in Resources */,
+				D807C79A2CA5100600D72437 /* SERVICEKEY-PROD.xcconfig in Resources */,
 				BFBF9A312C898B75006DACAD /* GmarketSansMedium.otf in Resources */,
 				D8201FB82C606935004DF06C /* Assets.xcassets in Resources */,
 			);
@@ -1470,12 +1496,12 @@
 /* Begin XCBuildConfiguration section */
 		4191516E2CA1A4F300E74A1A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1499,7 +1525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mosi.Letports-Dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-dev";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1512,12 +1538,12 @@
 		};
 		4191516F2CA1A4F300E74A1A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = D807C79B2CA5100D00D72437 /* SERVICEKEY-DEV.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
@@ -1540,7 +1566,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mosi.Letports-Dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-dev";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1553,7 +1579,6 @@
 		};
 		D8201FD32C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1617,7 +1642,6 @@
 		};
 		D8201FD42C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1674,12 +1698,12 @@
 		};
 		D8201FD62C606935004DF06C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1703,7 +1727,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-develop";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1716,12 +1740,12 @@
 		};
 		D8201FD72C606935004DF06C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFE7F6CA2C82F70C004B720D /* SERVICEKEY.xcconfig */;
+			baseConfigurationReference = D807C7982CA5100600D72437 /* SERVICEKEY-PROD.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Letports/Letports.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = "";
@@ -1744,7 +1768,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mosi.Letports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Letports-develop";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

@@ -6,7 +6,7 @@
 .DS_Store
 .AppleDouble
 .LSOverride
-GoogleService-Info.plist
+**/GoogleService-Info.plist
 *.xcconfig
 *.entitlements
 *.xcuserstate
@@ -138,3 +138,5 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,macos
+Letports/Letports/Letports-Dev/GoogleService-Info.plist
+Letports/Letports.xcodeproj/project.xcworkspace/xcuserdata/seonggeunan.xcuserdatad/UserInterfaceState.xcuserstate
