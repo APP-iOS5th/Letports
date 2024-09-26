@@ -140,3 +140,4 @@ iOSInjectionProject/
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,macos
 Letports/Letports/Letports-Dev/GoogleService-Info.plist
 Letports/Letports.xcodeproj/project.xcworkspace/xcuserdata/seonggeunan.xcuserdatad/UserInterfaceState.xcuserstate
+Letports/Letports/Letports-Store/GoogleService-Info.plist
