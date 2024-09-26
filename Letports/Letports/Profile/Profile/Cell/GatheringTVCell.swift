@@ -8,6 +8,20 @@
 import UIKit
 import Kingfisher
 
+class PaddedLabel: UILabel {
+    var padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + padding.left + padding.right,
+                      height: size.height + padding.top + padding.bottom)
+    }
+    
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: padding))
+    }
+}
+
 class GatheringTVCell: UITableViewCell {
     
     private lazy var colorCache: NSCache<NSString, UIColor> = {
@@ -23,24 +37,28 @@ class GatheringTVCell: UITableViewCell {
         return view
     }()
     
-    private let sportsTeamLabel: UILabel = {
-        let label = UILabel()
+    private let sportsTeamLabel: PaddedLabel = {
+        let label = PaddedLabel()
         label.font = .lp_Font(.regular, size: 10)
         label.textAlignment = .center
         label.layer.cornerRadius = 5
         label.clipsToBounds = true
+        label.backgroundColor = .lp_black.withAlphaComponent(0.1)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         return label
     }()
-    
-    private let sportsLabel: UILabel = {
-        let label = UILabel()
+
+    private let sportsLabel: PaddedLabel = {
+        let label = PaddedLabel()
         label.font = .lp_Font(.regular, size: 10)
         label.textColor = .lp_black
         label.textAlignment = .center
         label.layer.cornerRadius = 5
         label.clipsToBounds = true
+        label.backgroundColor = .lp_black.withAlphaComponent(0.1)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         return label
     }()
     
@@ -184,11 +202,9 @@ class GatheringTVCell: UITableViewCell {
             
             sportsLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             sportsLabel.heightAnchor.constraint(equalToConstant: 20),
-            sportsLabel.widthAnchor.constraint(equalToConstant: 30),
             sportsLabel.leadingAnchor.constraint(equalTo: gatheringIV.trailingAnchor, constant: 8),
             
             sportsTeamLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            sportsTeamLabel.widthAnchor.constraint(equalToConstant: 30),
             sportsTeamLabel.heightAnchor.constraint(equalToConstant: 20),
             sportsTeamLabel.leadingAnchor.constraint(equalTo: sportsLabel.trailingAnchor, constant: 5),
             
