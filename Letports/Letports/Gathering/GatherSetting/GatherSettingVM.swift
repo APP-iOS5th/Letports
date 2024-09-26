@@ -346,7 +346,7 @@ class GatherSettingVM {
             return NotificationService.shared.sendPushNotificationByUID(
                 uid: uid,
                 title: "소모임 삭제 알림",
-                body: "\(self.gathering?.gatherName ?? "")모임이 삭제되었습니다. "
+                body: "\(self.gathering?.gatherName ?? "")소모임이 삭제되었습니다. "
             )
             .mapError { _ in FirestoreError.notificationFailed }
             .eraseToAnyPublisher()
