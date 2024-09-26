@@ -37,7 +37,7 @@ class GatheringUploadVM {
     private var sportsName: String?
     private var sportsTeamName: String?
     
-    
+    private(set) var nowMemCount: Int = 1
     private(set) var memMaxCount: Int = 1
     private var cancellables = Set<AnyCancellable>()
     
@@ -66,6 +66,7 @@ class GatheringUploadVM {
             self.isEditMode = true
             self.gatehringID = gathering.gatheringUid
             self.gatherInfoText = gathering.gatherInfo
+            self.nowMemCount = gathering.gatherNowMember
             self.gatherQuestionText = gathering.gatherQuestion
             self.memMaxCount = gathering.gatherMaxMember
             self.gatherNameText = gathering.gatherName
@@ -169,11 +170,13 @@ class GatheringUploadVM {
             guard let sportsName = self.isEditMode ? self.sportsName : UserManager.shared.getUser().userSports  else { return }
             guard let sportsTeamName =  self.isEditMode ? self.sportsTeamName : UserManager.shared.getUser().userSportsTeam  else { return }
             
+            let currentMemberCount = isEditMode ? nowMemCount : 1
+            
             let gathering = Gathering(gatherImage: imageUrl,
                                       gatherInfo: gatherInfo,
                                       gatherMaxMember: memMaxCount,
                                       gatherName: gatherName,
-                                      gatherNowMember: 1,
+                                      gatherNowMember: currentMemberCount,
                                       gatherQuestion: gatherQuestion,
                                       gatheringCreateDate: Timestamp(date: Date()),
                                       gatheringMaster: UserManager.shared.getUserUid(),

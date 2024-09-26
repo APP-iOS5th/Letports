@@ -184,7 +184,7 @@ class GatheringUploadVC: UIViewController {
 }
 
 extension GatheringUploadVC: CustomNavigationDelegate {
-    func smallRightBtnDidTap() {
+    func smallFirstRightBtnDidTap() {
         self.buttonTapSubject.send(())
     }
     
