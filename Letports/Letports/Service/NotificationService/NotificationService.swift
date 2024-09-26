@@ -53,40 +53,57 @@ class NotificationService {
         fcmToken = nil
     }
     
-    func sendPushNotificationByUID(uid: String, title: String, body: String) -> AnyPublisher<Void, FirestoreError> {
-        guard let urlString = notificationServiceURL else {
-            print("Notification Service URL is nil or missing")
-            return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])))
-                .eraseToAnyPublisher()
-        }
-        guard let url = URL(string: urlString) else {
-            return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Malformed URL"])))
-                .eraseToAnyPublisher()
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let json: [String: Any] = ["uid": uid, "title": title, "body": body]
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
-            request.httpBody = jsonData
-        } catch {
-            return Fail(error: FirestoreError.unknownError(error))
-                .eraseToAnyPublisher()
-        }
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to send notification with status code: \((output.response as? HTTPURLResponse)?.statusCode ?? 0)"]))
-                }
-                return ()
-            }
-            .mapError { error in
-                FirestoreError.unknownError(error)
-            }
-            .eraseToAnyPublisher()
-    }
+    func sendPushNotificationByUID(uid: String, title: String, body: String, gatheringUid: String? = nil, viewControllerName: String? = nil, logoHex: String? = nil) -> AnyPublisher<Void, FirestoreError> {
+           guard let urlString = notificationServiceURL else {
+               print("Notification Service URL is nil or missing")
+               return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])))
+                   .eraseToAnyPublisher()
+           }
+           guard let url = URL(string: urlString) else {
+               return Fail(error: FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Malformed URL"])))
+                   .eraseToAnyPublisher()
+           }
+           
+           var request = URLRequest(url: url)
+           request.httpMethod = "POST"
+           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+           
+           // 기본 필수 파라미터
+           var json: [String: Any] = [
+               "uid": uid,
+               "title": title,
+               "body": body
+           ]
+           
+           // 특정 경우에만 추가될 파라미터
+           if let gatheringUid = gatheringUid {
+               json["gatheringUid"] = gatheringUid
+           }
+           if let viewControllerName = viewControllerName {
+               json["viewControllerName"] = viewControllerName
+           }
+           if let logoHex = logoHex {
+               json["logoHex"] = logoHex
+           }
+           
+           do {
+               let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+               request.httpBody = jsonData
+           } catch {
+               return Fail(error: FirestoreError.unknownError(error))
+                   .eraseToAnyPublisher()
+           }
+           
+           return URLSession.shared.dataTaskPublisher(for: request)
+               .tryMap { output in
+                   guard let httpResponse = output.response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                       throw FirestoreError.unknownError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to send notification with status code: \((output.response as? HTTPURLResponse)?.statusCode ?? 0)"]))
+                   }
+                   return ()
+               }
+               .mapError { error in
+                   FirestoreError.unknownError(error)
+               }
+               .eraseToAnyPublisher()
+       }
 }

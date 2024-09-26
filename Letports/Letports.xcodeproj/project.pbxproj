@@ -742,6 +742,13 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		D807C7A12CA554B600D72437 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		D8201FA52C606934004DF06C = {
 			isa = PBXGroup;
 			children = (
@@ -846,6 +853,7 @@
 		D8299F462C77622C003D29AC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				D807C7A12CA554B600D72437 /* Notification */,
 				D807C79F2CA5164900D72437 /* Profile */,
 				D8299F6B2C7766D2003D29AC /* Setting */,
 				D8299F592C776313003D29AC /* ProfileEdit */,

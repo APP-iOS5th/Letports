@@ -80,7 +80,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         return view
     }()
     
-    
     private var viewModel: GatheringDetailVM
     private var cancellables: Set<AnyCancellable> = []
     weak var delegate: GatheringDetailDelegate?
@@ -117,7 +116,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
                     self?.showLoadingIndicator()
                 } else {
                     self?.hideLoadingIndicator()
-                    
                 }
             }
             .store(in: &cancellables)
@@ -225,7 +223,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.heightAnchor.constraint(equalToConstant: 70), // 스크롤 뷰의 높이 설정
+            scrollView.heightAnchor.constraint(equalToConstant: 70),
             
             joinBtn.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             joinBtn.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
@@ -243,11 +241,8 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         DispatchQueue.main.async {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first else { return }
-            
-            // loadingIndicatorView를 window에 추가
             window.addSubview(self.loadingIndicatorView)
             
-            // Auto Layout 제약 설정
             NSLayoutConstraint.activate([
                 self.loadingIndicatorView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
                 self.loadingIndicatorView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
@@ -255,7 +250,6 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
                 self.loadingIndicatorView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
             ])
             
-            // 로딩 뷰 표시
             self.loadingIndicatorView.isHidden = false
             self.loadingIndicatorView.startAnimating()
             window.layoutIfNeeded()
@@ -299,7 +293,7 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         }
     }
     
-    // MARK: - objc메소드
+    // MARK: - objc Methods
     
     @objc private func joinBtnTap() {
         switch viewModel.membershipStatus {
@@ -326,9 +320,10 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
         if existingView == nil {
             let manageUserView = JoinView()
             manageUserView.delegate = self
+            manageUserView.parentViewController = self // ViewController를 직접 할당
             manageUserView.configure(with: gathering)
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                           let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+               let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
                 window.addSubview(manageUserView)
                 window.bringSubviewToFront(manageUserView)
                 NSLayoutConstraint.activate([
@@ -365,13 +360,13 @@ final class GatheringDetailVC: UIViewController, GatheringTitleTVCellDelegate {
     }
 }
 
-// MARK: - extension
+// MARK: - JoinViewDelegate
 
 extension GatheringDetailVC: JoinViewDelegate {
     func joinViewDidTapCancel(_ joinView: JoinView) {
         removeJoinView()
     }
-    // 가입 신청 버튼
+    
     func joinViewDidTapJoin(_ joinView: JoinView, answer: String) {
         viewModel.joinGathering(answer: answer)
             .flatMap { [weak self] _ -> AnyPublisher<Void, FirestoreError> in
@@ -392,14 +387,14 @@ extension GatheringDetailVC: JoinViewDelegate {
                     self?.removeJoinView()
                     self?.viewModel.loadData()
                 case .failure(let error):
-                    self?.showAlert(title: "에러", message: "\(error)", confirmTitle: "확인", onConfirm: {
-                    })
+                    self?.showAlert(title: "에러", message: "\(error)", confirmTitle: "확인", onConfirm: {})
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
-    
 }
+
+// MARK: - Other Extensions
 
 extension GatheringDetailVC: GatheringDetailDelegate {
     func didTapEditBtn() {
@@ -422,7 +417,7 @@ extension GatheringDetailVC: BoardBtnTVCellDelegate {
 }
 
 extension GatheringDetailVC: CustomNavigationDelegate {
-    func smallRightBtnDidTap() {
+    func smallFirstRightBtnDidTap() {
         if viewModel.membershipStatus == .joined {
             if viewModel.isMaster {
                 viewModel.pushGatherSettingView()
@@ -523,8 +518,4 @@ extension GatheringDetailVC: UITableViewDataSource, UITableViewDelegate {
             return UITableView.automaticDimension
         }
     }
-    
-    
 }
-
-
