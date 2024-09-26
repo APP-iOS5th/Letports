@@ -149,7 +149,7 @@ extension ProfileEditVC: CustomNavigationDelegate {
         self.viewModel.backToProfile()
     }
     
-    func smallRightBtnDidTap() {
+    func  smallFirstRightBtnDidTap() {
         viewModel.profileUpdate()
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {

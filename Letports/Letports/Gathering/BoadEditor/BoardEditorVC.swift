@@ -173,7 +173,8 @@ class BoardEditorVC: UIViewController {
 }
 
 extension BoardEditorVC: CustomNavigationDelegate {
-	func smallRightBtnDidTap() {
+ 
+    func smallFirstRightBtnDidTap() {
 		self.buttonTapSubject.send(())
 	}
     

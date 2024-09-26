@@ -226,7 +226,7 @@ final class GatheringBoardDetailVC: UIViewController {
 }
 
 extension GatheringBoardDetailVC: CustomNavigationDelegate {
-    func smallRightBtnDidTap() {
+    func smallFirstRightBtnDidTap() {
         viewModel.naviRightBtnDidTap()
     }
     func backBtnDidTap() {
