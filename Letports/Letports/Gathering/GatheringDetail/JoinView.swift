@@ -4,7 +4,6 @@
 //
 //  Created by Yachae on 8/23/24.
 //
-
 import UIKit
 
 protocol JoinViewDelegate: AnyObject {
@@ -14,6 +13,7 @@ protocol JoinViewDelegate: AnyObject {
 
 class JoinView: UIView {
     weak var delegate: JoinViewDelegate?
+    weak var parentViewController: UIViewController?
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -49,7 +49,6 @@ class JoinView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    
     
     private lazy var answerTextView: UITextView = {
         let textView = UITextView()
@@ -166,15 +165,21 @@ class JoinView: UIView {
     }
     
     private func setupTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         tapGesture.cancelsTouchesInView = false
         self.addGestureRecognizer(tapGesture)
     }
     
-    // MARK: - @objc
+    // MARK: - @objc Methods
     
-    @objc private func handleTap() {
-        self.endEditing(true)
+    @objc private func handleTap(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self)
+    
+        if !containerView.frame.contains(location) {
+            delegate?.joinViewDidTapCancel(self)
+        } else {
+            self.endEditing(true) 
+        }
     }
     
     @objc private func cancelButtonTap() {
@@ -193,7 +198,6 @@ class JoinView: UIView {
     @objc private func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             let keyboardHeight = keyboardFrame.height
-            
             containerViewCenterYConstraint?.constant = -keyboardHeight / 2
             UIView.animate(withDuration: 0.3) {
                 self.layoutIfNeeded()
@@ -218,8 +222,7 @@ class JoinView: UIView {
     }
     
     private func showAlert(message: String) {
-        guard let viewController = self.findViewController() else { return }
-        
+        guard let viewController = parentViewController ?? findViewController() else { return }
         let alertController = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         viewController.present(alertController, animated: true, completion: nil)
@@ -253,7 +256,6 @@ class JoinView: UIView {
         questionTextView.attributedText = attributedText
         placeholderLabel.isHidden = !answerTextView.text.isEmpty
     }
-    
 }
 
 // MARK: - UITextViewDelegate
@@ -283,11 +285,7 @@ extension JoinView: UITextViewDelegate {
         ]
         
         textView.typingAttributes = attributes
-        
         let attributedString = NSAttributedString(string: textView.text ?? "", attributes: attributes)
         textView.attributedText = attributedString
     }
 }
-
-
-
